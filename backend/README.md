@@ -32,3 +32,5 @@ This is the backend service for the Dream11 Team Prediction App. Built with **Fa
    ```bash
    git clone https://github.com/yourusername/dream11-prediction-backend.git
    cd dream11-prediction-backend
+   uvicorn main:app --reload
+

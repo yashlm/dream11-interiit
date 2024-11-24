@@ -1,14 +1,26 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import './App.css'
+import './index.css'
+// import './output.css'
+import { Component } from "react";
+import Home from "./header/Home";
+// import MovieInfo from "./MovieInfo";
+// import Tvinfo from "./Tvinfo";
+// import Error from "./header/Error";
+import "./style.css";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-import "./App.css";
-import CardStack from "./component/cardStack";
-
-function App() {
-  return (
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<CardStack />} />
-        <Route
+class App extends Component {
+  render() {
+    return (
+      <BrowserRouter>
+        <div>
+          <p>Code is Running ....</p>
+        </div>
+        <div className="App">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/teamSelect" element={<CardStack />} />
+            <Route
           path="/theme"
           element={
             <button
@@ -21,9 +33,14 @@ function App() {
             </button>
           }
         />
-      </Routes>
-    </BrowserRouter>
-  );
+            {/* <Route path="/:movie_id" element={<MovieInfo />} /> */}
+            {/* <Route path="/tv/:movie_id" element={<Tvinfo />} /> */}
+            {/* <Route path="*" element={<Error />} /> */}
+          </Routes>
+        </div>
+      </BrowserRouter>
+    );
+  }
 }
 
 export default App;
