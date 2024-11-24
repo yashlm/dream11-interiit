@@ -1,0 +1,105 @@
+import React, { useState, useEffect } from "react";
+import { motion } from "framer-motion";
+import "./cardStack.css";
+import TeamSearchCard from "./cardStackTeamCard";
+import { FaUsers, FaHandshake, FaTrophy } from "react-icons/fa"; // Example icons
+
+import ProgressBar from "./progressBar";
+import SelectMatchCard from "./selectMatchCard";
+
+const CardStack = () => {
+  const [firstCardMoved, setFirstCardMoved] = useState(false);
+  const [secondCardMoved, setSecondCardMoved] = useState(false);
+  const [currentStep, setCurrentStep] = useState(-1);
+
+  const [firstTeam, setFirstTeam] = useState(null);
+  const [secondTeam, setSecondTeam] = useState(null);
+  const [MatchDate, setMatchDate] = useState(null);
+
+  // Define steps with labels and icons
+  const steps = [
+    { label: "First Team", icon: <FaUsers /> },
+    { label: "Second Team", icon: <FaHandshake /> },
+    { label: "Match", icon: <FaTrophy /> },
+  ];
+  useEffect(() => {
+    secondCardMoved
+      ? setCurrentStep(1)
+      : firstCardMoved
+      ? setCurrentStep(0)
+      : setCurrentStep(-1);
+  }, [firstTeam, secondTeam]);
+
+  return (
+    <div className="fullscreen-background">
+      <div className="card-stack-container">
+        {/* Progress Bar */}
+        <div className="progress-bar-wrapper">
+          <ProgressBar currentStep={currentStep} steps={steps} />
+        </div>
+        <div className="card-container">
+          <motion.div className="card">
+            <SelectMatchCard />
+          </motion.div>
+          {/* Card 2 */}
+          <motion.div
+            className="card"
+            style={{
+              boxShadow: secondCardMoved
+                ? "none"
+                : "0 10px 20px rgba(0, 0, 0, 0.2)",
+            }}
+            animate={{
+              x: secondCardMoved
+                ? `${Math.min(window.innerWidth * 0.35, 400)}px`
+                : "0", // Move right by 50% of viewport width
+              zIndex: secondCardMoved ? 2 : 1,
+              width: secondCardMoved ? "20%" : "45%", // Adjust width dynamically
+            }}
+            transition={{
+              duration: 0.6,
+              ease: "easeInOut",
+            }}
+          >
+            <TeamSearchCard
+              setTeam={setSecondTeam}
+              moveCard={setSecondCardMoved}
+              id="team-2-search-card"
+              remove={[firstTeam]}
+            />
+          </motion.div>
+
+          {/* Card 1 */}
+          <motion.div
+            className="card"
+            style={{
+              boxShadow: firstCardMoved
+                ? "none"
+                : "0 10px 20px rgba(0, 0, 0, 0.2)",
+            }}
+            animate={{
+              x: firstCardMoved
+                ? `-${Math.min(window.innerWidth * 0.35, 400)}px`
+                : "0", // Move left by 50% of viewport width
+              zIndex: firstCardMoved ? 2 : 1,
+              width: firstCardMoved ? "20%" : "45", // Adjust width dynamically
+            }}
+            transition={{
+              duration: 0.6,
+              ease: "easeInOut",
+            }}
+          >
+            <TeamSearchCard
+              setTeam={setFirstTeam}
+              moveCard={setFirstCardMoved}
+              id="team-1-search-card"
+              remove={[""]}
+            />
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CardStack;

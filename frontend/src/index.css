@@ -11,6 +11,35 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  --first-image-url: url("./assets/image1.png");
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.fullscreen-background {
+  background-image: var(--first-image-url); /* Replace with your image path */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  height: 100%; /* Full viewport height */
+  width: 100%;
+  z-index: -50; /* Full viewport width */
+}
+.fullscreen-background::before {
+  content: ""; /* Required for pseudo-elements */
+  position: absolute; /* Position relative to the container */
+
+  height: 100%; /* Cover the entire container */
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.2); /* Black color with 80% opacity */
+  z-index: -49; /* Ensure it's above the background */
 }
 
 a {
