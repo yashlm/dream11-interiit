@@ -1,68 +1,79 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom"; // Updated import for React Router v6+
-import Search from "./Search";
-// import Savedlist from "./Savedlist";
-import Button from "@mui/material/Button"; // Updated Material-UI imports
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogTitle from "@mui/material/DialogTitle";
+import { Link } from "react-router-dom";
+import Button from "@mui/material/Button";
+import MenuItem from "@mui/material/MenuItem";
+import Select from "@mui/material/Select";
+import FormControl from "@mui/material/FormControl";
+import logo from "./logo.png";
 
 const Navbar = () => {
-  const [open, setOpen] = React.useState(false);
+  const [language, setLanguage] = React.useState("en"); // Default language
 
-  // const navigate = useNavigate(); // Updated navigation for React Router v6+
-
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
+  const handleLanguageChange = (event) => {
+    setLanguage(event.target.value);
   };
 
   return (
-    <nav>
-      <div className="logo">
+    <nav
+      style={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+        padding: "10px 20px",
+        backgroundColor: "#f5f5f5", // Optional background color
+      }}
+    >
+      {/* Logo */}
+      <div>
         <Link to="/">
           <img
             alt="logo"
-            // Uncomment and add the correct `src` for your logo:
-            // style={{ width: "160px", height: "40px" }}
-            // src="https://fontmeme.com/permalink/210112/8d0b909f7a074e3bc471a4075716c07e.png"
+            src={logo}
+            style={{ width: "160px", height: "40px" }}
           />
         </Link>
       </div>
-      <div className="search-bar">
-        <Search />
-        <span>
-          <Button variant="outlined" color="primary" onClick={handleClickOpen}>
-            Open alert dialog
-          </Button>
-          <Dialog
-            open={open}
-            onClose={handleClose}
-            aria-labelledby="alert-dialog-title"
-            aria-describedby="alert-dialog-description"
+
+      {/* Language Selector and Buttons */}
+      <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+        {/* Language Selection Dropdown */}
+        <FormControl size="small">
+          <Select
+            value={language}
+            onChange={handleLanguageChange}
+            style={{ minWidth: "120px" }}
           >
-            <DialogTitle id="alert-dialog-title">
-              Saved Items
-            </DialogTitle>
-            <DialogContent>
-              {/* <Savedlist closefunc={handleClose} /> */}
-            </DialogContent>
-            <DialogActions>
-              <Button
-                variant="outlined"
-                color="primary"
-                onClick={handleClose}
-                aria-label="close"
-              >
-                Close
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </span>
+            <MenuItem value="en">English</MenuItem>
+            <MenuItem value="hi">हिन्दी</MenuItem>
+            <MenuItem value="fr">Français</MenuItem>
+            <MenuItem value="es">Español</MenuItem>
+          </Select>
+        </FormControl>
+
+        <Link to="/login" style={{ textDecoration: "none" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: "var(--red)",
+              color: "var(--bg)",
+              textTransform: "none",
+            }}
+          >
+            Login
+          </Button>
+        </Link>
+        <Link to="/signup" style={{ textDecoration: "none" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: "var(--red)",
+              color: "var(--bg)",
+              textTransform: "none",
+            }}
+          >
+            Signup
+          </Button>
+        </Link>
       </div>
     </nav>
   );
