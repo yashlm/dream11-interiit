@@ -8,6 +8,7 @@ import Home from "./header/Home";
 // import Error from "./header/Error";
 import "./style.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import CardStack from "./component/cardStack"
 
 class App extends Component {
   render() {

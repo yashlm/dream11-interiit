@@ -1,4 +1,6 @@
 .search-card {
+  display: flex;
+  flex-direction: column;
   padding: 20px;
   color: black;
 }

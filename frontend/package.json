@@ -21,7 +21,7 @@
     "react-horizontal-scrolling-menu": "^8.2.0",
     "react-router-dom": "^7.0.1",
     "react-smooth": "^4.0.1",
-    "react-calender-horizontal": "^1.0.12",
+    "react-calender-horizontal": "^1.0.12"
   },
   "devDependencies": {
     "@eslint/js": "^9.13.0",
