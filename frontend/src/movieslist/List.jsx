@@ -107,6 +107,8 @@ import { ScrollMenu } from "react-horizontal-scrolling-menu";
 import MatchCard from "./MatchCard.jsx";
 import "react-horizontal-scrolling-menu/dist/styles.css";
 import cricketicon from "../assets/cricket.png";
+import { VisibilityContext } from "react-horizontal-scrolling-menu";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 const Arrow = ({ text, className }) => <div className={className}>{text}</div>;
 
 const dummyMatches = [
@@ -163,6 +165,49 @@ const dummyMatches = [
 ];
 
 
+
+
+const LeftArrow = () => {
+  const { isFirstItemVisible, scrollPrev } = React.useContext(VisibilityContext);
+
+  return (
+    <button
+      disabled={isFirstItemVisible}
+      onClick={() => scrollPrev()}
+      className="left-arrow"
+      style={{
+        background: "none",
+        border: "none",
+        cursor: isFirstItemVisible ? "not-allowed" : "pointer",
+        opacity: isFirstItemVisible ? 0.5 : 1,
+      }}
+    >
+      <FaChevronLeft size={24} color={isFirstItemVisible ? "gray" : "black"} />
+    </button>
+  );
+};
+
+const RightArrow = () => {
+  const { isLastItemVisible, scrollNext } = React.useContext(VisibilityContext);
+
+  return (
+    <button
+      disabled={isLastItemVisible}
+      onClick={() => scrollNext()}
+      className="right-arrow"
+      style={{
+        background: "none",
+        border: "none",
+        cursor: isLastItemVisible ? "not-allowed" : "pointer",
+        opacity: isLastItemVisible ? 0.5 : 1,
+      }}
+    >
+      <FaChevronRight size={24} color={isLastItemVisible ? "gray" : "black"} />
+    </button>
+  );
+};
+
+
 const List = ({ heading }) => {
   const [matches] = useState(dummyMatches);
 
@@ -184,9 +229,7 @@ const List = ({ heading }) => {
       <h2 style={{ marginLeft: "70px" }}>{heading}</h2>
       <br />
       <ScrollMenu
-        LeftArrow={<Arrow text="<" className="arrow-prev" />}
-        RightArrow={<Arrow text=">" className="arrow-next" />}
-      >
+        LeftArrow={LeftArrow} RightArrow={RightArrow}>
         {matches.map((match) => (
           <div key={match.id} className="menu-item">
             <MatchCard match={match} />
