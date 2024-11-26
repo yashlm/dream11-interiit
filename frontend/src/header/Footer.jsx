@@ -24,10 +24,10 @@ const Footer = () => {
 
   <p className="footer-links">
     {/* <h3>WatchAnyMovie</h3> */}
-    <p style={{color:"grey"}}>A free movie streaming application built by Amol Dalwai</p>
+    <p style={{color:"grey"}}></p>
   </p>
 
-  <p ><span style={{color:"#cc0000"}}>Amol Dalwai</span> &copy; 2021</p>
+  <p ><span style={{color:"#cc0000"}}></span> &copy; </p>
 </div>
 
 </footer>

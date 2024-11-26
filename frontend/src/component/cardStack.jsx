@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import "./cardStack.css";
 import TeamSearchCard from "./cardStackTeamCard";
-import { FaUsers, FaHandshake, FaTrophy } from "react-icons/fa"; // Example icons
+import { GiAmericanFootballHelmet } from "react-icons/gi";
+import { BiCricketBall } from "react-icons/bi";
 
 import ProgressBar from "./progressBar";
 import SelectMatchCard from "./selectMatchCard";
@@ -18,9 +19,15 @@ const CardStack = () => {
 
   // Define steps with labels and icons
   const steps = [
-    { label: "First Team", icon: <FaUsers /> },
-    { label: "Second Team", icon: <FaHandshake /> },
-    { label: "Match", icon: <FaTrophy /> },
+    {
+      label: "First Team",
+      icon: <GiAmericanFootballHelmet className="progress-bar-icons" />,
+    },
+    {
+      label: "Second Team",
+      icon: <GiAmericanFootballHelmet className="progress-bar-icons" />,
+    },
+    { label: "Match", icon: <BiCricketBall className="progress-bar-icons" /> },
   ];
   useEffect(() => {
     secondCardMoved
@@ -32,13 +39,19 @@ const CardStack = () => {
 
   return (
     <div className="fullscreen-background">
+      <div class="background-cover"></div>
       <div className="card-stack-container">
         {/* Progress Bar */}
         <div className="progress-bar-wrapper">
           <ProgressBar currentStep={currentStep} steps={steps} />
         </div>
         <div className="card-container">
-          <motion.div className="card">
+          <motion.div
+            className="card"
+            animate={{
+              opacity: secondCardMoved & firstCardMoved ? 0.8 : 1,
+            }}
+          >
             <SelectMatchCard />
           </motion.div>
           {/* Card 2 */}
@@ -55,6 +68,7 @@ const CardStack = () => {
                 : "0", // Move right by 50% of viewport width
               zIndex: secondCardMoved ? 2 : 1,
               width: secondCardMoved ? "20%" : "45%", // Adjust width dynamically
+              backgroundColor: secondCardMoved ? "transparent" : "white",
             }}
             transition={{
               duration: 0.6,
@@ -83,6 +97,7 @@ const CardStack = () => {
                 : "0", // Move left by 50% of viewport width
               zIndex: firstCardMoved ? 2 : 1,
               width: firstCardMoved ? "20%" : "45", // Adjust width dynamically
+              backgroundColor: firstCardMoved ? "transparent" : "white",
             }}
             transition={{
               duration: 0.6,

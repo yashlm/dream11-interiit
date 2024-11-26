@@ -18,9 +18,6 @@ class App extends Component {
   render() {
     return (
       <BrowserRouter>
-        {/* <div>
-          <p>Code is Running ....</p>
-        </div> */}
         <div className="App">
           <Routes>
             <Route path="/" element={<Home />} />

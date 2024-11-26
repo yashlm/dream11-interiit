@@ -4,8 +4,8 @@ html {
   margin: 0;
 }
 a {
-  color: white;
-  border-color: white;
+  color: var(--bg);
+  border-color: var(--bg);
 }
 
 .hidescroll {
@@ -15,8 +15,8 @@ a {
   display: none;
 }
 body {
-  background: #0d0d0d;
-  color: white;
+  background: var(--bg);
+  color: var(--text);
   font-family: Helvetica;
   overflow-y: scroll;
 }
@@ -30,8 +30,8 @@ body::-webkit-scrollbar {
 
 /*header*/
 nav {
-  background: black;
-  color: red;
+  background: transparent;
+  color: var(--red);
   height: 65px;
   padding-left: 6%;
   padding-right: 6%;
@@ -49,12 +49,12 @@ nav {
 }
 
 .logo a {
-  color: #cc0000;
+  color: var(--red);
   text-decoration: none;
 }
 
 .logo a:hover {
-  color: #e60000;
+  color: var(--red);
 }
 
 .search-bar {

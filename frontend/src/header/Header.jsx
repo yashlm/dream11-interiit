@@ -1,128 +1,227 @@
-import { Component } from "react";
-import Animate from "react-smooth";
-import Navbar from "./Navbar";
-import { Link } from "react-router-dom";
-import Button from '@mui/material/Button';
-import PlayArrowIcon from '@mui/icons-material/PlayArrow';
+//code to fetch images using api
+// import { Component } from "react";
+// import Animate from "react-smooth"; // For smooth transitions
+// import Navbar from "./Navbar";
+// import Button from "@mui/material/Button";
 
+// class Header extends Component {
+//   constructor(props) {
+//     super(props);
+//     this.showcaseImages = 4; 
+//     this.timeoutTime = 5000;
+//     this.mounted = false;
+//   }
+
+//   state = {
+//     images: [], 
+//     currentIndex: 0 
+//   };
+
+//   componentDidMount() {
+//     this.mounted = true;
+//     fetch(
+//       `https://api.themoviedb.org/3/trending/movie/day?api_key=17117ab9c18276d48d8634390c025df4&language=en-US`
+//     )
+//       .then((res) => res.json())
+//       .then((data) => {
+//         // Extract 4 images from the API response
+//         const images = data.results.slice(0, this.showcaseImages).map((movie) => {
+//           return `https://image.tmdb.org/t/p/original/${movie.backdrop_path}`;
+//         });
+//         if (this.mounted) this.setState({ images });
+//       })
+//       .catch((err) => console.log(err));
+
+//     this.startTimeout();
+//   }
+
+//   startTimeout = () => {
+//     this.timeout = setTimeout(() => {
+//       const { currentIndex, images } = this.state;
+
+//       const nextIndex = (currentIndex + 1) % images.length;
+//       this.setState({ currentIndex: nextIndex });
+//       this.startTimeout(); 
+//     }, this.timeoutTime);
+//   };
+
+//   componentWillUnmount() {
+//     this.mounted = false;
+//     clearTimeout(this.timeout); 
+//   }
+
+//   render() {
+//     const { images, currentIndex } = this.state;
+
+//     const backgroundStyle =
+//       images.length > 0
+//         ? {
+//             backgroundImage: `url(${images[currentIndex]})`,
+//             backgroundSize: "cover",
+//             backgroundPosition: "center",
+//             height: "100vh",
+//             position: "relative",
+//             transition: "background-image 1s ease-in-out" // Sliding effect
+//           }
+//         : {};
+
+//     return (
+//       <header>
+//         <Navbar />
+//         <div style={backgroundStyle}>
+//           <div
+//             style={{
+//               position: "absolute",
+//               top: "50%",
+//               left: "50%",
+//               transform: "translate(-50%, -50%)",
+//               textAlign: "center",
+//               color: "white",
+//               textShadow: "0 2px 10px rgba(0, 0, 0, 0.7)"
+//             }}
+//           >
+//             <h1>Start Playing</h1>
+//             <Button
+//               variant="contained"
+//               color="var(--red)"
+//               style={{
+//                 backgroundColor: "var(--red)",
+//                 color: "var(--bg)",
+//                 padding: "10px 20px",
+//                 fontSize: "16px"
+//               }}
+//             >
+//               Create Team
+//             </Button>
+//           </div>
+//         </div>
+//       </header>
+//     );
+//   }
+// }
+
+// export default Header;
+import React, { Component } from "react";
+import Animate from "react-smooth";
+import Button from "@mui/material/Button";
+import image1 from "../assets/bg1.jpg";
+import image2 from "../assets/bg2.jpg";
+import image3 from "../assets/bg3.jpg";
+import Navbar from "./Navbar";
+const backgroundImages = [image1, image2, image3];
 
 class Header extends Component {
   constructor(props) {
     super(props);
-    this.showcaseMovies = 3;
+    this.showcaseImages = 3;
     this.timeoutTime = 5000;
-    this.mounted = false;
   }
+
   state = {
-    movies: [],
-    i: 0
+    i: 0,
   };
 
   componentDidMount() {
-    this.mounted = true;
-    this.random=Math.floor(Math.random() * 100) + 1  ;
-    //console.log(this.random);
-    fetch(
-      `https://api.themoviedb.org/3/trending/movie/day?api_key=17117ab9c18276d48d8634390c025df4&language=en-US&include_adult=false&page=${this.random}`
-    )
-      .then(res => res.json())
-      .then(data => {
-        if (this.mounted) this.setState({ movies: data.results });
-      })
-      .catch(err => console.log(err));
     this.startTimeout();
   }
 
   startTimeout = () => {
     this.timeout = setTimeout(() => {
-      if (this.state.i < this.showcaseMovies)
-        this.setState({ i: this.state.i + 1 });
-      else this.setState({ i: 0 });
-      this.startTimeout();
+      this.setState(
+        (prevState) => ({ i: (prevState.i + 1) % this.showcaseImages }),
+        this.startTimeout
+      );
     }, this.timeoutTime);
   };
 
   componentWillUnmount() {
-    this.mounted = false;
     clearTimeout(this.timeout);
   }
 
   render() {
-    const { movies, i } = this.state;
+    const { i } = this.state;
+    const backgroundImages = [image1, image2, image3];
 
-    const divs = movies.length
-      ? movies.map((movie, index) => {
-          if (index <= this.showcaseMovies) {
-            return (
-              <div
-                key={index}
-                className={i === index ? "active" : null}
-                onClick={() =>
-                  this.setState({ i: index }, () => {
-                    clearTimeout(this.timeout);
-                    this.startTimeout();
-                  })
-                }
-              />
-            );
-          } else return null;
-        })
-      : null;
-
-    const moviesList = movies.length ? (
-      <div key={movies[i].id}>
-        <Animate to="1" from="0.2" attributeName="opacity">
-          <div
-            style={{
-              backgroundImage: `linear-gradient(90deg, rgba(0, 0, 0, 0.8) 40%, rgba(0, 0, 0, 0) 60%), url("https://image.tmdb.org/t/p/original/${
-                movies[i].backdrop_path
-              }")`
-            }}
-            className="bgImage"
-          >
-            <div className="popularInfo">
-              <h1>{movies[i].title}</h1>
-              <p className="rating">
-                {/* <em><img src={require('./imdb_logo.png')} alt="Rating" style={{width:"40px", height:"20px",marginBottom:"-5px"}}/> {movies[i].vote_average}</em> */}
-              </p>
-              <p className="release-date">
-                Release Date: {new Date(movies[i].release_date).toDateString()}
-              </p>
-              <p className="header-overview">{movies[i].overview}</p>
-              <Link to={"/" + movies[i].id}>
-                {/* <button> Play</button> */}
-                <Button
-           variant="contained"
-           
-           style={{
-             width: "150px",
-             padding: "15px",
-             fontSize:"12px",
-             borderColor:"white",
-             background: "white",
-             color: "black",
-            
-           }}>
-             <PlayArrowIcon /><b>
-             &nbsp;&nbsp;
-             Play</b></Button>
-                
-              </Link>
-            </div>
-            <div className="switchImg">{divs}</div>
-          </div>
-        </Animate>
-      </div>
-    ) : (
-      <h4>Loading</h4>
-    );
+    const divs = backgroundImages.map((_, index) => (
+      <div
+        key={index}
+        style={{
+          width: "15px",
+          height: "15px",
+          borderRadius: "50%",
+          backgroundColor: i === index ? "white" : "gray",
+          cursor: "pointer",
+        }}
+        onClick={() =>
+          this.setState({ i: index }, () => {
+            clearTimeout(this.timeout);
+            this.startTimeout();
+          })
+        }
+      />
+    ));
 
     return (
       <header>
-        <Navbar />
-        <div className="popular">{moviesList}</div>
+       <Navbar/>
+        <Animate to="1" from="0.2" attributeName="opacity">
+          <div
+            style={{
+              backgroundImage: `url(${backgroundImages[i]})`,
+              backgroundSize: "cover",
+              backgroundPosition: "center",
+             
+              height: "90vh",
+              position: "relative",
+            }}
+          >
+            <div
+              style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%, -50%)",
+                textAlign: "center",
+                color: "white",
+               
+                padding: "20px",
+                borderRadius: "8px",
+              }}
+            >
+              <h1 style={{ fontSize: "3rem", marginBottom: "20px" }}>
+                Start Playing
+              </h1>
+              <Button
+                variant="contained"
+                style={{
+                  backgroundColor: "var(--red)",
+                  color: "var(--bg)",
+                  fontWeight: "bold",
+                  padding: "10px 20px",
+                  fontSize: "1rem",
+                }}
+              >
+                Create Team
+              </Button>
+            </div>
+
+            <div
+              style={{
+                position: "absolute",
+                bottom: "20px",
+                left: "50%",
+                transform: "translateX(-50%)",
+                display: "flex",
+                gap: "10px",
+              }}
+            >
+              {divs}
+            </div>
+          </div>
+        </Animate>
       </header>
     );
   }
 }
+
 export default Header;

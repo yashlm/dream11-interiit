@@ -1,19 +1,18 @@
-// import React from "react";
 import Header from "./Header";
-// import Footer from "./Footer";
 import ListsOfMovies from "../movieslist/ListsOfMovies";
-// import Welcome from 'react-welcome-page'
+import Calendar from "../calendar";
 
 const Home = () => {
   return (
 
     <div>
-      <div>YOoo Running.....</div>
       <Header />
-
-
+      <div style={{ display: "flex", width: "100vw" }}>
       <ListsOfMovies />
-      {/* <Footer />x */}
+       <div style={{ flex: "0 0 30%", padding: "20px" }}>
+       <Calendar/>
+     </div>
+     </div>
     </div>
   );
 };
