@@ -1,5 +1,5 @@
 import React from "react";
-import "./MatchCard.css"; // Create this file for custom styling
+import "./matchCard.css"; // Create this file for custom styling
 
 const MatchCard = ({ stadium, date, team1, team2 }) => {
   return (
