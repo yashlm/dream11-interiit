@@ -1,6 +1,6 @@
 import Header from "./Header";
  import ListsOfMovies from "../movieslist/ListsOfMovies";
-import Calendar from "../movieslist/calendar";
+import Calendar from "../movieslist/Calendar";
 // import { Grid } from "../howtoplay/grid";
 
 const Home = () => {
