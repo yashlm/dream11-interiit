@@ -13,6 +13,7 @@
   -moz-osx-font-smoothing: grayscale;
 
   --first-image-url: url("./assets/image1.png");
+  --ground-image-url: url("./assets/Test2.jpeg");
 }
 
 html,
