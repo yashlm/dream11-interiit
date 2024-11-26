@@ -1,5 +1,5 @@
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Link, useLocation } from "react-router-dom";
 import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
@@ -7,23 +7,38 @@ import FormControl from "@mui/material/FormControl";
 import logo from "./logo.png";
 
 const Navbar = () => {
-  const [language, setLanguage] = React.useState("en"); // Default language
+  const [language, setLanguage] = useState("en");
+  const [navColor, setNavColor] = useState("rgba(255, 255, 255, 0.1)");
 
-  const handleLanguageChange = (event) => {
-    setLanguage(event.target.value);
-  };
+  const handleLanguageChange = (event) => setLanguage(event.target.value);
+
+  useEffect(() => {
+    if (location.pathname === "/") {
+      setNavColor("rgba(255, 255, 255, 0.1)");
+    } else {
+      setNavColor("rgba(255, 255, 255, 0.1)");
+    }
+  }, [location.pathname]);
 
   return (
     <nav
       style={{
         display: "flex",
+        width: "100vw",
+        position: "fixed",
+        zIndex: "3000",
         justifyContent: "space-between",
         alignItems: "center",
         padding: "10px 20px",
-        backgroundColor: "#f5f5f5", // Optional background color
+        background: navColor,
+        boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
+        backdropFilter: "blur(11px)",
+        WebkitBackdropFilter: "blur(11px)",
+        borderRadius: "10px",
+        border: "1px solid rgba(255, 255, 255, 0.18)",
+        transition: "background-color 0.3s ease-in-out",
       }}
     >
-      {/* Logo */}
       <div>
         <Link to="/">
           <img
@@ -34,9 +49,7 @@ const Navbar = () => {
         </Link>
       </div>
 
-      {/* Language Selector and Buttons */}
       <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-        {/* Language Selection Dropdown */}
         <FormControl size="small">
           <Select
             value={language}
@@ -50,6 +63,30 @@ const Navbar = () => {
           </Select>
         </FormControl>
 
+        <Link to="/teamSelect" style={{ textDecoration: "none" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: "var(--red)",
+              color: "var(--bg)",
+              textTransform: "none",
+            }}
+          >
+            Select Team
+          </Button>
+        </Link>
+        <Link to="/dreamTeam" style={{ textDecoration: "none" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: "var(--red)",
+              color: "var(--bg)",
+              textTransform: "none",
+            }}
+          >
+            Dream Team
+          </Button>
+        </Link>
         <Link to="/login" style={{ textDecoration: "none" }}>
           <Button
             variant="contained"

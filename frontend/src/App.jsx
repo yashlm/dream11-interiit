@@ -3,12 +3,10 @@ import "./index.css";
 // import './output.css'
 import { Component } from "react";
 import Home from "./header/Home";
-// import MovieInfo from "./MovieInfo";
-// import Tvinfo from "./Tvinfo";
-// import Error from "./header/Error";
 import "./style.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import CardStack from "./component/cardStack";
+import StarterPage from './Starterpage/Starterpage';
+import MyChatbot from './ChatBot/ChatBot';import CardStack from "./component/cardStack";
 // import DreamTeam from "./pages/dreamTeam";
 import PlayerList from "./pages/test";
 import PlayerCard from "./component/playerCard";
@@ -19,8 +17,9 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
+        <MyChatbot/>
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/home" element={<Home />} />
             <Route path="/teamSelect" element={<CardStack />} />
             <Route
               path="/theme"
@@ -50,9 +49,7 @@ class App extends Component {
               }
             />
             <Route path="/dreamTeam" element={<DreamTeamGround />} />
-            {/* <Route path="/:movie_id" element={<MovieInfo />} /> */}
-            {/* <Route path="/tv/:movie_id" element={<Tvinfo />} /> */}
-            {/* <Route path="*" element={<Error />} /> */}
+            <Route path="/" element={<StarterPage />} />
           </Routes>
         </div>
       </BrowserRouter>

@@ -15,7 +15,7 @@ const CardStack = () => {
 
   const [firstTeam, setFirstTeam] = useState(null);
   const [secondTeam, setSecondTeam] = useState(null);
-  const [MatchDate, setMatchDate] = useState(null);
+  // const [MatchDate, setMatchDate] = useState(null);
 
   // Define steps with labels and icons
   const steps = [
@@ -29,17 +29,17 @@ const CardStack = () => {
     },
     { label: "Match", icon: <BiCricketBall className="progress-bar-icons" /> },
   ];
-  useEffect(() => {
-    secondCardMoved
-      ? setCurrentStep(1)
-      : firstCardMoved
-      ? setCurrentStep(0)
-      : setCurrentStep(-1);
-  }, [firstTeam, secondTeam]);
+  // useEffect(() => {
+  //   secondCardMoved
+  //     ? setCurrentStep(1)
+  //     : firstCardMoved
+  //     ? setCurrentStep(0)
+  //     : setCurrentStep(-1);
+  // }, [firstTeam, secondTeam]);
 
   return (
     <div className="fullscreen-background">
-      <div class="background-cover"></div>
+      <div className="background-cover"></div>
       <div className="card-stack-container">
         {/* Progress Bar */}
         <div className="progress-bar-wrapper">

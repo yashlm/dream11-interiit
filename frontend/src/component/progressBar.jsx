@@ -1,5 +1,3 @@
-import React from "react";
-
 const ProgressBar = ({ currentStep, steps }) => {
   const progress = ((currentStep + 1) / steps.length) * 100;
 

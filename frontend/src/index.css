@@ -12,11 +12,12 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  --select-match-url: url("./assets/teamSelection.png");
   --first-image-url: url("./assets/image1.png");
   --ground-image-url: url("./assets/Test2.jpeg");
 
-  --bg:#F0EFEF ; 
-  --red: #e10000; 
+  --bg: #f0efef;
+  --red: #e10000;
   --text: #333333;
 }
 
