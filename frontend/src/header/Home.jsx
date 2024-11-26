@@ -1,6 +1,7 @@
 import Header from "./Header";
-import ListsOfMovies from "../movieslist/ListsOfMovies";
-import Calendar from "../calendar";
+ import ListsOfMovies from "../movieslist/ListsOfMovies";
+import Calendar from "../movieslist/calendar";
+// import { Grid } from "../howtoplay/grid";
 
 const Home = () => {
   return (
@@ -8,9 +9,10 @@ const Home = () => {
     <div>
       <Header />
       <div style={{ display: "flex", width: "100vw" }}>
-      <ListsOfMovies />
+      <ListsOfMovies /> 
        <div style={{ flex: "0 0 30%", padding: "20px" }}>
        <Calendar/>
+       {/* <Grid/> */}
      </div>
      </div>
     </div>
