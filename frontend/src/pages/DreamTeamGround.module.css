@@ -5,7 +5,6 @@
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  color: white;
   margin: 0;
 }
 
@@ -42,7 +41,7 @@
   margin-left: 1%;
 }
 
-/* Add this to your existing styles */
+
 
 /* Wrapper for the dock list and the arrow button */
 .dockListWrapper {

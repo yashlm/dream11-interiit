@@ -28,8 +28,8 @@ const fieldPositionsWithRatios = [
 
 const initialFieldPositions = fieldPositionsWithRatios.map((position) => ({
   ...position,
-  x: (position.x / referenceX) * 100,
-  y: (position.y / referenceY) * 100,
+  x: ((position.x - 60) / referenceX) * 100,
+  y: ((position.y - 45) / referenceY) * 100,
 }));
 
 const allPlayers = [
@@ -38,176 +38,220 @@ const allPlayers = [
     key: 1,
     dreamPoints: 120,
     type: "Batsman",
-    profileImage: "/images/virat.png",
-    bgImage: "/images/virat.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Rohit Sharma",
     key: 2,
     dreamPoints: 115,
     type: "Batsman",
-    profileImage: "/images/rohit.png",
-    bgImage: "/images/rohit.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "KL Rahul",
     key: 3,
     dreamPoints: 98,
     type: "Batsman",
-    profileImage: "/images/klrahul.png",
-    bgImage: "/images/klrahul.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Shreyas Iyer",
     key: 4,
     dreamPoints: 105,
     type: "All-Rounder",
-    profileImage: "/images/shreyas.png",
-    bgImage: "/images/shreyas.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Hardik Pandya",
     key: 5,
     dreamPoints: 110,
     type: "All-Rounder",
-    profileImage: "/images/hardik.png",
-    bgImage: "/images/hardik.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Rishabh Pant",
     key: 6,
     dreamPoints: 90,
     type: "Wicket-Keeper",
-    profileImage: "/images/pant.png",
-    bgImage: "/images/pant.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Ravindra Jadeja",
     key: 7,
     dreamPoints: 95,
     type: "Bowler",
-    profileImage: "/images/jadeja.png",
-    bgImage: "/images/jadeja.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Jasprit Bumrah",
     key: 8,
     dreamPoints: 99,
     type: "Bowler",
-    profileImage: "/images/bumrah.png",
-    bgImage: "/images/bumrah.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Mohammed Shami",
     key: 9,
     dreamPoints: 85,
     type: "Bowler",
-    profileImage: "/images/shami.png",
-    bgImage: "/images/shami.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Yuzvendra Chahal",
     key: 10,
     dreamPoints: 92,
     type: "Bowler",
-    profileImage: "/images/chahal.png",
-    bgImage: "/images/chahal.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Bhuvneshwar Kumar",
     key: 11,
     dreamPoints: 88,
     type: "Bowler",
-    profileImage: "/images/bhuvi.png",
-    bgImage: "/images/bhuvi.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Shubman Gill",
     key: 12,
     dreamPoints: 102,
     type: "Batsman",
-    profileImage: "/images/gill.png",
-    bgImage: "/images/gill.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Sanju Samson",
     key: 13,
     dreamPoints: 89,
     type: "Wicket-Keeper",
-    profileImage: "/images/sanju.png",
-    bgImage: "/images/sanju.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Axar Patel",
     key: 14,
     dreamPoints: 95,
     type: "All-Rounder",
-    profileImage: "/images/axar.png",
-    bgImage: "/images/axar.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Kuldeep Yadav",
     key: 15,
     dreamPoints: 90,
     type: "Bowler",
-    profileImage: "/images/kuldeep.png",
-    bgImage: "/images/kuldeep.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Deepak Chahar",
     key: 16,
     dreamPoints: 85,
     type: "Bowler",
-    profileImage: "/images/chahar.png",
-    bgImage: "/images/chahar.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Washington Sundar",
     key: 17,
     dreamPoints: 88,
     type: "All-Rounder",
-    profileImage: "/images/sundar.png",
-    bgImage: "/images/sundar.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Ishan Kishan",
     key: 18,
     dreamPoints: 92,
     type: "Wicket-Keeper",
-    profileImage: "/images/ishan.png",
-    bgImage: "/images/ishan.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Shardul Thakur",
     key: 19,
     dreamPoints: 91,
     type: "Bowler",
-    profileImage: "/images/shardul.png",
-    bgImage: "/images/shardul.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Rahul Tewatia",
     key: 20,
     dreamPoints: 87,
     type: "All-Rounder",
-    profileImage: "/images/tewatia.png",
-    bgImage: "/images/tewatia.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Prithvi Shaw",
     key: 21,
     dreamPoints: 100,
     type: "Batsman",
-    profileImage: "/images/shaw.png",
-    bgImage: "/images/shaw.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
   {
     name: "Suryakumar Yadav",
     key: 22,
     dreamPoints: 110,
     type: "Batsman",
-    profileImage: "/images/surya.png",
-    bgImage: "/images/surya.png",
+    profileImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+    bgImage:
+      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
   },
 ];
 
@@ -263,8 +307,8 @@ function DropZone({ id, position, onDrop, currentPlayer, onRemove }) {
         position: "absolute",
         left: `${position.x}vw`,
         top: `${position.y}vh`,
-        width: "100px",
-        height: "100px",
+        // width: "100px",
+        // height: "100px",
         border: "1px solid #ccc",
         display: "flex",
         justifyContent: "center",

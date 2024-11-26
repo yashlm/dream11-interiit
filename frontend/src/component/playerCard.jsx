@@ -14,8 +14,8 @@
 // export default function PlayerCard({
 //   name,
 //   points,
-//   backgroundImageUrl,
-//   profileUrl,
+//   bgImage,
+//   profileImage,
 //   onRemove, // Adding onRemove prop for delete functionality
 // }) {
 //   return (
@@ -32,7 +32,7 @@
 //         {/* Card image with overlay */}
 //         <CardMedia
 //           sx={{ height: 70, position: "relative" }}
-//           image={backgroundImageUrl}
+//           image={bgImage}
 //           title={name}
 //         />
 //         <Box
@@ -48,7 +48,7 @@
 //         {/* Avatar at the bottom-right */}
 //         <Avatar
 //           alt={name}
-//           src={profileUrl}
+//           src={profileImage}
 //           sx={{
 //             position: "absolute",
 //             bottom: -20,
@@ -117,8 +117,8 @@
 // export default function PlayerCard({
 //   name,
 //   points,
-//   backgroundImageUrl,
-//   profileUrl,
+//   bgImage,
+//   profileImage,
 //   onRemove, // Adding onRemove prop for delete functionality
 // }) {
 //   return (
@@ -139,7 +139,7 @@
 //         {/* Card image with overlay */}
 //         <CardMedia
 //           sx={{ height: 70, position: "relative" }}
-//           image={backgroundImageUrl}
+//           image={bgImage}
 //           title={name}
 //         />
 //         <Box
@@ -155,7 +155,7 @@
 //         {/* Avatar at the bottom-right */}
 //         <Avatar
 //           alt={name}
-//           src={profileUrl}
+//           src={profileImage}
 //           sx={{
 //             position: "absolute",
 //             bottom: -20,
@@ -226,8 +226,8 @@
 // export default function PlayerCard({
 //   name,
 //   points,
-//   backgroundImageUrl,
-//   profileUrl,
+//   bgImage,
+//   profileImage,
 //   onRemove, // Adding onRemove prop for delete functionality
 //   onAddToField, // Adding onAddToField prop for adding to the field
 //   isInField, // Determines if the player is already on the field
@@ -250,7 +250,7 @@
 //         {/* Card image with overlay */}
 //         <CardMedia
 //           sx={{ height: 70, position: "relative" }}
-//           image={backgroundImageUrl}
+//           image={bgImage}
 //           title={name}
 //         />
 //         <Box
@@ -266,7 +266,7 @@
 //         {/* Avatar at the bottom-right */}
 //         <Avatar
 //           alt={name}
-//           src={profileUrl}
+//           src={profileImage}
 //           sx={{
 //             position: "absolute",
 //             bottom: -20,
@@ -344,8 +344,8 @@ import Tooltip from "@mui/material/Tooltip";
 export default function PlayerCard({
   name,
   points,
-  backgroundImageUrl,
-  profileUrl,
+  bgImage,
+  profileImage,
   onRemove, // Adding onRemove prop for delete functionality
   onAddToField, // Adding onAddToField prop for adding to the field
   isInField, // Determines if the player is already on the field
@@ -368,7 +368,7 @@ export default function PlayerCard({
         {/* Card image with overlay */}
         <CardMedia
           sx={{ height: 70, position: "relative" }}
-          image={backgroundImageUrl}
+          image={bgImage}
           title={name}
         />
         <Box
@@ -384,17 +384,17 @@ export default function PlayerCard({
         {/* Avatar at the bottom-right */}
         <Avatar
           alt={name}
-          src={profileUrl}
+          src={profileImage}
           sx={{
             position: "absolute",
             bottom: 10,
             // Center the Avatar when in the field
-            left: isInField ? "50%" : "auto", // Center when in the field
-            right: isInField ? "auto" : 10, // Reset right position when in the field
+            left: "auto", // Center when in the field
+            right: 10, // Reset right position when in the field
             width: 50,
             height: 50,
             border: "2px solid white", // White border for the avatar
-            transform: isInField ? "translateX(-50%)" : "none", // Horizontally center when in the field
+            transform: "none", // Horizontally center when in the field
           }}
         />
       </Box>
