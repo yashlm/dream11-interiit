@@ -2,6 +2,7 @@ body,
 html {
   height: 100%;
   margin: 0;
+  overflow-x:hidden;
 }
 a {
   color: var(--bg);
@@ -17,7 +18,7 @@ a {
 body {
   background: var(--bg);
   color: var(--text);
-  font-family: Helvetica;
+  font-family: "Lato";
   overflow-y: scroll;
 }
 body::-webkit-scrollbar {
@@ -185,7 +186,7 @@ nav {
   background: #dfdddd;
 }
 
-/*lists of movies*/
+/*lists of matches*/
 .lists {
   margin: 10px 0;
 }
@@ -194,10 +195,6 @@ nav {
   margin-top: 20px;
 }
 
-.lists h2 {
-  padding-left: 70px;
-  margin-bottom: 10px;
-}
 
 .menu-item {
   padding: 0px;
@@ -207,10 +204,10 @@ nav {
   border: none;
 }
 .menu-item-wrapper.active {
-  border: 1px blue solid;
+  border: 1px var(--red);
 }
 .menu-item.active {
-  border: 1px green solid;
+  border: 1px var(--red);
 }
 
 .movie-card {
@@ -380,29 +377,6 @@ i {
     margin: 10px;
   }
 
-  /*lists of movies*/
-
-  .lists {
-    margin: 0px;
-  }
-
-  .lists h2 {
-    margin-bottom: 0px;
-    padding-left: 10px;
-  }
-
-  .movie-card,
-  img {
-    width: 330px;
-    height: 140px;
-  }
-
-  .movie-card:hover,
-  .movie-card:hover img {
-    width: 260px;
-    height: 160px;
-  }
-
   .arrow-prev,
   .arrow-next {
     font-size: 20px;
@@ -412,14 +386,8 @@ i {
     padding: 10px;
   }
 
-  /*movie-info*/
-  .content {
-    width: 90%;
-    font-size: 93%;
-  }
-
-  .content h1 {
-    margin: 30px 0;
+  .lists .react-horizontal-scrolling-menu--scroll-container {
+    overflow-x: hidden; /* Hide the horizontal scrollbar */
   }
 }
 
@@ -458,26 +426,10 @@ i {
     margin: 0;
   }
 
-  .lists h2 {
-    padding-left: 10px;
-    margin-bottom: 0px;
-  }
+  
 
-  .movie-card,
-  img {
-    width: 220px;
-    height: 120px;
-  }
+  
 
-  .movie-card:hover,
-  .movie-card:hover img {
-    width: 250px;
-    height: 140px;
-  }
-
-  .movie-title {
-    font-size: 14px;
-  }
 }
 
 @media only screen and (max-width: 450px) {
