@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Button from "@mui/material/Button";
@@ -14,11 +13,10 @@ const Navbar = () => {
   const handleLanguageChange = (event) => setLanguage(event.target.value);
 
   useEffect(() => {
-   
     if (location.pathname === "/") {
       setNavColor("rgba(255, 255, 255, 0.1)");
     } else {
-      setNavColor("rgba(255, 255, 255, 0.1)"); 
+      setNavColor("rgba(255, 255, 255, 0.1)");
     }
   }, [location.pathname]);
 
@@ -43,7 +41,11 @@ const Navbar = () => {
     >
       <div>
         <Link to="/">
-          <img alt="logo" src={logo} style={{ width: "160px", height: "40px" }} />
+          <img
+            alt="logo"
+            src={logo}
+            style={{ width: "160px", height: "40px" }}
+          />
         </Link>
       </div>
 
@@ -61,6 +63,30 @@ const Navbar = () => {
           </Select>
         </FormControl>
 
+        <Link to="/teamSelect" style={{ textDecoration: "none" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: "var(--red)",
+              color: "var(--bg)",
+              textTransform: "none",
+            }}
+          >
+            Select Team
+          </Button>
+        </Link>
+        <Link to="/dreamTeam" style={{ textDecoration: "none" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: "var(--red)",
+              color: "var(--bg)",
+              textTransform: "none",
+            }}
+          >
+            Dream Team
+          </Button>
+        </Link>
         <Link to="/login" style={{ textDecoration: "none" }}>
           <Button
             variant="contained"
