@@ -29,13 +29,13 @@ const CardStack = () => {
     },
     { label: "Match", icon: <BiCricketBall className="progress-bar-icons" /> },
   ];
-  // useEffect(() => {
-  //   secondCardMoved
-  //     ? setCurrentStep(1)
-  //     : firstCardMoved
-  //     ? setCurrentStep(0)
-  //     : setCurrentStep(-1);
-  // }, [firstTeam, secondTeam]);
+  useEffect(() => {
+    secondCardMoved
+      ? setCurrentStep(1)
+      : firstCardMoved
+      ? setCurrentStep(0)
+      : setCurrentStep(-1);
+  }, [firstTeam, secondTeam]);
 
   return (
     <div className="fullscreen-background">
