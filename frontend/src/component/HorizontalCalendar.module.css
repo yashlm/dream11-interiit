@@ -1,0 +1,60 @@
+.calendarContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+
+.horizontalCalendar {
+  overflow: scroll;
+  display: flex;
+  gap: 10px;
+}
+
+.iconButton,
+.dateButton {
+  background-color: #f0f0f0;
+  border: 1px solid #ccc;
+  color: black;
+  padding: 10px 10px;
+  border-radius: 5px;
+  font-size: 1em;
+}
+.dateButton {
+  cursor: pointer;
+}
+
+.dateButtonSelected {
+  background-color: #007bff;
+  color: #fff;
+}
+
+.iconWrapper {
+  position: relative;
+}
+
+.iconButton {
+  margin-left: 10px;
+  background: none;
+  cursor: pointer;
+}
+
+.popupOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.popup {
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}

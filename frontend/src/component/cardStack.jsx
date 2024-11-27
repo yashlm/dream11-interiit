@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import "./cardStack.css";
-import TeamSearchCard from "./cardStackTeamCard";
+import TeamSearchCard from "./selectTeamCard";
 import { GiAmericanFootballHelmet } from "react-icons/gi";
 import { BiCricketBall } from "react-icons/bi";
 
@@ -15,24 +15,25 @@ const CardStack = () => {
 
   const [firstTeam, setFirstTeam] = useState(null);
   const [secondTeam, setSecondTeam] = useState(null);
-  // const [MatchDate, setMatchDate] = useState(null);
+  const [MatchDate, setMatchDate] = useState(null);
 
   // Define steps with labels and icons
   const steps = [
     {
-      label: "First Team",
+      label: "Team 1",
       icon: <GiAmericanFootballHelmet className="progress-bar-icons" />,
     },
     {
-      label: "Second Team",
+      label: "Team 2",
       icon: <GiAmericanFootballHelmet className="progress-bar-icons" />,
     },
     { label: "Match", icon: <BiCricketBall className="progress-bar-icons" /> },
   ];
+
   useEffect(() => {
-    secondCardMoved
+    secondCardMoved && firstCardMoved
       ? setCurrentStep(1)
-      : firstCardMoved
+      : secondCardMoved || firstCardMoved
       ? setCurrentStep(0)
       : setCurrentStep(-1);
   }, [firstTeam, secondTeam]);
@@ -40,18 +41,18 @@ const CardStack = () => {
   return (
     <div className="fullscreen-background">
       <div className="background-cover"></div>
-      <div className="card-stack-container">
+      <motion.div
+        className="card-stack-container"
+        initial={{ opacity: 0, scale: 0.8 }}
+        animate={{ opacity: 1, scale: 1 }}
+        transition={{ duration: 0.6, ease: "easeOut" }}
+      >
         {/* Progress Bar */}
         <div className="progress-bar-wrapper">
           <ProgressBar currentStep={currentStep} steps={steps} />
         </div>
         <div className="card-container">
-          <motion.div
-            className="card"
-            animate={{
-              opacity: secondCardMoved & firstCardMoved ? 0.8 : 1,
-            }}
-          >
+          <motion.div className="card">
             <SelectMatchCard />
           </motion.div>
           {/* Card 2 */}
@@ -64,10 +65,10 @@ const CardStack = () => {
             }}
             animate={{
               x: secondCardMoved
-                ? `${Math.min(window.innerWidth * 0.35, 400)}px`
+                ? `${Math.max(Math.max(window.innerWidth * 0.35, 200), 500)}px`
                 : "0", // Move right by 50% of viewport width
               zIndex: secondCardMoved ? 2 : 1,
-              width: secondCardMoved ? "20%" : "45%", // Adjust width dynamically
+              // width: secondCardMoved ? "20%" : "45%", // Adjust width dynamically
               backgroundColor: secondCardMoved ? "transparent" : "white",
             }}
             transition={{
@@ -93,10 +94,10 @@ const CardStack = () => {
             }}
             animate={{
               x: firstCardMoved
-                ? `-${Math.min(window.innerWidth * 0.35, 400)}px`
+                ? `-${Math.max(Math.max(window.innerWidth * 0.35, 200), 500)}px`
                 : "0", // Move left by 50% of viewport width
               zIndex: firstCardMoved ? 2 : 1,
-              width: firstCardMoved ? "20%" : "45", // Adjust width dynamically
+              // width: firstCardMoved ? "20%" : "45", // Adjust width dynamically
               backgroundColor: firstCardMoved ? "transparent" : "white",
             }}
             transition={{
@@ -112,7 +113,7 @@ const CardStack = () => {
             />
           </motion.div>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 };

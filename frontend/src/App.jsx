@@ -5,8 +5,9 @@ import { Component } from "react";
 import Home from "./header/Home";
 import "./style.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import StarterPage from './Starterpage/Starterpage';
-import MyChatbot from './ChatBot/ChatBot';import CardStack from "./component/cardStack";
+import StarterPage from "./Starterpage/Starterpage";
+import MyChatbot from "./ChatBot/ChatBot";
+import CardStack from "./component/cardStack";
 // import DreamTeam from "./pages/dreamTeam";
 import PlayerList from "./pages/test";
 import PlayerCard from "./component/playerCard";
@@ -17,7 +18,7 @@ class App extends Component {
     return (
       <BrowserRouter>
         <div className="App">
-        <MyChatbot/>
+          <MyChatbot />
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/teamSelect" element={<CardStack />} />
@@ -50,6 +51,7 @@ class App extends Component {
             />
             <Route path="/dreamTeam" element={<DreamTeamGround />} />
             <Route path="/" element={<StarterPage />} />
+            <Route path="/chart" element={<h1>hi</h1>} />
           </Routes>
         </div>
       </BrowserRouter>
