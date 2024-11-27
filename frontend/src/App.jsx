@@ -11,7 +11,6 @@ import MyChatbot from './ChatBot/ChatBot';import CardStack from "./component/car
 import PlayerList from "./pages/test";
 import PlayerCard from "./component/playerCard";
 import DreamTeamGround from "./pages/dreamTeam";
-import MultipleItems from "./movieslist/MatchSlider";
 import FavTeam from "./pages/FavTeam";
 
 class App extends Component {
