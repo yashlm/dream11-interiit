@@ -47,7 +47,7 @@ const CardStack = () => {
         </div>
         <div className="card-container">
           <motion.div
-            className="card"
+            className="cardStack"
             animate={{
               opacity: secondCardMoved & firstCardMoved ? 0.8 : 1,
             }}
@@ -56,7 +56,7 @@ const CardStack = () => {
           </motion.div>
           {/* Card 2 */}
           <motion.div
-            className="card"
+            className="cardStack"
             style={{
               boxShadow: secondCardMoved
                 ? "none"
@@ -85,7 +85,7 @@ const CardStack = () => {
 
           {/* Card 1 */}
           <motion.div
-            className="card"
+            className="cardStack"
             style={{
               boxShadow: firstCardMoved
                 ? "none"

@@ -3,6 +3,8 @@ import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField'; 
 import './StarterPage.css';
 import Navbar from '../header/Navbar';
+import Testinomial from '../component/testinomials';
+import { FooterWithSocialLinks } from '../component/footer';
 
 const App = () => {
   const [username, setUsername] = useState('');
@@ -54,6 +56,8 @@ const App = () => {
           </div>
         </div>
       </div>
+      <Testinomial/>
+      <FooterWithSocialLinks/>
     </div>
   );
 };
