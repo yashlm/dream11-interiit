@@ -1,8 +1,8 @@
 import "./App.css";
 import "./index.css";
-// import './output.css'
+import './output.css'
 import { Component } from "react";
-import Home from "./header/Home";
+import Home from "./pages/Home";
 import "./style.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import StarterPage from './Starterpage/Starterpage';
@@ -11,6 +11,8 @@ import MyChatbot from './ChatBot/ChatBot';import CardStack from "./component/car
 import PlayerList from "./pages/test";
 import PlayerCard from "./component/playerCard";
 import DreamTeamGround from "./pages/dreamTeam";
+import MultipleItems from "./movieslist/MatchSlider";
+import FavTeam from "./pages/FavTeam";
 
 class App extends Component {
   render() {
@@ -50,6 +52,7 @@ class App extends Component {
             />
             <Route path="/dreamTeam" element={<DreamTeamGround />} />
             <Route path="/" element={<StarterPage />} />
+            <Route path="/fav" element={<FavTeam/>}/>
           </Routes>
         </div>
       </BrowserRouter>

@@ -67,7 +67,7 @@
   height: 100%;
 }
 
-.card {
+.cardStack {
   position: absolute;
   width: 45vw;
   max-width: 375px;
