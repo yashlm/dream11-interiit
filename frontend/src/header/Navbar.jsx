@@ -75,6 +75,18 @@ const Navbar = () => {
             Select Team
           </Button>
         </Link>
+        <Link to="/custommatch" style={{ textDecoration: "none" }}>
+          <Button
+            variant="contained"
+            style={{
+              backgroundColor: "var(--red)",
+              color: "var(--bg)",
+              textTransform: "none",
+            }}
+          >
+            Custom Match
+          </Button>
+        </Link>
         <Link to="/dreamTeam" style={{ textDecoration: "none" }}>
           <Button
             variant="contained"

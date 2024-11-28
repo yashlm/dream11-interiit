@@ -13,6 +13,7 @@ import PlayerCard from "./component/playerCard";
 import DreamTeamGround from "./pages/dreamTeam";
 import FavTeam from "./pages/FavTeam";
 import Loading from "./component/Loading";
+import CustomMatch from "./pages/CustomMatch";
 
 class App extends Component {
   render() {
@@ -22,6 +23,7 @@ class App extends Component {
           <MyChatbot />
           <Routes>
             <Route path="/home" element={<Home />} />
+            <Route path="/custommatch" element={<CustomMatch />} />
             <Route path="/teamSelect" element={<CardStack />} />
             <Route path="/loading" element={<Loading />} />
 
