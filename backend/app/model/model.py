@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, ARRAY, Text
+from sqlalchemy import Column, Integer, String, ForeignKey, ARRAY, Text, Float , Date, Boolean
 from pydantic import BaseModel
 from app.db.session import Base
 
@@ -66,3 +66,40 @@ class Match(Base):
     venue = Column(String(200))                      # Venue of the match
     players = Column(Text)                           # List of players (comma-separated)
     season = Column(String(20))                      
+
+
+
+class PlayerStats(Base):
+    __tablename__ = 'player_stats'
+    id = Column(Integer, primary_key=True, index=True)
+    player_id = Column(String(20), )
+    full_name = Column(String(255))
+    match_id = Column(String(20))
+    match_type = Column(String(50))
+    start_date = Column(Date)
+    gender = Column(String(10))
+    runs_scored = Column(Integer)
+    fours_scored = Column(Integer)
+    sixes_scored = Column(Integer)
+    wickets_taken = Column(Integer)
+    batting_style = Column(String(50))
+    fantasy_score_batting = Column(Float)
+    fantasy_score_bowling = Column(Float)
+    fantasy_score_total = Column(Float)
+    highest_runs = Column(Integer)
+    highest_wickets = Column(Integer)
+    centuries_cumsum = Column(Integer)
+    half_centuries_cumsum = Column(Integer)
+    bowling_average_10 = Column(Float)
+    bowling_strike_rate_10 = Column(Float)
+    bowling_style_left_arm_fast = Column(Boolean)
+    bowling_style_left_arm_spin = Column(Boolean)
+    bowling_style_left_others = Column(Boolean)
+    bowling_style_others = Column(Boolean)
+    bowling_style_right_arm_fast = Column(Boolean)
+    bowling_style_right_arm_spin = Column(Boolean)
+    bowling_style_right_others = Column(Boolean)
+    economy_rate_10 = Column(Float)
+    batting_average_10 = Column(Float)
+    strike_rate_10 = Column(Float)
+    boundary_percentage_10 = Column(Float)
