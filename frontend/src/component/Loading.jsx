@@ -34,7 +34,6 @@ const Loading = () => {
     return () => clearInterval(textInterval);
   }, []);
 
-  // Simulate the progress of the loading
   useEffect(() => {
     const progressInterval = setInterval(() => {
       setProgress((prevProgress) => {
@@ -50,7 +49,7 @@ const Loading = () => {
 
   return (
     <div style={styles.container}>
-      <Lottie options={lottieOptions} height={250} width={250} /> {/* Increased Lottie size */}
+      <Lottie options={lottieOptions} height={250} width={250} />
       <div style={styles.loaderBarContainer}>
         <animated.div style={{ ...styles.loaderBar, ...loaderBarProps }} />
       </div>
@@ -66,11 +65,11 @@ const styles = {
     justifyContent: "center",
     alignItems: "center",
     height: "100vh",
-    backgroundColor: "white", // Changed background color
+    backgroundColor: "white", 
   },
   loaderBarContainer: {
-    width: "60%", // Decreased width of the loader bar
-    height: "5px", // Decreased height of the loader bar
+    width: "60%", 
+    height: "5px", 
     backgroundColor: "#e0e0e0",
     marginTop: "20px",
   },
