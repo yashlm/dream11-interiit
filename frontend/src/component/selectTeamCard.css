@@ -3,6 +3,7 @@
   flex-direction: column;
   padding: 20px;
   color: black;
+  height: 100%;
 }
 
 .search-bar {
@@ -13,6 +14,9 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 1px;
+  overflow-y: scroll;
+  max-height: 450px;
+  grid-auto-rows: min-content;
 }
 
 .team-icon {
@@ -23,7 +27,7 @@
 
 .team-icon p {
   margin-top: 8px;
-  font-size: 8px;
+  font-size: 0.8rem;
 }
 .fav-teams-title {
   font-size: 16px;
@@ -37,13 +41,15 @@
 }
 
 .selected-team-card {
-  margin-top: 30%;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  margin-top: 20%;
   border-radius: 20px;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
   box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
@@ -78,3 +84,4 @@
   border-radius: 5px;
   margin-top: 5px;
 }
+

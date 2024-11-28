@@ -1,4 +1,5 @@
 .bgImageHolder {
+  background-color: black;
   background-image: var(--ground-image-url);
   width: 100vw;
   height: 100vh;
@@ -40,8 +41,6 @@
   margin-bottom: -2%;
   margin-left: 1%;
 }
-
-
 
 /* Wrapper for the dock list and the arrow button */
 .dockListWrapper {

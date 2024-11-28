@@ -16,9 +16,11 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
+  /* --select-match-url: url("https://www.ft.com/__origami/service/image/v2/images/raw/ftcms%3A7eaf098e-94fa-11e5-bd82-c1fb87bef7af?source=next-article&fit=scale-down&quality=highest&width=700&dpr=2"); */
   --select-match-url: url("./assets/teamSelection.png");
   --first-image-url: url("./assets/image1.png");
-  --ground-image-url: url("./assets/Test2.jpeg");
+  /* --ground-image-url: url("https://files.idyllic.app/files/static/2377395?width=1080&optimizer=image"); */
+  --ground-image-url: url("../assets/Test2.jpeg");
 
   --bg: #f0efef;
   --red: #e10000;
