@@ -4,13 +4,20 @@ import styles from "./cardStack.module.css";
 import HorizontalCalendar from "./horizontalCalendar.jsx";
 import Loading from "./Loading.jsx";
 import { BASE_URL } from "../constants.jsx";
+import { useNavigate } from "react-router-dom";
+
 
 const SelectMatchCard = ({ teamA, teamB }) => {
   const [matchDate, setMatchDate] = useState(new Date());
   const [allMatches, setAllMatches] = useState(null);
   const [filteredMatches, setFilteredMatches] = useState(null);
 
-  const customMatch = () => {};
+  const navigate = useNavigate();
+
+  const customMatch = () => {
+    const formattedDate = matchDate.toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
+    navigate(`/custommatch/${formattedDate}`);
+  };
 
   // Fetch matches when teamA and teamB change
   useEffect(() => {

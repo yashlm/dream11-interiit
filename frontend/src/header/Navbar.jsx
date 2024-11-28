@@ -5,12 +5,14 @@ import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
 import logo from "./logo.png";
+import dayjs from "dayjs";
 
 const Navbar = () => {
   const [language, setLanguage] = useState("en");
   const [navColor, setNavColor] = useState("rgba(255, 255, 255, 0.1)");
 
   const handleLanguageChange = (event) => setLanguage(event.target.value);
+  const todayDate = dayjs().format("YYYY-MM-DD");
 
   useEffect(() => {
     if (location.pathname === "/") {
@@ -75,7 +77,10 @@ const Navbar = () => {
             Select Team
           </Button>
         </Link>
-        <Link to="/custommatch" style={{ textDecoration: "none" }}>
+        <Link
+          to={`/custommatch/${todayDate}`}
+          style={{ textDecoration: "none" }}
+        >
           <Button
             variant="contained"
             style={{
