@@ -4,7 +4,7 @@ import Button from "@mui/material/Button";
 import MenuItem from "@mui/material/MenuItem";
 import Select from "@mui/material/Select";
 import FormControl from "@mui/material/FormControl";
-import logo from "./logo.png";
+import logo from "../assets/landing_page/dream11logo.svg";
 
 const Navbar = () => {
   const [language, setLanguage] = useState("en");

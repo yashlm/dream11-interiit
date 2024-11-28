@@ -1,5 +1,5 @@
 import Avatar from "@mui/material/Avatar";
-import Fuse from "fuse.js";
+// import Fuse from "fuse.js";
 import { useState } from "react";
 import "./selectTeamCard.css";
 import { motion } from "framer-motion";

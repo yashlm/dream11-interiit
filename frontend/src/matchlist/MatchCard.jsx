@@ -1,4 +1,3 @@
-import React from "react";
 import "./MatchCard.css";
 import { CalendarToday, LocationOn } from "@mui/icons-material";
 
