@@ -42,7 +42,6 @@ app/schemas/__pycache__/
 logs/
 
 # Docker files
-Dockerfile
 Dockerfile.txt
 docker-compose.yml
 *.env
