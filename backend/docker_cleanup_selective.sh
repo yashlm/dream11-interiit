@@ -65,11 +65,18 @@ delete_images() {
 }
 
 # Delete specific volumes
+
 delete_volumes() {
     volume_names=$1
     for volume_name in $(echo $volume_names | tr "," "\n"); do
-        echo "Deleting volume $volume_name..."
-        docker volume rm $volume_name
+        # Check if volume is in use by any container
+        container_using_volume=$(docker ps -a --filter volume=$volume_name -q)
+        if [ -n "$container_using_volume" ]; then
+            echo "Volume $volume_name is still in use by container(s) $container_using_volume. Skipping deletion."
+        else
+            echo "Deleting volume $volume_name..."
+            docker volume rm $volume_name
+        fi
     done
 }
 
