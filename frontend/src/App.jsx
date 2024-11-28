@@ -12,6 +12,7 @@ import PlayerList from "./pages/test";
 import PlayerCard from "./component/playerCard";
 import DreamTeamGround from "./pages/dreamTeam";
 import FavTeam from "./pages/FavTeam";
+import Loading from "./component/Loading";
 
 class App extends Component {
   render() {
@@ -22,6 +23,7 @@ class App extends Component {
           <Routes>
             <Route path="/home" element={<Home />} />
             <Route path="/teamSelect" element={<CardStack />} />
+            <Route path="/loading" element={<Loading />} />
             <Route
               path="/theme"
               element={

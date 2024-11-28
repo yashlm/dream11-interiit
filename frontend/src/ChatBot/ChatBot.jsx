@@ -1,7 +1,7 @@
 import React from 'react';
 import ChatBot from 'react-simple-chatbot';
 import { ThemeProvider } from 'styled-components';
-
+import botAvatar from "../assets/bot.png";
 const MyChatbot = () => {
 
   const steps = [
@@ -74,8 +74,8 @@ const MyChatbot = () => {
   ];
 
   const config = {
-    botAvatar: "/image/bot.png",
-    userAvatar: "/image/placeholder.png",
+    botAvatar: botAvatar,
+    userAvatar: botAvatar,
     floating: true,
   };
 
@@ -92,7 +92,8 @@ const MyChatbot = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <div style={{ zIndex: 100 }}>
+     <div style={{ zIndex: 100, overflowX: 'hidden' }}>
+
         <ChatBot headerTitle="IITKBot" steps={steps} {...config} />
       </div>
     </ThemeProvider>
