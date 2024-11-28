@@ -1,11 +1,11 @@
-.card-stack-container {
+.cardStackContainer {
   position: relative;
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
 }
-.progress-bar-wrapper {
+.progressBarWrapper {
   width: 45vw;
   max-width: 375px;
   margin: 2em auto;
@@ -13,7 +13,8 @@
   position: relative;
 }
 
-.barmarker-container {
+.barmarkerContainer {
+  align-items: center;
   display: flex;
   flex-flow: row nowrap;
   justify-content: space-around;
@@ -34,8 +35,15 @@
   margin-top: 5px;
 }
 
-.icon-container {
-  font-size: 50px;
+progress {
+  color: transparent;
+}
+
+.iconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
 }
 
 .progress::-webkit-progress-bar {
@@ -58,7 +66,7 @@
   font-weight: bold;
 }
 
-.card-container {
+.cardContainer {
   position: relative;
   display: flex;
   justify-content: center;
@@ -68,37 +76,72 @@
 }
 
 .cardStack {
+  justify-content: center;
   position: absolute;
+  top: 50px;
   width: 45vw;
+  min-width: 400px;
   max-width: 375px;
-  height: 75%;
-  max-height: 600;
+  height: 600px;
   border-radius: 15px;
-  /* box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2); */
-  overflow: hidden;
+  padding: 1em;
   background-color: white;
-
-  /* transform-style: preserve-3d; */
   transition: transform 0.5s ease, scale 0.5s ease;
   color: black;
+  display: flex;
+  flex-direction: column;
 }
 
-.match-card-list {
-  height: 20%;
+.calenderMatchCardWrapper {
+  padding: 0;
+  scroll-behavior: smooth;
   overflow: scroll;
+  width: 100%;
+}
+.calender {
+  position: sticky;
+  top: 0;
+  background-color: #fff;
+  padding: 10px 0;
+  border-bottom: 1px solid #ccc;
+  z-index: 1;
+  margin-bottom: 0.2em;
+}
+.calender h3 {
+  padding: 0;
+  margin: 0;
 }
 
-.fullscreen-background {
+.matchCardList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  overflow-y: scroll;
+  /* -ms-overflow-style: none; */
+  /* scrollbar-width: none; */
+}
+
+.matchCardList .matchCard {
+  margin: 0;
+  background-color: black;
+}
+
+.matchCardList::-webkit-scrollbar {
+  display: none;
+}
+
+.fullscreenBackground {
   background-image: var(--select-match-url);
+  background-color: black;
   background-repeat: no-repeat;
   background-size: 100vw 100vh;
 }
-.background-cover {
+.backgroundCover {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.4); /* 40% opacity black layer */
-  pointer-events: none; /* Ensures it doesn't block interaction */
+  background-color: rgba(0, 0, 0, 0.4);
+  pointer-events: none;
 }

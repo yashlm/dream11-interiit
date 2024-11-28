@@ -26,14 +26,14 @@ const MatchCard = ({ match }) => {
           </div>
         </div>
         <div className="match-details">
-           <p>
+          <p>
             <CalendarToday className="icon" />
-             {match.date}
-           </p>
-           <p>
-             <LocationOn className="icon" />
-             {match.stadium}
-           </p>
+            {match.date}
+          </p>
+          <p>
+            <LocationOn className="icon" />
+            {match.stadium}
+          </p>
         </div>
       </div>
     </div>
