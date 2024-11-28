@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import "./cardStack.css";
+import styles from "./cardStack.module.css";
 import TeamSearchCard from "./selectTeamCard";
 import { GiAmericanFootballHelmet } from "react-icons/gi";
 import { BiCricketBall } from "react-icons/bi";
@@ -21,13 +21,16 @@ const CardStack = () => {
   const steps = [
     {
       label: "Team 1",
-      icon: <GiAmericanFootballHelmet className="progress-bar-icons" />,
+      icon: <GiAmericanFootballHelmet className={styles.progressBarIcons} />,
     },
     {
       label: "Team 2",
-      icon: <GiAmericanFootballHelmet className="progress-bar-icons" />,
+      icon: <GiAmericanFootballHelmet className={styles.progressBarIcons} />,
     },
-    { label: "Match", icon: <BiCricketBall className="progress-bar-icons" /> },
+    {
+      label: "Match",
+      icon: <BiCricketBall className={styles.progressBarIcons} />,
+    },
   ];
 
   useEffect(() => {
@@ -39,25 +42,25 @@ const CardStack = () => {
   }, [firstTeam, secondTeam]);
 
   return (
-    <div className="fullscreen-background">
-      <div className="background-cover"></div>
+    <div className={styles.fullscreenBackground}>
+      <div className={styles.backgroundCover}></div>
       <motion.div
-        className="card-stack-container"
+        className={styles.cardStackContainer}
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         {/* Progress Bar */}
-        <div className="progress-bar-wrapper">
+        <div className={styles.progressBarWrapper}>
           <ProgressBar currentStep={currentStep} steps={steps} />
         </div>
-        <div className="card-container">
-          <motion.div className="card">
+        <div className={styles.cardContainer}>
+          <motion.div className={styles.cardStack}>
             <SelectMatchCard />
           </motion.div>
           {/* Card 2 */}
           <motion.div
-            className="card"
+            className={styles.cardStack}
             style={{
               boxShadow: secondCardMoved
                 ? "none"
@@ -86,7 +89,7 @@ const CardStack = () => {
 
           {/* Card 1 */}
           <motion.div
-            className="card"
+            className={styles.cardStack}
             style={{
               boxShadow: firstCardMoved
                 ? "none"

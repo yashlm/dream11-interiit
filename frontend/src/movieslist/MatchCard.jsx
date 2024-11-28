@@ -1,3 +1,4 @@
+import React from "react";
 import "./MatchCard.css";
 import { CalendarToday, LocationOn } from "@mui/icons-material";
 
@@ -26,14 +27,14 @@ const MatchCard = ({ match }) => {
           </div>
         </div>
         <div className="match-details">
-           <p>
+          <p>
             <CalendarToday className="icon" />
-             {match.date}
-           </p>
-           <p>
-             <LocationOn className="icon" />
-             {match.stadium}
-           </p>
+            {match.date}
+          </p>
+          <p>
+            <LocationOn className="icon" />
+            {match.stadium}
+          </p>
         </div>
       </div>
     </div>

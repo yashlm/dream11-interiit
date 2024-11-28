@@ -1,6 +1,6 @@
 import { useState } from "react";
 import MatchCard from "../movieslist/MatchCard.jsx";
-import "./cardStack.css";
+import styles from "./cardStack.module.css";
 import HorizontalCalendar from "./horizontalCalendar.jsx";
 
 const SelectMatchCard = () => {
@@ -111,15 +111,15 @@ const SelectMatchCard = () => {
   ];
 
   return (
-    <div className="calender-match-card-wrapper">
-      <div className="calender">
+    <div className={styles.calenderMatchCardWrapper}>
+      <div className={styles.calender}>
         <h3>Select Match</h3>
         <HorizontalCalendar
           initialDate={matchDate}
           setMatchDate={setMatchDate}
         />
       </div>
-      <div className="match-card-list">
+      <div className={styles.matchCardList}>
         {matches.map((match, index) => (
           <MatchCard key={index} match={match} />
         ))}

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   Accordion,
   AccordionDetails,
@@ -10,46 +10,10 @@ import {
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-const data = {
-  batting: {
-    t20: {
-      Runs: 1500,
-      Avg: 45.5,
-      "Strike Rate": 135,
-    },
-    odi: {
-      Runs: 3000,
-      Avg: 42.0,
-      "Strike Rate": 120,
-    },
-    test: {
-      Runs: 5000,
-      Avg: 38.5,
-      "Strike Rate": 75,
-    },
-  },
-  bowling: {
-    t20: {
-      Wickets: 50,
-      Economy: 7.2,
-      "Best Bowling": "4/25",
-    },
-    odi: {
-      Wickets: 120,
-      Economy: 5.8,
-      "Best Bowling": "5/30",
-    },
-    test: {
-      Wickets: 200,
-      Economy: 3.4,
-      "Best Bowling": "6/40",
-    },
-  },
-};
+import styles from "./playerStats.module.css";
 
-const PlayerStatsAccordion = ({ type }) => {
-  const [selectedMode, setSelectedMode] = useState("t20"); // Default is T20
-  const [selectedCategory, setSelectedCategory] = useState("batting"); // Default is Batting
+const PlayerStatsAccordion = ({ type, data, setType }) => {
+  const [selectedCategory, setSelectedCategory] = useState("odi_bat"); // Default is Batting
   const [expanded, setExpanded] = useState(type.toLowerCase());
 
   const handleAccordionChange = (panel) => {
@@ -57,101 +21,132 @@ const PlayerStatsAccordion = ({ type }) => {
   };
 
   const handleButtonClick = (category, mode) => {
-    setSelectedCategory(category);
-    setSelectedMode(mode);
+    const combined = `${category}_${mode}`; // Corrected string concatenation
+    setSelectedCategory(combined);
+    setType(combined); // Assuming setType is passed as a prop and used elsewhere
   };
 
-  // Function to render key-value pairs
-  const renderData = (category, mode) => {
-    const categoryData = data[category][mode];
-    return Object.entries(categoryData).map(([key, value]) => (
-      <Grid item xs={4} key={key}>
-        <Box>
-          <Typography variant="body1" fontWeight="bold">
-            {key}
-          </Typography>
-          <Typography variant="body2">{value}</Typography>
-        </Box>
+  // Function to render stats in a grid (columns of 3)
+  const renderData = (category) => {
+    const excludedKeys = ["chart"]; // Add other keys you want to exclude
+    const categoryData = Object.entries(data[category]).filter(
+      ([key]) => !excludedKeys.includes(key)
+    );
+    return (
+      <Grid container spacing={2} className={styles.gridContainer}>
+        {categoryData.map(([key, value]) => (
+          <Grid item xs={4} key={key} className={styles.gridItem}>
+            <Box>
+              <Typography
+                sx={{ fontSize: "2rem" }}
+                className={styles.valueText}
+              >
+                {value}
+              </Typography>
+              <Typography className={styles.keyText}>
+                {key.replace(/_/g, " ")} {/* Format key */}
+              </Typography>
+            </Box>
+          </Grid>
+        ))}
       </Grid>
-    ));
+    );
   };
 
   return (
-    <div className="accordion-div">
+    <div className={styles.accordionDiv}>
+      {/* Batting Accordion */}
       <Accordion
         expanded={expanded === "batting"}
         onChange={() => handleAccordionChange("batting")}
+        className={styles.accordionItem}
       >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Batting</Typography>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          className={styles.accordionSummary}
+        >
+          <Typography>Batting Stats</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <div>
-            <Box mb={2}>
+            <Box className={styles.buttonContainer}>
               <Button
                 variant="contained"
-                color={selectedMode === "t20" ? "primary" : "default"}
-                onClick={() => handleButtonClick("batting", "t20")}
+                className={`${styles.button} ${
+                  selectedCategory === "t20_bat" ? styles.activeButton : ""
+                }`}
+                onClick={() => handleButtonClick("t20", "bat")}
               >
-                T20s
+                T20
               </Button>
               <Button
                 variant="contained"
-                color={selectedMode === "odi" ? "primary" : "default"}
-                onClick={() => handleButtonClick("batting", "odi")}
+                className={`${styles.button} ${
+                  selectedCategory === "odi_bat" ? styles.activeButton : ""
+                }`}
+                onClick={() => handleButtonClick("odi", "bat")}
               >
-                ODIs
+                ODI
               </Button>
               <Button
                 variant="contained"
-                color={selectedMode === "test" ? "primary" : "default"}
-                onClick={() => handleButtonClick("batting", "test")}
+                className={`${styles.button} ${
+                  selectedCategory === "test_bat" ? styles.activeButton : ""
+                }`}
+                onClick={() => handleButtonClick("test", "bat")}
               >
-                Tests
+                Test
               </Button>
             </Box>
-            <Grid container spacing={2}>
-              {renderData("batting", selectedMode)}
-            </Grid>
+            {renderData(selectedCategory)}
           </div>
         </AccordionDetails>
       </Accordion>
 
+      {/* Bowling Accordion */}
       <Accordion
         expanded={expanded === "bowling"}
         onChange={() => handleAccordionChange("bowling")}
+        className={styles.accordionItem}
       >
-        <AccordionSummary expandIcon={<ExpandMoreIcon />}>
-          <Typography>Bowling</Typography>
+        <AccordionSummary
+          expandIcon={<ExpandMoreIcon />}
+          className={styles.accordionSummary}
+        >
+          <Typography>Bowling Stats</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <div>
-            <Box mb={2}>
+            <Box className={styles.buttonContainer}>
               <Button
                 variant="contained"
-                color={selectedMode === "t20" ? "primary" : "default"}
-                onClick={() => handleButtonClick("bowling", "t20")}
+                className={`${styles.button} ${
+                  selectedCategory === "t20_ball" ? styles.activeButton : ""
+                }`}
+                onClick={() => handleButtonClick("t20", "ball")}
               >
-                T20s
+                T20
               </Button>
               <Button
                 variant="contained"
-                color={selectedMode === "odi" ? "primary" : "default"}
-                onClick={() => handleButtonClick("bowling", "odi")}
+                className={`${styles.button} ${
+                  selectedCategory === "odi_ball" ? styles.activeButton : ""
+                }`}
+                onClick={() => handleButtonClick("odi", "ball")}
               >
-                ODIs
+                ODI
               </Button>
               <Button
                 variant="contained"
-                color={selectedMode === "test" ? "primary" : "default"}
-                onClick={() => handleButtonClick("bowling", "test")}
+                className={`${styles.button} ${
+                  selectedCategory === "test_ball" ? styles.activeButton : ""
+                }`}
+                onClick={() => handleButtonClick("test", "ball")}
               >
-                Tests
+                Test
               </Button>
             </Box>
-            <Grid container spacing={2}>
-              {renderData("bowling", selectedMode)}
-            </Grid>
+            {renderData(selectedCategory)}
           </div>
         </AccordionDetails>
       </Accordion>

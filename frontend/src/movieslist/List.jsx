@@ -1,5 +1,3 @@
-
-
 //code  for api endpoint
 // import React, { useState, useEffect } from "react";
 // import { ScrollMenu } from "react-horizontal-scrolling-menu";
@@ -17,7 +15,6 @@
 //       .then((data) => setMatches(data || []))
 //       .catch((err) => console.error("Error fetching matches:", err));
 //   }, [apiEndpoint]);
-  
 
 //   return (
 //     <div className="lists" style={{ width: "70vw" }}>
@@ -110,11 +107,10 @@ const dummyMatches = [
   },
 ];
 
-
-
-
 const LeftArrow = () => {
-  const { isFirstItemVisible, scrollPrev } = React.useContext(VisibilityContext);
+  const { isFirstItemVisible, scrollPrev } = React.useContext(
+    VisibilityContext
+  );
 
   return (
     <button
@@ -123,7 +119,10 @@ const LeftArrow = () => {
       className="left-arrow"
       style={{
         background: "none",
+        margin: 0,
+        padding: 0,
         border: "none",
+        outline: "none",
         cursor: isFirstItemVisible ? "not-allowed" : "pointer",
         opacity: isFirstItemVisible ? 0.5 : 1,
       }}
@@ -142,8 +141,11 @@ const RightArrow = () => {
       onClick={() => scrollNext()}
       className="right-arrow"
       style={{
+        margin: 0,
+        padding: 0,
         background: "none",
         border: "none",
+        outline: "none",
         cursor: isLastItemVisible ? "not-allowed" : "pointer",
         opacity: isLastItemVisible ? 0.5 : 1,
       }}
@@ -153,35 +155,32 @@ const RightArrow = () => {
   );
 };
 
-
 const List = ({ heading }) => {
   const [matches] = useState(dummyMatches);
 
   return (
     <div className="lists" style={{ width: "70vw" }}>
-      
-     
       <img
-              src={cricketicon} 
-              alt="cricket Icon"
-              style={{
-                marginLeft: "20px",
-                marginBottom: "-50px",
-                width: "40px",
-                height: "40px",
-               
-              }}
-            />
+        src={cricketicon}
+        alt="cricket Icon"
+        style={{
+          marginLeft: "20px",
+          marginBottom: "-50px",
+          width: "40px",
+          height: "40px",
+        }}
+      />
       <h2 style={{ marginLeft: "70px" }}>{heading}</h2>
       <br />
-      <ScrollMenu
-        LeftArrow={LeftArrow} RightArrow={RightArrow}>
-        {matches.map((match) => (
-          <div key={match.id} className="menu-item">
-            <MatchCard match={match} />
-          </div>
-        ))}
-      </ScrollMenu>
+      <div className="scrollcontainer">
+        <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
+          {matches.map((match) => (
+            <div key={match.id} className="menu-item">
+              <MatchCard match={match} />
+            </div>
+          ))}
+        </ScrollMenu>
+      </div>
     </div>
   );
 };

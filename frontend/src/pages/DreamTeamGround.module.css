@@ -1,6 +1,6 @@
 .bgImageHolder {
-  background-image: var(--ground-image-url);
   background-color: black;
+  background-image: var(--ground-image-url);
   width: 100vw;
   height: 100vh;
   background-size: cover;

@@ -3,15 +3,15 @@ import List from "./List";
 const movies = {
   upcoming: {
     apiCall: "upcoming",
-    header: "Upcoming"
+    header: "Upcoming",
   },
   // romance: {
   //   apiCall:20,
   //   header: "Thriller"
   // },
-  topRated: {
+  featured: {
     apiCall: "top_rated",
-    header: "Top Rated"
+    header: "Top Rated",
   },
   // action: {
   //   apiCall: 28,
@@ -45,10 +45,9 @@ const movies = {
   //   apiCall: 99,
   //   header: "Documentary"
   // }
-  
 };
 
-const ListsOfMovies = () => {
+const ListsOfMatches = () => {
   return (
     <div>
       {Object.keys(movies).map((item, i) => (
@@ -60,4 +59,4 @@ const ListsOfMovies = () => {
   );
 };
 
-export default ListsOfMovies;
+export default ListsOfMatches;
