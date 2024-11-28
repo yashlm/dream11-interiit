@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
-import './StarterPage.css';
+import '../css/StarterPage.css';
 import Navbar from '../header/Navbar';
 import Testinomial from '../component/testinomials';
 import logo from '../assets/landing_page/dream11logo.svg';
