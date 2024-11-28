@@ -4,10 +4,10 @@ import TextField from '@mui/material/TextField';
 import './StarterPage.css';
 import Navbar from '../header/Navbar';
 import Testinomial from '../component/testinomials';
-import { FooterWithSocialLinks } from '../component/footer';
 import logo from '../assets/landing_page/dream11logo.svg';
 import FAQ from '../component/faqs';
 import AboutUs from '../component/AboutUs';
+import Footer from '../component/footer'
 
 const App = () => {
   const [username, setUsername] = useState('');
@@ -59,7 +59,7 @@ const App = () => {
       <AboutUs />
       <Testinomial />
       <FAQ />
-      <FooterWithSocialLinks />
+      <Footer />
     </div>
   );
 };
