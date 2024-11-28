@@ -1,7 +1,7 @@
 
 // import { Grid } from "../howtoplay/grid";
-import ListsOfMovies from "../movieslist/ListsOfMovies";
-import Calendar from "../movieslist/Calendar";
+import ListsOfMatches from "../matchlist/ListsOfMatches";
+import Calendar from "../matchlist/Calendar";
 import Header from "../header/Header";
 
 const Home = () => {
@@ -10,7 +10,7 @@ const Home = () => {
     <div>
       <Header />
       <div style={{ display: "flex", width: "100vw" }}>
-      <ListsOfMovies /> 
+      <ListsOfMatches /> 
        <div style={{ flex: "0 0 30%", padding: "20px" }}>
        <Calendar/>
        {/* <Grid/> */}
