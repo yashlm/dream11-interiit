@@ -9,7 +9,7 @@ const movies = {
   //   apiCall:20,
   //   header: "Thriller"
   // },
-  topRated: {
+  featured: {
     apiCall: "top_rated",
     header: "Top Rated"
   },
@@ -48,7 +48,7 @@ const movies = {
   
 };
 
-const ListsOfMovies = () => {
+const ListsOfMatches= () => {
   return (
     <div>
       {Object.keys(movies).map((item, i) => (
@@ -60,4 +60,4 @@ const ListsOfMovies = () => {
   );
 };
 
-export default ListsOfMovies;
+export default ListsOfMatches;
