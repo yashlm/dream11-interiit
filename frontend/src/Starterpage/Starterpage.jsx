@@ -19,7 +19,7 @@ const App = () => {
 
   return (
     <div>
-      <Navbar />
+      <Navbar/>
       <div className="main-container">
         <div className="content-container">
           <h1 className="welcome-text">
