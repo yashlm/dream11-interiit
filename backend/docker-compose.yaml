@@ -4,7 +4,7 @@ services:
   server:
     build: .
     volumes:
-      - .:/app
+      - postgres_data:/var/lib/postgresql/data
     ports:
       - "80:80"
     environment:
@@ -25,7 +25,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./pgdata:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - backend_network
 
@@ -33,3 +33,6 @@ networks:
   backend_network:
     driver: bridge
 
+volumes:
+  postgres_data:
+    driver: local
