@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from app.api.routes import team, user , match
+from app.api.routes import team, user , match, player
 
 api_router = APIRouter()
 
@@ -11,3 +11,4 @@ def main_function():
 api_router.include_router(team.router, prefix="/team", tags=["teams"])
 api_router.include_router(user.router, prefix="/user", tags=["users"])
 api_router.include_router(match.router, prefix="/match", tags=["matches"])
+api_router.include_router(player.router, prefix="/player", tags=["player"])
