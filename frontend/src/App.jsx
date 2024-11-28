@@ -1,11 +1,11 @@
-import "./App.css";
-import "./index.css";
-import "./output.css";
+import "./css/App.css";
+import "./css/index.css";
+import "./css/output.css";
 import { Component } from "react";
 import Home from "./pages/Home";
-import "./style.css";
+import "./css/style.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import StarterPage from "./Starterpage/Starterpage";
+import StarterPage from "./pages/Starterpage";
 import MyChatbot from "./ChatBot/ChatBot";
 import CardStack from "./component/cardStack";
 
