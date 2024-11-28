@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
@@ -9,16 +9,38 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import SportsCricketIcon from "@mui/icons-material/SportsCricket";
 import Tooltip from "@mui/material/Tooltip";
+import StarIcon from "@mui/icons-material/Star";
+
+import PlayerPopOut from "./playerStats/popUp";
 
 export default function PlayerCard({
   name,
   points,
   bgImage,
   profileImage,
-  onRemove, // Adding onRemove prop for delete functionality
-  onAddToField, // Adding onAddToField prop for adding to the field
-  isInField, // Determines if the player is already on the field
+  onRemove,
+  onAddToField,
+  type,
+  isInField,
+  teamIconUrl,
+  team,
 }) {
+  const [isVisible, setIsVisible] = useState(false);
+  const handleClick = () => {
+    setIsVisible(!isVisible);
+  };
+
+  const firstName = name
+    .toUpperCase()
+    .split(" ")
+    .slice(0, -1)
+    .join(" ");
+  const lastName = name
+    .toUpperCase()
+    .split(" ")
+    .slice(-1)
+    .join(" ");
+
   return (
     <Card
       sx={{

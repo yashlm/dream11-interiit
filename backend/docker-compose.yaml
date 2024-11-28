@@ -1,15 +1,35 @@
 version: "3.9"
 
 services:
+  server:
+    build: .
+    volumes:
+      - .:/app
+    ports:
+      - "8000:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+      - PYTHONDONTWRITEBYTECODE=1
+      - DATABASE_URL=postgresql://postgres:Ak%40123@db:5432/dream11
+    depends_on:
+      - db
+    networks:
+      - backend_network
   db:
-    image: docker.io/postgres
+    image: postgres:latest
     container_name: db
     restart: always
     environment:
       POSTGRES_PASSWORD: Ak@123
       POSTGRES_DB: dream11
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
-      - ./pgdata/:/var/lib/postgresql/data
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - backend_network
+
+networks:
+  backend_network:
+    driver: bridge
 

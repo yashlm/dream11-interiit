@@ -1,52 +1,89 @@
-import { useState } from "react";
-import Calendar from "./calender";
-import MatchCard from "./matchCard";
+import { useEffect, useState } from "react";
+import MatchCard from "../matchlist/MatchCard.jsx";
+import styles from "./cardStack.module.css";
+import HorizontalCalendar from "./horizontalCalendar.jsx";
+import Loading from "./Loading.jsx";
+import { BASE_URL } from "../constants.jsx";
 
-const SelectMatchCard = () => {
-  const [matchDate, setMatchDate] = useState(null);
+const SelectMatchCard = ({ teamA, teamB }) => {
+  const [matchDate, setMatchDate] = useState(new Date());
+  const [allMatches, setAllMatches] = useState(null);
+  const [filteredMatches, setFilteredMatches] = useState(null);
 
-  const matches = [
-    {
-      stadium: "Wankhede Stadium",
-      date: "2024-12-01",
-      team1: { name: "India", imageUrl: "https://path-to-india-flag.jpg" },
-      team2: {
-        name: "Pakistan",
-        imageUrl: "https://path-to-pakistan-flag.jpg",
-      },
-    },
-    {
-      stadium: "Melbourne Cricket Ground",
-      date: "2024-12-02",
-      team1: {
-        name: "Australia",
-        imageUrl: "https://path-to-australia-flag.jpg",
-      },
-      team2: { name: "New Zealand", imageUrl: "https://path-to-nz-flag.jpg" },
-    },
-  ];
+  const customMatch = () => {};
 
-  const MatchList = () => {
-    return (
-      <div className="match-card-list">
-        {matches.map((match, index) => (
-          <MatchCard
-            key={index}
-            stadium={match.stadium}
-            date={match.date}
-            team1={match.team1}
-            team2={match.team2}
-          />
-        ))}
+  // Fetch matches when teamA and teamB change
+  useEffect(() => {
+    const dataFeatch = async () => {
+      try {
+        const payload = {
+          team_name2: teamA.name,
+          team_name1: teamB.name,
+        };
+        const response = await fetch(`${BASE_URL}/match/team/`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+        const data = await response.json();
+        const dist = data.data.filter(
+          (obj, index, self) =>
+            index === self.findIndex((t) => t.match_id === obj.match_id)
+        );
+        setAllMatches(dist);
+      } catch (error) {
+        alert("We encountered an issue. Please try again later.");
+        console.error("Error fetching teams:", error);
+      }
+    };
+    dataFeatch();
+  }, [teamA.name, teamB.name]);
+
+  useEffect(() => {
+    if (allMatches) {
+      const filtered = allMatches.filter((match) => {
+        // Loop through each date in the 'dates' array and check if any matches the selected date
+        const matchHasSelectedDate = match.dates.some((date) => {
+          const matchDateString = new Date(date).toLocaleDateString();
+          const selectedDateString = matchDate.toLocaleDateString();
+          return matchDateString === selectedDateString;
+        });
+        return matchHasSelectedDate;
+      });
+      setFilteredMatches(filtered);
+    }
+  }, [matchDate, allMatches]);
+
+  return allMatches === null ? (
+    <Loading />
+  ) : (
+    <div className={styles.calenderMatchCardWrapper}>
+      <div className={styles.calender}>
+        <h3>SELECT MATCH</h3>
+        <HorizontalCalendar
+          initialDate={matchDate}
+          setMatchDate={setMatchDate}
+        />
       </div>
-    );
-  };
-
-  return (
-    <div style={{ height: "100%" }}>
-      <h2>Select Match</h2>
-      <Calendar setDate={setMatchDate} />
-      <MatchList />
+      <div className={styles.matchCardListWrapper}>
+        {filteredMatches && filteredMatches.length === 0 ? (
+          <div className={styles.customMatchDiv}>
+            <p>No matches available for the selected date.</p>
+            <button className={styles.customMatchBtn} onClick={customMatch}>
+              Create Custom Match
+            </button>
+          </div>
+        ) : null}
+        <div className={styles.matchCardList}>
+          {filteredMatches && filteredMatches.length > 0
+            ? filteredMatches.map((match, index) => (
+                <MatchCard key={index} match={match} />
+              ))
+            : null}
+        </div>
+      </div>
     </div>
   );
 };
