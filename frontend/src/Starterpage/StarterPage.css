@@ -1,85 +1,80 @@
 @import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Oswald:wght@200..700&display=swap');
-  body {
-    height: 100%;
-  }
-  .main-container {
-    display: flex;
-    justify-content: start;
-    align-items: center;
-    height: 100vh;
-    position: relative;
-    background-image: url('../assets/landing_page/landing.png'); 
-    background-size: cover;
-    background-position: center;
-    background-origin: center;
-    transform-origin: center;
-    background-attachment: fixed;
-    filter: rotate(-8.8deg);
-  }
-  
-  .content-container {
-    text-align: left; 
-    z-index: 2; 
-    margin-left: 4rem;
-    transform: translateY(3rem);
-  }
 
-  .outlined-name{
-    height: 2rem;
-  }
-  
-  .welcome-text {
-    font-size: 5rem;
-    font-family: Oswald;
-    font-weight: 700;
-    color: white;
-    margin-bottom: 20px;
-  }
+body {
+  height: 100%;
+  margin: 0;
+  font-family: Lato, sans-serif;
+}
 
-  .lets{
-    display: block;
-    font-size: 3rem;
-  }
+.main-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  height: 100vh;
+  position: relative;
+  background-image: url('../assets/landing_page/landing.png');
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
 
-  .dream11 img{
-    /* color: #e10000;
-    font-family: Lato;
-    font-weight: 800;
-    letter-spacing: -5px; */
-    display: inline-flex;
-    transform: translateY(3.5rem);
-    width: 4.5em;
-  }
-  
-  .form-container {
-    /* margin-top: 20px; */
-  }
-  
-  .outlined-username {
-    padding: 10px;
-    font-size: 1rem; 
-    width: 250px;
-    /* height: 2.5rem; */
-    border: none;
-    border-radius: 5px;
-    margin-right: 10px;
-    display: inline-block;
-  }
-  .next-btn {
-    background-color: red;
-    color: white;
-    border: none;
-    padding: 0px 30px;
-    font-size: 1.5rem;
-    height: 3.5rem;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    display: inline-block;
-  }
-  .next-btn:hover {
-    background-color: darkred;
-  }
- 
- 
+.content-container {
+  text-align: left;
+  z-index: 2;
+  margin-left: 4rem;
+  transform: translateY(3rem);
+}
+
+.welcome-text {
+  font-size: 5rem;
+  font-family: Oswald, sans-serif;
+  font-weight: 700;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.lets {
+  margin-top: 10px;
+  display: block;
+  font-size: 3rem;
+  font-family: Lato, sans-serif;
+}
+
+.dream11 img {
+  display: inline-block;
+  transform: translateY(3.5rem);
+  width: 4.5em;
+}
+
+.form-container {
+  display: flex;
+  align-items: center;
+  gap: 1rem; /* Adds spacing between input and button */
+}
+
+.outlined-name {
+  font-size: 0.9rem;
+  width: 250px;
+  height: 3rem;
+  border: none;
+  border-radius: 5px;
+}
+
+.next-btn {
+  background-color: red;
+  color: black;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  height: 3.5rem;
+  padding: 0 25px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.next-btn:hover {
+  background-color: black;
+  color: red;
+}
