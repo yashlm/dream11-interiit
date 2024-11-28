@@ -1,26 +1,26 @@
-# Use a Python base image
+# Use an official Python runtime as a parent image
 FROM python:3.11-slim
 
-# Set environment variables
-ENV PYTHONDONTWRITEBYTECODE=1
-ENV PYTHONUNBUFFERED=1
-
-# Install system dependencies
-RUN apt-get update && apt-get install -y --no-install-recommends gcc \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Set the working directory
+# Set the working directory inside the container
 WORKDIR /app
 
-# Copy application files
-COPY . .
+# Install dependencies for PostgreSQL client
+RUN apt-get update && apt-get install -y postgresql-client && rm -rf /var/lib/apt/lists/*
 
-# Install dependencies
-RUN pip install --no-cache-dir --upgrade pip && pip install --no-cache-dir -r requirements.txt
+# Copy the current directory contents into the container at /app
+COPY . /app/
 
-# Expose the FastAPI default port
+# Install Python dependencies
+RUN pip install --no-cache-dir --upgrade pip && pip install -r requirements.txt
+
+# Copy the entrypoint script
+COPY ./entrypoint.sh /app/entrypoint.sh
+
+# Make the entrypoint script executable
+RUN chmod +x /app/entrypoint.sh
+
+# Expose the port the app will run on
 EXPOSE 8000
 
-# Run the application
-CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
-
+# Run the entrypoint script when the container starts
+ENTRYPOINT ["/app/entrypoint.sh"]

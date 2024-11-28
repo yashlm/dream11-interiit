@@ -4,7 +4,7 @@ services:
   server:
     build: .
     volumes:
-      - .:/app  # Mount the current directory (backend) to /app inside the container
+      - .:/app
     ports:
       - "8000:8000"
     environment:
@@ -13,18 +13,23 @@ services:
       - DATABASE_URL=postgresql://postgres:Ak%40123@db:5432/dream11
     depends_on:
       - db
+    networks:
+      - backend_network
   db:
-    image: docker.io/postgres
+    image: postgres:latest
     container_name: db
     restart: always
     environment:
       POSTGRES_PASSWORD: Ak@123
       POSTGRES_DB: dream11
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
-      - ./pgdata/:/var/lib/postgresql/data
-  
-    # command: uvicorn app.main:app --host 0.0.0.0 --port 8000
+      - ./pgdata:/var/lib/postgresql/data
+    networks:
+      - backend_network
 
+networks:
+  backend_network:
+    driver: bridge
 
