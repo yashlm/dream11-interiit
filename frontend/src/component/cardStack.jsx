@@ -4,9 +4,12 @@ import styles from "./cardStack.module.css";
 import TeamSearchCard from "./selectTeamCard";
 import { GiAmericanFootballHelmet } from "react-icons/gi";
 import { BiCricketBall } from "react-icons/bi";
+import Loading from "./Loading";
 
 import ProgressBar from "./progressBar";
 import SelectMatchCard from "./selectMatchCard";
+
+import { BASE_URL } from "../constants.jsx";
 
 const CardStack = () => {
   const [firstCardMoved, setFirstCardMoved] = useState(false);
@@ -15,9 +18,28 @@ const CardStack = () => {
 
   const [firstTeam, setFirstTeam] = useState(null);
   const [secondTeam, setSecondTeam] = useState(null);
-  const [MatchDate, setMatchDate] = useState(null);
 
-  // Define steps with labels and icons
+  const [allTeams, setallTeams] = useState(null);
+
+  useEffect(() => {
+    const dataFetch = async () => {
+      try {
+        const response = await fetch(`${BASE_URL}/team/teams/`, {
+          method: "GET",
+        });
+        const data = await response.json(); // Parse the JSON response
+        setallTeams(data.data); // Set the fetched data to state
+      } catch (error) {
+        alert("We encountered an issue. Please try again later.");
+
+        // Log the error (to console or external service)
+        console.error("Error fetching teams:", error);
+      }
+    };
+
+    dataFetch();
+  }, []);
+
   const steps = [
     {
       label: "Team 1",
@@ -41,7 +63,9 @@ const CardStack = () => {
       : setCurrentStep(-1);
   }, [firstTeam, secondTeam]);
 
-  return (
+  return allTeams == null ? (
+    <Loading />
+  ) : (
     <div className={styles.fullscreenBackground}>
       <div className={styles.backgroundCover}></div>
       <motion.div
@@ -56,7 +80,9 @@ const CardStack = () => {
         </div>
         <div className={styles.cardContainer}>
           <motion.div className={styles.cardStack}>
-            <SelectMatchCard />
+            {firstCardMoved && secondCardMoved && (
+              <SelectMatchCard teamA={firstTeam} teamB={secondTeam} />
+            )}
           </motion.div>
           {/* Card 2 */}
           <motion.div
@@ -83,7 +109,8 @@ const CardStack = () => {
               setTeam={setSecondTeam}
               moveCard={setSecondCardMoved}
               id="team-2-search-card"
-              remove={[firstTeam]}
+              remove={[firstTeam?.name]}
+              allTeams={allTeams}
             />
           </motion.div>
 
@@ -113,6 +140,7 @@ const CardStack = () => {
               moveCard={setFirstCardMoved}
               id="team-1-search-card"
               remove={[""]}
+              allTeams={allTeams}
             />
           </motion.div>
         </div>
