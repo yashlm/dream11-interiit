@@ -7,20 +7,19 @@ import {
   Box,
   MenuItem,
   Select,
-  Alert, // Import Alert
+  Alert,
 } from "@mui/material";
 import PlayerSearch from "../component/PlayerSearch";
 import PlayerCard from "../component/playerCard";
 import Navbar from "../header/Navbar";
-
+import bgImage from '../assets/image1.png';
 
 export default function CustomMatch() {
   const [teamA, setTeamA] = useState(Array(11).fill(null));
   const [teamB, setTeamB] = useState(Array(11).fill(null));
-  const [alert, setAlert] = useState({ message: "", severity: "", show: false }); // State for alert
+  const [alert, setAlert] = useState({ message: "", severity: "", show: false }); 
 
   const handleAddToTeam = (player, team) => {
-    // Check if the player is already in either team
     const isPlayerInTeamA = teamA.some((p) => p && p.key === player.key);
     const isPlayerInTeamB = teamB.some((p) => p && p.key === player.key);
 
@@ -30,10 +29,10 @@ export default function CustomMatch() {
     }
 
     const updateTeam = team === "A" ? [...teamA] : [...teamB];
-    const emptyIndex = updateTeam.findIndex((p) => p === null); // Find the first empty slot
+    const emptyIndex = updateTeam.findIndex((p) => p === null);
 
     if (emptyIndex !== -1) {
-      updateTeam[emptyIndex] = player; // Assign the player to the slot
+      updateTeam[emptyIndex] = player;
       team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
     } else {
       setAlert({ message: `Team ${team} is already full!`, severity: "info", show: true });
@@ -45,30 +44,50 @@ export default function CustomMatch() {
     const playerIndex = updateTeam.findIndex((p) => p && p.key === playerKey);
 
     if (playerIndex !== -1) {
-      updateTeam[playerIndex] = null; // Remove the player from the team
+      updateTeam[playerIndex] = null;
       team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
     }
   };
 
   const handleCloseAlert = () => {
-    setAlert({ ...alert, show: false }); // Close the alert
+    setAlert({ ...alert, show: false });
   };
 
   return (
     <div>
       <Navbar />
 
-      <Box sx={{ display: "flex" ,background: "var(--bg)"}}>
+      <Box sx={{
+          display: "flex",
+          position: "relative", 
+          backgroundImage: `url(${bgImage})`, 
+          backgroundSize: "cover",
+          backgroundPosition: "center", 
+          
+        }}>
+        
+        {/* Overlay */}
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            backgroundColor: "rgba(0, 0, 0, 0.5)", // Black with 50% opacity
+            zIndex: 1, // Ensure the overlay is above the background
+          }}
+        />
+
         {/* Left Section */}
         <Box
           sx={{
             width: "30vw",
-            background: "rgba(255, 255, 255, 0.5)",
-          
-            boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-            backdropFilter: "blur(0px)",
+            background: "rgba( 255, 255, 255, 0.7 )",
+            boxShadow: " 0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+            backdropFilter: "blur( 19px )",
             borderRadius: "10px",
-            border: "1px solid rgba(255, 255, 255, 0.18)",
+            border: "1px solid rgba( 255, 255, 255, 0.18 )",
             marginRight: "2vw",
             marginTop: "64px",
             padding: 2,
@@ -76,10 +95,19 @@ export default function CustomMatch() {
             flexDirection: "column",
             justifyContent: "flex-start",
             alignItems: "center",
+            zIndex: 2, // Ensure this section is above the overlay
           }}
         >
-          {/* Match Type Dropdown */}
-          <Typography variant="h6" sx={{ mb: 2 }}>
+          <Typography variant="h3" color="white" sx={{
+              mb: 2,
+              textAlign: "center",
+              textShadow: "2px 2px 4px rgba(0, 0, 0, 0.7)", 
+              padding: "8px",
+             
+            }}>
+            SELECT PLAYERS
+          </Typography>
+ <Typography variant="h6"  color="white" sx={{ mb: 2 }}>
             Select Match Type
           </Typography>
           <Select
@@ -93,18 +121,18 @@ export default function CustomMatch() {
           </Select>
 
           {/* Search Component */}
-          <Typography variant="h6" sx={{ mb: 1 }}>
+          <Typography variant="h6" color="white" sx={{ mb: 1 }}>
             Search for Player
           </Typography>
           <PlayerSearch onAddToTeam={handleAddToTeam} />
-          <Typography sx={{ mt:  2, mb: 2 }}>OR</Typography>
+          <Typography color="white" sx={{ mt: 2, mb: 2 }}>OR</Typography>
           <Button variant="contained" color="error">
             Import from CSV
           </Button>
         </Box>
         
         {/* Right Section */}
-        <Box sx={{ width: "70%", padding: 3, marginTop: "64px" }}>
+        <Box sx={{ width: "70%", padding: 3, marginTop: "64px", zIndex: 2 }}>
           {alert.show && (
             <Alert severity={alert.severity} onClose={handleCloseAlert}>
               {alert.message}
@@ -113,7 +141,7 @@ export default function CustomMatch() {
           <Grid container spacing={3}>
             {/* Team A Section */}
             <Grid item xs={12}>
-              <Typography variant="h5" align="center" gutterBottom>
+              <Typography variant="h5" align="center" color="white" gutterBottom>
                 TEAM A
               </Typography>
             </Grid>
@@ -138,11 +166,13 @@ export default function CustomMatch() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        backgroundColor: "#fff",
-                        border: "1px solid #bbb",
+                        background: "rgba( 255, 255, 255, 0.45 )",
+                        boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+                        borderRadius: "10px",
+                        border: "1px solid rgba( 255, 255, 255, 0.18 )",
                       }}
                     >
-                      <Typography variant="caption" color="textSecondary">
+                      <Typography variant="caption" color="white">
                         Player {index + 1}
                       </Typography>
                     </Card>
@@ -153,7 +183,7 @@ export default function CustomMatch() {
 
             {/* Team B Section */}
             <Grid item xs={12} sx={{ mt: 5 }}>
-              <Typography variant="h5" align="center" gutterBottom>
+              <Typography variant="h5" align="center" color="white" gutterBottom>
                 TEAM B
               </Typography>
             </Grid>
@@ -178,11 +208,13 @@ export default function CustomMatch() {
                         display: "flex",
                         justifyContent: "center",
                         alignItems: "center",
-                        backgroundColor: "#fff",
-                        border: "1px solid #bbb",
+                        background: "rgba( 255, 255, 255, 0.45 )",
+                        boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+                        borderRadius: "10px",
+                        border: "1px solid rgba( 255, 255, 255, 0.18 )",
                       }}
                     >
-                      <Typography variant="caption" color="textSecondary">
+                      <Typography variant="caption" color="white">
                         Player {index + 1}
                       </Typography>
                     </Card>
