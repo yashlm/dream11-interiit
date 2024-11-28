@@ -1,7 +1,7 @@
 
 // import { Grid } from "../howtoplay/grid";
-import ListsOfMatches from "../movielist/ListsOfMatches";
-import Calendar from "../movielist/Calendar";
+import ListsOfMatches from "../matchlist/ListsOfMatches";
+import Calendar from "../matchlist/Calendar";
 import Header from "../header/Header";
 
 const Home = () => {
