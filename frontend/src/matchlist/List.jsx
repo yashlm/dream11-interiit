@@ -124,6 +124,7 @@ const LeftArrow = () => {
       style={{
         background: "none",
         border: "none",
+        outline:"none",
         cursor: isFirstItemVisible ? "not-allowed" : "pointer",
         opacity: isFirstItemVisible ? 0.5 : 1,
       }}
@@ -144,6 +145,7 @@ const RightArrow = () => {
       style={{
         background: "none",
         border: "none",
+        outline:"none",
         cursor: isLastItemVisible ? "not-allowed" : "pointer",
         opacity: isLastItemVisible ? 0.5 : 1,
       }}
@@ -159,31 +161,30 @@ const List = ({ heading }) => {
 
   return (
     <div className="lists" style={{ width: "70vw" }}>
-      
-     
       <img
-              src={cricketicon} 
-              alt="cricket Icon"
-              style={{
-                marginLeft: "20px",
-                marginBottom: "-50px",
-                width: "40px",
-                height: "40px",
-               
-              }}
-            />
+        src={cricketicon}
+        alt="cricket Icon"
+        style={{
+          marginLeft: "20px",
+          marginBottom: "-50px",
+          width: "40px",
+          height: "40px",
+        }}
+      />
       <h2 style={{ marginLeft: "70px" }}>{heading}</h2>
       <br />
-      <ScrollMenu
-        LeftArrow={LeftArrow} RightArrow={RightArrow}>
-        {matches.map((match) => (
-          <div key={match.id} className="menu-item">
-            <MatchCard match={match} />
-          </div>
-        ))}
-      </ScrollMenu>
+      <div className="scrollcontainer">
+        <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
+          {matches.map((match) => (
+            <div key={match.id} className="menu-item">
+              <MatchCard match={match} />
+            </div>
+          ))}
+        </ScrollMenu>
+      </div>
     </div>
   );
+  
 };
 
 export default List;
