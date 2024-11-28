@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import bg from "../Starterpage/bg.png";
+import { useState } from "react";
+// import bg from "../Starterpage/bg.png";
+import bg from "../assets/landing_page/landing.png";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -118,8 +119,6 @@ const FavTeam = () => {
         arrows: true,
         nextArrow: <NextBtn />,
         prevArrow: <PreviousBtn />,
-
-
     };
 
     return (
@@ -131,8 +130,8 @@ const FavTeam = () => {
                 backgroundPosition: "center",
                 backgroundRepeat: "no-repeat",
             }}
-        > 
-            <div className="bg-white w-2/3 h-[75%] rounded-lg shadow-lg p-8 overflow-y-scroll">
+        >
+            <div className="bg-white w-2/3 h-[75%] rounded-lg shadow-lg p-8 bg-opacity-75">
                 <h1 className="font-bold text-[#262626] text-4xl">What Are Your Favourite Teams?</h1>
                 <p className="text-2xl text-gray-300 mt-2 mb-4">Select teams to customize the home page</p>
                 <div className="w-1/3">
@@ -146,9 +145,9 @@ const FavTeam = () => {
                                 className="relative flex flex-col items-center cursor-pointer"
                             >
                                 <div
-                                onClick={() => handleCardClick(team.id)}
+                                    onClick={() => handleCardClick(team.id)}
                                     className={`rounded-full h-32 w-32 flex items-center justify-center mx-auto ${selectedTeams.includes(team.id) ? "ring-4 ring-blue-500" : ""
-                                    }`}
+                                        }`}
                                 >
                                     <div className="rounded-full  h-32 w-32 flex items-center justify-center">
                                         <img

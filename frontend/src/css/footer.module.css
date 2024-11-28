@@ -1,0 +1,94 @@
+.footer {
+    background-color: #a15434; 
+    color: white;
+    font-family: Arial, sans-serif;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .logoSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  
+  .logo img {
+    width: 250px;
+    height: auto;
+    color: white;
+    margin: 0;
+  }
+  
+  .socialMedia {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .icon {
+    font-size: 1.5rem;
+    color: white;
+    transition: color 0.3s ease;
+  }
+  
+  .icon:hover {
+    color: #ffcc00; 
+  }
+  
+  .linksSection {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+  
+  .column {
+    text-align: left;
+    margin: 0.5rem;
+  }
+  
+  .column a,
+  .column p {
+    color: white;
+    font-size: 1rem;
+    line-height: 1.8;
+    text-decoration: none;
+  }
+  
+  .column a:hover {
+    color: #ffcc00; 
+  }
+  
+  .corporateOffice {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+    color: #f2d2c2; 
+  }
+  
+  .bottomSection {
+    margin-bottom: 1rem;
+  }
+  
+  .bottomSection a {
+    margin: 0 1rem;
+    color: white;
+    font-size: 0.9rem;
+    text-decoration: none;
+  }
+  
+  .bottomSection a:hover {
+    color: #ffcc00;
+  }
+  
+  .disclaimer {
+    font-size: 0.8rem;
+    font-weight: bold;
+    color: #f2d2c2;
+    margin-top: 1rem;
+    border-top: 1px solid #e1c4af;
+    padding-top: 1rem;
+  }
+  
