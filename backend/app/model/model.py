@@ -33,7 +33,7 @@ class Team(Base):
 
 class Player(Base):
     __tablename__ = "players"
-    id = Column(Integer, primary_key=True, index=True)
+    # id = Column(Integer, primary_key=True, index=True)
     player_id = Column(String(50), primary_key=True, unique=True, nullable=False)
     unique_name = Column(String(100), nullable=False)
     key_cricinfo = Column(Float, nullable=True)
