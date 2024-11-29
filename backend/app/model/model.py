@@ -32,11 +32,19 @@ class Team(Base):
 
 
 class Player(Base):
-    __tablename__ = "players" 
+    __tablename__ = "players"
     id = Column(Integer, primary_key=True, index=True)
-    name = Column(String, unique=True)
-    team_id = Column(Integer, ForeignKey("teams.id"))
-    url = Column(String, unique=True)
+    player_id = Column(String(50), primary_key=True, unique=True, nullable=False)
+    unique_name = Column(String(100), nullable=False)
+    key_cricinfo = Column(Float, nullable=True)
+    full_name = Column(String(150), nullable=False)
+    gender = Column(String(10), nullable=True)
+    playing_role = Column(String(50), nullable=True)
+    bg_image_url = Column(Text, nullable=True)
+    img_src_url = Column(Text, nullable=True)
+
+    def __repr__(self):
+        return f"<PlayerDetails(player_id='{self.player_id}', unique_name='{self.unique_name}', full_name='{self.full_name}')>"
 
 # class Match(Base):
 #     __tablename__ = "matches" 
