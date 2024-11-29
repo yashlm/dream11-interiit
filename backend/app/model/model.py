@@ -73,7 +73,8 @@ class Match(Base):
     teams = Column(ARRAY(String), nullable=False)    # Teams playing in the match as an array of strings
     venue = Column(String(200))                      # Venue of the match
     players = Column(Text)                           # List of players (comma-separated)
-    season = Column(String(20))                      
+    season = Column(String(20))  
+    isfeatured = Column(String, default="no")                    
 
 
 

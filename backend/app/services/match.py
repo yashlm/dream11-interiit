@@ -2,6 +2,7 @@ from sqlalchemy.orm import Session
 from app import model
 from sqlalchemy import func
 from sqlalchemy.sql import text
+from sqlalchemy import or_
 
 def get_all_matches_from_db(db: Session):
     return db.query(model.Match).all()
@@ -23,6 +24,13 @@ def get_all_teams_matches_from_db(db: Session, team1_name: str, team2_name: str)
 #     ).all()
 # Assuming model.Match is your SQLAlchemy model
 
+def get_all_matches_for_date_from_db(db: Session, date: str):
+    return db.query(model.Match).filter(model.Match.dates.any(date)).all()
+
+def get_all_featured_matches_for_date_from_db(db: Session, date: str):
+    return db.query(model.Match).filter(
+        model.Match.dates.any(date), model.Match.isfeatured == 'yes'
+    ).all()
 def match_to_dict(match):
     """
     Converts a SQLAlchemy Match object to a dictionary.
@@ -46,3 +54,5 @@ def match_to_dict(match):
         "players": match.players,
         "season": match.season,
     }
+
+
