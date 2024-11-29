@@ -132,7 +132,8 @@ progress {
 }
 
 .fullscreenBackground {
-  background-image: url("../assets/teamSelection.png");
+  background-image: url("../assets/matches/matchbg.webp");
+  /* background-image: url("../assets/teamSelection.png"); */
   /* background-image: var(--select-match-url); */
   background-color: black;
   background-repeat: no-repeat;

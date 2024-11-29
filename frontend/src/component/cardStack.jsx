@@ -66,6 +66,7 @@ const CardStack = () => {
   return allTeams == null ? (
     <Loading />
   ) : (
+  // return (
     <div className={styles.fullscreenBackground}>
       <div className={styles.backgroundCover}></div>
       <motion.div

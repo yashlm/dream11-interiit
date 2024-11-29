@@ -1,5 +1,4 @@
-
-import React, { Component } from "react";
+import { Component } from "react";
 import Animate from "react-smooth";
 import Button from "@mui/material/Button";
 import image1 from "../assets/bg1.jpg";
@@ -61,7 +60,6 @@ class Header extends Component {
 
     return (
       <header>
-        <Navbar />
         <Animate to="1" from="0.2" attributeName="opacity">
           <div
             style={{
