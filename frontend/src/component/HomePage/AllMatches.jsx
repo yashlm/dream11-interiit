@@ -1,4 +1,4 @@
-import styles from "./HomePage/AllMatches.module.css";
+import styles from "../../css/HomePage/AllMatches.module.css";
 import MatchCard from "./MatchCardx";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
@@ -57,7 +57,7 @@ const AllMatches = ({ matches }) => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.heading}><img src={cricicon} alt="Icon" className={styles.cricicon}></img>All Matches</h2>
+      <h2 className={styles.heading}><img src={cricicon} alt="Icon" className={styles.cricicon}></img>Other Matches</h2>
       <Slider {...settings}>
         {matches.map((match, index) => (
           <div key={index}>

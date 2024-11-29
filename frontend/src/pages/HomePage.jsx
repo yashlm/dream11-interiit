@@ -3,9 +3,9 @@ import FeaturedMatches from "../component/HomePage/FeaturedMatches";
 import AllMatches from "../component/HomePage/AllMatches";
 import HowToPlay from "../component/HomePage/HowToPlay";
 import styles from "../css/HomePage/HomePage.module.css";
-import Calendar from "../matchlist/Calendar";
-import Header from "../header/Header";
-import Navbar from "../header/Navbar";
+import Calendar from "../component/HomePage/Calendar";
+import Header from "../component/HomePage/Header";
+import Navbar from "../component/Navbar";
 
 const matches = [
     {

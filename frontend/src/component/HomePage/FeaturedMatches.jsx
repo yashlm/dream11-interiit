@@ -1,4 +1,4 @@
-import styles from "./HomePage/FeaturedMatches.module.css";
+import styles from "../../css/HomePage/FeaturedMatches.module.css";
 import MatchCard from "./MatchCardx";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";

@@ -1,11 +1,9 @@
 import { Component } from "react";
 import Animate from "react-smooth";
 import Button from "@mui/material/Button";
-import image1 from "../assets/bg1.jpg";
-import image2 from "../assets/bg2.jpg";
-import image3 from "../assets/bg3.jpg";
-import Navbar from "./Navbar";
-const backgroundImages = [image1, image2, image3];
+import image1 from "../../assets/bg1.jpg";
+import image2 from "../../assets/bg2.jpg";
+import image3 from "../../assets/bg3.jpg";
 
 class Header extends Component {
   constructor(props) {
@@ -92,7 +90,7 @@ class Header extends Component {
                 padding: "20px",
                 borderRadius: "8px",
                 maxWidth: "400px",
-                zIndex:"3"
+                zIndex: "3"
               }}
             >
               <h1 style={{ fontSize: "3rem", marginBottom: "10px" }}>

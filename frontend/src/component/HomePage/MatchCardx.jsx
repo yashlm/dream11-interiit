@@ -1,4 +1,4 @@
-import "./HomePage/MatchCard.css";
+import "../../css/HomePage/MatchCard.css";
 import { CalendarToday, LocationOn } from "@mui/icons-material";
 
 const MatchCard = ({ match }) => {

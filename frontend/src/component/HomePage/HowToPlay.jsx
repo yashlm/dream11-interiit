@@ -1,5 +1,4 @@
-// import React from "react";
-import styles from "./HomePage/HowToPlay.module.css";
+import styles from "../../css/HomePage/HowToPlay.module.css";
 
 const HowToPlay = () => {
   return (
