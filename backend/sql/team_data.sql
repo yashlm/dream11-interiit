@@ -2,7 +2,7 @@
         CREATE TABLE IF NOT EXISTS teams (
             id SERIAL PRIMARY KEY,
             name VARCHAR UNIQUE,
-            url TEXT UNIQUE,
+            url TEXT,
             colors_used TEXT[],
             final_colors VARCHAR
         );
