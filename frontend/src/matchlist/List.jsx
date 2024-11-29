@@ -338,6 +338,10 @@ const RightArrow = () => {
 const List = ({ heading }) => {
   const [matches] = useState(dummyMatches);
 
+  const redirectMatchDetails = (match_id) => {
+    console.log(`redirect to match details of match id ${match_id}`);
+  };
+
   return (
     <div className="lists" style={{ width: "70vw" }}>
       <img
@@ -356,7 +360,12 @@ const List = ({ heading }) => {
         <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
           {matches.map((match) => (
             <div key={match.id} className="menu-item">
-              <MatchCard match={match} />
+              <MatchCard
+                match={match}
+                onClick={() => {
+                  redirectMatchDetails(match.id);
+                }}
+              />
             </div>
           ))}
         </ScrollMenu>

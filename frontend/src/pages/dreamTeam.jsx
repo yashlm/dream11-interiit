@@ -1,9 +1,12 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { DndProvider, useDrag, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import styles from "../css/DreamTeamGround.module.css";
 import PlayerCard from "../component/playerCard";
 import { FaArrowRight } from "react-icons/fa";
+import WeatherCard from "../component/common/weatherCard";
+import DreamPointsCard from "../component/common/dreamPoints";
+import DescriptionCard from "../component/matchDescriptionCard";
 
 const ItemType = {
   PLAYER: "PLAYER",
@@ -281,6 +284,7 @@ function DragPlayerCard({ player, isDraggable = true, onAddToField }) {
     <div
       ref={isDraggable ? drag : null}
       style={{
+        backgroundColor: "transparent",
         opacity: isDragging ? 0.5 : 1,
         cursor: isDraggable ? "move" : "default",
       }}
@@ -302,18 +306,13 @@ function DropZone({ id, position, onDrop, currentPlayer, onRemove }) {
   return (
     <div
       ref={drop}
-      className={`${styles.dropZone} ${isOver ? styles.over : ""}`}
       style={{
         position: "absolute",
         left: `${position.x}vw`,
         top: `${position.y}vh`,
-        // width: "100px",
-        // height: "100px",
-        border: "1px solid #ccc",
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundColor: currentPlayer ? "#f9f9f9" : "transparent",
       }}
     >
       {currentPlayer ? (
@@ -324,8 +323,8 @@ function DropZone({ id, position, onDrop, currentPlayer, onRemove }) {
           onRemove={() => onRemove(id)}
         />
       ) : (
-        <div style={{ textAlign: "center", lineHeight: "100px" }}>
-          Drop Player Here
+        <div className={styles.dropZone} style={{ textAlign: "center" }}>
+          <p>Drop Player Here</p>
         </div>
       )}
     </div>
@@ -337,6 +336,38 @@ export default function DreamTeamGround() {
   const [offFieldPlayers, setOffFieldPlayers] = useState(
     initialOffFieldPlayers
   );
+
+  // const [allPlayers, setAllPlayer] = useState(dummyData);
+
+  // useEffect(() => {
+  //   const dataFetch = async () => {
+  //     try {
+  //       const payload = {
+  //         player_id: player_id,
+  //         match_id: match_id,
+  //       };
+  //       const response = await fetch(`${BASE_URL}/player/player_stats`, {
+  //         method: "POST",
+  //         headers: {
+  //           "Content-Type": "application/json",
+  //         },
+  //         body: JSON.stringify(payload),
+  //       });
+  //       const jsonResponse = await response.json();
+  //       console.log("hi");
+  //       setPlayerData(jsonResponse.data);
+  //       console.log(jsonResponse);
+  //     } catch (error) {
+  //       alert("We encountered an issue. Please try again later.");
+  //       console.error("Error fetching teams:", error);
+  //       onClose();
+  //     }
+  //   };
+  //   if (isVisible) {
+  //     dataFetch();
+  //   }
+  //   setPlayerData(data);
+  // }, []);
 
   const handleDrop = (droppedPlayer, targetPositionId) => {
     setPositions((prevPositions) =>
@@ -409,6 +440,22 @@ export default function DreamTeamGround() {
 
   return (
     <div className={styles.bgImageHolder}>
+      <div className={styles.weatherCardContainer}>
+        <WeatherCard
+          time={"13:50"}
+          place={"place"}
+          temp={13}
+          weatherType={"stormy"}
+          humidity={"96%"}
+          windSpeed={"98kmph"}
+        />
+      </div>
+      <div className={styles.dreamPointsCard}>
+        <DreamPointsCard points={180} />
+      </div>
+
+      <h1 className={styles.centerH1}>YOUR DREAM TEAM</h1>
+
       <DndProvider backend={HTML5Backend}>
         {positions.map((position) => (
           <DropZone
@@ -450,6 +497,8 @@ export default function DreamTeamGround() {
           </div>
         </div>
       </DndProvider>
+
+      <DescriptionCard />
     </div>
   );
 }
