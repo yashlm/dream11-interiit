@@ -21,11 +21,11 @@ async def get_all_teams(db: Session = Depends(get_db)):
         raise HTTPException(status_code=500, detail=str(e))
     
 
-@router.get("/team/{team_id}")
-async def get_team_by_id(team_id: int, db: Session = Depends(get_db)):
-    try:
-        team = get_team_by_id_from_db(db, team_id)
-        return {"status": "ok", "message": "Team retrieved successfully", "data": team}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# @router.get("/team/{team_id}")
+# async def get_team_by_id(team_id: int, db: Session = Depends(get_db)):
+#     try:
+#         team = get_team_by_id_from_db(db, team_id)
+#         return {"status": "ok", "message": "Team retrieved successfully", "data": team}
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
     
