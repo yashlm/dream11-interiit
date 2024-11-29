@@ -132,7 +132,8 @@ progress {
 }
 
 .fullscreenBackground {
-  background-image: var(--select-match-url);
+  background-image: url("../assets/teamSelection.png");
+  /* background-image: var(--select-match-url); */
   background-color: black;
   background-repeat: no-repeat;
   background-size: 100vw 100vh;

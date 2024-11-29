@@ -1,6 +1,7 @@
 .bgImageHolder {
   background-color: black;
-  background-image: var(--ground-image-url);
+  /* background-image: var(--ground-image-url); */
+  background-image: url("../assets/Test2.jpeg");
   width: 100vw;
   height: 100vh;
   background-size: cover;

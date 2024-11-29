@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   Grid,
   Card,
@@ -12,12 +13,19 @@ import {
 import PlayerSearch from "../component/PlayerSearch";
 import PlayerCard from "../component/playerCard";
 import Navbar from "../header/Navbar";
-
+import ReadOnlyDate from "../component/common/readOnlyDate";
 
 export default function CustomMatch() {
+  const { date } = useParams();
+  const matchDate = new Date(date);
+
   const [teamA, setTeamA] = useState(Array(11).fill(null));
   const [teamB, setTeamB] = useState(Array(11).fill(null));
-  const [alert, setAlert] = useState({ message: "", severity: "", show: false }); // State for alert
+  const [alert, setAlert] = useState({
+    message: "",
+    severity: "",
+    show: false,
+  }); // State for alert
 
   const handleAddToTeam = (player, team) => {
     // Check if the player is already in either team
@@ -25,7 +33,11 @@ export default function CustomMatch() {
     const isPlayerInTeamB = teamB.some((p) => p && p.key === player.key);
 
     if (isPlayerInTeamA || isPlayerInTeamB) {
-      setAlert({ message: "This player is already in a team!", severity: "info", show: true });
+      setAlert({
+        message: "This player is already in a team!",
+        severity: "info",
+        show: true,
+      });
       return;
     }
 
@@ -36,7 +48,11 @@ export default function CustomMatch() {
       updateTeam[emptyIndex] = player; // Assign the player to the slot
       team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
     } else {
-      setAlert({ message: `Team ${team} is already full!`, severity: "info", show: true });
+      setAlert({
+        message: `Team ${team} is already full!`,
+        severity: "info",
+        show: true,
+      });
     }
   };
 
@@ -58,13 +74,13 @@ export default function CustomMatch() {
     <div>
       <Navbar />
 
-      <Box sx={{ display: "flex" ,background: "var(--bg)"}}>
+      <Box sx={{ display: "flex", background: "var(--bg)" }}>
         {/* Left Section */}
         <Box
           sx={{
             width: "30vw",
             background: "rgba(255, 255, 255, 0.5)",
-          
+
             boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
             backdropFilter: "blur(0px)",
             borderRadius: "10px",
@@ -78,6 +94,7 @@ export default function CustomMatch() {
             alignItems: "center",
           }}
         >
+          <ReadOnlyDate value={matchDate} />
           {/* Match Type Dropdown */}
           <Typography variant="h6" sx={{ mb: 2 }}>
             Select Match Type
@@ -97,12 +114,12 @@ export default function CustomMatch() {
             Search for Player
           </Typography>
           <PlayerSearch onAddToTeam={handleAddToTeam} />
-          <Typography sx={{ mt:  2, mb: 2 }}>OR</Typography>
+          <Typography sx={{ mt: 2, mb: 2 }}>OR</Typography>
           <Button variant="contained" color="error">
             Import from CSV
           </Button>
         </Box>
-        
+
         {/* Right Section */}
         <Box sx={{ width: "70%", padding: 3, marginTop: "64px" }}>
           {alert.show && (
@@ -190,7 +207,11 @@ export default function CustomMatch() {
                 </Grid>
               ))}
             </Grid>
-            <Grid item xs={12} sx={{ mt: 5, display: "flex", justifyContent: "center" }}>
+            <Grid
+              item
+              xs={12}
+              sx={{ mt: 5, display: "flex", justifyContent: "center" }}
+            >
               <Button variant="contained" color="error" size="large">
                 Generate Team
               </Button>
