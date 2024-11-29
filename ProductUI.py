@@ -8,15 +8,15 @@ import sys
 def run_docker_compose():
     # Define the backend and frontend directory paths
     backend_dir = os.path.join(os.getcwd(), 'backend')
-    frontend_dir = os.path.join(os.getcwd(), 'frontend')
+    # frontend_dir = os.path.join(os.getcwd(), 'frontend')
 
     # Check if backend and frontend directories exist
     if not os.path.exists(backend_dir):
         print(f"Error: '{backend_dir}' directory does not exist.")
         return
-    if not os.path.exists(frontend_dir):
-        print(f"Error: '{frontend_dir}' directory does not exist.")
-        return
+    # if not os.path.exists(frontend_dir):
+    #     print(f"Error: '{frontend_dir}' directory does not exist.")
+    #     return
 
     # Define the docker-compose.yml file path in the backend directory
     docker_compose_file = os.path.join(backend_dir, 'docker-compose.yaml')
@@ -45,13 +45,13 @@ def run_docker_compose():
             cwd=backend_dir
         ).decode('utf-8').strip()
 
-        frontend_container_id = subprocess.check_output(
-            ['docker', 'ps', '-q', '-f', 'name=frontend'],
-            cwd=backend_dir
-        ).decode('utf-8').strip()
+        # frontend_container_id = subprocess.check_output(
+        #     ['docker', 'ps', '-q', '-f', 'name=frontend'],
+        #     cwd=backend_dir
+        # ).decode('utf-8').strip()
 
         print(f"Backend container started with ID: {backend_container_id}")
-        print(f"Frontend container started with ID: {frontend_container_id}")
+        # print(f"Frontend container started with ID: {frontend_container_id}")
 
         # Create logs directory if it doesn't exist
         logs_dir = os.path.join(os.getcwd(), 'logs')
@@ -60,12 +60,12 @@ def run_docker_compose():
 
         # Define log file names based on container IDs
         backend_log_file_path = os.path.join(logs_dir, f'backend_logs_{backend_container_id}.txt')
-        frontend_log_file_path = os.path.join(logs_dir, f'frontend_logs_{frontend_container_id}.txt')
+        # frontend_log_file_path = os.path.join(logs_dir, f'frontend_logs_{frontend_container_id}.txt')
 
         # Register a cleanup function to stop the containers and save logs when the script exits
         def stop_on_exit(signal, frame):
             stop_container(backend_container_id, backend_log_file_path)
-            stop_container(frontend_container_id, frontend_log_file_path)
+            # stop_container(frontend_container_id, frontend_log_file_path)
             sys.exit(0)  # Exit the script after stopping the containers
         
         # Handle SIGINT (Ctrl+C) gracefully
@@ -76,7 +76,7 @@ def run_docker_compose():
         
         # Capture logs of the containers and save them to log files
         capture_logs(backend_container_id, backend_log_file_path)
-        capture_logs(frontend_container_id, frontend_log_file_path)
+        # capture_logs(frontend_container_id, frontend_log_file_path)
 
         while True:
             time.sleep(1)

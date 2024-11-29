@@ -20,7 +20,7 @@ COPY ./entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
 
 # Expose the port the app will run on
-EXPOSE 8000
+EXPOSE 80
 
 # Run the entrypoint script when the container starts
 ENTRYPOINT ["/app/entrypoint.sh"]

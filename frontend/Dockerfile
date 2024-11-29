@@ -19,17 +19,20 @@ COPY frontend ./
 # Build the frontend using Vite
 RUN npm run build
 
-# Step 2: Serve the frontend
-FROM nginx:alpine
+# Step 2: Serve the frontend using a simpler static file server
+FROM node:18
 
-# Set the working directory for Nginx to serve the build
-WORKDIR /usr/share/nginx/html
+# Set the working directory for the server
+WORKDIR /usr/share/app
 
 # Copy the build folder from the previous image
 COPY --from=build /app/dist .
 
-# Expose port 80 (default HTTP port)
-EXPOSE 80
+# Install `serve` to serve the static files
+RUN npm install -g serve
 
-# Start Nginx to serve the frontend app
-CMD ["nginx", "-g", "daemon off;"]
+# Expose port 5000 (or whatever port you want to use)
+EXPOSE 5000
+
+# Start the `serve` command to serve the static files
+CMD ["serve", "-s", ".", "-l", "5000"]

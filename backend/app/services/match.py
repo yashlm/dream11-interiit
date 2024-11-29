@@ -1,6 +1,7 @@
 from sqlalchemy.orm import Session
 from app import model
 from sqlalchemy import func
+from sqlalchemy.sql import text
 
 def get_all_matches_from_db(db: Session):
     return db.query(model.Match).all()
@@ -12,11 +13,14 @@ from sqlalchemy import text
 
 from sqlalchemy import func
 
-
 def get_all_teams_matches_from_db(db: Session, team1_name: str, team2_name: str):
     return db.query(model.Match).filter(
-        model.Match.teams.op('@>')([team1_name, team2_name])  # Checks for array overlap
-    ).all()
+        text("teams @> ARRAY[:team1_name, :team2_name]::TEXT[]")
+    ).params(team1_name=team1_name, team2_name=team2_name).all()
+# def get_all_teams_matches_from_db(db: Session, team1_name: str, team2_name: str):
+#     return db.query(model.Match).filter(
+#         model.Match.teams.op('@>')([team1_name, team2_name])  # Checks for array overlap
+#     ).all()
 # Assuming model.Match is your SQLAlchemy model
 
 def match_to_dict(match):

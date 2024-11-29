@@ -1,5 +1,26 @@
+CREATE TABLE IF NOT EXISTS matches (
+    id SERIAL PRIMARY KEY, -- Auto-incrementing primary key
+    match_id VARCHAR(20) NOT NULL, -- Match ID
+    innings INTEGER NOT NULL, -- Innings number
+    batting_team VARCHAR(100) NOT NULL, -- Batting team name
+    city VARCHAR(100), -- City where the match is played
+    dates TEXT[] NOT NULL, -- Dates as an array of strings
+    event_name VARCHAR(200), -- Name of the event or series
+    match_number VARCHAR(20), -- Match number in the series
+    gender VARCHAR(10), -- Gender of the players
+    match_type VARCHAR(20), -- Type of match
+    match_referees VARCHAR(200), -- Match referees
+    tv_umpires VARCHAR(200), -- TV umpires
+    umpires TEXT[], -- On-field umpires as an array of strings
+    team_type VARCHAR(50), -- Type of teams
+    teams TEXT[] NOT NULL, -- Teams playing in the match as an array of strings
+    venue VARCHAR(200), -- Venue of the match
+    players TEXT, -- List of players (comma-separated or a JSON-like structure)
+    season VARCHAR(20) -- Season or year
+);
+
+
 -- SQL dump for matches table
-BEGIN;
 INSERT INTO matches (match_id, innings, batting_team, city, dates, event_name, match_number, gender, match_type, match_referees, tv_umpires, umpires, team_type, teams, venue, players, season) VALUES ('1385691', '1', 'West Indies', 'London', ARRAY['2024-07-10', '2024-07-11', '2024-07-12'], 'West Indies tour of England', '1', 'male', 'Test', 'J Srinath', 'AT Holdstock', ARRAY['Nitin Menon', 'RJ Tucker'], 'international', ARRAY['West Indies', 'England'], ARRAY['Lord''s', 'London'], ARRAY['KC Brathwaite', 'M Louis', 'KSA McKenzie', 'A Athanaze', 'KAR Hodge', 'JO Holder', 'J Da Silva', 'AS Joseph', 'G Motie', 'S Joseph', 'JNT Seales'], '2024');
 INSERT INTO matches (match_id, innings, batting_team, city, dates, event_name, match_number, gender, match_type, match_referees, tv_umpires, umpires, team_type, teams, venue, players, season) VALUES ('1385691', '2', 'England', 'London', ARRAY['2024-07-10', '2024-07-11', '2024-07-12'], 'West Indies tour of England', '1', 'male', 'Test', 'J Srinath', 'AT Holdstock', ARRAY['Nitin Menon', 'RJ Tucker'], 'international', ARRAY['West Indies', 'England'], ARRAY['Lord''s', 'London'], ARRAY['Z Crawley', 'BM Duckett', 'OJ Pope', 'JE Root', 'HC Brook', 'BA Stokes', 'JL Smith', 'CR Woakes', 'AAP Atkinson', 'Shoaib Bashir', 'JM Anderson'], '2024');
 INSERT INTO matches (match_id, innings, batting_team, city, dates, event_name, match_number, gender, match_type, match_referees, tv_umpires, umpires, team_type, teams, venue, players, season) VALUES ('1385691', '3', 'West Indies', 'London', ARRAY['2024-07-10', '2024-07-11', '2024-07-12'], 'West Indies tour of England', '1', 'male', 'Test', 'J Srinath', 'AT Holdstock', ARRAY['Nitin Menon', 'RJ Tucker'], 'international', ARRAY['West Indies', 'England'], ARRAY['Lord''s', 'London'], ARRAY['KC Brathwaite', 'M Louis', 'KSA McKenzie', 'A Athanaze', 'KAR Hodge', 'JO Holder', 'J Da Silva', 'AS Joseph', 'G Motie', 'S Joseph', 'JNT Seales'], '2024');
