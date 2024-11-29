@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import MatchCard from "../matchlist/MatchCard.jsx";
-import styles from "./cardStack.module.css";
+import styles from "../css/cardStack.module.css";
 import HorizontalCalendar from "./horizontalCalendar.jsx";
 import Loading from "./Loading.jsx";
 import { BASE_URL } from "../constants.jsx";
 import { useNavigate } from "react-router-dom";
-
 
 const SelectMatchCard = ({ teamA, teamB }) => {
   const [matchDate, setMatchDate] = useState(new Date());

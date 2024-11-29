@@ -1,4 +1,4 @@
-import styles from "./cardStack.module.css";
+import styles from "../css/cardStack.module.css";
 
 const ProgressBar = ({ currentStep, steps }) => {
   const progress = ((currentStep + 1) / steps.length) * 100;
