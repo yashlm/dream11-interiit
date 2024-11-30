@@ -18,6 +18,10 @@ const SelectMatchCard = ({ teamA, teamB }) => {
     navigate(`/custommatch/${formattedDate}`);
   };
 
+  const formDreamTeam = (match_id) => {
+    console.log(`redirect to dream page of match id ${match_id}`);
+  };
+
   // Fetch matches when teamA and teamB change
   useEffect(() => {
     const dataFeatch = async () => {
@@ -85,7 +89,13 @@ const SelectMatchCard = ({ teamA, teamB }) => {
         <div className={styles.matchCardList}>
           {filteredMatches && filteredMatches.length > 0
             ? filteredMatches.map((match, index) => (
-                <MatchCard key={index} match={match} />
+                <MatchCard
+                  key={index}
+                  match={match}
+                  onClick={() => {
+                    formDreamTeam(match.match_id);
+                  }}
+                />
               ))
             : null}
         </div>
