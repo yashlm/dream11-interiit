@@ -19,7 +19,7 @@ const SelectMatchCard = ({ teamA, teamB }) => {
   };
 
   const formDreamTeam = (match_id) => {
-    console.log(`redirect to dream page of match id ${match_id}`);
+    navigate(`/dreamTeam/${match_id}`);
   };
 
   // Fetch matches when teamA and teamB change
