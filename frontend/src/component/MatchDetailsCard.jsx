@@ -1,5 +1,5 @@
 import { CalendarToday, LocationOn } from "@mui/icons-material";
-import styles from "../css/MatchDetailscard.module.css";
+import styles from "../css/MatchDetailsCard.module.css";
 
 const MatchDetailsCard = ({ match }) => {
   const fixedVenue = match.venue.replace(/({|})/g, ""); // Remove curly braces
