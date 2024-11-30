@@ -3,7 +3,8 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DateCalendar } from "@mui/x-date-pickers/DateCalendar";
 import { Box, Typography } from "@mui/material";
-import calendar from "../../assets/calendar.png";
+import calendar from "../../assets/HomePage/date.svg";
+import styles from '../../css/HomePage/Calendar.module.css'
 
 const theme = createTheme({
   components: {
@@ -27,7 +28,7 @@ const theme = createTheme({
     MuiDateCalendar: {
       styleOverrides: {
         root: {
-          backgroundColor: "var(--bg)", // Overall background of the calendar
+          backgroundColor: "white",
           boxShadow: "0px 4px 10px rgba(0, 0, 0, 0.15)",
           borderRadius: "8px" ,
         },
@@ -73,13 +74,13 @@ export default function Calendar() {
           gap={2}
           sx={{ padding: "10px" }}
         >
-          <Box display="flex" alignItems="center" gap={1}>
+          <Box className={styles.heading}>
             <img
               src={calendar}
               alt="Calendar Icon"
               style={{ width: "30px", height: "30px" }}
             />
-            <Typography variant="h5" sx={{ color: "var(--text)" }}>
+            <Typography className={styles.head} variant="h5" sx={{ color: "#333" }}>
               Select Date
             </Typography>
           </Box>
