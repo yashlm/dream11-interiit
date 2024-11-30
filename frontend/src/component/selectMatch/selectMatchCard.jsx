@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MatchCard from "../HomePage/MatchCardx.jsx";
+import MatchCard from "../HomePage/MatchCard.jsx";
 import styles from "../../css/cardStack.module.css";
 import HorizontalCalendar from "./horizontalCalendar.jsx";
 import Loading from "../Loading.jsx";
