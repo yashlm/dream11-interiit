@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import '../css/StarterPage.css';
-import Navbar from '../header/Navbar';
+import Navbar from '../component/Navbar';
 import Testinomial from '../component/testinomials';
 import logo from '../assets/landing_page/dream11logo.svg';
 import FAQ from '../component/faqs';
@@ -19,7 +19,7 @@ const App = () => {
 
   return (
     <div>
-      <Navbar/>
+      <Navbar />
       <div className="main-container">
         <div className="content-container">
           <h1 className="welcome-text">
