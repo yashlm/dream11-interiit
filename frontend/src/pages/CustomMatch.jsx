@@ -13,7 +13,7 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import PlayerSearch from "../component/PlayerSearch";
 import PlayerCard from "../component/playerCard";
-import Navbar from "../header/Navbar";
+import Navbar from "../component/Navbar";
 import ReadOnlyDate from "../component/common/readOnlyDate";
 
 export default function CustomMatch() {
