@@ -1,13 +1,13 @@
 import "./MatchCard.css";
 import { CalendarToday, LocationOn } from "@mui/icons-material";
 
-const MatchCard = ({ match }) => {
+const MatchCard = ({ match, onClick }) => {
   const fixedVenue = match.venue.replace(/({|})/g, ""); // Remove curly braces
   const parsedVenue = fixedVenue.split(","); // Split the string into an array
   const venue = parsedVenue.join(" "); // Join with a space
 
   return (
-    <div className="container">
+    <div className="container" onClick={onClick}>
       <div className="match-card">
         <h2 className="match-type">{match.match_type}</h2>
         <div className="logos">
