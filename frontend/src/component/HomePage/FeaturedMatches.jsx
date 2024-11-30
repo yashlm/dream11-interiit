@@ -1,5 +1,5 @@
 import styles from "../../css/HomePage/FeaturedMatches.module.css";
-import MatchCard from "./MatchCardx";
+import MatchCard from "./MatchCard";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -12,7 +12,7 @@ const NextArrow = (props) => {
 };
 
 NextArrow.propTypes = {
-  onClick: PropTypes.func.isRequired,  
+  onClick: PropTypes.func.isRequired,
 };
 
 const PrevArrow = (props) => {
@@ -21,7 +21,7 @@ const PrevArrow = (props) => {
 };
 
 PrevArrow.propTypes = {
-  onClick: PropTypes.func.isRequired,  
+  onClick: PropTypes.func.isRequired,
 };
 
 const FeaturedMatches = ({ matches }) => {
@@ -37,22 +37,22 @@ const FeaturedMatches = ({ matches }) => {
     pauseOnHover: true, // Pause autoplay on hover
     responsive: [
       {
-        breakpoint: 1024, 
+        breakpoint: 1024,
         settings: {
           slidesToShow: 2,
           slidesToScroll: 1,
         },
       },
       {
-        breakpoint: 600, 
+        breakpoint: 600,
         settings: {
           slidesToShow: 1,
           slidesToScroll: 1,
         },
       },
     ],
-    nextArrow: <NextArrow />,  
-    prevArrow: <PrevArrow />,  
+    nextArrow: <NextArrow />,
+    prevArrow: <PrevArrow />,
   };
 
   return (

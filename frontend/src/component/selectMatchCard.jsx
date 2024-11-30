@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import MatchCard from "../component/HomePage/MatchCardx.jsx";
+import MatchCard from "./HomePage/MatchCard.jsx";
 import styles from "../css/cardStack.module.css";
 import HorizontalCalendar from "./horizontalCalendar.jsx";
 import Loading from "./Loading.jsx";
@@ -89,14 +89,14 @@ const SelectMatchCard = ({ teamA, teamB }) => {
         <div className={styles.matchCardList}>
           {filteredMatches && filteredMatches.length > 0
             ? filteredMatches.map((match, index) => (
-                <MatchCard
-                  key={index}
-                  match={match}
-                  onClick={() => {
-                    formDreamTeam(match.match_id);
-                  }}
-                />
-              ))
+              <MatchCard
+                key={index}
+                match={match}
+                onClick={() => {
+                  formDreamTeam(match.match_id);
+                }}
+              />
+            ))
             : null}
         </div>
       </div>
