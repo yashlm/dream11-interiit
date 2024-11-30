@@ -15,6 +15,7 @@ import FavTeam from "./pages/FavTeam";
 import Loading from "./component/Loading";
 import CustomMatch from "./pages/CustomMatch";
 // import DescriptionCard from "./component/matchDescriptionCard";
+import MatchDetails from "./pages/MatchDetails";
 import HomePage from "./pages/HomePage";
 
 class App extends Component {
@@ -28,8 +29,7 @@ class App extends Component {
             <Route path="/custommatch/:date" element={<CustomMatch />} />
             <Route path="/teamSelect" element={<CardStack />} />
             <Route path="/loading" element={<Loading />} />
-
-            {/* <Route path="/dreamTeam" element={<DreamTeam />}></Route> */}
+            <Route path="/matchdetails" element={<MatchDetails />} />
             <Route
               path="/playerCard"
               element={
