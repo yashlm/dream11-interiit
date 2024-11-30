@@ -1,0 +1,71 @@
+.bgImageHolder {
+  background-color: black;
+  /* background-image: var(--ground-image-url); */
+  background-image: url("../assets/Test2.jpeg");
+  width: 100vw;
+  height: 100vh;
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0;
+}
+
+.bottomDock {
+  background-color: rgba(255, 255, 255, 0.5);
+  width: 60%;
+  margin-left: 1em;
+  align-items: start;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  top: 73%;
+  height: 25vh;
+}
+.dockList {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  padding: 2%;
+  margin: 0;
+  justify-content: flex-start; /* Align items at the start */
+  scroll-behavior: smooth; /* Optional: Smooth scrolling effect */
+  -webkit-overflow-scrolling: touch; /* Improves scrolling on touch devices */
+  gap: 1em;
+}
+
+.bottomDock h2 {
+  color: white;
+  margin: 0;
+  padding: 0;
+  font-size: 1em;
+  margin-bottom: -2%;
+  margin-left: 1%;
+}
+
+/* Wrapper for the dock list and the arrow button */
+.dockListWrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* Styling for the right arrow button */
+.arrowButton {
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 50%;
+  padding: 1%;
+  position: absolute;
+  font-size: 2rem;
+  right: -4%;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  z-index: 2;
+  transition: opacity 0.3s ease;
+}
+
+/* Hide the arrow when at the end of the scrollable element */
+.arrowButton.hidden {
+  opacity: 0;
+  pointer-events: none; /* Prevent clicking */
+}

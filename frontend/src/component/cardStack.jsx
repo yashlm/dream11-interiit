@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import styles from "./cardStack.module.css";
+import styles from "../css/cardStack.module.css";
 import TeamSearchCard from "./selectTeamCard";
 import { GiAmericanFootballHelmet } from "react-icons/gi";
 import { BiCricketBall } from "react-icons/bi";

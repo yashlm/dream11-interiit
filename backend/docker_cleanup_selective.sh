@@ -65,11 +65,18 @@ delete_images() {
 }
 
 # Delete specific volumes
+
 delete_volumes() {
     volume_names=$1
     for volume_name in $(echo $volume_names | tr "," "\n"); do
-        echo "Deleting volume $volume_name..."
-        docker volume rm $volume_name
+        # Check if volume is in use by any container
+        container_using_volume=$(docker ps -a --filter volume=$volume_name -q)
+        if [ -n "$container_using_volume" ]; then
+            echo "Volume $volume_name is still in use by container(s) $container_using_volume. Skipping deletion."
+        else
+            echo "Deleting volume $volume_name..."
+            docker volume rm $volume_name
+        fi
     done
 }
 
@@ -81,9 +88,10 @@ echo "3. Delete specific images"
 echo "4. Delete specific volumes"
 echo "5. Delete specific containers, images, and volumes"
 echo "6. Skip all and exit"
+echo "7. Delete all containers and volumes (No images)"
 
 # Prompt the user for action
-read -p "Please select an option (1-6): " option
+read -p "Please select an option (1-7): " option
 
 case $option in
     1)
@@ -146,8 +154,19 @@ case $option in
         # Option to skip
         echo "Exiting without deleting anything."
         ;;
+    7)
+        # Option to delete only containers and volumes
+        read -p "Are you sure you want to delete ALL containers and volumes? (y/n): " confirm
+        if [ "$confirm" == "y" ]; then
+            delete_all_containers
+            delete_all_volumes
+            echo "All containers and volumes have been deleted. Images remain untouched."
+        else
+            echo "Deletion aborted. Exiting."
+        fi
+        ;;
     *)
-        echo "Invalid option selected. Please choose a valid option (1-6)."
+        echo "Invalid option selected. Please choose a valid option (1-7)."
         ;;
 esac
 

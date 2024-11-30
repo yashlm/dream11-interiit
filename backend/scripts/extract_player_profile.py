@@ -1,12 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
-from player_details_unique import player_details_unique   # Import the player details
+from player_details_unique import player_details_unique  # Import the player details
+from requests.exceptions import Timeout, RequestException
+from concurrent.futures import ThreadPoolExecutor
 
 # Function to extract image URLs
 def extract_image_urls(url, div_class):
     try:
-        # Fetch the page content
-        response = requests.get(url)
+        response = requests.get(url, timeout=10)  # Set timeout for requests
         response.raise_for_status()
         soup = BeautifulSoup(response.text, 'html.parser')
 
@@ -33,45 +34,51 @@ def extract_image_urls(url, div_class):
 
         return bg_image_url, img_src_url
 
-    except Exception as e:
-        print(f"Error fetching images from {url}: {e}")
+    except Timeout:
+        print(f"Timeout while fetching {url}")
+        return None, None
+    except RequestException as e:
+        print(f"Error fetching {url}: {e}")
         return None, None
 
 # Function to process player details and fetch image URLs
-def process_player_details():
-    updated_players = []
-    div_class = "ds-bg-cover ds-bg-center"
+def fetch_and_save(player, div_class):
+    try:
+        # Generate the URL
+        unique_name = player['full_name'].replace(" ", "-")
+        key_cricinfo = str(int(float(player['key_cricinfo'])))  # Remove decimal part
+        player_url = f"https://www.espncricinfo.com/cricketers/{unique_name}-{key_cricinfo}"
 
-    for player in player_details_unique:
-        try:
-            # Generate the URL
-            unique_name = player['full_name'].replace(" ", "-")
-            key_cricinfo = str(int(float(player['key_cricinfo'])))  # Remove decimal part
-            player_url = f"https://www.espncricinfo.com/cricketers/{unique_name}-{key_cricinfo}"
+        print(f"Fetching images for {player['full_name']} from {player_url}")
+        bg_image_url, img_src_url = extract_image_urls(player_url, div_class)
 
-            # Fetch image URLs
-            print(f"Fetching images for {player['full_name']} from {player_url}")
-            bg_image_url, img_src_url = extract_image_urls(player_url, div_class)
+        # Add new fields
+        player['bg_image_url'] = bg_image_url
+        player['img_src_url'] = img_src_url
 
-            # Add new fields
-            player['bg_image_url'] = bg_image_url
-            player['img_src_url'] = img_src_url
+        # Append player data to file incrementally
+        with open("player_details_with_images.py", "a") as f:
+            f.write(f"{repr(player)},\n")
 
-            updated_players.append(player)
-
-        except Exception as e:
-            print(f"Error processing player {player['full_name']}: {e}")
-            continue
-
-    return updated_players
+    except Exception as e:
+        print(f"Error processing player {player['full_name']}: {e}")
 
 # Main script execution
 if __name__ == "__main__":
-    updated_player_details = process_player_details()
+    div_class = "ds-bg-cover ds-bg-center"  # Define the target div class
 
-    # Save to a new file
+    # Initialize the file with a list declaration
     with open("player_details_with_images.py", "w") as f:
-        f.write("player_details_with_images = ")
-        f.write(repr(updated_player_details))
+        f.write("player_details_with_images = [\n")
+
+    # Use ThreadPoolExecutor for controlled threading
+    max_threads = 10  # Adjust based on system resources
+    with ThreadPoolExecutor(max_threads) as executor:
+        for player in player_details_unique:
+            executor.submit(fetch_and_save, player, div_class)
+
+    # Close the list in the file
+    with open("player_details_with_images.py", "a") as f:
+        f.write("]\n")
 
     print("Updated player details with images saved to player_details_with_images.py")

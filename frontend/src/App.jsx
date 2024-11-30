@@ -24,7 +24,7 @@ class App extends Component {
           <MyChatbot />
           <Routes>
             <Route path="/home" element={<Home />} />
-            <Route path="/custommatch" element={<CustomMatch />} />
+            <Route path="/custommatch/:date" element={<CustomMatch />} />
             <Route path="/teamSelect" element={<CardStack />} />
             <Route path="/loading" element={<Loading />} />
             <Route path="/matchdetails" element={<MatchDetails />} />
