@@ -56,3 +56,5 @@ def match_to_dict(match):
     }
 
 
+def get_match_details_from_db(db: Session, match_id: str):
+    return db.query(model.Match).filter(model.Match.match_id == match_id).first()

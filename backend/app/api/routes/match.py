@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.schemas.team import TeamInput
-from app.services.match import get_all_featured_matches_for_date_from_db,get_all_matches_for_date_from_db,get_all_matches_from_db,get_all_team_matches_from_db,get_all_teams_matches_from_db,match_to_dict
+from app.services.match import get_match_details_from_db,get_all_featured_matches_for_date_from_db,get_all_matches_for_date_from_db,get_all_matches_from_db,get_all_team_matches_from_db,get_all_teams_matches_from_db,match_to_dict
 from app.services.team import get_teams_by_name_from_db
 from app.services.player import get_all_match_players_profile_from_db,get_player_ids_for_match, get_player_profile_for_ids
 router = APIRouter()
@@ -58,13 +58,25 @@ async def get_matches_by_team_id(teams: TeamInput, db: Session = Depends(get_db)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
-
-@router.get("/dreamTeam/{match_id}")
-async def dreamScores(match_id: int, db: Session = Depends(get_db)):
+@router.get("/matchdetails/{match_id}")
+async def get_match_details(match_id: str, db: Session = Depends(get_db)):
     try:
         rows = get_player_ids_for_match(db, match_id)
         player_ids = [row[0] for row in rows]
-        print(player_ids)
+        # players = get_all_match_players_profile_from_db(db,match_id)
+        players = get_player_profile_for_ids(db, player_ids)
+        matchdetails = get_match_details_from_db(db,match_id)
+        return {"status": "ok", "message": "Data retrieved successfully","matchdetails":matchdetails, "players": players, "player_count": len(players), "player_ids": player_ids}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
+
+@router.get("/dreamTeam/{match_id}")
+async def dreamScores(match_id: str, db: Session = Depends(get_db)):
+    try:
+        rows = get_player_ids_for_match(db, match_id)
+        player_ids = [row[0] for row in rows]
+        # print(player_ids)
         players = get_player_profile_for_ids(db, player_ids)
 
         # Mock data (replace this with actual dynamic data if available)

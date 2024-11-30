@@ -28,7 +28,8 @@ async def get_player_stats(playerInput: PlayerStatsInput, db: Session = Depends(
         return {"status": "ok", "message": "Player retrieved successfully", "data": player}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
-    
+
+@router.get("/cricketers_lifetime_stats/")  
 @router.post("/player_stats/all")
 async def get_player_stats(playerInput: PlayersInput, db: Session = Depends(get_db)):
     try:
