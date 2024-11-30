@@ -14,6 +14,7 @@ import DreamTeamGround from "./pages/dreamTeam";
 import FavTeam from "./pages/FavTeam";
 import Loading from "./component/Loading";
 import CustomMatch from "./pages/CustomMatch";
+import MatchDetails from "./pages/MatchDetails";
 
 class App extends Component {
   render() {
@@ -26,8 +27,7 @@ class App extends Component {
             <Route path="/custommatch" element={<CustomMatch />} />
             <Route path="/teamSelect" element={<CardStack />} />
             <Route path="/loading" element={<Loading />} />
-
-            {/* <Route path="/dreamTeam" element={<DreamTeam />}></Route> */}
+            <Route path="/matchdetails" element={<MatchDetails />} />
             <Route
               path="/playerCard"
               element={
