@@ -4,6 +4,8 @@ import styles from "../css/cardStack.module.css";
 import TeamSearchCard from "./selectTeamCard";
 import { GiAmericanFootballHelmet } from "react-icons/gi";
 import { BiCricketBall } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+
 import Loading from "./Loading";
 
 import ProgressBar from "./progressBar";
@@ -20,6 +22,7 @@ const CardStack = () => {
   const [secondTeam, setSecondTeam] = useState(null);
 
   const [allTeams, setallTeams] = useState(null);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const dataFetch = async () => {
@@ -31,9 +34,8 @@ const CardStack = () => {
         setallTeams(data.data); // Set the fetched data to state
       } catch (error) {
         alert("We encountered an issue. Please try again later.");
-
-        // Log the error (to console or external service)
         console.error("Error fetching teams:", error);
+        navigate("/home");
       }
     };
 
