@@ -6,7 +6,7 @@ import "./css/style.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import StarterPage from "./pages/Starterpage";
 import MyChatbot from "./ChatBot/ChatBot";
-import CardStack from "./component/cardStack";
+import CardStack from "./component/selectMatch/cardStack";
 import DreamTeamGround from "./pages/dreamTeam";
 import FavTeam from "./pages/FavTeam";
 import Loading from "./component/Loading";
