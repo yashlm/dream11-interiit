@@ -33,6 +33,7 @@
     "motion": "^11.11.17",
     "primeicons": "^7.0.0",
     "primereact": "^10.8.4",
+    "prop-types": "^15.8.1",
     "react": "^18.3.1",
     "react-calendar": "^5.1.0",
     "react-calender-horizontal": "^1.0.12",
@@ -52,6 +53,7 @@
     "react-spring": "^9.7.4",
     "shadcn": "^2.1.6",
     "slick-carousel": "^1.8.1",
+    "swiper": "^11.1.15",
     "tailwind-merge": "^2.5.5",
     "tailwindcss-animate": "^1.0.7",
     "vite-tsconfig-paths": "^5.1.3"
