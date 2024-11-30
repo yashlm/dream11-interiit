@@ -6,11 +6,9 @@ import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
 import Box from "@mui/material/Box";
 import IconButton from "@mui/material/IconButton";
-import DeleteIcon from "@mui/icons-material/Delete";
+import ClearIcon from "@mui/icons-material/Clear";
 import SportsCricketIcon from "@mui/icons-material/SportsCricket";
 import Tooltip from "@mui/material/Tooltip";
-import StarIcon from "@mui/icons-material/Star";
-
 import PlayerPopOut from "./playerStats/popUp";
 
 export default function PlayerCard({
@@ -46,10 +44,10 @@ export default function PlayerCard({
       <Card
         sx={{
           width: "20vh",
+          height: "20vh",
           position: "relative",
           wordWrap: "break-word",
           fontSize: "10px",
-          height: "20vh",
           backgroundColor: "#333",
           color: "#fff",
           borderRadius: "10px",
@@ -85,6 +83,21 @@ export default function PlayerCard({
               border: "2px solid white",
             }}
           />
+          {isInField && (
+            <IconButton
+              onClick={onRemove}
+              sx={{
+                margin: 0,
+                padding: 0,
+                color: "#fff",
+                position: "absolute",
+                top: "-0.5%",
+                left: "-0.5%",
+              }}
+            >
+              <ClearIcon />
+            </IconButton>
+          )}
         </Box>
         <CardContent sx={{ textAlign: "left" }}>
           <Tooltip title={name} arrow>
@@ -119,7 +132,7 @@ export default function PlayerCard({
                 lineHeight: "0.2rem",
               }}
             >
-              {points && `Dream Points: ${points}`}
+              {`Dream Points: ${points || "89"}`}
             </Typography>
             <Box>
               {!isInField && (
@@ -130,31 +143,25 @@ export default function PlayerCard({
                   <SportsCricketIcon />
                 </IconButton>
               )}
-              {isInField && (
-                <IconButton
-                  onClick={onRemove}
-                  sx={{ margin: 0, padding: 0, color: "#fff" }}
-                >
-                  <DeleteIcon />
-                </IconButton>
-              )}
             </Box>
           </Box>
         </CardContent>
       </Card>
 
       {/* Use the PlayerPopOut component */}
-      <PlayerPopOut
-        isVisible={isVisible}
-        onClose={handleClick}
-        name={name}
-        bgImage={bgImage}
-        profileImage={profileImage}
-        teamIconUrl={teamIconUrl}
-        team={team}
-        firstName={firstName}
-        lastName={lastName}
-      />
+      {isVisible && (
+        <PlayerPopOut
+          isVisible={isVisible}
+          onClose={handleClick}
+          name={name}
+          bgImage={bgImage}
+          profileImage={profileImage}
+          teamIconUrl={teamIconUrl}
+          team={team}
+          firstName={firstName}
+          lastName={lastName}
+        />
+      )}
     </div>
   );
 }

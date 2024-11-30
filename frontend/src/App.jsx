@@ -14,6 +14,7 @@ import DreamTeamGround from "./pages/dreamTeam";
 import FavTeam from "./pages/FavTeam";
 import Loading from "./component/Loading";
 import CustomMatch from "./pages/CustomMatch";
+import DescriptionCard from "./component/matchDescriptionCard";
 import MatchDetails from "./pages/MatchDetails";
 
 class App extends Component {
@@ -23,6 +24,7 @@ class App extends Component {
         <div className="App">
           <MyChatbot />
           <Routes>
+            <Route path="/test" element={<DescriptionCard />} />
             <Route path="/home" element={<Home />} />
             <Route path="/custommatch/:date" element={<CustomMatch />} />
             <Route path="/teamSelect" element={<CardStack />} />
