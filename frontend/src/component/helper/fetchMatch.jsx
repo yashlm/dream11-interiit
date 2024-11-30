@@ -1,4 +1,4 @@
-const MatchDataFeatch = async (url, setFunction) => {
+const MatchDataFetch = async (url, setFunction) => {
   try {
     const response = await fetch(url, {
       method: "GET",
@@ -16,4 +16,4 @@ const MatchDataFeatch = async (url, setFunction) => {
   }
 };
 
-export default MatchDataFeatch;
+export default MatchDataFetch;

@@ -8,11 +8,12 @@ import {
   Box,
   MenuItem,
   Select,
-  Alert, // Import Alert
+  Alert,
 } from "@mui/material";
+import { motion, AnimatePresence } from "framer-motion";
 import PlayerSearch from "../component/PlayerSearch";
 import PlayerCard from "../component/playerCard";
-import Navbar from "../header/Navbar";
+import Navbar from "../component/Navbar";
 import ReadOnlyDate from "../component/common/readOnlyDate";
 
 export default function CustomMatch() {
@@ -28,7 +29,6 @@ export default function CustomMatch() {
   }); // State for alert
 
   const handleAddToTeam = (player, team) => {
-    // Check if the player is already in either team
     const isPlayerInTeamA = teamA.some((p) => p && p.key === player.key);
     const isPlayerInTeamB = teamB.some((p) => p && p.key === player.key);
 
@@ -42,10 +42,10 @@ export default function CustomMatch() {
     }
 
     const updateTeam = team === "A" ? [...teamA] : [...teamB];
-    const emptyIndex = updateTeam.findIndex((p) => p === null); // Find the first empty slot
+    const emptyIndex = updateTeam.findIndex((p) => p === null);
 
     if (emptyIndex !== -1) {
-      updateTeam[emptyIndex] = player; // Assign the player to the slot
+      updateTeam[emptyIndex] = player;
       team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
     } else {
       setAlert({
@@ -61,13 +61,20 @@ export default function CustomMatch() {
     const playerIndex = updateTeam.findIndex((p) => p && p.key === playerKey);
 
     if (playerIndex !== -1) {
-      updateTeam[playerIndex] = null; // Remove the player from the team
+      updateTeam[playerIndex] = null;
       team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
     }
   };
 
   const handleCloseAlert = () => {
-    setAlert({ ...alert, show: false }); // Close the alert
+    setAlert({ ...alert, show: false });
+  };
+
+  // Framer Motion Variants
+  const cardVariants = {
+    hidden: { opacity: 0, y: 40 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.1} },
+    // exit: { opacity: 0, scale: 0.8, transition: { duration: 0.3 } }, 
   };
 
   return (
@@ -84,7 +91,7 @@ export default function CustomMatch() {
             boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
             backdropFilter: "blur(0px)",
             borderRadius: "10px",
-            border: "1px solid rgba(255, 255, 255, 0.18)",
+            border: "1px solid rgba( 255, 255, 255, 0.18 )",
             marginRight: "2vw",
             marginTop: "64px",
             padding: 2,
@@ -108,9 +115,7 @@ export default function CustomMatch() {
             <MenuItem value="ODI">ODI</MenuItem>
             <MenuItem value="T20">T20</MenuItem>
           </Select>
-
-          {/* Search Component */}
-          <Typography variant="h6" sx={{ mb: 1 }}>
+          <Typography variant="h6" color="#333" sx={{ mb: 1 }}>
             Search for Player
           </Typography>
           <PlayerSearch onAddToTeam={handleAddToTeam} />
@@ -130,90 +135,119 @@ export default function CustomMatch() {
           <Grid container spacing={3}>
             {/* Team A Section */}
             <Grid item xs={12}>
-              <Typography variant="h5" align="center" gutterBottom>
+              <Typography
+                variant="h5"
+                color="#333"
+                align="center"
+                font-family="Lato"
+                gutterBottom
+              >
                 TEAM A
               </Typography>
             </Grid>
             <Grid container spacing={2}>
-              {teamA.map((player, index) => (
-                <Grid item xs={2} key={`teamA-${index}`}>
-                  {player ? (
-                    <PlayerCard
-                      key={player.key}
-                      name={player.name}
-                      points={player.dreamPoints}
-                      bgImage={player.bgImage}
-                      profileImage={player.profileImage}
-                      isInField={true}
-                      onRemove={() => handleRemoveFromTeam(player.key, "A")}
-                    />
-                  ) : (
-                    <Card
-                      sx={{
-                        height: "20vh",
-                        width: "20vh",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: "#fff",
-                        border: "1px solid #bbb",
-                      }}
+              <AnimatePresence>
+                {teamA.map((player, index) => (
+                  <Grid item xs={2} key={`teamA-${index}`}>
+                    <motion.div
+                      key={player ? player.key : `placeholder-${index}`}
+                      variants={cardVariants}
+                      initial="hidden"
+                      animate="visible"
+                    
                     >
-                      <Typography variant="caption" color="textSecondary">
-                        Player {index + 1}
-                      </Typography>
-                    </Card>
-                  )}
-                </Grid>
-              ))}
+                      {player ? (
+                        <PlayerCard
+                          key={player.key}
+                          name={player.name}
+                          points={player.dreamPoints}
+                          bgImage={player.bgImage}
+                          profileImage={player.profileImage}
+                          isInField={true}
+                          onRemove={() => handleRemoveFromTeam(player.key, "A")}
+                        />
+                      ) : (
+                        <Card
+                          sx={{
+                            height: "20vh",
+                            width: "20vh",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            background: "rgba( 255, 255, 255, 0.45 )",
+                            boxShadow:
+                              "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+                            borderRadius: "10px",
+                            border: "1px solid rgba( 255, 255, 255, 0.18 )",
+                          }}
+                        />
+                      )}
+                    </motion.div>
+                  </Grid>
+                ))}
+              </AnimatePresence>
             </Grid>
 
             {/* Team B Section */}
             <Grid item xs={12} sx={{ mt: 5 }}>
-              <Typography variant="h5" align="center" gutterBottom>
+              <Typography
+                variant="h5"
+                align="center"
+                color="#333"
+                gutterBottom
+              >
                 TEAM B
               </Typography>
             </Grid>
             <Grid container spacing={2}>
-              {teamB.map((player, index) => (
-                <Grid item xs={2} key={`teamB-${index}`}>
-                  {player ? (
-                    <PlayerCard
-                      key={player.key}
-                      name={player.name}
-                      points={player.dreamPoints}
-                      bgImage={player.bgImage}
-                      profileImage={player.profileImage}
-                      isInField={true}
-                      onRemove={() => handleRemoveFromTeam(player.key, "B")}
-                    />
-                  ) : (
-                    <Card
-                      sx={{
-                        height: "20vh",
-                        width: "20vh",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        backgroundColor: "#fff",
-                        border: "1px solid #bbb",
-                      }}
+              <AnimatePresence>
+                {teamB.map((player, index) => (
+                  <Grid item xs={2} key={`teamB-${index}`}>
+                    <motion.div
+                      key={player ? player.key : `placeholder-${index}`}
+                      variants={cardVariants}
+                      initial="hidden"
+                      animate="visible"
+                     
                     >
-                      <Typography variant="caption" color="textSecondary">
-                        Player {index + 1}
-                      </Typography>
-                    </Card>
-                  )}
-                </Grid>
-              ))}
+                      {player ? (
+                        <PlayerCard
+                          key={player.key}
+                          name={player.name}
+                          points={player.dreamPoints}
+                          bgImage={player.bgImage}
+                          profileImage={player.profileImage}
+                          isInField={true}
+                          onRemove={() => handleRemoveFromTeam(player.key, "B")}
+                        />
+                      ) : (
+                        <Card
+                          sx={{
+                            height: "20vh",
+                            width: "20vh",
+                            display: "flex",
+                            justifyContent: "center",
+                            alignItems: "center",
+                            background: "rgba( 255, 255, 255, 0.45 )",
+                            boxShadow:
+                              "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+                            borderRadius: "10px",
+                            border: "1px solid rgba( 255, 255, 255, 0.18 )",
+                          }}
+                        />
+                      )}
+                    </motion.div>
+                  </Grid>
+                ))}
+              </AnimatePresence>
             </Grid>
             <Grid
               item
               xs={12}
               sx={{ mt: 5, display: "flex", justifyContent: "center" }}
             >
-              <Button variant="contained" color="error" size="large">
-                Generate Team
+              <Button variant="contained" color="success">
+                GENERATE TEAM
               </Button>
             </Grid>
           </Grid>
@@ -222,3 +256,6 @@ export default function CustomMatch() {
     </div>
   );
 }
+
+
+ 
