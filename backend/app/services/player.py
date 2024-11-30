@@ -28,3 +28,5 @@ def get_player_profile_for_ids(db: Session, player_ids: list):
 def get_all_match_players_profile_from_db(db: Session, match_id: str):
     return db.query(model.Player).filter(model.Player.match_id == match_id).all()
 
+def get_player_lifetime_stats_from_db(db: Session, player_id: str):
+    return db.query(model.CricketersLifetimeStats).filter(model.CricketersLifetimeStats.identifier == player_id).first()
