@@ -25,12 +25,13 @@ class App extends Component {
           <Routes>
             <Route path="/test" element={<DescriptionCard />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/custommatch/:date" element={<CustomMatch />} />
             <Route path="/teamSelect" element={<CardStack />} />
             <Route path="/loading" element={<Loading />} />
-
-            {/* <Route path="/dreamTeam" element={<DreamTeam />}></Route> */}
-            <Route
+            <Route path="/custommatch/:date" element={<CustomMatch />} />
+            <Route path="/dreamTeam/:match_id" element={<DreamTeamGround />} />
+            <Route path="/" element={<StarterPage />} />
+            <Route path="/fav" element={<FavTeam />} />
+            {/* <Route
               path="/playerCard"
               element={
                 <PlayerCard
@@ -42,11 +43,7 @@ class App extends Component {
                   profileUrl="https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png"
                 />
               }
-            />
-            <Route path="/dreamTeam" element={<DreamTeamGround />} />
-            <Route path="/" element={<StarterPage />} />
-            <Route path="/fav" element={<FavTeam />} />
-            <Route path="/chart" element={<h1>hi</h1>} />
+            /> */}
           </Routes>
         </div>
       </BrowserRouter>
