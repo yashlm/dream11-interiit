@@ -1,6 +1,6 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import PlayerSearch from "../component/PlayerSearch";
+import PlayerSearch from "../component/selectMatch/PlayerSearch";
 import PlayerCard from "./playerCard";
 
 export default function TeamSelection() {

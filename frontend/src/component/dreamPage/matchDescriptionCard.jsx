@@ -6,7 +6,7 @@ import {
   BsArrowsCollapse,
 } from "react-icons/bs";
 import { FaUndo, FaShareAlt, FaSave, FaInfoCircle } from "react-icons/fa";
-import styles from "../css/DescriptionCard.module.css";
+import styles from "../../css/DescriptionCard.module.css";
 
 export default function DescriptionCard({ onUndo, onMatchDetails, onSave }) {
   const [expanded, setExpanded] = useState(false); // Controls the expanded state for ShowMoreText

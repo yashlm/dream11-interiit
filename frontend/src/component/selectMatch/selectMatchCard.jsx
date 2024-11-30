@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import MatchCard from "../component/HomePage/MatchCardx.jsx";
-import styles from "../css/cardStack.module.css";
+import MatchCard from "../HomePage/MatchCardx.jsx";
+import styles from "../../css/cardStack.module.css";
 import HorizontalCalendar from "./horizontalCalendar.jsx";
-import Loading from "./Loading.jsx";
-import { BASE_URL } from "../constants.jsx";
+import Loading from "../Loading.jsx";
+import { BASE_URL } from "../../constants.jsx";
 import { useNavigate } from "react-router-dom";
 
 const SelectMatchCard = ({ teamA, teamB }) => {
