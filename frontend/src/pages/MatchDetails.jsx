@@ -71,7 +71,7 @@
 
 import React, { useEffect, useState } from "react";
 import Playerlist from "../component/Playerlist";
-import Navbar from "../header/Navbar";
+import Navbar from "../component/Navbar";
 import MatchDetailsCard from "../component/MatchDetailsCard";
 import styles from '../css/MatchDetails.module.css';
 import batsman_img from '../assets/matchdetails.png'; 
