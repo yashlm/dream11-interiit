@@ -29,6 +29,19 @@ async def get_all_matches(db: Session = Depends(get_db)):
 async def get_matches_by_date(date: str, db: Session = Depends(get_db)):
     try:
         matches = get_all_matches_for_date_from_db(db,date)
+        for match in matches:
+            teamA=match.teams[0]
+            teamB=match.teams[1]
+            teamA_info = get_team_info_by_name_from_db(db, teamA)
+            teamB_info = get_team_info_by_name_from_db(db, teamB)
+            match.team_info = {
+                "teamA": teamA,
+                "teamAinfo": teamA_info,
+                "teamB": teamB,
+                "teamBinfo": teamB_info,
+            }
+
+
         return {"status": "ok", "message": "Teams retrieved successfully", "data": matches}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
