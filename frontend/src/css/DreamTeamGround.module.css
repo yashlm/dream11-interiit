@@ -12,14 +12,14 @@
 }
 
 .bottomDock {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   width: 60%;
   margin-left: 1em;
   align-items: start;
   display: flex;
   flex-direction: column;
   position: absolute;
-  bottom: 20px;
+  bottom: 35px;
   height: 25vh;
 }
 .dockList {
@@ -29,19 +29,23 @@
   overflow-y: hidden;
   padding: 2%;
   margin: 0;
-  justify-content: flex-start; /* Align items at the start */
-  scroll-behavior: smooth; /* Optional: Smooth scrolling effect */
-  -webkit-overflow-scrolling: touch; /* Improves scrolling on touch devices */
+  justify-content: flex-start;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
   gap: 1em;
 }
 
 .bottomDock h2 {
+  backdrop-filter: blur(10px);
+  width: 100%;
+  height: 40px;
   color: white;
   margin: 0;
   padding: 0;
-  font-size: 1em;
+  font-size: 1.5em;
+  padding: 1%;
   margin-bottom: -2%;
-  margin-left: 1%;
+  margin-left: 2%;
 }
 
 /* Wrapper for the dock list and the arrow button */
@@ -50,25 +54,31 @@
   width: 100%;
 }
 
-/* Styling for the right arrow button */
 .arrowButton {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 1);
   border-radius: 50%;
   padding: 1%;
   position: absolute;
   font-size: 2rem;
-  right: -4%;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
   z-index: 2;
   transition: opacity 0.3s ease;
 }
+.rightArrow {
+  right: -4%;
+}
 
-/* Hide the arrow when at the end of the scrollable element */
 .arrowButton.hidden {
   opacity: 0;
-  pointer-events: none; /* Prevent clicking */
+  pointer-events: none;
+}
+
+/* Add hover effect for better interaction */
+.arrowButton:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #e65100; /* Slightly darker orange */
 }
 
 .weatherCardContainer {
@@ -112,6 +122,7 @@
 
 .dropZone p {
   font-weight: bolder;
+  color: white;
 }
 
 .centerH1 {

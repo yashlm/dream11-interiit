@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import { DndProvider, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import styles from "../css/DreamTeamGround.module.css";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import WeatherCard from "../component/common/weatherCard";
 import DreamPointsCard from "../component/common/dreamPoints";
 import DescriptionCard from "../component/matchDescriptionCard";
@@ -32,11 +32,25 @@ export default function DreamTeamGround() {
   // const [initialPositions, setInitialPositions] = useState(
   //   initialFieldPositions
   // );
+  const [modelOuput, setModelOutput] = useState([]);
   const [positions, setPositions] = useState(initialFieldPositions);
   const [isAtEnd, setIsAtEnd] = useState(false);
+  const [isAtStart, setIsAtStart] = useState(true);
+  const [dreamPoints, setDreamPoints] = useState(0);
   const dockListRef = useRef(null);
   const navigate = useNavigate();
 
+  const redo = () => {
+    setOffFieldPlayers(modelOuput.slice(11));
+    setPositions((prevPositions) => {
+      const initialOnFieldPlayers = modelOuput.slice(0, 11);
+      return prevPositions.map((position, index) => ({
+        ...position,
+        isFilled: index < initialOnFieldPlayers.length,
+        player: initialOnFieldPlayers[index] || null,
+      }));
+    });
+  };
   const handleDrop = (droppedPlayer, targetPositionId) => {
     setPositions((prevPositions) =>
       prevPositions.map((position) => {
@@ -90,6 +104,10 @@ export default function DreamTeamGround() {
         dockListRef.current.scrollLeft + dockListRef.current.clientWidth ===
         dockListRef.current.scrollWidth;
       setIsAtEnd(isEnd);
+      const isStart =
+        dockListRef.current.scrollRight + dockListRef.current.clientWidth ===
+        dockListRef.current.scrollWidth;
+      setIsAtStart(isStart);
     }
   };
   const scrollRight = () => {
@@ -98,6 +116,23 @@ export default function DreamTeamGround() {
       handleScroll();
     }
   };
+  const scrollLeft = () => {
+    if (dockListRef.current) {
+      dockListRef.current.scrollLeft -= 200; // Adjust scroll amount as needed
+      handleScroll();
+    }
+  };
+
+  useEffect(() => {
+    const total = positions.reduce((sum, position) => {
+      if (position.player) {
+        return sum + (position.player.dreamPoints || 0);
+      }
+      return sum;
+    }, 0);
+
+    setDreamPoints(total);
+  }, [positions]);
 
   useEffect(() => {
     const FetchDreamTeam = async (match_id) => {
@@ -124,12 +159,13 @@ export default function DreamTeamGround() {
           };
         });
         if (allPlayers.length < 22) {
-          alert("Less Number of Plyers fetched, some error");
+          // alert("Less Number of Plyers fetched, some error");
           // throw new Error("Not enough players");
         }
         const sortedPlayers = [...allPlayers].sort(
           (a, b) => b.dreamPoints - a.dreamPoints
         );
+        setModelOutput(sortedPlayers);
         setOffFieldPlayers(sortedPlayers.slice(11));
         const initialOnFieldPlayers = sortedPlayers.slice(0, 11);
         // setInitialOnFieldPlayers(sortedPlayers.slice(0, 11));
@@ -145,7 +181,6 @@ export default function DreamTeamGround() {
             player: initialOnFieldPlayers[index] || null,
           }))
         );
-        console.log(positions);
       } catch (error) {
         alert("We encountered an issue. Please try again later.");
         console.error("Error fetching teams:", error);
@@ -172,10 +207,14 @@ export default function DreamTeamGround() {
         />
       </div>
       <div className={styles.dreamPointsCard}>
-        <DreamPointsCard points={180} />
+        <DreamPointsCard points={dreamPoints} />
       </div>
 
-      <h1 className={styles.centerH1}>YOUR DREAM TEAM</h1>
+      <h1
+        className={`${styles.centerH1} className=" font-bold bg-gradient-to-r from-amber-500 to-pink-500 inline-block text-transparent bg-clip-text`}
+      >
+        YOUR DREAM TEAM
+      </h1>
 
       <DndProvider backend={HTML5Backend}>
         {positions.map((position) => (
@@ -188,12 +227,17 @@ export default function DreamTeamGround() {
             onRemove={handleRemovePlayer}
           />
         ))}
-
         <div className={styles.bottomDock}>
           <h2>Other Players</h2>
           <div className={styles.dockListWrapper}>
+            <FaArrowLeft
+              className={`${styles.arrowButton} ${styles.leftArrow} ${
+                isAtStart ? styles.hidden : ""
+              }`}
+              onClick={scrollLeft} // Handle scrolling left
+            />
             <FaArrowRight
-              className={`${styles.arrowButton} ${
+              className={`${styles.arrowButton} ${styles.rightArrow} ${
                 isAtEnd ? styles.hidden : ""
               }`}
               onClick={scrollRight}
@@ -218,7 +262,7 @@ export default function DreamTeamGround() {
           </div>
         </div>
       </DndProvider>
-      <DescriptionCard />
+      <DescriptionCard onUndo={redo} />
     </div>
   );
 }

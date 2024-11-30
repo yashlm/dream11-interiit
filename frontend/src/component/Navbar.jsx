@@ -92,7 +92,7 @@ const Navbar = () => {
             Custom Match
           </Button>
         </Link>
-        <Link to="/dreamTeam" style={{ textDecoration: "none" }}>
+        <Link to="/dreamTeam/1426757" style={{ textDecoration: "none" }}>
           <Button
             variant="contained"
             style={{
