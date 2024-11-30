@@ -114,3 +114,48 @@
     position: relative;
   }
   
+  @media (max-width: 950px) { 
+    .aboutUsContainer {
+      height: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 2rem;
+      padding: 1rem;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      position: relative;
+    }
+    .imageGrid {
+      width: 100%;
+      justify-content: center;
+      height: 40vh;
+    }
+    .image1{
+      height: 20vh;
+    }
+  }
+
+  @media (min-width: 950px) and (max-width: 1050px) { 
+    .aboutUsContainer {
+      height: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: flex-start;
+      gap: 2rem;
+      padding: 1rem;
+      background-color: #f9f9f9;
+      border-radius: 8px;
+      position: relative;
+    }
+    .imageGrid {
+      width: 40%;
+      justify-content: center;
+      height: auto;
+    }
+    /* .image1{
+      height: 20vh;
+    } */
+  }
