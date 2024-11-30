@@ -1,53 +1,49 @@
-import "../../css/HomePage/MatchCard.css";
+import styles from "../../css/HomePage/MatchCard.module.css";
 import { CalendarToday, LocationOn } from "@mui/icons-material";
 
 const MatchCard = ({ match }) => {
-  // Log the match object to see its structure
   console.log(match);
 
-  // Check if match is defined and if match.teams exists and has elements
-  const teams = match?.teams || []; // Use optional chaining and fallback to an empty array
-  const team1 = teams[0] || "Team 1"; // Fallback to "Team 1" if undefined
-  const team2 = teams[1] || "Team 2"; // Fallback to "Team 2" if undefined
+  const teams = match?.teams || [];
+  const team1 = teams[0] || "Team 1";
+  const team2 = teams[1] || "Team 2";
 
-  // Process venue data
-  const fixedVenue = match?.venue ? match.venue.replace(/({|})/g, "") : ""; // Handle if venue is undefined
-  const parsedVenue = fixedVenue.split(","); // Split the string into an array
-  const venue = parsedVenue.join(" "); // Join with a space
+  const fixedVenue = match?.venue ? match.venue.replace(/({|})/g, "") : "";
+  const parsedVenue = fixedVenue.split(",");
+  const venue = parsedVenue.join(" ");
 
-  // Ensure dates array exists and has at least one element
-  const matchDate = match?.date?.[0] || "Date not available"; // Fallback if dates is undefined or empty
+  const matchDate = match?.dates?.[0] || "Date not available";
 
   return (
-    <div className="container">
-      <div className="match-card">
-        <h2 className="match-type">{match?.match_type || "Match Type Not Available"}</h2>
-        <div className="logos">
-          <div className="team">
+    <div className={styles.container}>
+      <div className={styles["match-card"]}>
+        <h2 className={styles["match-type"]}>
+          {match?.match_type || "Match Type Not Available"}
+        </h2>
+        <div className={styles.logos}>
+          <div className={styles.team}>
             <img
-              // Check if logo data exists
+              className={styles["team-logo"]}
               alt={`${team1} logo`}
-              className="team-logo"
             />
-            <p className="team-name">{team1}</p>
+            <p className={styles["team-name"]}>{team1}</p>
           </div>
-          <span className="vs">vs</span>
-          <div className="team">
+          <span className={styles.vs}>vs</span>
+          <div className={styles.team}>
             <img
-              // Check if logo data exists
+              className={styles["team-logo"]}
               alt={`${team2} logo`}
-              className="team-logo"
             />
-            <p className="team-name">{team2}</p>
+            <p className={styles["team-name"]}>{team2}</p>
           </div>
         </div>
-        <div className="match-details">
+        <div className={styles["match-details"]}>
           <p>
-            <CalendarToday className="icon" />
+            <CalendarToday className={styles.icon} />
             {matchDate}
           </p>
           <p>
-            <LocationOn className="icon" />
+            <LocationOn className={styles.icon} />
             {venue}
           </p>
         </div>
