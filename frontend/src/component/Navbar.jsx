@@ -39,7 +39,7 @@ const Navbar = () => {
   const links = [
     { path: "/teamSelect", label: "Select Team" },
     { path: `/custommatch/${todayDate}`, label: "Custom Match" },
-    { path: "/dreamTeam", label: "Dream Team" },
+    { path: "/dreamTeam/1426757", label: "Dream Team" },
     { path: "/login", label: "Login" },
     { path: "/signup", label: "Signup" },
   ];
