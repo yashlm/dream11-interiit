@@ -3,6 +3,11 @@ from app import model
 from sqlalchemy import func
 from sqlalchemy.sql import text
 from sqlalchemy import or_
+from fastapi import File, UploadFile
+import pandas as pd
+from io import StringIO
+from sqlalchemy import text
+
 
 def get_all_matches_from_db(db: Session):
     return db.query(model.Match).all()
@@ -10,9 +15,6 @@ def get_all_matches_from_db(db: Session):
 def get_all_team_matches_from_db(db: Session, team_name: str):
     return db.query(model.Match).filter(model.Match.batting_team == team_name).all()
 
-from sqlalchemy import text
-
-from sqlalchemy import func
 
 def get_all_teams_matches_from_db(db: Session, team1_name: str, team2_name: str):
     return db.query(model.Match).filter(
@@ -58,3 +60,17 @@ def match_to_dict(match):
 
 def get_match_details_from_db(db: Session, match_id: str):
     return db.query(model.Match).filter(model.Match.match_id == match_id).first()
+
+async def get_data_from_csv(file: UploadFile = File(...)):
+    # Read the uploaded file content
+    contents = await file.read()
+    # Convert bytes to string (assuming the file is UTF-8 encoded)
+    csv_content = contents.decode("utf-8")
+    
+    # Using StringIO to simulate a file object for pandas to read the CSV
+    csv_file = StringIO(csv_content)
+    
+    # Read CSV data into a pandas DataFrame
+    df_input = pd.read_csv(csv_file)
+    
+    return df_input
