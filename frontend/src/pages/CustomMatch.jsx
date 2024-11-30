@@ -11,7 +11,7 @@ import {
   Alert,
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
-import PlayerSearch from "../component/PlayerSearch";
+import PlayerSearch from "../component/selectMatch/PlayerSearch";
 import PlayerCard from "../component/playerCard";
 import Navbar from "../component/Navbar";
 import ReadOnlyDate from "../component/common/readOnlyDate";
@@ -73,8 +73,8 @@ export default function CustomMatch() {
   // Framer Motion Variants
   const cardVariants = {
     hidden: { opacity: 0, y: 40 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.1} },
-    // exit: { opacity: 0, scale: 0.8, transition: { duration: 0.3 } }, 
+    visible: { opacity: 1, y: 0, transition: { duration: 0.1 } },
+    // exit: { opacity: 0, scale: 0.8, transition: { duration: 0.3 } },
   };
 
   return (
@@ -154,7 +154,6 @@ export default function CustomMatch() {
                       variants={cardVariants}
                       initial="hidden"
                       animate="visible"
-                    
                     >
                       {player ? (
                         <PlayerCard
@@ -175,8 +174,7 @@ export default function CustomMatch() {
                             justifyContent: "center",
                             alignItems: "center",
                             background: "rgba( 255, 255, 255, 0.45 )",
-                            boxShadow:
-                              "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+                            boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
                             borderRadius: "10px",
                             border: "1px solid rgba( 255, 255, 255, 0.18 )",
                           }}
@@ -190,12 +188,7 @@ export default function CustomMatch() {
 
             {/* Team B Section */}
             <Grid item xs={12} sx={{ mt: 5 }}>
-              <Typography
-                variant="h5"
-                align="center"
-                color="#333"
-                gutterBottom
-              >
+              <Typography variant="h5" align="center" color="#333" gutterBottom>
                 TEAM B
               </Typography>
             </Grid>
@@ -208,7 +201,6 @@ export default function CustomMatch() {
                       variants={cardVariants}
                       initial="hidden"
                       animate="visible"
-                     
                     >
                       {player ? (
                         <PlayerCard
@@ -229,8 +221,7 @@ export default function CustomMatch() {
                             justifyContent: "center",
                             alignItems: "center",
                             background: "rgba( 255, 255, 255, 0.45 )",
-                            boxShadow:
-                              "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
+                            boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
                             borderRadius: "10px",
                             border: "1px solid rgba( 255, 255, 255, 0.18 )",
                           }}
@@ -256,6 +247,3 @@ export default function CustomMatch() {
     </div>
   );
 }
-
-
- 

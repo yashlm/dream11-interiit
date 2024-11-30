@@ -5,7 +5,7 @@ import styles from "../css/DreamTeamGround.module.css";
 import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import WeatherCard from "../component/common/weatherCard";
 import DreamPointsCard from "../component/common/dreamPoints";
-import DescriptionCard from "../component/matchDescriptionCard";
+import DescriptionCard from "../component/dreamPage/matchDescriptionCard";
 import Loading from "../component/Loading";
 import DragPlayerCard from "../component/dreamPage/dragPlayerCard";
 import DropZone from "../component/dreamPage/dropZone";

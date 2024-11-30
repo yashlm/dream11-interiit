@@ -1,17 +1,17 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
-import styles from "../css/cardStack.module.css";
-import TeamSearchCard from "./selectTeamCard";
+import styles from "../../css/cardStack.module.css";
+import TeamSearchCard from "./selectTeamCard.jsx";
 import { GiAmericanFootballHelmet } from "react-icons/gi";
 import { BiCricketBall } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 
-import Loading from "./Loading";
+import Loading from "../Loading.jsx";
 
-import ProgressBar from "./progressBar";
-import SelectMatchCard from "./selectMatchCard";
+import ProgressBar from "./progressBar.jsx";
+import SelectMatchCard from "./selectMatchCard.jsx";
 
-import { BASE_URL } from "../constants.jsx";
+import { BASE_URL } from "../../constants.jsx";
 
 const CardStack = () => {
   const [firstCardMoved, setFirstCardMoved] = useState(false);
@@ -68,7 +68,7 @@ const CardStack = () => {
   return allTeams == null ? (
     <Loading />
   ) : (
-  // return (
+    // return (
     <div className={styles.fullscreenBackground}>
       <div className={styles.backgroundCover}></div>
       <motion.div
