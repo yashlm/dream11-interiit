@@ -1,2 +1,2 @@
-from .model import User, Team, Player, Match, PlayerStats,CricketersLifetimeStats, TeamPlayed,PlayerBattingStats, PlayerBowlingStats
-__all__ = ["User", "Team", "Player", "Match", "PlayerStats","CricketersLifetimeStats", "TeamPlayed", "PlayerBattingStats", "PlayerBowlingStats"]
+from .model import User, Team, Player, Match, PlayerStats,CricketersLifetimeStats, TeamPlayed,PlayerBattingStats, PlayerBowlingStats,WeatherData
+__all__ = ["User", "Team", "Player", "Match", "PlayerStats","CricketersLifetimeStats", "TeamPlayed", "PlayerBattingStats", "PlayerBowlingStats", "WeatherData"]

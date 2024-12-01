@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, ARRAY, Text, Float , Date, Boolean, Numeric
+from sqlalchemy import Column, Integer, String, ForeignKey, ARRAY, Text, Float , Date, Boolean, Numeric,JSON,BigInteger
 from pydantic import BaseModel
 from app.db.session import Base
 
@@ -356,3 +356,10 @@ class PlayerBowlingStats(Base):
     odm_best_bowling_figures = Column(String)
     odm_catches = Column(Numeric)
     odm_maiden_overs = Column(Numeric)
+
+
+class WeatherData(Base):
+    __tablename__ = 'weather_data'
+    
+    match_id = Column(BigInteger, primary_key=True, nullable=False)
+    weather = Column(JSON, nullable=True)

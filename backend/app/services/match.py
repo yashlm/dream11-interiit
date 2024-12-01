@@ -61,6 +61,7 @@ def match_to_dict(match):
 def get_match_details_from_db(db: Session, match_id: str):
     return db.query(model.Match).filter(model.Match.match_id == match_id).first()
 
+
 async def get_data_from_csv(file: UploadFile = File(...)):
     # Read the uploaded file content
     contents = await file.read()
@@ -74,3 +75,6 @@ async def get_data_from_csv(file: UploadFile = File(...)):
     df_input = pd.read_csv(csv_file)
     
     return df_input
+
+def get_match_weather_from_db(db: Session, match_id: str):
+    return db.query(model.WeatherData).filter(model.WeatherData.match_id == match_id).first().weather

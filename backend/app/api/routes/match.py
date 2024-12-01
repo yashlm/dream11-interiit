@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.schemas.team import TeamInput
-from app.services.match import get_data_from_csv,get_match_details_from_db,get_all_featured_matches_for_date_from_db,get_all_matches_for_date_from_db,get_all_matches_from_db,get_all_team_matches_from_db,get_all_teams_matches_from_db,match_to_dict
+from app.services.match import get_match_weather_from_db,get_data_from_csv,get_match_details_from_db,get_all_featured_matches_for_date_from_db,get_all_matches_for_date_from_db,get_all_matches_from_db,get_all_team_matches_from_db,get_all_teams_matches_from_db,match_to_dict
 from app.services.team import get_teams_by_name_from_db,get_team_info_by_name_from_db
 from app.services.player import get_all_match_players_profile_from_db,get_player_ids_for_match, get_player_profile_for_ids
 from fastapi import File, UploadFile
@@ -581,3 +581,13 @@ async def upload_csv(file: UploadFile = File(...), db: Session = Depends(get_db)
 
     except Exception as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+
+@router.get("/weather/{match_id}")
+async def get_weather(match_id: str, db: Session = Depends(get_db)):
+    try:
+        match = get_match_weather_from_db(db, match_id)
+        return {"status": "ok", "message": "Weather retrieved successfully", "data": match}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    
