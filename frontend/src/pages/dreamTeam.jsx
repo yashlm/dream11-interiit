@@ -37,6 +37,7 @@ export default function DreamTeamGround() {
   const [isAtEnd, setIsAtEnd] = useState(null);
   const [isAtStart, setIsAtStart] = useState(null);
   const [dreamPoints, setDreamPoints] = useState(0);
+  const [info, setInfo] = useState("");
   const dockListRef = useRef(null);
   const navigate = useNavigate();
 
@@ -161,9 +162,10 @@ export default function DreamTeamGround() {
             type: player.playing_role || null,
             profileImage: player.img_src_url,
             bgImage: player.bg_image_url,
+            player_id: player.player_id,
           };
         });
-        console.log(allPlayers);
+        // console.log(allPlayers);
         if (allPlayers.length < 22) {
           // alert("Less Number of Plyers fetched, some error");
           // throw new Error("Not enough players");
@@ -204,12 +206,14 @@ export default function DreamTeamGround() {
     <div className={styles.bgImageHolder}>
       <div className={styles.weatherCardContainer}>
         <WeatherCard
+          matchId={match_id}
           time={"13:50"}
           place={"place"}
           temp={13}
           weatherType={"stormy"}
           humidity={"96%"}
           windSpeed={"98kmph"}
+          setEffect={setInfo}
         />
       </div>
       <div className={styles.dreamPointsCard}>
@@ -268,7 +272,7 @@ export default function DreamTeamGround() {
           </div>
         </div>
       </DndProvider>
-      <DescriptionCard onUndo={redo} />
+      <DescriptionCard onUndo={redo} info={info} />
     </div>
   );
 }

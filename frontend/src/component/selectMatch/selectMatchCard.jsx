@@ -17,8 +17,8 @@ const SelectMatchCard = ({ teamA, teamB }) => {
     const formattedDate = matchDate.toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
     navigate(`/custommatch/${formattedDate}`, {
       state: {
-        teamAdata:{ name:teamA.name, imageUrl: teamA.imageUrl },
-        teamBdata:{ name: teamB.name, imageUrl:teamB.imageUrl },
+        teamAdata: { name: teamA.name, imageUrl: teamA.imageUrl },
+        teamBdata: { name: teamB.name, imageUrl: teamB.imageUrl },
       },
     });
   };
@@ -42,6 +42,11 @@ const SelectMatchCard = ({ teamA, teamB }) => {
           },
           body: JSON.stringify(payload),
         });
+        if (!response.ok) {
+          throw new Error(
+            `HTTP Error: ${response.status} - ${response.statusText}`
+          );
+        }
         const data = await response.json();
         const dist = data.data.filter(
           (obj, index, self) =>
