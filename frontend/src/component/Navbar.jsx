@@ -40,8 +40,8 @@ const Navbar = () => {
     { path: "/teamSelect", label: "Select Team" },
     { path: `/custommatch/${todayDate}`, label: "Custom Match" },
     { path: "/dreamTeam/1426757", label: "Dream Team" },
-    { path: "/login", label: "Login" },
     { path: "/signup", label: "Signup" },
+    { path: "/login", label: "Login" },
   ];
 
   return (
