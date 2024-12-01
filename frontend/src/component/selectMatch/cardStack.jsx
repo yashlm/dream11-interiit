@@ -5,13 +5,11 @@ import TeamSearchCard from "./selectTeamCard.jsx";
 import { GiAmericanFootballHelmet } from "react-icons/gi";
 import { BiCricketBall } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-
 import Loading from "../Loading.jsx";
-
 import ProgressBar from "./progressBar.jsx";
 import SelectMatchCard from "./selectMatchCard.jsx";
-
 import { BASE_URL } from "../../constants.jsx";
+import Navbar from "../Navbar.jsx";
 
 const CardStack = () => {
   const [firstCardMoved, setFirstCardMoved] = useState(false);
@@ -30,8 +28,8 @@ const CardStack = () => {
         const response = await fetch(`${BASE_URL}/team/teams/`, {
           method: "GET",
         });
-        const data = await response.json(); // Parse the JSON response
-        setallTeams(data.data); // Set the fetched data to state
+        const data = await response.json(); 
+        setallTeams(data.data); 
       } catch (error) {
         alert("We encountered an issue. Please try again later.");
         console.error("Error fetching teams:", error);
@@ -68,9 +66,9 @@ const CardStack = () => {
   return allTeams == null ? (
     <Loading />
   ) : (
-    // return (
-    <div className={styles.fullscreenBackground}>
-      <div className={styles.backgroundCover}></div>
+      <div className={styles.fullscreenBackground}>
+        <Navbar />
+      {/* <div className={styles.backgroundCover}></div> */}
       <motion.div
         className={styles.cardStackContainer}
         initial={{ opacity: 0, scale: 0.8 }}
@@ -98,7 +96,7 @@ const CardStack = () => {
             animate={{
               x: secondCardMoved
                 ? `${Math.max(Math.max(window.innerWidth * 0.35, 200), 500)}px`
-                : "0", // Move right by 50% of viewport width
+                : "0", 
               zIndex: secondCardMoved ? 2 : 1,
               // width: secondCardMoved ? "20%" : "45%", // Adjust width dynamically
               backgroundColor: secondCardMoved ? "transparent" : "white",
@@ -137,7 +135,7 @@ const CardStack = () => {
               duration: 0.6,
               ease: "easeInOut",
             }}
-          >
+            >
             <TeamSearchCard
               setTeam={setFirstTeam}
               moveCard={setFirstCardMoved}

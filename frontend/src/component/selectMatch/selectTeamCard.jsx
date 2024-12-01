@@ -14,14 +14,16 @@ const teamIcon = (url, name) => {
         alt={name}
         src={url}
         sx={{
-          width: "60px",
-          height: "60px",
+          height: "auto", // Fix the height
+          width: "75px", // Allow natural width
+          variant: "square", // Prevent circular shape
         }}
       />
       <p>{name}</p>
     </div>
   );
 };
+
 
 const selectedTeamCard = (imageUrl, teamName, onClose) => {
   return (
@@ -35,9 +37,8 @@ const selectedTeamCard = (imageUrl, teamName, onClose) => {
       }}
     >
       <div className="glass-overlay">
-        {/* Close Icon */}
         <div
-          onClick={onClose} // Function passed to handle the close action
+          onClick={onClose}
           style={{
             position: "absolute",
             top: "10px",
@@ -53,9 +54,9 @@ const selectedTeamCard = (imageUrl, teamName, onClose) => {
           alt={teamName}
           src={imageUrl}
           style={{
-            width: "120px",
-            height: "120px",
-            border: "4px solid white",
+            height: "auto",
+            width: "250px", 
+            variant: "rectangle", 
           }}
         />
         <h2 className="team-name-title">{teamName}</h2>
@@ -64,7 +65,104 @@ const selectedTeamCard = (imageUrl, teamName, onClose) => {
   );
 };
 
+
 const allFavTeams = [
+  {
+    name: "India",
+    imageUrl: "https://flagcdn.com/in.svg",
+  },
+  {
+    name: "Australia",
+    imageUrl: "https://example.com/australia-logo.png",
+  },
+  {
+    name: "England",
+    imageUrl: "https://example.com/england-logo.png",
+  },
+  {
+    name: "New Zealand",
+    imageUrl: "https://example.com/nz-logo.png",
+  },
+  {
+    name: "India",
+    imageUrl: "https://flagcdn.com/in.svg",
+  },
+  {
+    name: "Australia",
+    imageUrl: "https://example.com/australia-logo.png",
+  },
+  {
+    name: "England",
+    imageUrl: "https://example.com/england-logo.png",
+  },
+  {
+    name: "New Zealand",
+    imageUrl: "https://example.com/nz-logo.png",
+  },
+  {
+    name: "India",
+    imageUrl: "https://flagcdn.com/in.svg",
+  },
+  {
+    name: "Australia",
+    imageUrl: "https://example.com/australia-logo.png",
+  },
+  {
+    name: "England",
+    imageUrl: "https://example.com/england-logo.png",
+  },
+  {
+    name: "New Zealand",
+    imageUrl: "https://example.com/nz-logo.png",
+  },
+  {
+    name: "India",
+    imageUrl: "https://flagcdn.com/in.svg",
+  },
+  {
+    name: "Australia",
+    imageUrl: "https://example.com/australia-logo.png",
+  },
+  {
+    name: "England",
+    imageUrl: "https://example.com/england-logo.png",
+  },
+  {
+    name: "New Zealand",
+    imageUrl: "https://example.com/nz-logo.png",
+  },
+  {
+    name: "India",
+    imageUrl: "https://flagcdn.com/in.svg",
+  },
+  {
+    name: "Australia",
+    imageUrl: "https://example.com/australia-logo.png",
+  },
+  {
+    name: "England",
+    imageUrl: "https://example.com/england-logo.png",
+  },
+  {
+    name: "New Zealand",
+    imageUrl: "https://example.com/nz-logo.png",
+  },
+  {
+    name: "India",
+    imageUrl: "https://flagcdn.com/in.svg",
+  },
+  {
+    name: "Australia",
+    imageUrl: "https://example.com/australia-logo.png",
+  },
+  {
+    name: "England",
+    imageUrl: "https://example.com/england-logo.png",
+  },
+  {
+    name: "New Zealand",
+    imageUrl: "https://example.com/nz-logo.png",
+  },
   {
     name: "India",
     imageUrl: "https://flagcdn.com/in.svg",
@@ -122,7 +220,7 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
             variant="outlined"
             fullWidth
             value={searchTeam}
-            placeholder={remove == "" ? `Select your team` : `${remove} vs`}
+            placeholder={remove === "" ? `Select your team` : `${remove} vs`}
             onChange={(e) => setSearchTeam(e.target.value)}
             slotProps={{
               input: {
@@ -135,26 +233,21 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
             }}
           />
         </div>
-        {/* Show the error message only when the filtered list is empty */}
         {filteredTeams.length === 0 && searchTeam.length > 0 && (
           <p className="no-teams-error">
             No teams found, here are your favourite teams:
           </p>
         )}
-        {/* Show "My Teams" title if filteredTeams is empty or no search is made */}
         {filteredTeams.length === 0 && searchTeam.length === 0 && (
           <p className="fav-teams-title">My Teams</p>
         )}
         <div
           className="teams-grid"
           style={{
-            height:
-              filteredTeams.length === 0 && searchTeam.length > 0
-                ? "450px"
-                : "500px",
+            maxHeight: "60vh", // Limits the height to 60% of the viewport
+            overflowY: "auto", // Enables scrolling
           }}
         >
-          {/* Show filtered teams if available, else show favourite teams */}
           {filteredTeams.length > 0
             ? filteredTeams.map((team) => selectTeamIcon(team))
             : favTeams.map((team) => selectTeamIcon(team))}
@@ -163,12 +256,13 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
     );
   };
 
+
   const filteredTeams =
     searchTeam.length == 0
       ? []
       : teams.filter((team) =>
-          team.name.toLowerCase().includes(searchTeam.toLowerCase())
-        );
+        team.name.toLowerCase().includes(searchTeam.toLowerCase())
+      );
 
   return (
     <div>
