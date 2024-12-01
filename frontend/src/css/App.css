@@ -53,3 +53,26 @@ body {
 .read-the-docs {
   color: #888;
 }
+
+
+.bot {
+  position: relative;
+  height: 100vh;
+}
+
+.floating-button {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #ff0404;
+  color: white;
+  border-radius: 50%;
+  padding: 20px;
+  font-size: 30px;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.floating-button:hover {
+  background-color: #8f0202;
+}
