@@ -14,6 +14,7 @@ import DreamTeamGround from "./pages/dreamTeam";
 import FavTeam from "./pages/FavTeam";
 import Loading from "./component/Loading";
 import CustomMatch from "./pages/CustomMatch";
+import CustomMatchcsv from "./pages/CustomMatchcsv";
 // import DescriptionCard from "./component/matchDescriptionCard";
 import MatchDetails from "./pages/MatchDetails";
 import HomePage from "./pages/HomePage";
@@ -27,6 +28,7 @@ class App extends Component {
           <Routes>
             <Route path="/home" element={<HomePage />} />
             <Route path="/custommatch/:date" element={<CustomMatch />} />
+            <Route path="/custommatch" element={<CustomMatchcsv />} />
             <Route path="/teamSelect" element={<CardStack />} />
             <Route path="/loading" element={<Loading />} />
             <Route path="/matchdetails" element={<MatchDetails />} />

@@ -78,7 +78,7 @@ const Navbar = () => {
           </Button>
         </Link>
         <Link
-          to={`/custommatch/${todayDate}`}
+          to={'/custommatch'}
           style={{ textDecoration: "none" }}
         >
           <Button
