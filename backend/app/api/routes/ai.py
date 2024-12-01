@@ -2,7 +2,7 @@ from fastapi import FastAPI, APIRouter, HTTPException
 from pydantic import BaseModel
 from io import BytesIO
 from fastapi.responses import StreamingResponse
-from ...chatbot.chat_bot import tool_selector
+# from ...chatbot.chat_bot import tool_selector
 from ...chatbot.text_to_speech import convert_text_to_audio 
 
 # Initialize FastAPI and Router
@@ -14,13 +14,13 @@ class ChatMessage(BaseModel):
 
 
 # Chat endpoint to return response from chatbot tool_selector
-@router.post("/chat")
-async def chat_endpoint(chat_message: ChatMessage):
-    try:
-        response = tool_selector(chat_message.message)
-        return {"response": response}
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+# @router.post("/chat")
+# async def chat_endpoint(chat_message: ChatMessage):
+#     try:
+#         response = tool_selector(chat_message.message)
+#         return {"response": response}
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
 
 # Audio endpoint to convert text to audio and return the audio file
 @router.post("/audio")
@@ -32,7 +32,7 @@ async def audio_endpoint(chat_message: ChatMessage):
 
     try:
         # Convert text to audio
-        audio_data = convert_text_to_audio(text)
+        audio_data = convert_text_to_audio(text,'hi-IN')
 
         # Return the audio as a streaming response
         audio_file = BytesIO(audio_data)
