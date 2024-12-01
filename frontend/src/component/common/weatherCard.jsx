@@ -2,7 +2,6 @@ import React from "react";
 import { MDBCard, MDBCardBody, MDBIcon, MDBTypography } from "mdb-react-ui-kit";
 
 export default function WeatherCard({
-  time,
   place,
   temp,
   weatherType,
@@ -23,7 +22,6 @@ export default function WeatherCard({
           <MDBTypography tag="h6" className="flex-grow-1">
             {place}
           </MDBTypography>
-          <MDBTypography tag="h6">{time}</MDBTypography>
         </div>
 
         {/* Temperature Section */}

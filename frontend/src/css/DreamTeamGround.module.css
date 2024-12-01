@@ -1,7 +1,7 @@
 .bgImageHolder {
   background-color: black;
   /* background-image: var(--ground-image-url); */
-  background: linear-gradient(rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2)),
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
     url("../assets/Test2.jpeg");
   width: 100vw;
   height: 100vh;
@@ -67,7 +67,10 @@
   transition: opacity 0.3s ease;
 }
 .rightArrow {
-  right: -4%;
+  right: -1%;
+}
+.leftArrow {
+  left: 1%;
 }
 
 .arrowButton.hidden {
@@ -89,7 +92,7 @@
   left: 10px;
   width: 220px;
   height: 120px;
-  z-index: 999;
+  z-index: 2;
   background: rgba(255, 255, 255, 0.8);
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -126,10 +129,46 @@
 }
 
 .centerH1 {
-  font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  /* font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   color: aliceblue;
   font-weight: bolder;
+  position: absolute;*/
+
+  /* YOUR DREAM TEAM */
+
   position: absolute;
+  width: 770px;
+  height: 110px;
   top: 33vh;
-  left: 34vw;
+  left: 28vw;
+
+  font-family: "Calistoga";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 60px;
+  line-height: 65px;
+  text-transform: uppercase;
+
+  background: linear-gradient(
+    0deg,
+    #d0f1e1 7.43%,
+    #f8d7db 29.13%,
+    #ffffff 94.6%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  text-shadow: 0px 6px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Apply transition for move, scale, and opacity */
+.playerCardContainer {
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.playerCardContainer.moveAsideAndFade {
+  opacity: 0.4;
+  transform: translateX(20px) translateY(20px);
 }

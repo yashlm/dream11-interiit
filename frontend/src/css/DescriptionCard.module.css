@@ -69,18 +69,18 @@
 }
 
 .expanded {
-  max-height: 70vh;
+  max-height: 50vh;
   overflow: scroll;
   height: auto;
 }
 
 .infoText {
-  margin: 0; /* Remove extra margin for consistency */
-  line-height: 1.5; /* Adjust line height for better readability */
-  white-space: pre-wrap; /* Preserve spaces and line breaks */
-  overflow: hidden; /* Ensure clipping of the text */
-  text-overflow: ellipsis; /* Add ellipsis if text overflows */
-  display: -webkit-box; /* For multiline ellipsis */
+  margin: 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
   -webkit-box-orient: vertical;
 }
 

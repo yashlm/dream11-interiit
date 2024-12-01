@@ -34,8 +34,8 @@ export default function DreamTeamGround() {
   // );
   const [modelOuput, setModelOutput] = useState([]);
   const [positions, setPositions] = useState(initialFieldPositions);
-  const [isAtEnd, setIsAtEnd] = useState(false);
-  const [isAtStart, setIsAtStart] = useState(true);
+  const [isAtEnd, setIsAtEnd] = useState(null);
+  const [isAtStart, setIsAtStart] = useState(null);
   const [dreamPoints, setDreamPoints] = useState(0);
   const dockListRef = useRef(null);
   const navigate = useNavigate();
@@ -100,13 +100,14 @@ export default function DreamTeamGround() {
   };
   const handleScroll = () => {
     if (dockListRef.current) {
-      const isEnd =
-        dockListRef.current.scrollLeft + dockListRef.current.clientWidth ===
+      // const isEnd =
+      //   dockListRef.current.scrollLeft + dockListRef.current.clientWidth ===
+      //   dockListRef.current.scrollWidth;
+      const canScrollRight =
+        dockListRef.current.scrollLeft + dockListRef.current.clientWidth <
         dockListRef.current.scrollWidth;
-      setIsAtEnd(isEnd);
-      const isStart =
-        dockListRef.current.scrollRight + dockListRef.current.clientWidth ===
-        dockListRef.current.scrollWidth;
+      setIsAtEnd(!canScrollRight);
+      const isStart = dockListRef.current.scrollLeft === 0;
       setIsAtStart(isStart);
     }
   };
@@ -122,6 +123,10 @@ export default function DreamTeamGround() {
       handleScroll();
     }
   };
+
+  useEffect(() => {
+    handleScroll();
+  });
 
   useEffect(() => {
     const total = positions.reduce((sum, position) => {
@@ -152,12 +157,13 @@ export default function DreamTeamGround() {
           return {
             name: player.full_name || "loading...",
             key: player.player_id || null,
-            dreamPoints: player.fantasy_score_total || 110,
-            type: player.playing_role || "Batsman",
+            dreamPoints: player.fantasy_score_total || null,
+            type: player.playing_role || null,
             profileImage: player.img_src_url,
             bgImage: player.bg_image_url,
           };
         });
+        console.log(allPlayers);
         if (allPlayers.length < 22) {
           // alert("Less Number of Plyers fetched, some error");
           // throw new Error("Not enough players");
