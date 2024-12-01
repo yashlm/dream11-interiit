@@ -5,6 +5,7 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import PropTypes from "prop-types";
 import cricicon from '../../assets/HomePage/cricket.svg';
+import NoMatches from "./NoMatches";
 
 const NextArrow = (props) => {
   const { onClick } = props;
@@ -26,15 +27,15 @@ PrevArrow.propTypes = {
 
 const FeaturedMatches = ({ matches }) => {
   const settings = {
-    dots: true, // Show navigation dots
-    arrows: true, // Enable navigation arrows
-    infinite: true, // Loop through items
-    speed: 600, // Smooth transition speed (increase for slower effect)
-    slidesToShow: 3, // Number of slides visible at a time
-    slidesToScroll: 1, // Number of slides to scroll at a time
-    autoplay: true, // Enable autoplay
-    autoplaySpeed: 3000, // Time interval for autoplay in milliseconds
-    pauseOnHover: true, // Pause autoplay on hover
+    dots: true,
+    arrows: true,
+    infinite: true,
+    speed: 600,
+    slidesToShow: 3,
+    slidesToScroll: 1,
+    autoplay: true,
+    autoplaySpeed: 3000,
+    pauseOnHover: true,
     responsive: [
       {
         breakpoint: 1024,
@@ -57,14 +58,24 @@ const FeaturedMatches = ({ matches }) => {
 
   return (
     <div className={styles.container}>
-      <h2 className={styles.heading}><img src={cricicon} alt="Icon" className={styles.cricicon}></img>Featured Matches</h2>
-      <Slider {...settings}>
-        {matches.map((match, index) => (
-          <div key={index}>
-            <MatchCard match={match} />
-          </div>
-        ))}
-      </Slider>
+      <h2 className={styles.heading}>
+        <img src={cricicon} alt="Icon" className={styles.cricicon} />
+        Featured Matches
+      </h2>
+      {matches.length === 0 ? (
+        <NoMatches
+          message="There are no featured matches"
+          customLink="/custommatch"
+        />
+      ) : (
+        <Slider {...settings}>
+          {matches.map((match, index) => (
+            <div key={index}>
+              <MatchCard match={match} />
+            </div>
+          ))}
+        </Slider>
+      )}
     </div>
   );
 };
