@@ -1,374 +1,56 @@
 import React, { useState, useRef, useEffect } from "react";
-import { DndProvider, useDrag, useDrop } from "react-dnd";
+import { DndProvider, useDrop } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import styles from "../css/DreamTeamGround.module.css";
-import PlayerCard from "../component/playerCard";
-import { FaArrowRight } from "react-icons/fa";
+import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
 import WeatherCard from "../component/common/weatherCard";
 import DreamPointsCard from "../component/common/dreamPoints";
-import DescriptionCard from "../component/matchDescriptionCard";
+import DescriptionCard from "../component/dreamPage/matchDescriptionCard";
+import Loading from "../component/Loading";
+import DragPlayerCard from "../component/dreamPage/dragPlayerCard";
+import DropZone from "../component/dreamPage/dropZone";
+import { useNavigate } from "react-router-dom";
+import {
+  BASE_URL,
+  fieldPositionsInPx,
+  referenceX,
+  referenceY,
+} from "../constants";
+import { useParams } from "react-router-dom";
 
-const ItemType = {
-  PLAYER: "PLAYER",
-};
-
-const referenceX = 1278;
-const referenceY = 754;
-
-const fieldPositionsWithRatios = [
-  { id: 1, x: 506, y: 91, isFilled: false, player: null },
-  { id: 2, x: 730, y: 91, isFilled: false, player: null },
-  { id: 3, x: 280, y: 122, isFilled: false, player: null },
-  { id: 4, x: 940, y: 122, isFilled: false, player: null },
-  { id: 5, x: 92, y: 190, isFilled: false, player: null },
-  { id: 6, x: 1120, y: 190, isFilled: false, player: null },
-  { id: 7, x: 210, y: 330, isFilled: false, player: null },
-  { id: 8, x: 1010, y: 330, isFilled: false, player: null },
-  { id: 9, x: 380, y: 390, isFilled: false, player: null },
-  { id: 10, x: 830, y: 390, isFilled: false, player: null },
-  { id: 11, x: 630, y: 400, isFilled: false, player: null },
-];
-
-const initialFieldPositions = fieldPositionsWithRatios.map((position) => ({
+const initialFieldPositions = fieldPositionsInPx.map((position) => ({
   ...position,
-  x: ((position.x - 60) / referenceX) * 100,
-  y: ((position.y - 45) / referenceY) * 100,
+  x: (position.x / referenceX) * 100,
+  y: (position.y / referenceY) * 100,
 }));
-
-const allPlayers = [
-  {
-    name: "Virat Kohli",
-    key: 1,
-    dreamPoints: 120,
-    type: "Batsman",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Rohit Sharma",
-    key: 2,
-    dreamPoints: 115,
-    type: "Batsman",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "KL Rahul",
-    key: 3,
-    dreamPoints: 98,
-    type: "Batsman",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Shreyas Iyer",
-    key: 4,
-    dreamPoints: 105,
-    type: "All-Rounder",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Hardik Pandya",
-    key: 5,
-    dreamPoints: 110,
-    type: "All-Rounder",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Rishabh Pant",
-    key: 6,
-    dreamPoints: 90,
-    type: "Wicket-Keeper",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Ravindra Jadeja",
-    key: 7,
-    dreamPoints: 95,
-    type: "Bowler",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Jasprit Bumrah",
-    key: 8,
-    dreamPoints: 99,
-    type: "Bowler",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Mohammed Shami",
-    key: 9,
-    dreamPoints: 85,
-    type: "Bowler",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Yuzvendra Chahal",
-    key: 10,
-    dreamPoints: 92,
-    type: "Bowler",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Bhuvneshwar Kumar",
-    key: 11,
-    dreamPoints: 88,
-    type: "Bowler",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Shubman Gill",
-    key: 12,
-    dreamPoints: 102,
-    type: "Batsman",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Sanju Samson",
-    key: 13,
-    dreamPoints: 89,
-    type: "Wicket-Keeper",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Axar Patel",
-    key: 14,
-    dreamPoints: 95,
-    type: "All-Rounder",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Kuldeep Yadav",
-    key: 15,
-    dreamPoints: 90,
-    type: "Bowler",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Deepak Chahar",
-    key: 16,
-    dreamPoints: 85,
-    type: "Bowler",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Washington Sundar",
-    key: 17,
-    dreamPoints: 88,
-    type: "All-Rounder",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Ishan Kishan",
-    key: 18,
-    dreamPoints: 92,
-    type: "Wicket-Keeper",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Shardul Thakur",
-    key: 19,
-    dreamPoints: 91,
-    type: "Bowler",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Rahul Tewatia",
-    key: 20,
-    dreamPoints: 87,
-    type: "All-Rounder",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Prithvi Shaw",
-    key: 21,
-    dreamPoints: 100,
-    type: "Batsman",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-  {
-    name: "Suryakumar Yadav",
-    key: 22,
-    dreamPoints: 110,
-    type: "Batsman",
-    profileImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
-    bgImage:
-      "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg",
-  },
-];
-
-const sortedPlayers = [...allPlayers].sort(
-  (a, b) => b.dreamPoints - a.dreamPoints
-);
-
-const initialOnFieldPlayers = sortedPlayers.slice(0, 11);
-const initialOffFieldPlayers = sortedPlayers.slice(11);
-
-const initialPositions = initialFieldPositions.map((position, index) => ({
-  ...position,
-  isFilled: index < initialOnFieldPlayers.length,
-  player: initialOnFieldPlayers[index] || null,
-}));
-
-function DragPlayerCard({ player, isDraggable = true, onAddToField }) {
-  const [{ isDragging }, drag] = useDrag(() => ({
-    type: ItemType.PLAYER,
-    item: player,
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  }));
-
-  return (
-    <div
-      ref={isDraggable ? drag : null}
-      style={{
-        backgroundColor: "transparent",
-        opacity: isDragging ? 0.5 : 1,
-        cursor: isDraggable ? "move" : "default",
-      }}
-    >
-      <PlayerCard {...player} onAddToField={onAddToField} />
-    </div>
-  );
-}
-
-function DropZone({ id, position, onDrop, currentPlayer, onRemove }) {
-  const [{ isOver }, drop] = useDrop(() => ({
-    accept: ItemType.PLAYER,
-    drop: (droppedPlayer) => onDrop(droppedPlayer, id),
-    collect: (monitor) => ({
-      isOver: monitor.isOver(),
-    }),
-  }));
-
-  return (
-    <div
-      ref={drop}
-      style={{
-        position: "absolute",
-        left: `${position.x}vw`,
-        top: `${position.y}vh`,
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      {currentPlayer ? (
-        <PlayerCard
-          {...currentPlayer}
-          isDraggable={false}
-          isInField={true}
-          onRemove={() => onRemove(id)}
-        />
-      ) : (
-        <div className={styles.dropZone} style={{ textAlign: "center" }}>
-          <p>Drop Player Here</p>
-        </div>
-      )}
-    </div>
-  );
-}
 
 export default function DreamTeamGround() {
-  const [positions, setPositions] = useState(initialPositions);
-  const [offFieldPlayers, setOffFieldPlayers] = useState(
-    initialOffFieldPlayers
-  );
+  const { match_id } = useParams();
+  const [isLoading, setIsLoading] = useState(false);
+  const [offFieldPlayers, setOffFieldPlayers] = useState([]);
+  const [initialOnFieldPlayers, setInitialOnFieldPlayers] = useState([]);
+  // const [initialPositions, setInitialPositions] = useState(
+  //   initialFieldPositions
+  // );
+  const [modelOuput, setModelOutput] = useState([]);
+  const [positions, setPositions] = useState(initialFieldPositions);
+  const [isAtEnd, setIsAtEnd] = useState(false);
+  const [isAtStart, setIsAtStart] = useState(true);
+  const [dreamPoints, setDreamPoints] = useState(0);
+  const dockListRef = useRef(null);
+  const navigate = useNavigate();
 
-  // const [allPlayers, setAllPlayer] = useState(dummyData);
-
-  // useEffect(() => {
-  //   const dataFetch = async () => {
-  //     try {
-  //       const payload = {
-  //         player_id: player_id,
-  //         match_id: match_id,
-  //       };
-  //       const response = await fetch(`${BASE_URL}/player/player_stats`, {
-  //         method: "POST",
-  //         headers: {
-  //           "Content-Type": "application/json",
-  //         },
-  //         body: JSON.stringify(payload),
-  //       });
-  //       const jsonResponse = await response.json();
-  //       console.log("hi");
-  //       setPlayerData(jsonResponse.data);
-  //       console.log(jsonResponse);
-  //     } catch (error) {
-  //       alert("We encountered an issue. Please try again later.");
-  //       console.error("Error fetching teams:", error);
-  //       onClose();
-  //     }
-  //   };
-  //   if (isVisible) {
-  //     dataFetch();
-  //   }
-  //   setPlayerData(data);
-  // }, []);
-
+  const redo = () => {
+    setOffFieldPlayers(modelOuput.slice(11));
+    setPositions((prevPositions) => {
+      const initialOnFieldPlayers = modelOuput.slice(0, 11);
+      return prevPositions.map((position, index) => ({
+        ...position,
+        isFilled: index < initialOnFieldPlayers.length,
+        player: initialOnFieldPlayers[index] || null,
+      }));
+    });
+  };
   const handleDrop = (droppedPlayer, targetPositionId) => {
     setPositions((prevPositions) =>
       prevPositions.map((position) => {
@@ -382,12 +64,10 @@ export default function DreamTeamGround() {
         return position;
       })
     );
-
     setOffFieldPlayers((prev) =>
       prev.filter((player) => player.key !== droppedPlayer.key)
     );
   };
-
   const handleRemovePlayer = (positionId) => {
     setPositions((prevPositions) =>
       prevPositions.map((position) => {
@@ -399,7 +79,6 @@ export default function DreamTeamGround() {
       })
     );
   };
-
   const handleAddToField = (player) => {
     if (positions.filter((position) => position.isFilled).length >= 11) {
       alert("No space left on the field");
@@ -419,26 +98,103 @@ export default function DreamTeamGround() {
       setOffFieldPlayers((prev) => prev.filter((p) => p.key !== player.key));
     }
   };
-  const [isAtEnd, setIsAtEnd] = useState(false);
-  const dockListRef = useRef(null);
-
   const handleScroll = () => {
     if (dockListRef.current) {
       const isEnd =
         dockListRef.current.scrollLeft + dockListRef.current.clientWidth ===
         dockListRef.current.scrollWidth;
       setIsAtEnd(isEnd);
+      const isStart =
+        dockListRef.current.scrollRight + dockListRef.current.clientWidth ===
+        dockListRef.current.scrollWidth;
+      setIsAtStart(isStart);
     }
   };
-
   const scrollRight = () => {
     if (dockListRef.current) {
       dockListRef.current.scrollLeft += 200; // Adjust scroll amount as needed
       handleScroll();
     }
   };
+  const scrollLeft = () => {
+    if (dockListRef.current) {
+      dockListRef.current.scrollLeft -= 200; // Adjust scroll amount as needed
+      handleScroll();
+    }
+  };
 
-  return (
+  useEffect(() => {
+    const total = positions.reduce((sum, position) => {
+      if (position.player) {
+        return sum + (position.player.dreamPoints || 0);
+      }
+      return sum;
+    }, 0);
+
+    setDreamPoints(total);
+  }, [positions]);
+
+  useEffect(() => {
+    const FetchDreamTeam = async (match_id) => {
+      try {
+        setIsLoading(true);
+        const url = `${BASE_URL}/match/dreamTeam/${match_id}`;
+        const response = await fetch(url, {
+          method: "GET",
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(
+            `HTTP Error: ${response.status} - ${response.statusText}`
+          );
+        }
+        const allPlayers = data.data.map((player) => {
+          return {
+            name: player.full_name || "loading...",
+            key: player.player_id || null,
+            dreamPoints: player.fantasy_score_total || 110,
+            type: player.playing_role || "Batsman",
+            profileImage: player.img_src_url,
+            bgImage: player.bg_image_url,
+          };
+        });
+        if (allPlayers.length < 22) {
+          // alert("Less Number of Plyers fetched, some error");
+          // throw new Error("Not enough players");
+        }
+        const sortedPlayers = [...allPlayers].sort(
+          (a, b) => b.dreamPoints - a.dreamPoints
+        );
+        setModelOutput(sortedPlayers);
+        setOffFieldPlayers(sortedPlayers.slice(11));
+        const initialOnFieldPlayers = sortedPlayers.slice(0, 11);
+        // setInitialOnFieldPlayers(sortedPlayers.slice(0, 11));
+        // Error //
+        // issue likely arises due to the timing of state updates in your useEffect.
+        // When FetchDreamTeam updates positions after setting initialOnFieldPlayers,
+        // the state might not yet reflect the updated initialOnFieldPlayers because
+        // React batches state updates asynchronously.
+        setPositions((prevPositions) =>
+          prevPositions.map((position, index) => ({
+            ...position,
+            isFilled: index < initialOnFieldPlayers.length,
+            player: initialOnFieldPlayers[index] || null,
+          }))
+        );
+      } catch (error) {
+        alert("We encountered an issue. Please try again later.");
+        console.error("Error fetching teams:", error);
+        navigate("/home");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    FetchDreamTeam(match_id);
+  }, [match_id]);
+
+  return isLoading ? (
+    <Loading />
+  ) : (
     <div className={styles.bgImageHolder}>
       <div className={styles.weatherCardContainer}>
         <WeatherCard
@@ -451,10 +207,14 @@ export default function DreamTeamGround() {
         />
       </div>
       <div className={styles.dreamPointsCard}>
-        <DreamPointsCard points={180} />
+        <DreamPointsCard points={dreamPoints} />
       </div>
 
-      <h1 className={styles.centerH1}>YOUR DREAM TEAM</h1>
+      <h1
+        className={`${styles.centerH1} className=" font-bold bg-gradient-to-r from-amber-500 to-pink-500 inline-block text-transparent bg-clip-text`}
+      >
+        YOUR DREAM TEAM
+      </h1>
 
       <DndProvider backend={HTML5Backend}>
         {positions.map((position) => (
@@ -467,12 +227,17 @@ export default function DreamTeamGround() {
             onRemove={handleRemovePlayer}
           />
         ))}
-
         <div className={styles.bottomDock}>
           <h2>Other Players</h2>
           <div className={styles.dockListWrapper}>
+            <FaArrowLeft
+              className={`${styles.arrowButton} ${styles.leftArrow} ${
+                isAtStart ? styles.hidden : ""
+              }`}
+              onClick={scrollLeft} // Handle scrolling left
+            />
             <FaArrowRight
-              className={`${styles.arrowButton} ${
+              className={`${styles.arrowButton} ${styles.rightArrow} ${
                 isAtEnd ? styles.hidden : ""
               }`}
               onClick={scrollRight}
@@ -483,7 +248,7 @@ export default function DreamTeamGround() {
               ref={dockListRef}
               onScroll={handleScroll}
             >
-              {offFieldPlayers.map((player) => (
+              {offFieldPlayers?.map((player) => (
                 <DragPlayerCard
                   key={player.key}
                   player={player}
@@ -497,8 +262,7 @@ export default function DreamTeamGround() {
           </div>
         </div>
       </DndProvider>
-
-      <DescriptionCard />
+      <DescriptionCard onUndo={redo} />
     </div>
   );
 }

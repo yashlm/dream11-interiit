@@ -10,11 +10,11 @@ const AboutUs = () => {
             <div className={styles.imageGrid}>
                 <div className={styles.imageBox}>
                     <img src={img1} alt="Player 1" className={styles.image1} />
-                    <img src={img3} alt="Team Celebration" className={styles.image3} />
+                    <img src={img3} alt="Player 2" className={styles.image3} />
                     
                 </div>
                 <div className={`${styles.imageBox} ${styles.overlayImageBox}`}>
-                <img src={img2} alt="Player 2" className={styles.image2} />
+                <img src={img2} alt="Team Celebration" className={styles.image2} />
                     <div className={styles.overlayText}>Over 20 Crore+ Users</div>
                 </div>
             </div>

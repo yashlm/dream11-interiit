@@ -6,7 +6,7 @@
   flex-wrap: wrap;
   gap: 16px;
   padding: 20px;
-  background: #f5f7fa; /* Subtle background to make cards stand out */
+  background: #f5f7fa; 
 }
 
 .match-card {
@@ -14,7 +14,7 @@
   width: 22em;
   height: 14em;
   overflow: hidden;
-  background: linear-gradient(to bottom right, #ffffff, #f0f0f0); /* Modern gradient */
+  background: linear-gradient(to bottom right, #ffffff, #f0f0f0); 
   border: 1px solid #e6e6e6;
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); /* Softer shadow for a clean look */

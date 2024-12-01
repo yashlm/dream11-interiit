@@ -259,7 +259,7 @@ import {
   Alert,
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
-import PlayerSearch from "../component/PlayerSearch";
+import PlayerSearch from "../component/selectMatch/PlayerSearch";
 import PlayerCard from "../component/playerCard";
 import Navbar from "../component/Navbar";
 import ReadOnlyDate from "../component/common/readOnlyDate";
