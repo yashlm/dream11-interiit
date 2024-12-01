@@ -178,3 +178,13 @@ class CricketersLifetimeStats(Base):
     match_odm = Column(Float)
     T20 = Column(Float)
     match_test = Column(Float)
+
+
+class TeamPlayed(Base):
+    __tablename__ = 'team_played'
+
+    player_id = Column(String(255), primary_key=True, nullable=False)
+    teams = Column(ARRAY(String), nullable=False)
+
+    def __repr__(self):
+        return f"<TeamPlayed(player_id='{self.player_id}', teams={self.teams})>"

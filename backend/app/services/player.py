@@ -56,3 +56,27 @@ def get_player_stats_by_name_from_db(db: Session, player_name: str, match_id: in
         return player_stats
     else:
         return None
+
+from sqlalchemy import text
+
+def get_all_player_ids_played_for_team_from_db(db: Session, team_name: str):
+    """
+    Fetch all player IDs where the given team name is in the teams array.
+
+    :param db: SQLAlchemy Session object.
+    :param team_name: The name of the team to filter players by.
+    :return: List of player IDs.
+    """
+    query = text("SELECT player_id FROM team_played WHERE :team_name = ANY(teams)")
+    result = db.execute(query, {"team_name": team_name}).fetchall()
+    return [row[0] for row in result]  # Extract player IDs from the result
+
+def get_all_player_info_for_player_ids_from_db(db: Session, player_ids: list):
+    """
+    Fetch all player information for the given player IDs.
+
+    :param db: SQLAlchemy Session object.
+    :param player_ids: List of player IDs to filter by.
+    :return: List of player objects.
+    """
+    return db.query(model.Player).filter(model.Player.player_id.in_(player_ids)).all()

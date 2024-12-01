@@ -92,7 +92,7 @@ async def get_match_details(match_id: str, db: Session = Depends(get_db)):
                 teamB.append(player)
 
 
-        return {"status": "ok", "message": "Data retrieved successfully","matchdetails":matchdetails, "player_count": len(teamA)+len(teamB), "player_ids": player_ids, "teamA": teamA, "teamB": teamB}
+        return {"status": "ok", "message": "Data retrieved successfully","matchdetails":matchdetails, "player_count": len(teamA)+len(teamB), "player_ids": player_ids, "teamA": teamA, "teamB": teamB, "pitch": "Grass"}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
