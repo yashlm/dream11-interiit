@@ -1,0 +1,95 @@
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px;
+    background-color: #f4f4f4;
+  }
+  
+  .matchCard {
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  
+  .logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .team {
+    text-align: center;
+    margin: 0 20px;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .teamLogo {
+    width: 80px;
+    height: 80px;
+    object-fit: contain;
+    border-radius: 50%;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+    transform: scale(1);
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .team:hover .teamLogo {
+    transform: scale(1.1);
+  }
+  
+  .vs {
+    font-size: 18px;
+    color: #333;
+    margin: 0 10px;
+    font-weight: bold;
+  }
+  
+  .teamName {
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+    color: #555;
+  }
+  
+  .separatorLine {
+    width: 100%;
+    height: 1px;
+    background-color: #010101;
+    margin: 20px 0; /* Space between elements */
+  }
+  
+  .matchType {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 20px; /* Keeps the heading inside the container */
+    text-align: center; /* Center the text */
+  }
+  
+  
+  .matchDetails {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    font-size: 14px;
+    color: #666;
+  }
+  
+  .icon {
+    margin-right: 8px;
+  }
+  
+  .matchDetails p {
+    display: flex;
+    align-items: center;
+  }
+  

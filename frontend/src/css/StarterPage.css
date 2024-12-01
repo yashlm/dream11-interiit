@@ -9,10 +9,11 @@ body {
 
 .main-container {
   display: flex;
-  justify-content: flex-start;
+  flex-direction: column; /* Stack items vertically on smaller screens */
+  justify-content: center;
   align-items: center;
   height: 100vh;
-  position: relative;
+  padding: 1rem; /* Add padding for smaller screens */
   background-image: url('../assets/landing_page/landing.png');
   background-size: cover;
   background-position: center;
@@ -20,14 +21,14 @@ body {
 }
 
 .content-container {
-  text-align: left;
+  text-align: center; /* Center-align content for better mobile experience */
   z-index: 2;
-  margin-left: 4rem;
-  transform: translateY(3rem);
+  margin: 0 auto;
+  transform: translateY(1rem);
 }
 
 .welcome-text {
-  font-size: 5rem;
+  font-size: 2.5rem; /* Reduce font size for smaller screens */
   font-family: Oswald, sans-serif;
   font-weight: 700;
   color: white;
@@ -37,25 +38,28 @@ body {
 .lets {
   margin-top: 10px;
   display: block;
-  font-size: 3rem;
+  font-size: 1.5rem; /* Adjust font size for readability */
   font-family: Lato, sans-serif;
 }
 
 .dream11 img {
   display: inline-block;
-  transform: translateY(3.5rem);
-  width: 4.5em;
+  transform: translateY(0.5rem); /* Align better with text */
+  width: 3rem; /* Adjust size for mobile */
 }
 
 .form-container {
   display: flex;
+  flex-direction: column; /* Stack input and button vertically */
   align-items: center;
   gap: 1rem; /* Adds spacing between input and button */
+  margin-top: 1rem;
 }
 
 .outlined-name {
-  font-size: 0.9rem;
-  width: 250px;
+  font-size: 1rem;
+  width: 100%; /* Make input responsive */
+  max-width: 350px; /* Limit the width on larger screens */
   height: 3rem;
   border: none;
   border-radius: 5px;
@@ -65,16 +69,55 @@ body {
   background-color: red;
   color: black;
   border: none;
-  font-size: 1.2rem;
+  font-size: 1rem; /* Adjust button size */
   font-weight: bold;
-  height: 3.5rem;
-  padding: 0 25px;
+  height: 3rem;
+  padding: 0 20px;
   border-radius: 5px;
   cursor: pointer;
   transition: background-color 0.3s;
+  width: 100%;
+  max-width: 200px;
 }
 
 .next-btn:hover {
   background-color: black;
   color: red;
+}
+
+/* Media Queries for Responsive Design */
+@media (min-width: 768px) {
+  .main-container {
+    flex-direction: row; /* Switch to horizontal layout */
+    justify-content: flex-start;
+    align-items: center;
+    padding: 0 4rem;
+  }
+
+  .content-container {
+    text-align: left;
+    margin-left: 4rem;
+    transform: translateY(3rem);
+  }
+
+  .welcome-text {
+    font-size: 4rem;
+  }
+
+  .lets {
+    font-size: 2.5rem;
+  }
+
+  .dream11 img {
+    width: 4rem;
+    transform: translateY(3rem);
+  }
+
+  .form-container {
+    flex-direction: row; /* Align input and button horizontally */
+  }
+
+  .next-btn {
+    width: auto;
+  }
 }

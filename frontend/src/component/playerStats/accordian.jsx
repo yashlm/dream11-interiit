@@ -1,155 +1,186 @@
-import { useState } from "react";
+import React, { useState, useMemo } from "react";
+import RadarChartComponent from "../charts/radarChart";
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
-  Button,
   Typography,
-  Grid,
-  Box,
 } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
+import {
+  Tabs,
+  TabsHeader,
+  TabsBody,
+  Tab,
+  TabPanel,
+} from "@material-tailwind/react";
+
 import styles from "./playerStats.module.css";
 
-const PlayerStatsAccordion = ({ type, data, setType }) => {
-  const [selectedCategory, setSelectedCategory] = useState("odi_bat"); // Default is Batting
-  const [expanded, setExpanded] = useState(type.toLowerCase());
+const TransparentTabs = React.memo(({ inputData, dataType }) => {
+  const data = Object.entries(inputData).map(([type, stats]) => {
+    if (dataType == "batting") {
+      return {
+        label: type, // format (e.g., t20, odi) as label
+        value: type.toLowerCase(), // Lowercased version of the format as value
+        "Total Runs": stats.totalRuns,
+        "Total Matches": stats.totalMatches,
+        "Highest Score": stats.highestScore,
+        "Career Strike Rate": stats.careerStrikeRate,
+        "Career Avg": stats.careerAvg,
+        "Last 10 Matches Avg": stats.last10Avg,
+        "Last 10 Matches Strike Rate": stats.last10StrikeRate,
+        "50s": stats.fifty,
+        "100s": stats.hundred,
+        "4s": stats.fours,
+        "6s": stats.sixes,
+        Stumpings: stats.stumpings,
+        Catches: stats.catches,
+        chartData: {
+          Adaptability: stats.adaptability,
+          Consistency: stats.battingConsistency,
+          Form: stats.battingForm,
+          FieldingPerformance: stats.fieldingPerformance,
+          Experience: stats.match,
+        },
+      };
+    } else if (dataType == "bowling") {
+      return {
+        label: type, // format (e.g., t20, odi) as label
+        value: type.toLowerCase(), // Lowercased version of the format as value
+        "Total Matches": stats.totalMatches,
+        "Total Wickets": stats.totalWickets,
+        "Career Economy Rate": stats.careerEconomyRate,
+        "Career Avg": stats.careerAvg,
+        "Career SR": stats.careerSR,
+        "Last 10 Matches Avg": stats.last10Avg,
+        "Last 10 Matches SR": stats.last10SR,
+        "Last 10 Matches Eco": stats.last10EconomyRate,
+        "No of 4 Wicket Hauls": stats.fourWicketHauls,
+        "No of 5 Wicket Hauls": stats.fiveWicketHauls,
+        "Catches Taken": stats.catches,
+        "No of Maiden Overs": stats.maidenOvers,
+        chartData: {
+          Adaptability: stats.adaptability,
+          Consistency: stats.bowlingConsistency,
+          Form: stats.bowlingForm,
+          FieldingPerformance: stats.fieldingPerformance,
+          Experience: stats.match,
+        },
+      };
+    }
+  });
+  return (
+    <Tabs value="test">
+      <TabsHeader
+        className={`${styles.tabHeader}`}
+        indicatorProps={{
+          className: "bg-gray-900/10 shadow-none !text-gray-900",
+        }}
+      >
+        {data.map(({ label, value }) => (
+          <Tab key={value} value={value}>
+            {label}
+          </Tab>
+        ))}
+      </TabsHeader>
+      <TabsBody>
+        {data.map(({ label, value, chartData, ...otherStats }) => (
+          <TabPanel key={value} value={value}>
+            <div className="flex flex-row-reverse overflow-auto">
+              {/* Stats Columns */}
+              <div className="flex flex-wrap w-1/2">
+                {/* Iterate over stats and display them in 3 columns */}
+                {Object.entries(otherStats)
+                  .reduce((result, [statLabel, statValue], index) => {
+                    const chunkIndex = Math.floor(index / 3); // Calculate which chunk this entry belongs to
+                    if (!result[chunkIndex]) {
+                      result[chunkIndex] = []; // Initialize a new chunk
+                    }
+                    result[chunkIndex].push([statLabel, statValue]); // Add the entry to the appropriate chunk
+                    return result;
+                  }, [])
+                  .map((chunk, chunkIndex) => (
+                    <div
+                      key={chunkIndex}
+                      className="flex space-x-4 w-full mb-4"
+                    >
+                      {chunk.map(([statLabel, statValue]) => (
+                        <div key={statLabel} className="w-1/3">
+                          <div className="text-lg font-bold text-left pl-7">
+                            {statValue}
+                          </div>
+                          <div className="text-base text-left pl-8 ">
+                            {statLabel}
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  ))}
+              </div>
+
+              {/* Radar Chart Component */}
+              <div className="w-1/2 flex flex-col  items-center">
+                <h5>Player Performance</h5>
+                <RadarChartComponent fields={chartData} />
+              </div>
+            </div>
+          </TabPanel>
+        ))}
+      </TabsBody>
+    </Tabs>
+  );
+});
+
+const PlayerStatsAccordion = ({ playerType, data }) => {
+  const [expanded, setExpanded] = useState(playerType); // To handle which accordion is expanded
 
   const handleAccordionChange = (panel) => {
-    setExpanded(expanded === panel ? null : panel); // Toggle expansion
-  };
-
-  const handleButtonClick = (category, mode) => {
-    const combined = `${category}_${mode}`; // Corrected string concatenation
-    setSelectedCategory(combined);
-    setType(combined); // Assuming setType is passed as a prop and used elsewhere
-  };
-
-  // Function to render stats in a grid (columns of 3)
-  const renderData = (category) => {
-    const excludedKeys = ["chart"]; // Add other keys you want to exclude
-    const categoryData = Object.entries(data[category]).filter(
-      ([key]) => !excludedKeys.includes(key)
-    );
-    return (
-      <Grid container spacing={2} className={styles.gridContainer}>
-        {categoryData.map(([key, value]) => (
-          <Grid item xs={4} key={key} className={styles.gridItem}>
-            <Box>
-              <Typography
-                sx={{ fontSize: "2rem" }}
-                className={styles.valueText}
-              >
-                {value}
-              </Typography>
-              <Typography className={styles.keyText}>
-                {key.replace(/_/g, " ")} {/* Format key */}
-              </Typography>
-            </Box>
-          </Grid>
-        ))}
-      </Grid>
-    );
+    setExpanded(expanded === panel ? null : panel); // Toggle between the panels
   };
 
   return (
     <div className={styles.accordionDiv}>
       {/* Batting Accordion */}
-      <Accordion
-        expanded={expanded === "batting"}
-        onChange={() => handleAccordionChange("batting")}
-        className={styles.accordionItem}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          className={styles.accordionSummary}
+      {data.bat && (
+        <Accordion
+          expanded={expanded === "batting"} // Expand if 'batting' is the current expanded panel
+          onChange={() => handleAccordionChange("batting")} // Toggle batting panel
+          className={styles.accordionItem}
         >
-          <Typography>Batting Stats</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div>
-            <Box className={styles.buttonContainer}>
-              <Button
-                variant="contained"
-                className={`${styles.button} ${
-                  selectedCategory === "t20_bat" ? styles.activeButton : ""
-                }`}
-                onClick={() => handleButtonClick("t20", "bat")}
-              >
-                T20
-              </Button>
-              <Button
-                variant="contained"
-                className={`${styles.button} ${
-                  selectedCategory === "odi_bat" ? styles.activeButton : ""
-                }`}
-                onClick={() => handleButtonClick("odi", "bat")}
-              >
-                ODI
-              </Button>
-              <Button
-                variant="contained"
-                className={`${styles.button} ${
-                  selectedCategory === "test_bat" ? styles.activeButton : ""
-                }`}
-                onClick={() => handleButtonClick("test", "bat")}
-              >
-                Test
-              </Button>
-            </Box>
-            {renderData(selectedCategory)}
-          </div>
-        </AccordionDetails>
-      </Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            className={styles.accordionSummary}
+          >
+            <Typography>Batting Stats</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <TransparentTabs inputData={data.bat} dataType="batting" />{" "}
+            {/* Send batting data */}
+          </AccordionDetails>
+        </Accordion>
+      )}
 
       {/* Bowling Accordion */}
-      <Accordion
-        expanded={expanded === "bowling"}
-        onChange={() => handleAccordionChange("bowling")}
-        className={styles.accordionItem}
-      >
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          className={styles.accordionSummary}
+      {data.ball && (
+        <Accordion
+          expanded={expanded === "bowling"} // Expand if 'bowling' is the current expanded panel
+          onChange={() => handleAccordionChange("bowling")} // Toggle bowling panel
+          className={styles.accordionItem}
         >
-          <Typography>Bowling Stats</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <div>
-            <Box className={styles.buttonContainer}>
-              <Button
-                variant="contained"
-                className={`${styles.button} ${
-                  selectedCategory === "t20_ball" ? styles.activeButton : ""
-                }`}
-                onClick={() => handleButtonClick("t20", "ball")}
-              >
-                T20
-              </Button>
-              <Button
-                variant="contained"
-                className={`${styles.button} ${
-                  selectedCategory === "odi_ball" ? styles.activeButton : ""
-                }`}
-                onClick={() => handleButtonClick("odi", "ball")}
-              >
-                ODI
-              </Button>
-              <Button
-                variant="contained"
-                className={`${styles.button} ${
-                  selectedCategory === "test_ball" ? styles.activeButton : ""
-                }`}
-                onClick={() => handleButtonClick("test", "ball")}
-              >
-                Test
-              </Button>
-            </Box>
-            {renderData(selectedCategory)}
-          </div>
-        </AccordionDetails>
-      </Accordion>
+          <AccordionSummary
+            expandIcon={<ExpandMoreIcon />}
+            className={styles.accordionSummary}
+          >
+            <Typography>Bowling Stats</Typography>
+          </AccordionSummary>
+          <AccordionDetails>
+            <TransparentTabs inputData={data.ball} dataType="bowling" />{" "}
+            {/* Send bowling data */}
+          </AccordionDetails>
+        </Accordion>
+      )}
     </div>
   );
 };

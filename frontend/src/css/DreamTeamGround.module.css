@@ -1,7 +1,8 @@
 .bgImageHolder {
   background-color: black;
   /* background-image: var(--ground-image-url); */
-  background-image: url("../assets/Test2.jpeg");
+  background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url("../assets/Test2.jpeg");
   width: 100vw;
   height: 100vh;
   background-size: cover;
@@ -11,14 +12,14 @@
 }
 
 .bottomDock {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(0, 0, 0, 0.5);
   width: 60%;
   margin-left: 1em;
   align-items: start;
   display: flex;
   flex-direction: column;
-  position: relative;
-  top: 73%;
+  position: absolute;
+  bottom: 35px;
   height: 25vh;
 }
 .dockList {
@@ -28,19 +29,23 @@
   overflow-y: hidden;
   padding: 2%;
   margin: 0;
-  justify-content: flex-start; /* Align items at the start */
-  scroll-behavior: smooth; /* Optional: Smooth scrolling effect */
-  -webkit-overflow-scrolling: touch; /* Improves scrolling on touch devices */
+  justify-content: flex-start;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
   gap: 1em;
 }
 
 .bottomDock h2 {
+  backdrop-filter: blur(10px);
+  width: 100%;
+  height: 40px;
   color: white;
   margin: 0;
   padding: 0;
-  font-size: 1em;
+  font-size: 1.5em;
+  padding: 1%;
   margin-bottom: -2%;
-  margin-left: 1%;
+  margin-left: 2%;
 }
 
 /* Wrapper for the dock list and the arrow button */
@@ -49,23 +54,121 @@
   width: 100%;
 }
 
-/* Styling for the right arrow button */
 .arrowButton {
-  background-color: rgba(255, 255, 255, 0.5);
+  background-color: rgba(255, 255, 255, 1);
   border-radius: 50%;
   padding: 1%;
   position: absolute;
   font-size: 2rem;
-  right: -4%;
   top: 50%;
   transform: translateY(-50%);
   cursor: pointer;
   z-index: 2;
   transition: opacity 0.3s ease;
 }
+.rightArrow {
+  right: -1%;
+}
+.leftArrow {
+  left: 1%;
+}
 
-/* Hide the arrow when at the end of the scrollable element */
 .arrowButton.hidden {
   opacity: 0;
-  pointer-events: none; /* Prevent clicking */
+  pointer-events: none;
+}
+
+/* Add hover effect for better interaction */
+.arrowButton:hover {
+  background-color: rgba(255, 255, 255, 0.8);
+  color: #e65100; /* Slightly darker orange */
+}
+
+.weatherCardContainer {
+  color: black;
+  padding: 0;
+  position: fixed;
+  top: 10px;
+  left: 10px;
+  width: 220px;
+  height: 120px;
+  z-index: 2;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.dreamPointsCard {
+  padding: 0;
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  width: 150px;
+  z-index: 999;
+  border-radius: 10px;
+  background: rgba(0, 0, 0, 0.7);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 0;
+}
+
+.dropZone {
+  color: white;
+  border: 2px white;
+  border-style: dashed;
+  border-radius: 10px;
+  height: 20vh;
+  width: 20vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.dropZone p {
+  font-weight: bolder;
+  color: white;
+}
+
+.centerH1 {
+  /* font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
+  color: aliceblue;
+  font-weight: bolder;
+  position: absolute;*/
+
+  /* YOUR DREAM TEAM */
+
+  position: absolute;
+  width: 770px;
+  height: 110px;
+  top: 33vh;
+  left: 28vw;
+
+  font-family: "Calistoga";
+  font-style: normal;
+  font-weight: 800;
+  font-size: 60px;
+  line-height: 65px;
+  text-transform: uppercase;
+
+  background: linear-gradient(
+    0deg,
+    #d0f1e1 7.43%,
+    #f8d7db 29.13%,
+    #ffffff 94.6%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+
+  text-shadow: 0px 6px 8px rgba(0, 0, 0, 0.25);
+}
+
+/* Apply transition for move, scale, and opacity */
+.playerCardContainer {
+  transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
+
+.playerCardContainer.moveAsideAndFade {
+  opacity: 0.4;
+  transform: translateX(20px) translateY(20px);
 }
