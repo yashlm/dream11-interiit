@@ -8,7 +8,12 @@ import {
 import { FaUndo, FaShareAlt, FaSave, FaInfoCircle } from "react-icons/fa";
 import styles from "../../css/DescriptionCard.module.css";
 
-export default function DescriptionCard({ onUndo, onMatchDetails, onSave }) {
+export default function DescriptionCard({
+  onUndo,
+  onMatchDetails,
+  onSave,
+  info,
+}) {
   const [expanded, setExpanded] = useState(false); // Controls the expanded state for ShowMoreText
   const [isOverflowing, setIsOverflowing] = useState(false);
   const infoRef = useRef(null);
@@ -55,7 +60,9 @@ export default function DescriptionCard({ onUndo, onMatchDetails, onSave }) {
           ref={infoRef}
           className={`${styles.infoSection} ${expanded ? styles.expanded : ""}`}
         >
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
+          <h3>Weather Effect</h3>
+          <p>{info}</p>
+          {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
           efficitur turpis a interdum vehicula. Proin tincidunt risus non odio
           pulvinar, quis pharetra neque vestibulum. Lorem ipsum dolor sit amet,
           consecteturLorem ipsum dolor sit amet, consectetur adipiscing elit.
@@ -99,7 +106,7 @@ export default function DescriptionCard({ onUndo, onMatchDetails, onSave }) {
           consecteturLorem ipsum dolor sit amet, consectetur adipiscing elit.
           Fusce efficitur turpis a interdum vehicula. Proin tincidunt risus non
           odio pulvinar, quis pharetra neque vestibulum. Lorem ipsum dolor sit
-          amet, consectetur
+          amet, consectetur */}
         </div>
       </div>
       {/* Header Icons */}

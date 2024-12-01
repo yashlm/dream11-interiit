@@ -42,6 +42,8 @@ export default function PlayerCard({
   isInField,
   teamIconUrl,
   team,
+  matchId,
+  player_id,
 }) {
   const [isVisible, setIsVisible] = useState(false);
   const handleClick = () => {
@@ -228,95 +230,10 @@ export default function PlayerCard({
           team={team}
           firstName={firstName}
           lastName={lastName}
+          matchId={matchId}
+          playerId={player_id}
         />
       )}
     </div>
   );
 }
-
-// import styles from "./test.module.css";
-// import { useState } from "react";
-// import ClearIcon from "@mui/icons-material/Clear";
-// import SportsCricketIcon from "@mui/icons-material/SportsCricket";
-// import Tooltip from "@mui/material/Tooltip";
-// import PlayerPopOut from "./playerStats/popUp";
-
-// export default function PlayerCard({
-//   name,
-//   points,
-//   bgImage,
-//   profileImage,
-//   onRemove,
-//   onAddToField,
-//   type,
-//   isInField,
-//   teamIconUrl,
-//   team,
-// }) {
-//   const [isVisible, setIsVisible] = useState(false);
-//   const handleClick = () => {
-//     setIsVisible(!isVisible);
-//   };
-
-//   const firstName = name
-//     .toUpperCase()
-//     .split(" ")
-//     .slice(0, -1)
-//     .join(" ");
-//   const lastName = name
-//     .toUpperCase()
-//     .split(" ")
-//     .slice(-1)
-//     .join(" ");
-
-//   return (
-//     <div>
-//       <div className={styles.cardContainer} onClick={handleClick}>
-//         <div
-//           className={styles.cardMedia}
-//           style={{ backgroundImage: `url(${bgImage})` }}
-//         >
-//           <div className={styles.cardOverlay} />
-//           <img alt={name} src={profileImage} className={styles.avatar} />
-//           {isInField && (
-//             <button className={styles.iconButton} onClick={onRemove}>
-//               <ClearIcon />
-//             </button>
-//           )}
-//         </div>
-//         <div className={styles.cardContent}>
-//           <Tooltip title={name} arrow>
-//             <div className={styles.name}>{name}</div>
-//           </Tooltip>
-//           <div className={styles.pointsContainer}>
-//             <div className={styles.pointsText}>
-//               {`Dream Points: ${points || "89"}`}
-//             </div>
-//             <div>
-//               {!isInField && (
-//                 <button className={styles.addButton} onClick={onAddToField}>
-//                   <SportsCricketIcon />
-//                 </button>
-//               )}
-//             </div>
-//           </div>
-//         </div>
-//       </div>
-
-//       {/* Use the PlayerPopOut component */}
-//       {isVisible && (
-//         <PlayerPopOut
-//           isVisible={isVisible}
-//           onClose={handleClick}
-//           name={name}
-//           bgImage={bgImage}
-//           profileImage={profileImage}
-//           teamIconUrl={teamIconUrl}
-//           team={team}
-//           firstName={firstName}
-//           lastName={lastName}
-//         />
-//       )}
-//     </div>
-//   );
-// }

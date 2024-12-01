@@ -80,7 +80,7 @@
 //     <div>
 //       <Navbar />
 //       <Box sx={{ position: "relative", minHeight: "100vh", background: "var(--bg)"  }}>
-     
+
 //         <Box
 //           sx={{
 //             position: "absolute",
@@ -88,7 +88,7 @@
 //             right: 0,
 //             width: "300px",
 //             height: "300px",
-//             backgroundImage:{batsmanimg}, 
+//             backgroundImage:{batsmanimg},
 //             backgroundSize: "contain",
 //             backgroundRepeat: "no-repeat",
 //             zIndex: 10,
@@ -238,7 +238,7 @@
 //                 </Grid>
 //               ))}
 //             </Grid>
-            
+
 //           </Box>
 //         </Box>
 //       </Box>
@@ -247,7 +247,7 @@
 // }
 
 import React, { useState } from "react";
-import { useParams,useLocation } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 import {
   Grid,
   Card,
@@ -264,21 +264,17 @@ import PlayerCard from "../component/playerCard";
 import Navbar from "../component/Navbar";
 import ReadOnlyDate from "../component/common/readOnlyDate";
 import ImportCSV from "../component/ImportCSV";
-import batsmanimg from '../assets/batsman.png';
+import batsmanimg from "../assets/batsman.png";
 
 export default function CustomMatch() {
   const { date } = useParams();
   const matchDate = new Date(date);
   const { state } = useLocation();
   const { teamAdata = {}, teamBdata = {} } = state || {};
-  
-  
 
   if (!teamAdata || !teamBdata) {
     return <p>Error: Missing team data!</p>;
   }
-
-
 
   const [teamA, setTeamA] = useState(Array(11).fill(null));
   const [teamB, setTeamB] = useState(Array(11).fill(null));
@@ -317,8 +313,7 @@ export default function CustomMatch() {
     }
   };
 
-
-    const handleRemoveFromTeam = (playerKey, team) => {
+  const handleRemoveFromTeam = (playerKey, team) => {
     const updateTeam = team === "A" ? [...teamA] : [...teamB];
     const playerIndex = updateTeam.findIndex((p) => p && p.key === playerKey);
 
@@ -343,7 +338,13 @@ export default function CustomMatch() {
   return (
     <div>
       <Navbar />
-      <Box sx={{ position: "relative", minHeight: "100vh", background: "var(--bg)" }}>
+      <Box
+        sx={{
+          position: "relative",
+          minHeight: "100vh",
+          background: "var(--bg)",
+        }}
+      >
         <Box
           sx={{
             position: "absolute",
@@ -358,7 +359,7 @@ export default function CustomMatch() {
             opacity: 0.3,
           }}
         />
-        
+
         <Box
           sx={{
             display: "flex",
@@ -369,116 +370,114 @@ export default function CustomMatch() {
         >
           {/* Left Section */}
           <Box
-  sx={{
-    width: { xs: "100%", md: "30%" },
-    background: "rgba(255, 255, 255, 0.5)",
-    boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-    backdropFilter: "blur(10px)",
-    borderRadius: "10px",
-    border: "1px solid rgba(255, 255, 255, 0.18)",
-    marginTop: "30px",
-    padding: 2,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "center",
-  }}
->
-  <Typography
-    variant="h4"
-    sx={{
-      fontWeight: "bold",
-      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-      mb: 3,
-    }}
-  >
-    Select Players
-  </Typography>
-  <ReadOnlyDate value={matchDate} />
-  <Box
-    sx={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: 2,
-      marginBottom: 4,
-    }}
-  >
-    {/* Team A */}
-    <Box
-      sx={{
-        width: 100,
-        height: 100,
-        borderRadius: "50%",
-        background: "white",
-        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <img
-        src={teamAdata.imageUrl}
-        alt={teamAdata.name}
-        style={{ width: "80%" }}
-      />
-    </Box>
-    <Box sx={{ textAlign: "center" }}>
-      <Typography variant="h6">{teamAdata.name}</Typography>
-    </Box>
+            sx={{
+              width: { xs: "100%", md: "30%" },
+              background: "rgba(255, 255, 255, 0.5)",
+              boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
+              backdropFilter: "blur(10px)",
+              borderRadius: "10px",
+              border: "1px solid rgba(255, 255, 255, 0.18)",
+              marginTop: "30px",
+              padding: 2,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: "bold",
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+                mb: 3,
+              }}
+            >
+              Select Players
+            </Typography>
+            <ReadOnlyDate value={matchDate} />
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
+                marginBottom: 4,
+              }}
+            >
+              {/* Team A */}
+              <Box
+                sx={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: "50%",
+                  background: "white",
+                  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={teamAdata.imageUrl}
+                  alt={teamAdata.name}
+                  style={{ width: "80%" }}
+                />
+              </Box>
+              <Box sx={{ textAlign: "center" }}>
+                <Typography variant="h6">{teamAdata.name}</Typography>
+              </Box>
 
-    {/* Team B */}
-    <Box
-      sx={{
-        width: 100,
-        height: 100,
-        borderRadius: "50%",
-        background: "white",
-        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <img
-        src={teamBdata.imageUrl}
-        alt={teamBdata.name}
-        style={{ width: "80%" }}
-      />
-    </Box>
-    <Box sx={{ textAlign: "center" }}>
-      <Typography variant="h6">{teamBdata.name}</Typography>
-    </Box>
-  </Box>
-  <Typography variant="h6" sx={{ mb: 2 }}>
-    Select Match Type
-  </Typography>
-  <Select
-    defaultValue=""
-    variant="outlined"
-    sx={{ width: "100%", marginBottom: 3 }}
-  >
-    <MenuItem value="Test">Test</MenuItem>
-    <MenuItem value="ODI">ODI</MenuItem>
-    <MenuItem value="T20">T20</MenuItem>
-  </Select>
-  <Typography variant="h6" color="#333" sx={{ mb: 1 }}>
-    Search for Player
-  </Typography>
-  <PlayerSearch onAddToTeam={handleAddToTeam} />
-  {/* <Typography sx={{ mt: 2, mb: 2 }}>OR</Typography>
+              {/* Team B */}
+              <Box
+                sx={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: "50%",
+                  background: "white",
+                  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={teamBdata.imageUrl}
+                  alt={teamBdata.name}
+                  style={{ width: "80%" }}
+                />
+              </Box>
+              <Box sx={{ textAlign: "center" }}>
+                <Typography variant="h6">{teamBdata.name}</Typography>
+              </Box>
+            </Box>
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              Select Match Type
+            </Typography>
+            <Select
+              defaultValue=""
+              variant="outlined"
+              sx={{ width: "100%", marginBottom: 3 }}
+            >
+              <MenuItem value="Test">Test</MenuItem>
+              <MenuItem value="ODI">ODI</MenuItem>
+              <MenuItem value="T20">T20</MenuItem>
+            </Select>
+            <Typography variant="h6" color="#333" sx={{ mb: 1 }}>
+              Search for Player
+            </Typography>
+            <PlayerSearch onAddToTeam={handleAddToTeam} />
+            {/* <Typography sx={{ mt: 2, mb: 2 }}>OR</Typography>
   <ImportCSV onPlayersLoaded={handlePlayersLoaded} /> */}
-  <Box sx={{ textAlign: "center", mt: 5 }}>
-    <Button variant="contained" color="success">
-      GENERATE TEAM
-    </Button>
-  </Box>
-</Box>
-
-
+            <Box sx={{ textAlign: "center", mt: 5 }}>
+              <Button variant="contained" color="success">
+                GENERATE TEAM
+              </Button>
+            </Box>
+          </Box>
 
           {/* Right Section */}
-          <Box sx={{ width: "100%", marginTop: "64px", zIndex:"2" }}>
+          <Box sx={{ width: "100%", marginTop: "64px", zIndex: "2" }}>
             {alert.show && (
               <Alert severity={alert.severity} onClose={handleCloseAlert}>
                 {alert.message}
@@ -500,12 +499,13 @@ export default function CustomMatch() {
                   >
                     {player ? (
                       <PlayerCard
-                      name={player.name}
-                      points={player.dreamPoints}
-                      bgImage={player.bgImage}
-                      profileImage={player.profileImage}
-                      isInField={true}
-                      onRemove={() => handleRemoveFromTeam(player.key, "A")}
+                        name={player.name}
+                        points={player.dreamPoints}
+                        bgImage={player.bgImage}
+                        profileImage={player.profileImage}
+                        player_id={player.player_id}
+                        isInField={true}
+                        onRemove={() => handleRemoveFromTeam(player.key, "A")}
                       />
                     ) : (
                       <div
@@ -517,12 +517,10 @@ export default function CustomMatch() {
                           alignItems: "center",
                           background: "transparent",
                           boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
-                         borderRadius: "10px",
-                         border: "1px solid rgba( 255, 255, 255, 0.18 )",
+                          borderRadius: "10px",
+                          border: "1px solid rgba( 255, 255, 255, 0.18 )",
                         }}
-                      >
-                        
-                      </div>
+                      ></div>
                     )}
                   </motion.div>
                 </Grid>
@@ -543,29 +541,27 @@ export default function CustomMatch() {
                   >
                     {player ? (
                       <PlayerCard
-                      name={player.name}
-                      points={player.dreamPoints}
-                      bgImage={player.bgImage}
-                      profileImage={player.profileImage}
-                      isInField={true}
-                      onRemove={() => handleRemoveFromTeam(player.key, "B")}
+                        name={player.name}
+                        points={player.dreamPoints}
+                        bgImage={player.bgImage}
+                        profileImage={player.profileImage}
+                        isInField={true}
+                        onRemove={() => handleRemoveFromTeam(player.key, "B")}
                       />
                     ) : (
                       <div
                         style={{
                           height: "20vh",
-                         width: "100%",
-                        display: "flex",
-                        justifyContent: "center",
+                          width: "100%",
+                          display: "flex",
+                          justifyContent: "center",
                           alignItems: "center",
                           background: "transparent",
                           boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
                           borderRadius: "10px",
                           border: "1px solid rgba( 255, 255, 255, 0.18 )",
                         }}
-                      >
-                   
-                      </div>
+                      ></div>
                     )}
                   </motion.div>
                 </Grid>
