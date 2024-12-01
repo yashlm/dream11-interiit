@@ -1,8 +1,8 @@
-import styles from "../css/AboutUs.module.css";
-import shadow from "../assets/landing_page/aboutus.svg";
-import img1 from "../assets/landing_page/aboutus1.png";
-import img2 from "../assets/landing_page/aboutus2.png";
-import img3 from "../assets/landing_page/aboutus3.png";
+import styles from "../../css/AboutUs.module.css";
+import shadow from "../../assets/landing_page/aboutus.svg";
+import img1 from "../../assets/landing_page/aboutus1.png";
+import img2 from "../../assets/landing_page/aboutus2.png";
+import img3 from "../../assets/landing_page/aboutus3.png";
 
 const AboutUs = () => {
     return (

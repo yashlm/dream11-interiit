@@ -9,8 +9,8 @@ body {
 
 .main-container {
   display: flex;
-  flex-direction: column; /* Stack items vertically on smaller screens */
-  justify-content: center;
+  flex-direction: column; 
+  justify-content: end;
   align-items: center;
   height: 100vh;
   padding: 1rem; /* Add padding for smaller screens */
@@ -33,6 +33,9 @@ body {
   font-weight: 700;
   color: white;
   margin-bottom: 20px;
+  width: 12em;
+  display: flex;
+  flex-direction: column;
 }
 
 .lets {
@@ -42,10 +45,17 @@ body {
   font-family: Lato, sans-serif;
 }
 
-.dream11 img {
-  display: inline-block;
-  transform: translateY(0.5rem); /* Align better with text */
-  width: 3rem; /* Adjust size for mobile */
+.welcome{
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
+  align-items: center;
+  height: 5rem;
+}
+.dream11{
+  margin-left: 1rem;
+  display: inline;
+  width: 4em;
 }
 
 .form-container {
