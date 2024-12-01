@@ -83,7 +83,16 @@ async def get_match_details(match_id: str, db: Session = Depends(get_db)):
         # players = get_all_match_players_profile_from_db(db,match_id)
         players = get_player_profile_for_ids(db, player_ids)
         matchdetails = get_match_details_from_db(db,match_id)
-        return {"status": "ok", "message": "Data retrieved successfully","matchdetails":matchdetails, "players": players, "player_count": len(players), "player_ids": player_ids}
+        teamA = []
+        teamB = []
+        for player in players:
+            if player.unique_name in matchdetails.players:
+                teamA.append(player)
+            else:
+                teamB.append(player)
+
+
+        return {"status": "ok", "message": "Data retrieved successfully","matchdetails":matchdetails, "player_count": len(teamA)+len(teamB), "player_ids": player_ids, "teamA": teamA, "teamB": teamB}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
@@ -529,36 +538,46 @@ csv_data = [
 @router.post("/upload_csv/")
 async def upload_csv(file: UploadFile = File(...), db: Session = Depends(get_db)):
     try:
-        
+        # Step 1: Read and process the uploaded CSV
         data = await get_data_from_csv(file)
-        result_df = runner_main(data)
+        result_df = runner_main(data)  # Assuming this returns a DataFrame with player_id and player_team
+        
+        # Step 2: Get the list of player_ids from result_df
         player_ids = result_df['player_id'].to_list()
+        
+        # Step 3: Get player profiles from the database
         players = get_player_profile_for_ids(db, player_ids)
+        
+        # Step 4: Create a mapping of player_id to player_team
         player_team_map = dict(zip(result_df['player_id'], result_df['player_team']))
 
-        # Convert player objects to dictionaries and add the new field
+        # Step 5: Add player_team to each player object and convert them to dictionaries
         players_with_team = []
         for player in players:
             player_dict = player.__dict__  # Convert the object to a dictionary
             player_dict["player_team"] = player_team_map.get(player.player_id, None)
             players_with_team.append(player_dict)
-        unique_teams = result_df['player_team'].unique()
-        print(unique_teams)
-        team_info = []
-        for team in unique_teams:
-            data = get_team_info_by_name_from_db(db, team)
-            team_info.append(data)
+
+        # Step 6: Divide players into teamA and teamB arrays based on player_team
         
-        # teamA_info = get_team_info_by_name_from_db(db, data['Squad'][0])
-        # print(teamA_info)
-        # print(inp)
-        # print(player_ids)
-        # players =  csv_data
-        # Return data as a response
-        # return JSONResponse(content={"data": data}, status_code=200)
-        # "player_ids": player_ids
-        return {"status": "ok", "message": "Data retrieved successfully", "players": players, "player_count": len(players), "team_info": team_info}
-        # return {"status": "ok", "message": "Data retrieved successfully","players": players, "player_count": len(players)}
+
+        # Step 7: Get unique teams and fetch team information from the database
+        unique_teams = result_df['player_team'].unique()
+        teamA_players = [player for player in players_with_team if player["player_team"] == unique_teams[0]]
+        teamB_players = [player for player in players_with_team if player["player_team"] == unique_teams[1]]
+        team_info = {}
+        team_info["teamA"] = get_team_info_by_name_from_db(db, unique_teams[0])
+        team_info["teamB"] = get_team_info_by_name_from_db(db, unique_teams[1])
+        
+        # Step 8: Return the response with players divided into teamA and teamB arrays, and team info
+        return {
+            "status": "ok",
+            "message": "Data retrieved successfully",
+            "teamA": teamA_players,  # Players for Team A
+            "teamB": teamB_players,  # Players for Team B
+            "player_count": len(players_with_team),
+            "team_info": team_info
+        }
 
     except Exception as e:
-        return JSONResponse(content={"detail": str(e)}, status_code=400)
+        raise HTTPException(status_code=400, detail=str(e))
