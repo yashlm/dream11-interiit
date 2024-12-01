@@ -15,7 +15,12 @@ const SelectMatchCard = ({ teamA, teamB }) => {
 
   const customMatch = () => {
     const formattedDate = matchDate.toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
-    navigate(`/custommatch/${formattedDate}`);
+    navigate(`/custommatch/${formattedDate}`, {
+      state: {
+        teamAdata:{ name:teamA.name, imageUrl: teamA.imageUrl },
+        teamBdata:{ name: teamB.name, imageUrl:teamB.imageUrl },
+      },
+    });
   };
 
   const formDreamTeam = (match_id) => {
