@@ -68,7 +68,10 @@ async def get_all_players(team_name : str , db: Session = Depends(get_db)):
     try:
         players_ids = get_all_player_ids_played_for_team_from_db(db,team_name)
         players = get_all_player_info_for_player_ids_from_db(db,players_ids)
-        return {"status": "ok", "message": "Players retrieved successfully", "players": players, "player_ids": players_ids, "count": len(players)}
+        player_dict = {}
+        for player in players:
+            player_dict[player.player_id] = player
+        return {"status": "ok", "message": "Players retrieved successfully", "players": player_dict , "player_ids": players_ids, "count": len(players)}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
