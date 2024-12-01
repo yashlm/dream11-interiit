@@ -39,9 +39,7 @@ const Navbar = () => {
   const links = [
     { path: "/teamSelect", label: "Select Team" },
     { path: `/custommatch/${todayDate}`, label: "Custom Match" },
-    { path: "/dreamTeam/1426757", label: "Dream Team" },
-    { path: "/signup", label: "Signup" },
-    { path: "/login", label: "Login" },
+    // { path: "/dreamTeam/1426757", label: "Dream Team" },
   ];
 
   return (
@@ -103,10 +101,13 @@ const Navbar = () => {
                   variant="contained"
                   style={{
                     backgroundColor:
-                      location.pathname === link.path ? "var(--dark-red)" : "var(--red)",
+                      location.pathname === link.path
+                        ? "var(--dark-red)"
+                        : "var(--red)",
                     color: "var(--bg)",
                     textTransform: "none",
-                    fontWeight: location.pathname === link.path ? "bold" : "normal",
+                    fontWeight:
+                      location.pathname === link.path ? "bold" : "normal",
                     boxShadow:
                       location.pathname === link.path
                         ? "0px 4px 10px rgba(0,0,0,0.3)"
@@ -185,7 +186,6 @@ const Navbar = () => {
           ))}
         </div>
       )}
-
     </>
   );
 };

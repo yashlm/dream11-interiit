@@ -1,7 +1,9 @@
 import styles from "../../css/HomePage/MatchCard.module.css";
 import { CalendarToday, LocationOn } from "@mui/icons-material";
+import { useNavigate } from "react-router-dom";
 
 const MatchCard = ({ match }) => {
+  const navigate = useNavigate();
   const teams = match?.teams || [];
   const team1 = teams[0] || "Team 1";
   const team2 = teams[1] || "Team 2";
@@ -38,6 +40,22 @@ const MatchCard = ({ match }) => {
             <LocationOn className={styles.icon} />
             {venue}
           </p>
+          <button
+            className={styles["view-details"]}
+            onclick={() => {
+              navigate(`/match/${match.match_id}`);
+            }}
+          >
+            View Details
+          </button>
+          <button
+            className={styles["create-team"]}
+            onclick={() => {
+              navigate(`/dreamTeam/${match.match_id}`);
+            }}
+          >
+            Create Team
+          </button>
         </div>
       </div>
     </div>
