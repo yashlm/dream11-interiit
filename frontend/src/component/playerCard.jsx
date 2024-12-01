@@ -11,9 +11,29 @@ import SportsCricketIcon from "@mui/icons-material/SportsCricket";
 import Tooltip from "@mui/material/Tooltip";
 import PlayerPopOut from "./playerStats/popUp";
 
+// Define a function to assign a consistent color to each word
+const getWordColor = (word) => {
+  const colors = [
+    "#FF9AA2", // Medium Pink
+    "#FFB07C", // Peach
+    "#FFD97D", // Warm Yellow
+    "#85E3B8", // Light Teal Green
+    "#8EC6FF", // Light Sky Blue
+    "#C4A3FF", // Soft Purple
+    "#FFA3C1", // Rose Pink
+    "#79D3FF", // Aqua Blue
+    "#A0B9FF", // Light Cornflower Blue
+    "#FFE29A", // Soft Gold
+  ];
+  const hash = word
+    .split("")
+    .reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  return colors[hash % colors.length];
+};
+
 export default function PlayerCard({
   name,
-  points,
+  dreamPoints,
   bgImage,
   profileImage,
   onRemove,
@@ -45,13 +65,14 @@ export default function PlayerCard({
         sx={{
           width: "20vh",
           height: "20vh",
+          minHeight: "100px",
           position: "relative",
           wordWrap: "break-word",
           fontSize: "10px",
-          backgroundColor: "#333",
-          color: "#fff",
+          backgroundColor: "#DBD4D4",
           borderRadius: "10px",
           boxShadow: 3,
+          cursor: onRemove ? "pointer" : null,
         }}
         onClick={handleClick}
       >
@@ -108,7 +129,7 @@ export default function PlayerCard({
               sx={{
                 fontSize: "0.8rem",
                 fontWeight: "800",
-                color: "#fff",
+                // color: "#fff",
                 overflow: "hidden",
                 whiteSpace: "nowrap",
                 textOverflow: "ellipsis",
@@ -120,30 +141,77 @@ export default function PlayerCard({
           <Box
             sx={{
               display: "flex",
+              flexDirection: "row",
               justifyContent: "space-between",
-              alignItems: "center",
             }}
           >
-            <Typography
-              variant="p"
+            <Box
               sx={{
-                color: "white",
-                fontSize: "0.6rem",
-                lineHeight: "0.2rem",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+                alignItems: "start",
+                gap: "10px",
               }}
             >
-              {`Dream Points: ${points || "89"}`}
-            </Typography>
-            <Box>
-              {!isInField && (
-                <IconButton
-                  onClick={onAddToField}
-                  sx={{ margin: 0, padding: 0, color: "#fff" }}
+              <Typography
+                variant="p"
+                sx={{
+                  // color: "white",
+                  fontSize: "0.6rem",
+                  lineHeight: "0.2rem",
+                }}
+              >
+                Dream Points:
+                <span
+                  style={{
+                    fontSize: "1rem",
+                    lineHeight: "0.2rem",
+                    marginLeft: "5px",
+                  }}
                 >
-                  <SportsCricketIcon />
-                </IconButton>
-              )}
+                  {dreamPoints}
+                </span>
+              </Typography>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  gap: "1px",
+                  overflow: "hidden",
+                }}
+              >
+                {type &&
+                  type.split(" ").map((word, index) => (
+                    <Typography
+                      key={index}
+                      variant="p"
+                      sx={{
+                        backgroundColor: getWordColor(word), // Dynamically set the color for each word
+                        display: "inline", // Ensure words are inline
+                        marginRight: 1, // Add spacing between words
+                        padding: 0.3,
+                        border: `1px solid ${getWordColor(word)}`,
+                        borderRadius: "5px",
+                      }}
+                    >
+                      {word}
+                    </Typography>
+                  ))}
+              </Box>
             </Box>
+            <Tooltip title={"Add player to your squad"}>
+              <Box>
+                {!isInField && (
+                  <IconButton
+                    onClick={onAddToField}
+                    sx={{ margin: 0, padding: 0, color: "" }}
+                  >
+                    <SportsCricketIcon />
+                  </IconButton>
+                )}
+              </Box>
+            </Tooltip>
           </Box>
         </CardContent>
       </Card>
@@ -165,3 +233,90 @@ export default function PlayerCard({
     </div>
   );
 }
+
+// import styles from "./test.module.css";
+// import { useState } from "react";
+// import ClearIcon from "@mui/icons-material/Clear";
+// import SportsCricketIcon from "@mui/icons-material/SportsCricket";
+// import Tooltip from "@mui/material/Tooltip";
+// import PlayerPopOut from "./playerStats/popUp";
+
+// export default function PlayerCard({
+//   name,
+//   points,
+//   bgImage,
+//   profileImage,
+//   onRemove,
+//   onAddToField,
+//   type,
+//   isInField,
+//   teamIconUrl,
+//   team,
+// }) {
+//   const [isVisible, setIsVisible] = useState(false);
+//   const handleClick = () => {
+//     setIsVisible(!isVisible);
+//   };
+
+//   const firstName = name
+//     .toUpperCase()
+//     .split(" ")
+//     .slice(0, -1)
+//     .join(" ");
+//   const lastName = name
+//     .toUpperCase()
+//     .split(" ")
+//     .slice(-1)
+//     .join(" ");
+
+//   return (
+//     <div>
+//       <div className={styles.cardContainer} onClick={handleClick}>
+//         <div
+//           className={styles.cardMedia}
+//           style={{ backgroundImage: `url(${bgImage})` }}
+//         >
+//           <div className={styles.cardOverlay} />
+//           <img alt={name} src={profileImage} className={styles.avatar} />
+//           {isInField && (
+//             <button className={styles.iconButton} onClick={onRemove}>
+//               <ClearIcon />
+//             </button>
+//           )}
+//         </div>
+//         <div className={styles.cardContent}>
+//           <Tooltip title={name} arrow>
+//             <div className={styles.name}>{name}</div>
+//           </Tooltip>
+//           <div className={styles.pointsContainer}>
+//             <div className={styles.pointsText}>
+//               {`Dream Points: ${points || "89"}`}
+//             </div>
+//             <div>
+//               {!isInField && (
+//                 <button className={styles.addButton} onClick={onAddToField}>
+//                   <SportsCricketIcon />
+//                 </button>
+//               )}
+//             </div>
+//           </div>
+//         </div>
+//       </div>
+
+//       {/* Use the PlayerPopOut component */}
+//       {isVisible && (
+//         <PlayerPopOut
+//           isVisible={isVisible}
+//           onClose={handleClick}
+//           name={name}
+//           bgImage={bgImage}
+//           profileImage={profileImage}
+//           teamIconUrl={teamIconUrl}
+//           team={team}
+//           firstName={firstName}
+//           lastName={lastName}
+//         />
+//       )}
+//     </div>
+//   );
+// }

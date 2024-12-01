@@ -1,11 +1,9 @@
 import { motion, AnimatePresence } from "framer-motion";
 import Avatar from "@mui/material/Avatar";
 import CardMedia from "@mui/material/CardMedia";
-import RadarChart from "../charts/radarChart";
 import PlayerStatsAccordion from "./accordian";
-
 import { RxCross2 } from "react-icons/rx";
-import { useState } from "react";
+
 import styles from "./playerStats.module.css";
 
 export default function PlayerPopOut({
@@ -19,124 +17,189 @@ export default function PlayerPopOut({
   firstName,
   lastName,
 }) {
-  const data = {
-    player_id: 1,
-    match_id: 101,
-    name: "Virat Sharma",
-    player_type: "Batter",
-    predicted_dream_points: 75,
-    description:
-      "An aggressive top-order batter known for his consistency and ability to chase big targets.",
-    odi_bat: {
-      SR: 92.5,
-      "4s": 240,
-      "6s": 50,
-      centuries: 15,
-      "50s": 30,
-      total_runs: 5400,
-      experience: 120,
-      avg_of_last_10_matches_runs: 65,
-      avg_of_last_10_matches_SR: 95.0,
-      chart: {
-        consistency: 85,
-        form: 90,
-        adaptability: 88,
-        influence: 92,
-        game_reading: 87,
-        conversion_rate: 75,
+  const batData = {
+    bat: {
+      test: {
+        totalRuns: 3500,
+        totalMatches: 50,
+        highestScore: 180,
+        careerStrikeRate: 75.5,
+        careerAvg: 45.6,
+        last10Avg: 42.3,
+        last10StrikeRate: 72.0,
+        fifty: 8,
+        hundred: 5,
+        fours: 240,
+        sixes: 45,
+        stumpings: 1,
+        catches: 42,
+        adaptability: 8,
+        battingConsistency: 7,
+        battingForm: 8,
+        fieldingPerformance: 7.5,
+        match: 5,
+      },
+      odi: {
+        totalRuns: 1200,
+        totalMatches: 40,
+        highestScore: 130,
+        careerStrikeRate: 85.5,
+        careerAvg: 38.7,
+        last10Avg: 36.8,
+        last10StrikeRate: 83.4,
+        fifty: 10,
+        hundred: 2,
+        fours: 150,
+        sixes: 20,
+        stumpings: 0,
+        catches: 30,
+        adaptability: 7,
+        battingConsistency: 6.8,
+        battingForm: 7,
+        fieldingPerformance: 7.2,
+        match: 5,
+      },
+      mdm: {
+        totalRuns: 550,
+        totalMatches: 30,
+        highestScore: 95,
+        careerStrikeRate: 72.3,
+        careerAvg: 32.4,
+        last10Avg: 30.0,
+        last10StrikeRate: 70.5,
+        fifty: 4,
+        hundred: 1,
+        fours: 85,
+        sixes: 15,
+        stumpings: 1,
+        catches: 25,
+        adaptability: 6,
+        battingConsistency: 6.2,
+        battingForm: 6.5,
+        fieldingPerformance: 6.0,
+        match: 5,
+      },
+      it20: {
+        totalRuns: 750,
+        totalMatches: 18,
+        highestScore: 120,
+        careerStrikeRate: 140.1,
+        careerAvg: 48.9,
+        last10Avg: 45.0,
+        last10StrikeRate: 145.3,
+        fifty: 5,
+        hundred: 1,
+        fours: 90,
+        sixes: 25,
+        stumpings: 0,
+        catches: 10,
+        adaptability: 8.5,
+        battingConsistency: 7.9,
+        battingForm: 8,
+        fieldingPerformance: 7.0,
+        match: 5,
+      },
+      t20: {
+        totalRuns: 950,
+        totalMatches: 25,
+        highestScore: 160,
+        careerStrikeRate: 138.7,
+        careerAvg: 41.5,
+        last10Avg: 40.8,
+        last10StrikeRate: 142.6,
+        fifty: 7,
+        hundred: 3,
+        fours: 110,
+        sixes: 35,
+        stumpings: 2,
+        catches: 15,
+        adaptability: 7.8,
+        battingConsistency: 8.5,
+        battingForm: 8.0,
+        fieldingPerformance: 7.3,
+        match: 5,
+      },
+      odm: {
+        totalRuns: 1150,
+        totalMatches: 22,
+        highestScore: 145,
+        careerStrikeRate: 130.0,
+        careerAvg: 40.1,
+        last10Avg: 39.2,
+        last10StrikeRate: 132.1,
+        fifty: 9,
+        hundred: 3,
+        fours: 130,
+        sixes: 28,
+        stumpings: 0,
+        catches: 22,
+        adaptability: 7.4,
+        battingConsistency: 7.0,
+        battingForm: 7.5,
+        fieldingPerformance: 7.8,
+        match: 5,
       },
     },
-    odi_ball: {
-      economy: 4.5,
-      wickets: 140,
-      five_wicket_hauls: 8,
-      best_figures: "6/23",
-      experience: 100,
-      avg_of_last_10_matches_wickets: 2,
-      avg_of_last_10_matcheseconomy: 4.3,
-      chart: {
-        consistency: 85,
-        form: 90,
-        adaptability: 88,
-        influence: 92,
-        game_reading: 87,
-        conversion_rate: 75,
+    ball: {
+      test: {
+        totalMatches: 75,
+        totalWickets: 300,
+        careerEconomyRate: 3.25,
+        careerAvg: 25.4,
+        careerSR: 55.0,
+        last10Avg: 30.1,
+        last10SR: 57.0,
+        last10EconomyRate: 3.5,
+        fourWicketHauls: "8 / 7/45",
+        fiveWicketHauls: 4,
+        catches: 15,
+        maidenOvers: 18,
+        adaptability: 80,
+        bowlingConsistency: 75,
+        bowlingForm: 70,
+        fieldingPerformance: 60,
+        match: 90,
       },
-    },
-    test_bat: {
-      SR: 56.0,
-      "4s": 400,
-      "6s": 20,
-      centuries: 18,
-      "50s": 25,
-      total_runs: 7200,
-      experience: 80,
-      avg_of_last_10_matches_wickets: 2,
-      avg_of_last_10_matcheseconomy: 4.3,
-      chart: {
-        consistency: 85,
-        form: 90,
-        adaptability: 88,
-        influence: 92,
-        game_reading: 87,
-        conversion_rate: 75,
+      odi: {
+        totalMatches: 150,
+        totalWickets: 400,
+        careerEconomyRate: 4.85,
+        careerAvg: 28.9,
+        careerSR: 50.4,
+        last10Avg: 31.2,
+        last10SR: 52.5,
+        last10EconomyRate: 4.7,
+        fourWicketHauls: "10 / 6/50",
+        fiveWicketHauls: 6,
+        catches: 35,
+        maidenOvers: 25,
+        adaptability: 85,
+        bowlingConsistency: 80,
+        bowlingForm: 75,
+        fieldingPerformance: 65,
+        match: 92,
       },
-    },
-    test_ball: {
-      economy: 2.8,
-      wickets: 200,
-      five_wicket_hauls: 15,
-      best_figures: "7/50",
-      experience: 60,
-      avg_of_last_10_matches_wickets: 2,
-      avg_of_last_10_matcheseconomy: 4.3,
-      chart: {
-        consistency: 85,
-        form: 90,
-        adaptability: 88,
-        influence: 92,
-        game_reading: 87,
-        conversion_rate: 75,
-      },
-    },
-    t20_bat: {
-      SR: 145.0,
-      "4s": 150,
-      "6s": 85,
-      centuries: 2,
-      "50s": 12,
-      total_runs: 2200,
-      experience: 60,
-      avg_of_last_10_matches_runs: 65,
-      avg_of_last_10_matches_SR: 95.0,
-      chart: {
-        consistency: 85,
-        form: 90,
-        adaptability: 88,
-        influence: 92,
-        game_reading: 87,
-        conversion_rate: 75,
-      },
-    },
-    t20_ball: {
-      economy: 6.8,
-      wickets: 65,
-      five_wicket_hauls: 2,
-      best_figures: "5/12",
-      experience: 45,
-      avg_of_last_10_matches_wickets: 2,
-      avg_of_last_10_matcheseconomy: 4.3,
-      chart: {
-        consistency: 85,
-        form: 90,
-        adaptability: 88,
-        influence: 92,
-        game_reading: 87,
-        conversion_rate: 75,
+      mdm: {
+        totalMatches: 200,
+        totalWickets: 500,
+        careerEconomyRate: 4.25,
+        careerAvg: 26.1,
+        careerSR: 48.0,
+        last10Avg: 27.5,
+        last10SR: 49.0,
+        last10EconomyRate: 4.3,
+        fourWicketHauls: "12 / 5/40",
+        fiveWicketHauls: 10,
+        catches: 50,
+        maidenOvers: 40,
+        adaptability: 78,
+        bowlingConsistency: 83,
+        bowlingForm: 72,
+        fieldingPerformance: 70,
+        match: 95,
       },
     },
   };
-  const [category, setCategory] = useState("odi_");
   return (
     <AnimatePresence>
       {isVisible && (
@@ -151,62 +214,54 @@ export default function PlayerPopOut({
             bottom: 0,
             left: 0,
             width: "100%",
-            height: "90vh",
+            height: "80%",
             backgroundColor: "white",
             boxShadow: "0 -4px 10px rgba(0, 0, 0, 0.1)",
             borderRadius: "20px 20px 0 0",
             textAlign: "center",
             padding: "20px",
             zIndex: 1000,
+            overflow: "scroll",
           }}
         >
-          <div className={styles.leftPanelProfile}>
-            <div className={styles.imageCardProfile}>
-              <CardMedia
-                className={styles.bgImageProfile}
-                image={bgImage}
-                title={name}
-              >
-                <div className={styles.blackCover}>
-                  <CardMedia
-                    className={styles.playerImageProfile}
-                    image={profileImage}
-                  />
-                  <Avatar
-                    alt={team}
-                    src={
-                      teamIconUrl ||
-                      "https://e1.pngegg.com/pngimages/534/366/png-clipart-cricket-icons-india-board-of-control-for-cricket-in-india-logo-thumbnail.png"
-                    }
-                    sx={{
-                      height: "20vh",
-                      width: "20vh",
-                      color: "black",
-                      position: "absolute",
-                      top: "5%",
-                      left: "65%",
-                    }}
-                  />
-                </div>
-              </CardMedia>
-            </div>
-            <div className={styles.chartProfile}>
-              <RadarChart data={data} />
-            </div>
-          </div>
-          <div className={styles.rightPanelProfile}>
-            <h1 className={styles.profileName}>
+          <button onClick={onClose} className={styles.removeBtn}>
+            <RxCross2 />
+          </button>
+          <div className={styles.topPanel}>
+            <CardMedia
+              className={styles.bgImageProfile}
+              image={bgImage}
+              title={name}
+            >
+              <div className={styles.blackCover}>
+                <CardMedia
+                  className={styles.playerImageProfile}
+                  image={profileImage}
+                />
+                <Avatar
+                  alt={team}
+                  src={
+                    teamIconUrl ||
+                    "https://e1.pngegg.com/pngimages/534/366/png-clipart-cricket-icons-india-board-of-control-for-cricket-in-india-logo-thumbnail.png"
+                  }
+                  sx={{
+                    height: "5vh",
+                    width: "5vh",
+                    color: "black",
+                    position: "absolute",
+                    top: "5%",
+                    right: "5%",
+                  }}
+                />
+              </div>
+            </CardMedia>
+            <p className={styles.profileName}>
               {firstName} <br />
               <span className={styles.lastName}>{lastName}</span>
-            </h1>
-            <button onClick={onClose} className={styles.removeBtn}>
-              <RxCross2 />
-            </button>
-            <PlayerStatsAccordion
-              data={data}
-              type={"Batting"}
-              setType={setCategory}
-            />
+            </p>
+          </div>
+          <div className={styles.bottomPanel}>
+            <PlayerStatsAccordion playerType={"batting"} data={batData} />
           </div>
         </motion.div>
       )}
