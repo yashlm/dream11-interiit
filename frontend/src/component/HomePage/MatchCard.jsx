@@ -31,22 +31,6 @@ const MatchCard = ({ match }) => {
         <h2 className={styles["match-type"]}>
           {match?.event_name || "Match Type Not Available"}
         </h2>
-        {/* <button
-          onClick={() => {
-            console.log("hi");
-            navigate(`/match/${match.match_id}`);
-          }}
-        >
-          View Details
-        </button>
-        <button
-          onClick={() => {
-            console.log(match.match_id);
-            navigate(`/dreamTeam/${match.match_id}`);
-          }}
-        >
-          Create Team
-        </button> */}
         <div className={styles.logos}>
           <div className={styles.team}>
             <img className={styles["team-logo"]} alt={`${team1} logo`} src={match?.team_info.teamAinfo.url} />
