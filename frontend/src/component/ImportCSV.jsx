@@ -77,7 +77,7 @@
 import React, { useState } from 'react';
 import { Button, Input, Alert, CircularProgress } from '@mui/material';
 import axios from 'axios';
-
+import { BASE_URL } from '../constants';
 export default function CSVImporter({ onPlayersLoaded }) {
   const [selectedFile, setSelectedFile] = useState(null);
   const [players, setPlayers] = useState({});
@@ -109,7 +109,7 @@ export default function CSVImporter({ onPlayersLoaded }) {
 
     try {
       const response = await axios.post(
-        "http://13.233.12.228/match/upload_csv",
+        `${BASE_URL}/match/upload_csv`,
         formData
       );
 

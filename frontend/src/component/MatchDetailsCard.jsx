@@ -36,7 +36,7 @@ const MatchDetailsCard = ({ match }) => {
     <div className={styles.matchDetails}>
       <p>
         <CalendarToday className={styles.icon} />
-        {match.dates[0]}
+        {match.dates}
       </p>
       <p>
         <LocationOn className={styles.icon} />

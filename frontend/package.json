@@ -57,6 +57,7 @@
     "react-smooth": "^4.0.1",
     "react-spinners": "^0.14.1",
     "react-spring": "^9.7.4",
+    "react-window": "^1.8.10",
     "shadcn": "^2.1.6",
     "slick-carousel": "^1.8.1",
     "swiper": "^11.1.15",

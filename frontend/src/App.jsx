@@ -13,9 +13,10 @@ import FavTeam from "./pages/FavTeam";
 import Loading from "./component/Loading";
 import CustomMatch from "./pages/CustomMatch";
 import CustomMatchcsv from "./pages/CustomMatchcsv";
+// import DescriptionCard from "./component/matchDescriptionCard";
+import MatchDetails from "./pages/MatchDetails";
 import HomePage from "./pages/HomePage";
 import PlayerCard from "./component/playerCard";
-import MatchDetails from "./pages/MatchDetails";
 
 function App() {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -31,7 +32,7 @@ function App() {
         </div>
         <Routes>
           <Route path="/home" element={<HomePage />} />
-          <Route path="/matchDetails" element={<MatchDetails />} />
+          <Route path="/matchdetails/:match_id" element={<MatchDetails />} />
           <Route path="/custommatch/:date" element={<CustomMatch />} />
           <Route path="/custommatch" element={<CustomMatchcsv />} />
           <Route path="/teamSelect" element={<CardStack />} />
