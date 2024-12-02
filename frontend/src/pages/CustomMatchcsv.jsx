@@ -11,10 +11,9 @@ import {
   Alert,
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
-//import PlayerSearch from "../component/PlayerSearch";
+import PlayerSearch from "../component/selectMatch/PlayerSearch";
 import PlayerCard from "../component/playerCard";
 import Navbar from "../component/Navbar";
-// import ReadOnlyDate from "../component/common/readOnlyDate";
 import ImportCSV from "../component/ImportCSV";
 import batsmanimg from "../assets/batsman.png";
 import { useNavigate } from "react-router-dom";
@@ -44,24 +43,25 @@ export default function CustomMatch() {
     });
   };
 
-  const handleRemoveFromTeam = (playerKey, team) => {
-    const updateTeam = team === "A" ? [...teamA] : [...teamB];
-    const playerIndex = updateTeam.findIndex((p) => p && p.key === playerKey);
+  // const handleRemoveFromTeam = (playerKey, team) => {
+  //   const updateTeam = team === "A" ? [...teamA] : [...teamB];
+  //   const playerIndex = updateTeam.findIndex((p) => p && p.key === playerKey);
 
-    if (playerIndex !== -1) {
-      updateTeam[playerIndex] = null;
-      team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
-    }
-  };
+  //   if (playerIndex !== -1) {
+  //     updateTeam[playerIndex] = null;
+  //     team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
+  //   }
+  // };
 
-  const handleCloseAlert = () => {
-    setAlert({ ...alert, show: false });
-  };
+  // const handleCloseAlert = () => {
+  //   setAlert({ ...alert, show: false });
+  // };
 
   const cardVariants = {
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.1 } },
   };
+  
   const handlePlayersLoaded = (response) => {
     console.log(response);
     if (response.status === "ok") {
@@ -146,7 +146,6 @@ export default function CustomMatch() {
             >
               Select Players
             </Typography>
-            {/* <ReadOnlyDate value={matchDate} /> */}
             <Box
               sx={{
                 display: "flex",
@@ -214,11 +213,11 @@ export default function CustomMatch() {
               <MenuItem value="ODI">ODI</MenuItem>
               <MenuItem value="T20">T20</MenuItem>
             </Select>
-            {/* <Typography variant="h6" color="#333" sx={{ mb: 1 }}>
-    Search for Player
-  </Typography>
-  <PlayerSearch onAddToTeam={handleAddToTeam} />
-  <Typography sx={{ mt: 2, mb: 2 }}>OR</Typography> */}
+            <Typography variant="h6" color="#333" sx={{ mb: 1 }}>
+              Search for Player
+            </Typography>
+            {/* <PlayerSearch onAddToTeam={handleAddToTeam} /> */}
+            <Typography sx={{ mt: 2, mb: 2 }}>OR</Typography>
             <ImportCSV onPlayersLoaded={handlePlayersLoaded} />
             <Box sx={{ textAlign: "center", mt: 5 }}>
               <Button
