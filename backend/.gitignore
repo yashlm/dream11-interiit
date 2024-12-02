@@ -69,3 +69,6 @@ build/
 
 #Postgres data
 pgdata/
+scripts/
+
+envak/
