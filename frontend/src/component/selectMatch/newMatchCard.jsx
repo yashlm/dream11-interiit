@@ -63,7 +63,7 @@ const NewMatchCard = ({ match }) => {
       <div className={styles.buttonDiv}>
         <button
           onClick={() => {
-            navigate(`/match/${match.match_id}`);
+            navigate(`/matchdetails/${match.match_id}`);
           }}
         >
           View Details

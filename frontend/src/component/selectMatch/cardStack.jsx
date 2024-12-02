@@ -14,10 +14,24 @@ import Navbar from "../Navbar.jsx";
 const CardStack = () => {
   const [firstCardMoved, setFirstCardMoved] = useState(false);
   const [secondCardMoved, setSecondCardMoved] = useState(false);
+  // const [firstCardMoved, setFirstCardMoved] = useState(true);
+  // const [secondCardMoved, setSecondCardMoved] = useState(true);
+
   const [currentStep, setCurrentStep] = useState(-1);
 
   const [firstTeam, setFirstTeam] = useState(null);
   const [secondTeam, setSecondTeam] = useState(null);
+
+  // const [firstTeam, setFirstTeam] = useState({
+  //   name: "India",
+  //   url:
+  //     "https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/Cricket_India_Crest.svg/800px-Cricket_India_Crest.svg.png",
+  // });
+  // const [secondTeam, setSecondTeam] = useState({
+  //   name: "Australia",
+  //   url:
+  //     "https://upload.wikimedia.org/wikipedia/en/4/4f/Western_Australia_Women_Badge.png",
+  // });
 
   const [allTeams, setallTeams] = useState(null);
   const navigate = useNavigate();

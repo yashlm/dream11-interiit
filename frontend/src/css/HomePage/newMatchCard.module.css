@@ -87,8 +87,6 @@
 
 @media (max-width: 768px) {
   .match-card {
-    width: 18em;
-    height: auto;
     padding: 12px;
     font-size: 0.85rem;
   }
