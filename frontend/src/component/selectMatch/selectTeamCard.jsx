@@ -14,15 +14,19 @@ const allFavTeams = [
   },
   {
     name: "Australia",
-    url: "https://upload.wikimedia.org/wikipedia/en/4/4f/Western_Australia_Women_Badge.png",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/h5apsohhlfsn9ydrivoe",
   },
   {
     name: "England",
-    url: "https://upload.wikimedia.org/wikipedia/en/thumb/c/ce/England_cricket_team_logo.svg/1200px-England_cricket_team_logo.svg.png",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/pnintojotbm9ll60cczx",
+  },
+  {
+    name: "South Africa",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/kaefiv6vudqhj1vbqq0h",
   },
   {
     name: "New Zealand",
-    url: "https://upload.wikimedia.org/wikipedia/en/1/19/Logo_of_cricket_New_zealand_Team.png",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/ftjoqz45fxlacmrej5oc",
   },
   {
     name: "Pakistan",
@@ -30,53 +34,52 @@ const allFavTeams = [
   },
   {
     name: "West Indies",
-    url: "https://upload.wikimedia.org/wikipedia/en/9/9b/Cricket_West_Indies_Logo_2017.png",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/vwd5gtsu96yeq44kntsv",
   },
   {
     name: "Sri Lanka",
     url: "https://upload.wikimedia.org/wikipedia/en/3/32/Sri_Lanka_Cricket_Logo.jpg",
   },
   {
-    name: "South Africa",
-    url: "https://upload.wikimedia.org/wikipedia/en/2/29/Cricket_South_Africa_logo.png",
-  },
-  {
     name: "Bangladesh",
-    url: "https://upload.wikimedia.org/wikipedia/en/e/ea/Bangladesh_Cricket_Board_logo.svg",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/jxmhkysemy0gkkmjwmct",
   },
   {
     name: "Afghanistan",
-    url: "https://upload.wikimedia.org/wikipedia/en/5/5d/Afghanistan_cricket_team_logo.png",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/iwjk0vb7agpa7tyhuzea",
   },
   {
     name: "Ireland",
-    url: "https://upload.wikimedia.org/wikipedia/en/e/eb/Cricket_Ireland_logo.png",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/j5p9gymd8zwbdt102sta",
   },
   {
     name: "Zimbabwe",
-    url: "https://upload.wikimedia.org/wikipedia/en/f/fd/Zimbabwe_Cricket_Logo.png",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/vz1jpphfrjvbuowwrrtt",
   },
   {
     name: "Scotland",
-    url: "https://upload.wikimedia.org/wikipedia/en/a/a6/Scotland_Cricket_Team_logo.png",
+    url: "https://upload.wikimedia.org/wikipedia/en/thumb/6/64/ScotlandMenCricketLogo.svg/308px-ScotlandMenCricketLogo.svg.png",
   },
   {
     name: "Netherlands",
-    url: "https://upload.wikimedia.org/wikipedia/en/a/a3/KNCB_Cricket_Logo.png",
+    url: "https://upload.wikimedia.org/wikipedia/en/thumb/8/86/Logo_of_cricket_Netherlands.png/248px-Logo_of_cricket_Netherlands.png",
   },
-];  
-
+  {
+    name: "United States of America",
+    url: "https://usacricket.org/wp-content/uploads/2018/03/usacricket-logo.svg",
+  },
+];
 
 const teamIcon = (url, name) => {
   return (
     <div key={name} className="team-icon">
-      <Avatar
+      <img
         alt={name}
         src={url}
-        sx={{
-          height: "auto",
-          width: "75px",
-          variant: "square",
+        style={{
+          height: "80px",
+          width: "80px",
+          objectFit: "contain",
         }}
       />
       <p>{name}</p>
@@ -142,7 +145,7 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
   const selectTeamIcon = (team) => {
     return (
       <div
-        key={name}
+        key={team.name}
         onClick={() => {
           setTeam(team);
           moveCard(true);
@@ -164,34 +167,31 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
             fullWidth
             value={searchTeam}
             aria-label="Search Teams"
-            //  (Loose Equality) required do not change to strict equality
-            placeholder={remove == "" ? `Select your team` : `${remove} vs`}
+            placeholder={remove === "" ? `Select your team` : `${remove} vs`}
             onChange={(e) => setSearchTeam(e.target.value)}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              },
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
             }}
           />
         </div>
         {filteredTeams.length === 0 && searchTeam.length > 0 && (
           <p className="no-teams-error">
-            No teams found, here are your favourite teams:
+            No teams found, here are the featured teams:
           </p>
         )}
         {filteredTeams.length === 0 && searchTeam.length === 0 && (
-          <p className="fav-teams-title">My Teams</p>
+          <p className="fav-teams-title">Featured Teams</p>
         )}
         <div
           className="teams-grid"
           style={{
-            scrollBehavior:"smooth",
-            maxHeight: "45vh", 
-            overflowY: "auto", 
+            scrollBehavior: "smooth",
+            maxHeight: "40vh",
+            overflowY: "auto",
           }}
         >
           {filteredTeams.length > 0
@@ -203,11 +203,11 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
   };
 
   const filteredTeams =
-    searchTeam.length == 0
+    searchTeam.length === 0
       ? []
       : teams.filter((team) =>
-          team.name.toLowerCase().includes(searchTeam.toLowerCase())
-        );
+        team.name.toLowerCase().includes(searchTeam.toLowerCase())
+      );
 
   return (
     <div>
