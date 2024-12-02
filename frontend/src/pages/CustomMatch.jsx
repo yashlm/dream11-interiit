@@ -135,7 +135,7 @@ const handleRemoveFromTeam = (playerKey, team) => {
           {/* Left Section */}
           <Box
             sx={{
-              width: "100%",
+              width: {sx:"100%", md: "33%"},
               background: "rgba(255, 255, 255, 0.5)",
               boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
               backdropFilter: "blur(10px)",
