@@ -24,6 +24,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: space-evenly;
+  text-align: center;
   height: 120px;
 }
 
@@ -80,7 +81,6 @@
 
 .no-teams-error {
   color: #d9534f;
-  font-size: 0.6rem;
   padding: 2px;
   background-color: #f9e8e9;
   text-align: center;
@@ -105,13 +105,6 @@
 
 .search-card {
   padding: 20px;
-}
-
-.no-teams-error {
-  color: red;
-  font-size: 1.2rem;
-  text-align: center;
-  margin-top: 10px;
 }
 
 .fav-teams-title {

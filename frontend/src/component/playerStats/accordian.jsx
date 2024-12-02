@@ -19,60 +19,85 @@ import {
 import styles from "./playerStats.module.css";
 
 const TransparentTabs = React.memo(({ inputData, dataType }) => {
-  const data = Object.entries(inputData).map(([type, stats]) => {
-    if (dataType == "batting") {
-      return {
-        label: type, // format (e.g., t20, odi) as label
-        value: type.toLowerCase(), // Lowercased version of the format as value
-        "Total Runs": stats.totalRuns,
-        "Total Matches": stats.totalMatches,
-        "Highest Score": stats.highestScore,
-        "Career Strike Rate": stats.careerStrikeRate,
-        "Career Avg": stats.careerAvg,
-        "Last 10 Matches Avg": stats.last10Avg,
-        "Last 10 Matches Strike Rate": stats.last10StrikeRate,
-        "50s": stats.fifty,
-        "100s": stats.hundred,
-        "4s": stats.fours,
-        "6s": stats.sixes,
-        Stumpings: stats.stumpings,
-        Catches: stats.catches,
-        chartData: {
+  const data = Object.entries(inputData)
+    .map(([type, stats]) => {
+      if (dataType == "batting") {
+        const baseData = {
+          "Total Runs": stats.totalRuns,
+          "Total Matches": stats.totalMatches,
+          "Highest Score": stats.highestScore,
+          "Career Strike Rate": stats.careerStrikeRate,
+          "Career Avg": stats.careerAvg,
+          "Last 10 Matches Avg": stats.last10Avg,
+          "Last 10 Matches Strike Rate": stats.last10StrikeRate,
+          "50s": stats.fifty,
+          "100s": stats.hundred,
+          "4s": stats.fours,
+          "6s": stats.sixes,
+          Stumpings: stats.stumpings,
+          Catches: stats.catches,
+        };
+        const chartData = {
           Adaptability: stats.adaptability,
           Consistency: stats.battingConsistency,
           Form: stats.battingForm,
           FieldingPerformance: stats.fieldingPerformance,
-          Experience: stats.match,
-        },
-      };
-    } else if (dataType == "bowling") {
-      return {
-        label: type, // format (e.g., t20, odi) as label
-        value: type.toLowerCase(), // Lowercased version of the format as value
-        "Total Matches": stats.totalMatches,
-        "Total Wickets": stats.totalWickets,
-        "Career Economy Rate": stats.careerEconomyRate,
-        "Career Avg": stats.careerAvg,
-        "Career SR": stats.careerSR,
-        "Last 10 Matches Avg": stats.last10Avg,
-        "Last 10 Matches SR": stats.last10SR,
-        "Last 10 Matches Eco": stats.last10EconomyRate,
-        "No of 4 Wicket Hauls": stats.fourWicketHauls,
-        "No of 5 Wicket Hauls": stats.fiveWicketHauls,
-        "Catches Taken": stats.catches,
-        "No of Maiden Overs": stats.maidenOvers,
-        chartData: {
+          "Career Strike Rate": stats.careerStrikeRate,
+        };
+        const filteredBaseData = Object.fromEntries(
+          Object.entries(baseData).filter(([_, value]) => value)
+        );
+        if (Object.keys(filteredBaseData).length > 0) {
+          return {
+            label: type,
+            value: type.toLowerCase(),
+            ...filteredBaseData,
+            chartData,
+          };
+        }
+        return null;
+      } else if (dataType == "bowling") {
+        const baseData = {
+          "Total Matches": stats.totalMatches,
+          "Total Wickets": stats.totalWickets,
+          "Career Economy Rate": stats.careerEconomyRate,
+          "Career Avg": stats.careerAvg,
+          "No of 5 Wicket Hauls": stats.fiveWicketHauls,
+          "No of 10 Wicket Hauls": stats.tenWicketHauls,
+          "Last 10 Matches Avg": stats.last10Avg,
+          "Last 10 Matches Eco": stats.last10EconomyRate,
+          "No of Maiden Overs": stats.maidens,
+        };
+        const chartData = {
           Adaptability: stats.adaptability,
           Consistency: stats.bowlingConsistency,
           Form: stats.bowlingForm,
           FieldingPerformance: stats.fieldingPerformance,
-          Experience: stats.match,
-        },
-      };
-    }
-  });
+          "Career SR": stats.careerSR,
+        };
+        const filteredBaseData = Object.fromEntries(
+          Object.entries(baseData).filter(([_, value]) => value)
+        );
+        if (Object.keys(filteredBaseData).length > 0) {
+          return {
+            label: type,
+            value: type.toLowerCase(),
+            ...filteredBaseData,
+            chartData,
+          };
+        }
+        return null;
+      }
+      return null;
+    })
+    .filter((item) => item !== null); // Filter out null entries
+
+  if (data.length === 0) {
+    return <div>No data available</div>; // Handle case when no valid data exists
+  }
+
   return (
-    <Tabs value="test">
+    <Tabs value={data[0]?.value}>
       <TabsHeader
         className={`${styles.tabHeader}`}
         indicatorProps={{
@@ -98,7 +123,7 @@ const TransparentTabs = React.memo(({ inputData, dataType }) => {
                     if (!result[chunkIndex]) {
                       result[chunkIndex] = []; // Initialize a new chunk
                     }
-                    result[chunkIndex].push([statLabel, statValue]); // Add the entry to the appropriate chunk
+                    result[chunkIndex].push([statLabel, statValue.toFixed(2)]); // Add the entry to the appropriate chunk
                     return result;
                   }, [])
                   .map((chunk, chunkIndex) => (
@@ -163,7 +188,7 @@ const PlayerStatsAccordion = ({ playerType, data }) => {
       )}
 
       {/* Bowling Accordion */}
-      {data.ball && (
+      {data.bowl && (
         <Accordion
           expanded={expanded === "bowling"} // Expand if 'bowling' is the current expanded panel
           onChange={() => handleAccordionChange("bowling")} // Toggle bowling panel
@@ -176,7 +201,7 @@ const PlayerStatsAccordion = ({ playerType, data }) => {
             <Typography>Bowling Stats</Typography>
           </AccordionSummary>
           <AccordionDetails>
-            <TransparentTabs inputData={data.ball} dataType="bowling" />{" "}
+            <TransparentTabs inputData={data.bowl} dataType="bowling" />{" "}
             {/* Send bowling data */}
           </AccordionDetails>
         </Accordion>

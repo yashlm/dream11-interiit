@@ -24,7 +24,6 @@ const teamIcon = (url, name) => {
   );
 };
 
-
 const selectedTeamCard = (imageUrl, teamName, onClose) => {
   return (
     <div
@@ -55,8 +54,8 @@ const selectedTeamCard = (imageUrl, teamName, onClose) => {
           src={imageUrl}
           style={{
             height: "auto",
-            width: "250px", 
-            variant: "rectangle", 
+            width: "250px",
+            variant: "rectangle",
           }}
         />
         <h2 className="team-name-title">{teamName}</h2>
@@ -65,119 +64,41 @@ const selectedTeamCard = (imageUrl, teamName, onClose) => {
   );
 };
 
-
 const allFavTeams = [
   {
     name: "India",
-    imageUrl: "https://flagcdn.com/in.svg",
+    url:
+      "https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/Cricket_India_Crest.svg/800px-Cricket_India_Crest.svg.png",
   },
   {
     name: "Australia",
-    imageUrl: "https://example.com/australia-logo.png",
+    url:
+      "https://upload.wikimedia.org/wikipedia/en/4/4f/Western_Australia_Women_Badge.png",
   },
   {
     name: "England",
-    imageUrl: "https://example.com/england-logo.png",
+    url:
+      "https://upload.wikimedia.org/wikipedia/en/thumb/c/ce/England_cricket_team_logo.svg/1200px-England_cricket_team_logo.svg.png",
   },
   {
     name: "New Zealand",
-    imageUrl: "https://example.com/nz-logo.png",
+    url:
+      "https://upload.wikimedia.org/wikipedia/en/1/19/Logo_of_cricket_New_zealand_Team.png",
   },
   {
-    name: "India",
-    imageUrl: "https://flagcdn.com/in.svg",
+    name: "Pakistan",
+    url:
+      "https://upload.wikimedia.org/wikipedia/commons/a/ad/Pakistan_cricket_team_logo.png",
   },
   {
-    name: "Australia",
-    imageUrl: "https://example.com/australia-logo.png",
+    name: "West Indies",
+    url:
+      "https://upload.wikimedia.org/wikipedia/en/9/9b/Cricket_West_Indies_Logo_2017.png",
   },
   {
-    name: "England",
-    imageUrl: "https://example.com/england-logo.png",
-  },
-  {
-    name: "New Zealand",
-    imageUrl: "https://example.com/nz-logo.png",
-  },
-  {
-    name: "India",
-    imageUrl: "https://flagcdn.com/in.svg",
-  },
-  {
-    name: "Australia",
-    imageUrl: "https://example.com/australia-logo.png",
-  },
-  {
-    name: "England",
-    imageUrl: "https://example.com/england-logo.png",
-  },
-  {
-    name: "New Zealand",
-    imageUrl: "https://example.com/nz-logo.png",
-  },
-  {
-    name: "India",
-    imageUrl: "https://flagcdn.com/in.svg",
-  },
-  {
-    name: "Australia",
-    imageUrl: "https://example.com/australia-logo.png",
-  },
-  {
-    name: "England",
-    imageUrl: "https://example.com/england-logo.png",
-  },
-  {
-    name: "New Zealand",
-    imageUrl: "https://example.com/nz-logo.png",
-  },
-  {
-    name: "India",
-    imageUrl: "https://flagcdn.com/in.svg",
-  },
-  {
-    name: "Australia",
-    imageUrl: "https://example.com/australia-logo.png",
-  },
-  {
-    name: "England",
-    imageUrl: "https://example.com/england-logo.png",
-  },
-  {
-    name: "New Zealand",
-    imageUrl: "https://example.com/nz-logo.png",
-  },
-  {
-    name: "India",
-    imageUrl: "https://flagcdn.com/in.svg",
-  },
-  {
-    name: "Australia",
-    imageUrl: "https://example.com/australia-logo.png",
-  },
-  {
-    name: "England",
-    imageUrl: "https://example.com/england-logo.png",
-  },
-  {
-    name: "New Zealand",
-    imageUrl: "https://example.com/nz-logo.png",
-  },
-  {
-    name: "India",
-    imageUrl: "https://flagcdn.com/in.svg",
-  },
-  {
-    name: "Australia",
-    imageUrl: "https://example.com/australia-logo.png",
-  },
-  {
-    name: "England",
-    imageUrl: "https://example.com/england-logo.png",
-  },
-  {
-    name: "New Zealand",
-    imageUrl: "https://example.com/nz-logo.png",
+    name: "Sri Lanka",
+    url:
+      "https://upload.wikimedia.org/wikipedia/en/3/32/Sri_Lanka_Cricket_Logo.jpg",
   },
 ];
 
@@ -220,7 +141,8 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
             variant="outlined"
             fullWidth
             value={searchTeam}
-            placeholder={remove === "" ? `Select your team` : `${remove} vs`}
+            //  (Loose Equality) required do not change to strict equality
+            placeholder={remove == "" ? `Select your team` : `${remove} vs`}
             onChange={(e) => setSearchTeam(e.target.value)}
             slotProps={{
               input: {
@@ -256,13 +178,12 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
     );
   };
 
-
   const filteredTeams =
     searchTeam.length == 0
       ? []
       : teams.filter((team) =>
-        team.name.toLowerCase().includes(searchTeam.toLowerCase())
-      );
+          team.name.toLowerCase().includes(searchTeam.toLowerCase())
+        );
 
   return (
     <div>

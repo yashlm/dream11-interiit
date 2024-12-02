@@ -1,5 +1,5 @@
-import styles from "../css/footer.module.css";
-import logo from "../assets/landing_page/dream11logowhite.png"
+import styles from "../../css/footer.module.css";
+import logo from "../../assets/landing_page/dream11logowhite.png"
 
 const Footer = () => {
   return (
