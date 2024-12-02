@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, CSSProperties } from "react";
 import { Tooltip } from "@mui/material";
 import {
   BsFillVolumeUpFill,
@@ -7,6 +7,8 @@ import {
 } from "react-icons/bs";
 import { FaUndo, FaShareAlt, FaSave, FaInfoCircle } from "react-icons/fa";
 import styles from "../../css/DescriptionCard.module.css";
+import { BASE_URL } from "../../constants";
+import ClipLoader from "react-spinners/ClipLoader";
 
 export default function DescriptionCard({
   onUndo,
@@ -14,12 +16,82 @@ export default function DescriptionCard({
   onSave,
   info,
 }) {
+  const [audioUrl, setAudioUrl] = useState(null);
+  const audioRef = useRef(null);
+  const [audioLoading, setAudioLoading] = useState(false);
+
+  // const fetchAudio = async () => {
+  //   const text = document.getElementById("infoSectionText").textContent;
+  //   console.log("Text to be converted to audio:", text);
+  //   try {
+  //     const response = await fetch(`${BASE_URL}/ai/audio`, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify({ message: text }),
+  //     });
+  //     if (!response.ok) {
+  //       throw new Error("Failed to fetch audio");
+  //     }
+  //     // Create a blob URL from the audio data
+  //     const blob = await response.blob();
+  //     const url = URL.createObjectURL(blob);
+  //     setAudioUrl(url);
+  //   } catch (err) {
+  //     console.log("Error in fetching audio:", err);
+  //   } finally {
+  //     setAudioLoading(false);
+  //   }
+  // };
+
+  useEffect(() => {
+    if (audioUrl && audioRef.current) {
+      audioRef.current.play().catch((error) => {
+        console.error("Error playing audio:", error);
+      });
+    }
+  }, [audioUrl]);
+
   const [expanded, setExpanded] = useState(false); // Controls the expanded state for ShowMoreText
   const [isOverflowing, setIsOverflowing] = useState(false);
   const infoRef = useRef(null);
 
-  const handleVoiceClick = () => {
-    console.log("Voice button clicked"); // Backend logic here
+  const fetchAudio = async () => {
+    setAudioLoading(true); // Show the loader while fetching
+    const text = document.getElementById("infoSectionText").textContent;
+    console.log("Text to be converted to audio:", text);
+    try {
+      const response = await fetch(`${BASE_URL}/ai/audio`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ message: text }),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch audio");
+      }
+      // Create a blob URL from the audio data
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      setAudioUrl(url);
+
+      // Play audio after URL is set
+      if (audioRef.current) {
+        audioRef.current.src = url; // Set the audio source
+        await audioRef.current.play(); // Play the audio
+      }
+    } catch (err) {
+      console.log("Error in fetching audio:", err);
+    } finally {
+      setAudioLoading(false); // Hide the loader
+    }
+  };
+
+  const handleVoiceClick = async () => {
+    console.log("Voice button clicked");
+    await fetchAudio(); // Ensure fetchAudio is awaited
   };
 
   const handleExpandToggle = () => {
@@ -34,13 +106,24 @@ export default function DescriptionCard({
 
   return (
     <div className={`${styles.descriptionCard}`}>
+      <audio ref={audioRef} style={{ display: "none" }} />
       <div className={styles.bgBlur}>
         <div className={styles.cardHeader}>
           <p>Info Section</p>
           <div className="flex flex-row justify-end">
             <Tooltip title="Listen" placement="top">
               <button className={styles.iconButton} onClick={handleVoiceClick}>
-                <BsFillVolumeUpFill />
+                {audioLoading ? (
+                  <ClipLoader
+                    color={"white"}
+                    className={styles.loader}
+                    loading={audioLoading}
+                    aria-label="Loading Spinner"
+                    data-testid="loader"
+                  />
+                ) : (
+                  <BsFillVolumeUpFill />
+                )}
               </button>
             </Tooltip>
             <Tooltip title={expanded ? "Minimize" : "Expand"} placement="top">
@@ -49,7 +132,6 @@ export default function DescriptionCard({
                 onClick={handleExpandToggle}
               >
                 {expanded ? <BsArrowsCollapse /> : <BsArrowsExpand />}{" "}
-                {/* Toggle between arrow down and fullscreen */}
               </button>
             </Tooltip>
           </div>
@@ -59,58 +141,12 @@ export default function DescriptionCard({
         <div
           ref={infoRef}
           className={`${styles.infoSection} ${expanded ? styles.expanded : ""}`}
+          id="infoSectionText"
         >
           <h3>Weather Effect</h3>
           <p>{info}</p>
-          {/* Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-          efficitur turpis a interdum vehicula. Proin tincidunt risus non odio
-          pulvinar, quis pharetra neque vestibulum. Lorem ipsum dolor sit amet,
-          consecteturLorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Fusce efficitur turpis a interdum vehicula. Proin tincidunt risus non
-          odio pulvinar, quis pharetra neque vestibulum. Lorem ipsum dolor sit
-          amet, consecteturLorem ipsum dolor sit amet, consectetur adipiscing
-          elit. Fusce efficitur turpis a interdum vehicula. Proin tincidunt
-          risus non odio pulvinar, quis pharetra neque vestibulum. Lorem ipsum
-          dolor sit amet, consectetur efficitur turpis a interdum vehicula.
-          Proin tincidunt risus non odio pulvinar, quis pharetra neque
-          vestibulum. Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor
-          sit amet, consectetur adipiscing elit. Fusce efficitur turpis a
-          interdum vehicula. Proin tincidunt risus non odio pulvinar, quis
-          pharetra neque vestibulum. Lorem ipsum dolor sit amet,
-          consecteturLorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Fusce efficitur turpis a interdum vehicula. Proin tincidunt risus non
-          odio pulvinar, quis pharetra neque vestibulum. Lorem ipsum dolor sit
-          amet, consectetur efficitur turpis a interdum vehicula. Proin
-          tincidunt risus non odio pulvinar, quis pharetra neque vestibulum.
-          Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor sit amet,
-          consectetur adipiscing elit. Fusce efficitur turpis a interdum
-          vehicula. Proin tincidunt risus non odio pulvinar, quis pharetra neque
-          vestibulum. Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor
-          sit amet, consectetur adipiscing elit. Fusce efficitur turpis a
-          interdum vehicula. Proin tincidunt risus non odio pulvinar, quis
-          pharetra neque vestibulum. Lorem ipsum dolor sit amet, consectetur
-          efficitur turpis a interdum vehicula. Proin tincidunt risus non odio
-          pulvinar, quis pharetra neque vestibulum. Lorem ipsum dolor sit amet,
-          consecteturLorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Fusce efficitur turpis a interdum vehicula. Proin tincidunt risus non
-          odio pulvinar, quis pharetra neque vestibulum. Lorem ipsum dolor sit
-          amet, consecteturLorem ipsum dolor sit amet, consectetur adipiscing
-          elit. Fusce efficitur turpis a interdum vehicula. Proin tincidunt
-          risus non odio pulvinar, quis pharetra neque vestibulum. Lorem ipsum
-          dolor sit amet, consectetur efficitur turpis a interdum vehicula.
-          Proin tincidunt risus non odio pulvinar, quis pharetra neque
-          vestibulum. Lorem ipsum dolor sit amet, consecteturLorem ipsum dolor
-          sit amet, consectetur adipiscing elit. Fusce efficitur turpis a
-          interdum vehicula. Proin tincidunt risus non odio pulvinar, quis
-          pharetra neque vestibulum. Lorem ipsum dolor sit amet,
-          consecteturLorem ipsum dolor sit amet, consectetur adipiscing elit.
-          Fusce efficitur turpis a interdum vehicula. Proin tincidunt risus non
-          odio pulvinar, quis pharetra neque vestibulum. Lorem ipsum dolor sit
-          amet, consectetur */}
         </div>
       </div>
-      {/* Header Icons */}
-
       <div className={styles.buttonRow}>
         <Tooltip title="Undo" placement="top">
           <button className={styles.actionButton} onClick={onUndo}>

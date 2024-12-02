@@ -36,6 +36,7 @@ function App() {
           <Route path="/custommatch" element={<CustomMatchcsv />} />
           <Route path="/teamSelect" element={<CardStack />} />
           <Route path="/loading" element={<Loading />} />
+          <Route path="/dreamTeam" element={<DreamTeamGround />} />
           <Route path="/dreamTeam/:match_id" element={<DreamTeamGround />} />
           <Route path="/" element={<StarterPage />} />
           <Route path="/fav" element={<FavTeam />} />
