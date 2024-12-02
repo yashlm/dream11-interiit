@@ -2,7 +2,6 @@ import { useDrop } from "react-dnd";
 import styles from "../../css/DreamTeamGround.module.css";
 import PlayerCard from "../playerCard";
 import { ItemType } from "../../constants";
-import { useState } from "react";
 
 export default function DropZone({
   id,
@@ -11,8 +10,6 @@ export default function DropZone({
   currentPlayer,
   onRemove,
 }) {
-  const [isAnimating, setIsAnimating] = useState(false);
-
   const [{ isOver }, drop] = useDrop(() => ({
     accept: ItemType.PLAYER,
     drop: (droppedPlayer) => onDrop(droppedPlayer, id),
@@ -34,15 +31,6 @@ export default function DropZone({
       }}
     >
       {currentPlayer ? (
-        // <PlayerCard
-        //   {...currentPlayer}
-        //   isDraggable={false}
-        //   isInField={true}
-        //   onRemove={() => onRemove(id)}
-        //   styles={{
-
-        //   }}
-        // />
         <div
           className={`${styles.playerCardContainer} ${
             isOver ? styles.moveAsideAndFade : ""

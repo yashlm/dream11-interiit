@@ -32,10 +32,14 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
     const fetchAndStorePlayersData = async () => {
       setLoading(true);
       try {
-        const responseA = await fetch(`${BASE_URL}/player/search_players/${teamA}`);
+        const responseA = await fetch(
+          `${BASE_URL}/player/search_players/${teamA}`
+        );
         const dataA = await responseA.json();
 
-        const responseB = await fetch(`${BASE_URL}/player/search_players/${teamB}`);
+        const responseB = await fetch(
+          `${BASE_URL}/player/search_players/${teamB}`
+        );
         const dataB = await responseB.json();
 
         if (dataA.status === "ok" && dataB.status === "ok") {
@@ -174,7 +178,9 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
               ...params.InputProps,
               endAdornment: (
                 <React.Fragment>
-                  {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                  {loading ? (
+                    <CircularProgress color="inherit" size={20} />
+                  ) : null}
                   {params.InputProps.endAdornment}
                 </React.Fragment>
               ),

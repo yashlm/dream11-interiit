@@ -51,15 +51,15 @@ const selectedTeamCard = (imageUrl, teamName, onClose) => {
           <FaTimes size={20} color="black" />
         </div>
 
-        <Avatar
-          alt={teamName}
+        <img
           src={imageUrl}
+          alt={teamName}
           style={{
             height: "auto",
-            width: "250px",
+            width: "200px",
             variant: "rectangle",
           }}
-        />
+        ></img>
         <h2 className="team-name-title">{teamName}</h2>
       </div>
     </div>
@@ -117,7 +117,6 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
     setIsTeamSet(false);
     setSelectedTeam(null);
   };
-
   const selectTeamIcon = (team) => {
     return (
       <div
@@ -133,7 +132,6 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
       </div>
     );
   };
-
   const searchDiv = () => {
     return (
       <div className="search-card" id={id}>

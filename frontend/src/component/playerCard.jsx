@@ -47,7 +47,7 @@ export default function PlayerCard({
 }) {
   const [isVisible, setIsVisible] = useState(false);
   const handleClick = () => {
-    setIsVisible(!isVisible);
+    setIsVisible(player_id ? !isVisible : false);
   };
 
   const firstName = name
@@ -66,8 +66,10 @@ export default function PlayerCard({
       <Card
         sx={{
           width: "20vh",
-          height: "20vh",
-          minHeight: "100px",
+          minWidth: "100px",
+          maxWidth: "200px",
+          // height: "20vh",
+          // minHeight: "150px",
           position: "relative",
           wordWrap: "break-word",
           fontSize: "10px",
@@ -156,25 +158,27 @@ export default function PlayerCard({
                 gap: "10px",
               }}
             >
-              <Typography
-                variant="p"
-                sx={{
-                  // color: "white",
-                  fontSize: "0.6rem",
-                  lineHeight: "0.2rem",
-                }}
-              >
-                Dream Points:
-                <span
-                  style={{
-                    fontSize: "1rem",
+              {dreamPoints && (
+                <Typography
+                  variant="p"
+                  sx={{
+                    // color: "white",
+                    fontSize: "0.6rem",
                     lineHeight: "0.2rem",
-                    marginLeft: "5px",
                   }}
                 >
-                  {dreamPoints}
-                </span>
-              </Typography>
+                  Dream Points:
+                  <span
+                    style={{
+                      fontSize: "1rem",
+                      lineHeight: "0.2rem",
+                      marginLeft: "5px",
+                    }}
+                  >
+                    {dreamPoints}
+                  </span>
+                </Typography>
+              )}
               <Box
                 sx={{
                   display: "flex",
