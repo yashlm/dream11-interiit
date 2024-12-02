@@ -17,6 +17,7 @@ export default function AlignItemsList({ playerdata }) {
   // Add items one by one with a delay
   useEffect(() => {
     let timeouts = [];
+    console.log("player data", playerdata);
     playerdata.forEach((item, index) => {
       const timeout = setTimeout(() => {
         setItems((prev) => [...prev, item]); // Add item sequentially
@@ -35,7 +36,7 @@ export default function AlignItemsList({ playerdata }) {
       <AnimatePresence>
         {items.map((item, index) => (
           <motion.div
-            key={item.playerId} // Ensure unique key for each player
+            key={item.player_id} // Ensure unique key for each player
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
@@ -43,10 +44,10 @@ export default function AlignItemsList({ playerdata }) {
           >
             <ListItem alignItems="flex-start">
               <ListItemAvatar>
-                <Avatar alt={item.name} src={item.prurl} />
+                <Avatar alt={item.full_name} src={item.img_src_url} />
               </ListItemAvatar>
               <ListItemText
-                primary={item.name}
+                primary={item.full_name} // Use full_name for player name
                 secondary={
                   <React.Fragment>
                     <Typography
@@ -54,7 +55,7 @@ export default function AlignItemsList({ playerdata }) {
                       variant="body2"
                       sx={{ color: "text.primary", display: "inline" }}
                     >
-                      {item.type}
+                      {item.playing_role} 
                     </Typography>
                   </React.Fragment>
                 }
@@ -69,4 +70,3 @@ export default function AlignItemsList({ playerdata }) {
     </List>
   );
 }
-

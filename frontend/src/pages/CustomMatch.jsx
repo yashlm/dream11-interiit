@@ -263,8 +263,7 @@ import PlayerSearch from "../component/selectMatch/PlayerSearch";
 import PlayerCard from "../component/playerCard";
 import Navbar from "../component/Navbar";
 import ReadOnlyDate from "../component/common/readOnlyDate";
-import ImportCSV from "../component/ImportCSV";
-import batsmanimg from "../assets/batsman.png";
+import batsmanimg from '../assets/batsman.png';
 
 export default function CustomMatch() {
   const { date } = useParams();
@@ -428,53 +427,51 @@ export default function CustomMatch() {
                 <Typography variant="h6">{teamAdata.name}</Typography>
               </Box>
 
-              {/* Team B */}
-              <Box
-                sx={{
-                  width: 100,
-                  height: 100,
-                  borderRadius: "50%",
-                  background: "white",
-                  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <img
-                  src={teamBdata.imageUrl}
-                  alt={teamBdata.name}
-                  style={{ width: "80%" }}
-                />
-              </Box>
-              <Box sx={{ textAlign: "center" }}>
-                <Typography variant="h6">{teamBdata.name}</Typography>
-              </Box>
-            </Box>
-            <Typography variant="h6" sx={{ mb: 2 }}>
-              Select Match Type
-            </Typography>
-            <Select
-              defaultValue=""
-              variant="outlined"
-              sx={{ width: "100%", marginBottom: 3 }}
-            >
-              <MenuItem value="Test">Test</MenuItem>
-              <MenuItem value="ODI">ODI</MenuItem>
-              <MenuItem value="T20">T20</MenuItem>
-            </Select>
-            <Typography variant="h6" color="#333" sx={{ mb: 1 }}>
-              Search for Player
-            </Typography>
-            <PlayerSearch onAddToTeam={handleAddToTeam} />
-            {/* <Typography sx={{ mt: 2, mb: 2 }}>OR</Typography>
-  <ImportCSV onPlayersLoaded={handlePlayersLoaded} /> */}
-            <Box sx={{ textAlign: "center", mt: 5 }}>
-              <Button variant="contained" color="success">
-                GENERATE TEAM
-              </Button>
-            </Box>
-          </Box>
+    {/* Team B */}
+    <Box
+      sx={{
+        width: 100,
+        height: 100,
+        borderRadius: "50%",
+        background: "white",
+        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
+    >
+      <img
+        src={teamBdata.imageUrl}
+        alt={teamBdata.name}
+        style={{ width: "80%" }}
+      />
+    </Box>
+    <Box sx={{ textAlign: "center" }}>
+      <Typography variant="h6">{teamBdata.name}</Typography>
+    </Box>
+  </Box>
+  <Typography variant="h6" sx={{ mb: 2 }}>
+    Select Match Type
+  </Typography>
+  <Select
+    defaultValue=""
+    variant="outlined"
+    sx={{ width: "100%", marginBottom: 3 }}
+  >
+    <MenuItem value="Test">Test</MenuItem>
+    <MenuItem value="ODI">ODI</MenuItem>
+    <MenuItem value="T20">T20</MenuItem>
+  </Select>
+  <Typography variant="h6" color="#333" sx={{ mb: 1 }}>
+    Search for Player
+  </Typography>
+  <PlayerSearch onAddToTeam={handleAddToTeam} teamA={teamAdata.name} teamB={teamBdata.name}/>
+  <Box sx={{ textAlign: "center", mt: 5 }}>
+    <Button variant="contained" color="success">
+      GENERATE TEAM
+    </Button>
+  </Box>
+</Box>
 
           {/* Right Section */}
           <Box sx={{ width: "100%", marginTop: "64px", zIndex: "2" }}>

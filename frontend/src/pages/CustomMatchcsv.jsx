@@ -11,7 +11,7 @@ import {
   Alert,
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
-// import PlayerSearch from "../component/PlayerSearch";
+//import PlayerSearch from "../component/PlayerSearch";
 import PlayerCard from "../component/playerCard";
 import Navbar from "../component/Navbar";
 import ReadOnlyDate from "../component/common/readOnlyDate";
@@ -57,17 +57,17 @@ export default function CustomMatch() {
 //       });
 //     }
 //   };
+const handleRemoveFromTeam = (playerKey, team) => {
 
+  const updatedTeam = team === "A" ? [...teamA] : [...teamB];
+  const playerIndex = updatedTeam.findIndex((p) => p && p.player_id === playerKey);
 
-    const handleRemoveFromTeam = (playerKey, team) => {
-    const updateTeam = team === "A" ? [...teamA] : [...teamB];
-    const playerIndex = updateTeam.findIndex((p) => p && p.key === playerKey);
+  if (playerIndex !== -1) {
+    updatedTeam[playerIndex] = null;
+    team === "A" ? setTeamA(updatedTeam) : setTeamB(updatedTeam);
+  }
+};
 
-    if (playerIndex !== -1) {
-      updateTeam[playerIndex] = null;
-      team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
-    }
-  };
   const handleCloseAlert = () => {
     setAlert({ ...alert, show: false });
   };
@@ -178,7 +178,7 @@ export default function CustomMatch() {
       <img
         src={teamAInfo.url}
         alt={teamAInfo.name}
-        style={{ width: "80%" }}
+        style={{ width: "100%", height:"100%" }}
       />
     </Box>
     <Box sx={{ textAlign: "center" }}>
@@ -201,7 +201,7 @@ export default function CustomMatch() {
       <img
         src={teamBInfo.url}
         alt={teamBInfo.name}
-        style={{ width: "80%" }}
+        style={{  width: "100%", height:"100%" }}
       />
     </Box>
     <Box sx={{ textAlign: "center" }}>
@@ -263,7 +263,7 @@ export default function CustomMatch() {
                       bgImage={player.bg_image_url}
                       profileImage={player.img_src_url}
                       isInField={true}
-                      onRemove={() => handleRemoveFromTeam(player.key, "A")}
+                      onRemove={() => handleRemoveFromTeam(player.player_id, "A")}
                       />
                     ) : (
                       <div
@@ -306,7 +306,7 @@ export default function CustomMatch() {
                       bgImage={player.bg_image_url}
                       profileImage={player.img_src_url}
                       isInField={true}
-                      onRemove={() => handleRemoveFromTeam(player.key, "B")}
+                      onRemove={() => handleRemoveFromTeam(player.player_id, "B")}
                       />
                     ) : (
                       <div
