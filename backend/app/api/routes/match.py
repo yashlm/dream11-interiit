@@ -4,7 +4,7 @@ from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.schemas.team import TeamInput
 from app.schemas.pydantic_schema import ModelInput
-from app.services.match import get_match_weather_from_db,get_data_from_csv,get_match_details_from_db,get_all_featured_matches_for_date_from_db,get_all_matches_for_date_from_db,get_all_matches_from_db,get_all_team_matches_from_db,get_all_teams_matches_from_db,match_to_dict
+from app.services.match import get_all_matches_for_date_from_db,get_match_weather_from_db,get_data_from_csv,get_match_details_from_db,get_all_featured_matches_for_date_from_db,get_all_matches_from_db,get_all_team_matches_from_db,get_all_teams_matches_from_db,match_to_dict
 from app.services.team import get_teams_by_name_from_db,get_team_info_by_name_from_db
 from app.services.player import get_all_match_players_profile_from_db,get_player_ids_for_match, get_player_profile_for_ids
 from fastapi import File, UploadFile
@@ -46,6 +46,8 @@ async def get_matches_by_date(date: str, db: Session = Depends(get_db)):
         return {"status": "ok", "message": "Teams retrieved successfully", "data": matches}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get("/date/featured")
 async def get_matches_by_date(date: str, db: Session = Depends(get_db)):
     try:

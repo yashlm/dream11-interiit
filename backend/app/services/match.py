@@ -27,12 +27,18 @@ def get_all_teams_matches_from_db(db: Session, team1_name: str, team2_name: str)
 # Assuming model.Match is your SQLAlchemy model
 
 def get_all_matches_for_date_from_db(db: Session, date: str):
-    return db.query(model.Match).filter(model.Match.dates.any(date)).all()
+    return db.query(model.Match).filter(
+        model.Match.dates.any(date)
+    ).distinct(model.Match.match_id).all()
+
 
 def get_all_featured_matches_for_date_from_db(db: Session, date: str):
+    # Use distinct to ensure we get only one row per match_id
     return db.query(model.Match).filter(
-        model.Match.dates.any(date), model.Match.isfeatured == 'yes'
-    ).all()
+        model.Match.dates.any(date),
+        model.Match.isfeatured == 'yes'
+    ).distinct(model.Match.match_id).all()
+
 def match_to_dict(match):
     """
     Converts a SQLAlchemy Match object to a dictionary.
