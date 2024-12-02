@@ -19,9 +19,9 @@ const MatchCard = ({ match }) => {
     navigate(`/matchdetails/${match.match_id}`, {
       state: {
         matchDate,
-        team1Logo: match?.team1_logo, 
+        team1Logo: match?.team1_logo,
         team2Logo: match?.team2_logo,
-      }
+      },
     });
   };
 
@@ -58,3 +58,81 @@ const MatchCard = ({ match }) => {
 };
 
 export default MatchCard;
+
+
+const t = {
+  status: "ok",
+  message: "Teams retrieved successfully",
+  data: [
+    {
+      match_id: "1432439",
+      innings: 1,
+      batting_team: "Australia",
+      city: "Sharjah",
+      dates: ["2024-10-13"],
+      event_name: "ICC Women's T20 World Cup",
+      match_number: "18",
+      gender: "female",
+      match_type: "T20",
+      match_referees: "SA Fritz",
+      tv_umpires: "JM Williams",
+      umpires: ["Kim Cotton", "S Redfern"],
+      team_type: "international",
+      teams: ["Australia", "India"],
+      venue: "Sharjah Cricket Stadium",
+      players:
+        '{"GM Harris","BL Mooney","G Wareham","TM McGrath","EA Perry","A Gardner","P Litchfield","A Sutherland","S Molineux","ML Schutt","D Brown"}',
+      season: "2024/25",
+    },
+    {
+      match_id: "1432439",
+      innings: 2,
+      batting_team: "India",
+      city: "Sharjah",
+      dates: ["2024-10-13"],
+      event_name: "ICC Women's T20 World Cup",
+      match_number: "18",
+      gender: "female",
+      match_type: "T20",
+      match_referees: "SA Fritz",
+      tv_umpires: "JM Williams",
+      umpires: ["Kim Cotton", "S Redfern"],
+      team_type: "international",
+      teams: ["Australia", "India"],
+      venue: "Sharjah Cricket Stadium",
+      players:
+        '{"Shafali Verma","S Mandhana","JI Rodrigues","H Kaur","DB Sharma","RM Ghosh","P Vastrakar","A Reddy","SR Patil","RP Yadav","Renuka Singh"}',
+      season: "2024/25",
+    },
+  ],
+  team_info: [
+    {
+      final_colors: "None",
+      colors_used: [
+        "(35, 115, 51)",
+        "(215, 218, 120)",
+        "(141, 172, 78)",
+        "(107, 178, 214)",
+        "(170, 196, 63)",
+      ],
+      name: "Australia",
+      id: 14,
+      url:
+        "https://upload.wikimedia.org/wikipedia/en/3/3f/Cricket_Australia.png",
+    },
+    {
+      final_colors: "None",
+      colors_used: [
+        "(218, 178, 108)",
+        "(37, 60, 147)",
+        "(195, 227, 251)",
+        "(116, 108, 132)",
+        "(100, 132, 188)",
+      ],
+      name: "India",
+      id: 130,
+      url:
+        "https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/Cricket_India_Crest.svg/800px-Cricket_India_Crest.svg.png",
+    },
+  ],
+};

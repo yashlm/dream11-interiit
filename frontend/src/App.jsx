@@ -11,12 +11,13 @@ import CardStack from "./component/selectMatch/cardStack";
 import DreamTeamGround from "./pages/dreamTeam";
 import FavTeam from "./pages/FavTeam";
 import Loading from "./component/Loading";
-import CustomMatch from "./pages/CustomMatch";
 import CustomMatchcsv from "./pages/CustomMatchcsv";
 // import DescriptionCard from "./component/matchDescriptionCard";
 import MatchDetails from "./pages/MatchDetails";
 import HomePage from "./pages/HomePage";
 import PlayerCard from "./component/playerCard";
+import MatchCard from "./component/HomePage/MatchCard";
+import NewMatchCard from "./component/selectMatch/newMatchCard";
 
 function App() {
   const [isChatOpen, setIsChatOpen] = useState(false);
@@ -33,7 +34,6 @@ function App() {
         <Routes>
           <Route path="/home" element={<HomePage />} />
           <Route path="/matchdetails/:match_id" element={<MatchDetails />} />
-          <Route path="/custommatch/:date" element={<CustomMatch />} />
           <Route path="/custommatch" element={<CustomMatchcsv />} />
           <Route path="/teamSelect" element={<CardStack />} />
           <Route path="/loading" element={<Loading />} />
@@ -41,24 +41,7 @@ function App() {
           <Route path="/dreamTeam/:match_id" element={<DreamTeamGround />} />
           <Route path="/" element={<StarterPage />} />
           <Route path="/fav" element={<FavTeam />} />
-          <Route
-            path="/player"
-            element={
-              <PlayerCard
-                name={"Virat Kohli"}
-                points={120}
-                type={"Batsman"}
-                teamIconUrl={""}
-                profileImage={
-                  "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png"
-                }
-                bgImage={
-                  "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg"
-                }
-                player_id={"327b58d3"}
-              />
-            }
-          />
+          <Route path="/test" element={<NewMatchCard />} />
         </Routes>
       </div>
     </BrowserRouter>

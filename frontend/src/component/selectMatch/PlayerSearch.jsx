@@ -1,4 +1,3 @@
-
 // import * as React from "react";
 // import TextField from "@mui/material/TextField";
 // import Autocomplete from "@mui/material/Autocomplete";
@@ -145,9 +144,6 @@
 //   );
 // }
 
-
-
-
 import * as React from "react";
 import TextField from "@mui/material/TextField";
 import Autocomplete from "@mui/material/Autocomplete";
@@ -181,10 +177,14 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam }) {
     const fetchAndStorePlayersData = async () => {
       setLoading(true);
       try {
-        const responseA = await fetch(`${BASE_URL}/player/search_players/${teamA}`);
+        const responseA = await fetch(
+          `${BASE_URL}/player/search_players/${teamA}`
+        );
         const dataA = await responseA.json();
 
-        const responseB = await fetch(`${BASE_URL}/player/search_players/${teamB}`);
+        const responseB = await fetch(
+          `${BASE_URL}/player/search_players/${teamB}`
+        );
         const dataB = await responseB.json();
 
         if (dataA.status === "ok" && dataB.status === "ok") {
@@ -282,7 +282,11 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam }) {
               }}
               disabled={buttonLoading?.A}
             >
-              {buttonLoading?.A ? <CircularProgress color="inherit" size={20} /> : "Add to Team A"}
+              {buttonLoading?.A ? (
+                <CircularProgress color="inherit" size={20} />
+              ) : (
+                "Add to Team A"
+              )}
             </Button>
             <Button
               variant="contained"
@@ -294,7 +298,11 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam }) {
               }}
               disabled={buttonLoading?.B}
             >
-              {buttonLoading?.B ? <CircularProgress color="inherit" size={20} /> : "Add to Team B"}
+              {buttonLoading?.B ? (
+                <CircularProgress color="inherit" size={20} />
+              ) : (
+                "Add to Team B"
+              )}
             </Button>
           </Box>
         </Box>
@@ -308,7 +316,9 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam }) {
               ...params.InputProps,
               endAdornment: (
                 <React.Fragment>
-                  {loading ? <CircularProgress color="inherit" size={20} /> : null}
+                  {loading ? (
+                    <CircularProgress color="inherit" size={20} />
+                  ) : null}
                   {params.InputProps.endAdornment}
                 </React.Fragment>
               ),

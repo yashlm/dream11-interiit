@@ -1,0 +1,108 @@
+.match-card {
+  position: relative;
+  width: 22em;
+  /* height: 14em; */
+  overflow: hidden;
+  background: linear-gradient(to bottom right, #ffffff, #f0f0f0);
+  border: 1px solid #e6e6e6;
+  border-radius: 16px;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1); /* Softer shadow for a clean look */
+  /* transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 10px;
+  color: var(--text);
+}
+
+.match-type {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: rgb(230, 36, 36);
+  text-align: left;
+  align-self: flex-start;
+  margin-bottom: 12px;
+  width: 60%;
+}
+
+.logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  position: absolute;
+  top: 2%;
+  right: 2%;
+  padding: 2%;
+  /* border: 2px solid black; */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  border-radius: 16px;
+}
+
+.team-logo {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  border: 2px solid #fff;
+  object-fit: cover;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  /* transition: transform 0.2s ease-in-out; */
+}
+
+.vs {
+  font-size: 1.3rem;
+  font-weight: bold;
+  color: #ff4d4f; /* Modern red tone */
+}
+
+.match-details {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-top: 12px;
+}
+
+.icon {
+  margin-right: 8px;
+  font-size: 1.2rem;
+  color: #888;
+}
+
+.buttonDiv {
+  border-top: 1px solid black;
+  color: red;
+  margin-top: 4%;
+  padding-top: 2%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1%;
+  width: 100%;
+}
+
+.buttonDiv button {
+  background-color: transparent;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 768px) {
+  .match-card {
+    padding: 12px;
+    font-size: 0.85rem;
+  }
+
+  .match-type {
+    font-size: 1rem;
+    width: 50%;
+  }
+
+  .vs {
+    font-size: 1.1rem;
+  }
+  .buttonDiv {
+    gap: 5px;
+  }
+  button {
+    padding: 5px;
+  }
+}
