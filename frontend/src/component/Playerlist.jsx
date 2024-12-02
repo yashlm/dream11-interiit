@@ -17,7 +17,6 @@ export default function AlignItemsList({ playerdata }) {
   // Add items one by one with a delay
   useEffect(() => {
     let timeouts = [];
-    console.log("player data", playerdata);
     playerdata.forEach((item, index) => {
       const timeout = setTimeout(() => {
         setItems((prev) => [...prev, item]); // Add item sequentially

@@ -9,7 +9,7 @@ import DescriptionCard from "../component/dreamPage/matchDescriptionCard";
 import Loading from "../component/Loading";
 import DragPlayerCard from "../component/dreamPage/dragPlayerCard";
 import DropZone from "../component/dreamPage/dropZone";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import {
   BASE_URL,
   fieldPositionsInPx,
@@ -25,13 +25,18 @@ const initialFieldPositions = fieldPositionsInPx.map((position) => ({
 }));
 
 export default function DreamTeamGround() {
+  const location = useLocation();
+  const navigate = useNavigate();
   const { match_id } = useParams();
+
+  const [teamA, setTeamA] = useState([]);
+  const [teamB, setTeamB] = useState([]);
+
   const [isLoading, setIsLoading] = useState(false);
   const [offFieldPlayers, setOffFieldPlayers] = useState([]);
+
   const [initialOnFieldPlayers, setInitialOnFieldPlayers] = useState([]);
-  // const [initialPositions, setInitialPositions] = useState(
-  //   initialFieldPositions
-  // );
+
   const [modelOuput, setModelOutput] = useState([]);
   const [positions, setPositions] = useState(initialFieldPositions);
   const [isAtEnd, setIsAtEnd] = useState(null);
@@ -39,7 +44,6 @@ export default function DreamTeamGround() {
   const [dreamPoints, setDreamPoints] = useState(0);
   const [info, setInfo] = useState("");
   const dockListRef = useRef(null);
-  const navigate = useNavigate();
 
   const redo = () => {
     setOffFieldPlayers(modelOuput.slice(11));
@@ -141,7 +145,44 @@ export default function DreamTeamGround() {
   }, [positions]);
 
   useEffect(() => {
-    const FetchDreamTeam = async (match_id) => {
+    const processData = (data) => {
+      const allPlayers = data.data.map((player) => {
+        return {
+          name: player.full_name || "loading...",
+          key: player.player_id || null,
+          dreamPoints: player.fantasy_score_total || null,
+          type: player.playing_role || null,
+          profileImage: player.img_src_url,
+          bgImage: player.bg_image_url,
+          player_id: player.player_id,
+        };
+      });
+      // console.log(allPlayers);
+      if (allPlayers.length < 22) {
+        // alert("Less Number of Plyers fetched, some error");
+        // throw new Error("Not enough players");
+      }
+      const sortedPlayers = [...allPlayers].sort(
+        (a, b) => b.dreamPoints - a.dreamPoints
+      );
+      setModelOutput(sortedPlayers);
+      setOffFieldPlayers(sortedPlayers.slice(11));
+      const initialOnFieldPlayers = sortedPlayers.slice(0, 11);
+      // setInitialOnFieldPlayers(sortedPlayers.slice(0, 11));
+      // Error //
+      // issue likely arises due to the timing of state updates in your useEffect.
+      // When FetchDreamTeam updates positions after setting initialOnFieldPlayers,
+      // the state might not yet reflect the updated initialOnFieldPlayers because
+      // React batches state updates asynchronously.
+      setPositions((prevPositions) =>
+        prevPositions.map((position, index) => ({
+          ...position,
+          isFilled: index < initialOnFieldPlayers.length,
+          player: initialOnFieldPlayers[index] || null,
+        }))
+      );
+    };
+    const fetchDataByMatchId = async (match_id) => {
       try {
         setIsLoading(true);
         const url = `${BASE_URL}/match/dreamTeam/${match_id}`;
@@ -154,41 +195,42 @@ export default function DreamTeamGround() {
             `HTTP Error: ${response.status} - ${response.statusText}`
           );
         }
-        const allPlayers = data.data.map((player) => {
-          return {
-            name: player.full_name || "loading...",
-            key: player.player_id || null,
-            dreamPoints: player.fantasy_score_total || null,
-            type: player.playing_role || null,
-            profileImage: player.img_src_url,
-            bgImage: player.bg_image_url,
-            player_id: player.player_id,
-          };
-        });
-        // console.log(allPlayers);
-        if (allPlayers.length < 22) {
-          // alert("Less Number of Plyers fetched, some error");
-          // throw new Error("Not enough players");
-        }
-        const sortedPlayers = [...allPlayers].sort(
-          (a, b) => b.dreamPoints - a.dreamPoints
-        );
-        setModelOutput(sortedPlayers);
-        setOffFieldPlayers(sortedPlayers.slice(11));
-        const initialOnFieldPlayers = sortedPlayers.slice(0, 11);
-        // setInitialOnFieldPlayers(sortedPlayers.slice(0, 11));
-        // Error //
-        // issue likely arises due to the timing of state updates in your useEffect.
-        // When FetchDreamTeam updates positions after setting initialOnFieldPlayers,
-        // the state might not yet reflect the updated initialOnFieldPlayers because
-        // React batches state updates asynchronously.
-        setPositions((prevPositions) =>
-          prevPositions.map((position, index) => ({
-            ...position,
-            isFilled: index < initialOnFieldPlayers.length,
-            player: initialOnFieldPlayers[index] || null,
-          }))
-        );
+        processData(data);
+        // const allPlayers = data.data.map((player) => {
+        //   return {
+        //     name: player.full_name || "loading...",
+        //     key: player.player_id || null,
+        //     dreamPoints: player.fantasy_score_total || null,
+        //     type: player.playing_role || null,
+        //     profileImage: player.img_src_url,
+        //     bgImage: player.bg_image_url,
+        //     player_id: player.player_id,
+        //   };
+        // });
+        // // console.log(allPlayers);
+        // if (allPlayers.length < 22) {
+        //   // alert("Less Number of Plyers fetched, some error");
+        //   // throw new Error("Not enough players");
+        // }
+        // const sortedPlayers = [...allPlayers].sort(
+        //   (a, b) => b.dreamPoints - a.dreamPoints
+        // );
+        // setModelOutput(sortedPlayers);
+        // setOffFieldPlayers(sortedPlayers.slice(11));
+        // const initialOnFieldPlayers = sortedPlayers.slice(0, 11);
+        // // setInitialOnFieldPlayers(sortedPlayers.slice(0, 11));
+        // // Error //
+        // // issue likely arises due to the timing of state updates in your useEffect.
+        // // When FetchDreamTeam updates positions after setting initialOnFieldPlayers,
+        // // the state might not yet reflect the updated initialOnFieldPlayers because
+        // // React batches state updates asynchronously.
+        // setPositions((prevPositions) =>
+        //   prevPositions.map((position, index) => ({
+        //     ...position,
+        //     isFilled: index < initialOnFieldPlayers.length,
+        //     player: initialOnFieldPlayers[index] || null,
+        //   }))
+        // );
       } catch (error) {
         alert("We encountered an issue. Please try again later.");
         console.error("Error fetching teams:", error);
@@ -197,25 +239,68 @@ export default function DreamTeamGround() {
         setIsLoading(false);
       }
     };
-    FetchDreamTeam(match_id);
-  }, [match_id]);
+    const fetchDataByState = async (state) => {
+      console.log("fetching data by state");
+      try {
+        setIsLoading(true);
+        const url = `${BASE_URL}/match/dreamTeam`;
+        console.log("fetching data by state");
+        console.log(JSON.stringify({ state }));
+        const response = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ state }),
+        });
+        const data = await response.json();
+        if (!response.ok) {
+          throw new Error(
+            `HTTP Error: ${response.status} - ${response.statusText}`
+          );
+        }
+        processData(data);
+      } catch (error) {
+        alert("We encountered an issue. Please try again later.");
+        console.error("Error fetching teams:", error);
+        navigate("/home");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    const fetchData = async () => {
+      setIsLoading(true);
+      if (match_id) {
+        await fetchDataByMatchId(match_id);
+      } else if (location.state) {
+        await fetchDataByState(location.state);
+      } else {
+        alert("No match found");
+        // navigate("/home");
+      }
+      setIsLoading(false);
+    };
+    fetchData();
+  }, [match_id, location.state]);
 
   return isLoading ? (
     <Loading />
   ) : (
     <div className={styles.bgImageHolder}>
-      <div className={styles.weatherCardContainer}>
-        <WeatherCard
-          matchId={match_id}
-          time={"13:50"}
-          place={"place"}
-          temp={13}
-          weatherType={"stormy"}
-          humidity={"96%"}
-          windSpeed={"98kmph"}
-          setEffect={setInfo}
-        />
-      </div>
+      {match_id && (
+        <div className={styles.weatherCardContainer}>
+          <WeatherCard
+            matchId={match_id}
+            time={"13:50"}
+            place={"place"}
+            temp={13}
+            weatherType={"stormy"}
+            humidity={"96%"}
+            windSpeed={"98kmph"}
+            setEffect={setInfo}
+          />
+        </div>
+      )}
       <div className={styles.dreamPointsCard}>
         <DreamPointsCard points={dreamPoints} />
       </div>
