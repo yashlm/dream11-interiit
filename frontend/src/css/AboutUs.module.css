@@ -86,8 +86,8 @@
     position: absolute;
     top: -390px;
     left: -20px;
-    width: 200%;
-    height: 300%;
+    width: 220%;
+    height: 310%;
     z-index: -1;
     pointer-events: none;
   }
@@ -107,7 +107,7 @@
   }
   
   .description {
-    font-size: 1rem;
+    font-size: 0.9rem;
     color: #333;
     line-height: 1.6;
     z-index: 2;

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import { Accordion, AccordionSummary, AccordionDetails, Button, Box, Typography } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
-import styles from '../css/faqs.module.css'
-import shootmail from '../assets/landing_page/shootmail.svg'
+import styles from '../../css/faqs.module.css'
+import shootmail from '../../assets/landing_page/shootmail.svg'
 
 const FAQ = () => {
     const [expanded, setExpanded] = useState(false);

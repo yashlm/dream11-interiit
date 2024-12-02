@@ -3,11 +3,11 @@ import { useNavigate } from 'react-router-dom';
 import TextField from '@mui/material/TextField';
 import '../css/StarterPage.css';
 import Navbar from '../component/Navbar';
-import Testinomial from '../component/testinomials';
+import Testinomial from '../component/StarterPage/testinomials';
 import logo from '../assets/landing_page/dream11logo.svg';
-import FAQ from '../component/faqs';
-import AboutUs from '../component/AboutUs';
-import Footer from '../component/footer'
+import FAQ from '../component/StarterPage/faqs';
+import AboutUs from '../component/StarterPage/AboutUs';
+import Footer from '../component/StarterPage/footer'
 
 const App = () => {
   const [username, setUsername] = useState('');
@@ -23,7 +23,7 @@ const App = () => {
       <div className="main-container">
         <div className="content-container">
           <h1 className="welcome-text">
-            Welcome to <span className="dream11"><img src={logo} alt="Dream11 Logo" /></span>
+            <div  className='welcome'><span>Welcome to </span><img src={logo} className="dream11" alt="Dream11 Logo" /></div>
             <span className="lets">Let’s Get Started</span>
           </h1>
           <div className="form-container">
