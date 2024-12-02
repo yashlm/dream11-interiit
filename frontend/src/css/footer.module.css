@@ -1,94 +1,112 @@
-.footer {
-    background-color: #a15434; 
-    color: white;
-    font-family: Arial, sans-serif;
-    padding: 2rem;
-    text-align: center;
-  }
-  
-  .logoSection {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    margin-bottom: 2rem;
-  }
-  
-  .logo img {
-    width: 250px;
-    height: auto;
-    color: white;
-    margin: 0;
-  }
-  
-  .socialMedia {
-    display: flex;
-    gap: 1rem;
-  }
-  
-  .icon {
-    font-size: 1.5rem;
-    color: white;
-    transition: color 0.3s ease;
-  }
-  
-  .icon:hover {
-    color: #ffcc00; 
-  }
-  
-  .linksSection {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    margin-bottom: 2rem;
-    flex-wrap: wrap;
-  }
-  
-  .column {
-    text-align: left;
-    margin: 0.5rem;
-  }
-  
-  .column a,
-  .column p {
-    color: white;
-    font-size: 1rem;
-    line-height: 1.8;
-    text-decoration: none;
-  }
-  
-  .column a:hover {
-    color: #ffcc00; 
-  }
-  
-  .corporateOffice {
-    font-size: 0.9rem;
-    line-height: 1.5;
-    margin-bottom: 1rem;
-    color: #f2d2c2; 
-  }
-  
-  .bottomSection {
-    margin-bottom: 1rem;
-  }
-  
-  .bottomSection a {
-    margin: 0 1rem;
-    color: white;
-    font-size: 0.9rem;
-    text-decoration: none;
-  }
-  
-  .bottomSection a:hover {
-    color: #ffcc00;
-  }
-  
-  .disclaimer {
-    font-size: 0.8rem;
-    font-weight: bold;
-    color: #f2d2c2;
-    margin-top: 1rem;
-    border-top: 1px solid #e1c4af;
-    padding-top: 1rem;
-  }
-  
+.dream11Footer {
+  background-color: #a15434;
+  color: white;
+  font-family: Arial, sans-serif;
+  padding: 2rem;
+  text-align: center;
+}
+
+.dream11LogoSection {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.dream11Logo img {
+  width: 250px;
+  height: auto;
+  color: white;
+  margin: 0;
+}
+
+.dream11SocialMedia {
+  display: flex;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.dream11Icon {
+  font-size: 1.5rem;
+  color: white;
+  transition: color 0.3s ease;
+}
+
+.dream11Icon:hover {
+  color: #ffcc00;
+}
+
+.dream11Separator {
+  width: 100%;
+  border-top: 1px solid #f2d2c2;
+  margin: 2rem 0;
+}
+
+.dream11SeparatorVertical {
+  width: 1px;
+  height: 100%;
+  border-left: 2px solid #f2d2c2;
+  margin: 0 1rem;
+  display: inline-block;
+}
+
+.dream11LinksSection {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.dream11Column {
+  text-align: left;
+  margin: 0.5rem;
+  min-width: 150px;
+  max-width: 200px;
+}
+
+.dream11Column a,
+.dream11Column p {
+  color: white;
+  font-size: 1rem;
+  line-height: 1.8;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.dream11Column a:hover {
+  color: #ffcc00;
+}
+
+.dream11CorporateOffice {
+  font-size: 0.9rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+  color: #ffffff !important;
+}
+
+.dream11BottomSection {
+  margin-bottom: 1rem;
+}
+
+.dream11BottomSection a {
+  margin: 0 1rem;
+  color: white;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.dream11BottomSection a:hover {
+  color: #ffcc00;
+}
+
+.dream11Disclaimer {
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: #ffffff !important;
+  margin-top: 1rem;
+  border-top: 1px solid #e1c4af;
+  padding-top: 1rem;
+}

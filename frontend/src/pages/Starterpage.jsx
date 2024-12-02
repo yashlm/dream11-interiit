@@ -8,7 +8,6 @@ import logo from '../assets/landing_page/dream11logo.svg';
 import FAQ from '../component/StarterPage/faqs';
 import AboutUs from '../component/StarterPage/AboutUs';
 import Footer from '../component/StarterPage/footer'
-
 const App = () => {
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
@@ -59,6 +58,7 @@ const App = () => {
       <AboutUs />
       <Testinomial />
       <FAQ />
+   
       <Footer />
     </div>
   );

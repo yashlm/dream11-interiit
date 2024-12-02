@@ -1,5 +1,5 @@
 import styles from "../../css/HomePage/MatchCard.module.css";
-import { CalendarToday, LocationOn } from "@mui/icons-material";
+import { CalendarToday, LocationOn, SportsCricket } from "@mui/icons-material"; // Use the appropriate icon for cricket
 import { useNavigate } from "react-router-dom";
 
 const MatchCard = ({ match }) => {
@@ -8,29 +8,44 @@ const MatchCard = ({ match }) => {
   const team1 = teams[0] || "Team 1";
   const team2 = teams[1] || "Team 2";
 
-  const fixedVenue = match?.venue ? match.venue.replace(/({|})/g, "") : "";
+  // Clean up the venue and remove the quotes
+  const fixedVenue = match?.venue ? match.venue.replace(/({|})/g, "").replace(/"/g, "") : "";
   const parsedVenue = fixedVenue.split(",");
-  const venue = parsedVenue.join(" ");
+  const stadium = parsedVenue[0] || "Stadium not available"; // Stadium part
+  const city = parsedVenue[1] || ""; // City part, leave empty if not available
 
-  const matchDate = match?.dates?.[0] || "Date not available";
+  const matchDate = match?.dates?.[0] ? new Date(match.dates[0]) : null;
+  const formattedDate = matchDate
+    ? matchDate.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+    : "Date not available";
 
   const handleCardClick = () => {
-    // Pass the necessary data as state when navigating to the match details page
     navigate(`/matchdetails/${match.match_id}`, {
       state: {
-        matchDate,
-        team1Logo: match?.team1_logo,
-        team2Logo: match?.team2_logo,
-      },
+        matchDate: formattedDate,
+        team1Logo: match?.team_info.teamAinfo.url, 
+        team2Logo:match?.team_info.teamBinfo.url,
+      }
     });
   };
 
   return (
     <div className={styles.container}>
       <div className={styles["match-card"]} onClick={handleCardClick}>
+
         <h2 className={styles["match-type"]}>
           {match?.event_name || "Match Type Not Available"}
         </h2>
+     
+         <div className={styles["match-date"]}>
+          <CalendarToday className={styles.icon} />
+          {formattedDate}
+        </div>
+        <div className={styles.separator}></div> {/* Separator line */}
         <div className={styles.logos}>
           <div className={styles.team}>
             <img className={styles["team-logo"]} alt={`${team1} logo`} src={match?.team_info.teamAinfo.url} />
@@ -43,14 +58,20 @@ const MatchCard = ({ match }) => {
           </div>
         </div>
         <div className={styles["match-details"]}>
-          <p>
-            <CalendarToday className={styles.icon} />
-            {matchDate}
-          </p>
-          <p>
-            <LocationOn className={styles.icon} />
-            {venue}
-          </p>
+         
+          {city && (
+            <p>
+              <LocationOn className={styles.icon} />
+              {city}
+            </p>
+          )}
+  
+          {stadium && (
+            <p>
+              <SportsCricket className={styles.icon} />
+              {stadium}
+            </p>
+          )}
         </div>
       </div>
     </div>
