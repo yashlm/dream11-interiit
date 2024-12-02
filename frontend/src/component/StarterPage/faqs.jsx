@@ -3,7 +3,7 @@ import { Accordion, AccordionSummary, AccordionDetails, Button, Box, Typography 
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import styles from '../../css/faqs.module.css'
 import shootmail from '../../assets/landing_page/shootmail.svg'
-
+import HowToPlay from '../HomePage/HowToPlay';
 const FAQ = () => {
     const [expanded, setExpanded] = useState(false);
 
@@ -12,117 +12,369 @@ const FAQ = () => {
     };
 
     return (
-        <Box
-            sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "flex-start",
-                backgroundColor: "#f9f9f9",
-                padding: "2rem",
-                gap: "2rem",
-                borderRadius: "8px",
-            }}
-        >
-            {/* FAQ Section */}
-            <Box sx={{ flex: 2 }}>
-                <div className={styles.heading}>
-                    FREQUENTLY <br/>ASKED QUESTIONS
-                </div>
+        // <Box
+        //     sx={{
+        //         display: "flex",
+        //         justifyContent: "space-between",
+        //         alignItems: "flex-start",
+        //         backgroundColor: "#f9f9f9",
+        //         padding: "2rem",
+        //         gap: "2rem",
+        //         borderRadius: "8px",
+        //     }}
+        // >
+        //     {/* FAQ Section */}
+        //     <Box sx={{ flex: 2 }}>
+        //         <div className={styles.heading}>
+        //             FREQUENTLY <br/>ASKED QUESTIONS
+        //         </div>
 
-                {/* FAQ Items */}
-                {faqData.map((faq, index) => (
-                    <Accordion
-                        key={index}
-                        expanded={expanded === `panel${index}`}
-                        onChange={handleChange(`panel${index}`)}
-                        sx={{
-                            boxShadow: "none",
-                            border: "1px solid #ddd",
-                            borderRadius: "8px",
-                            marginBottom: "1rem",
-                            "&:before": { display: "none" }, // Remove default accordion line
-                        }}
-                    >
-                        <AccordionSummary
-                            expandIcon={<ExpandMoreIcon />}
-                            aria-controls={`panel${index}-content`}
-                            id={`panel${index}-header`}
-                            sx={{
-                                fontWeight: 600,
-                                fontSize: "1rem",
-                                color: "#333",
-                            }}
-                        >
-                            {faq.question}
-                        </AccordionSummary>
-                        <AccordionDetails sx={{ fontSize: "0.9rem", color: "#666" }}>
-                            {faq.answer}
-                        </AccordionDetails>
-                    </Accordion>
-                ))}
-            </Box>
+        //         {/* FAQ Items */}
+        //         {faqData.map((faq, index) => (
+        //             <Accordion
+        //                 key={index}
+        //                 expanded={expanded === `panel${index}`}
+        //                 onChange={handleChange(`panel${index}`)}
+        //                 sx={{
+        //                     boxShadow: "none",
+        //                     border: "1px solid #ddd",
+        //                     borderRadius: "8px",
+        //                     marginBottom: "1rem",
+        //                     "&:before": { display: "none" }, // Remove default accordion line
+        //                 }}
+        //             >
+        //                 <AccordionSummary
+        //                     expandIcon={<ExpandMoreIcon />}
+        //                     aria-controls={`panel${index}-content`}
+        //                     id={`panel${index}-header`}
+        //                     sx={{
+        //                         fontWeight: 600,
+        //                         fontSize: "1rem",
+        //                         color: "#333",
+        //                     }}
+        //                 >
+        //                     {faq.question}
+        //                 </AccordionSummary>
+        //                 <AccordionDetails sx={{ fontSize: "0.9rem", color: "#666" }}>
+        //                     {faq.answer}
+        //                 </AccordionDetails>
+        //             </Accordion>
+        //         ))}
+        //     </Box>
 
-            {/* Contact Section */}
-            <Box
+        //     {/* Contact Section */}
+        //     <Box
+        //         sx={{
+        //             flex: 0.5,
+        //             padding: "1.5rem",
+        //             backgroundColor: "white",
+        //             border: "1px solid #ddd",
+        //             borderRadius: "8px",
+        //             marginTop: "9.5rem",
+        //             textAlign: "center",
+        //             boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+        //         }}
+        //     >
+        //         {/* <Box
+        //             sx={{
+        //                 // backgroundColor: "#000",
+        //                 height: "50px",
+        //                 width: "50px",
+        //                 // borderRadius: "50%",
+        //                 margin: "1rem",
+        //             }}
+        //         > */}
+        //         <div className={styles.shootmailicon}><img className={styles.shootmail} src={shootmail}></img></div>
+        //         {/* </Box> */}
+        //         <Typography
+        //             variant="h6"
+        //             sx={{
+        //                 fontWeight: "bold",
+        //                 fontSize: "1.2rem",
+        //                 marginBottom: "0.5rem",
+        //                 color: "#333",
+        //             }}
+        //         >
+        //             Do you have more questions?
+        //         </Typography>
+        //         <Typography
+        //             sx={{
+        //                 fontSize: "0.9rem",
+        //                 color: "#666",
+        //                 marginBottom: "2rem",
+        //             }}
+        //         >
+        //             End-to-end payments and financial management in a single solution.
+        //             Meet the right platform to help realize.
+        //         </Typography>
+        //         <Button
+        //             variant="contained"
+        //             sx={{
+        //                 backgroundColor: "#c00",
+        //                 color: "white",
+        //                 textTransform: "none",
+        //                 fontWeight: "bold",
+        //                 "&:hover": {
+        //                     backgroundColor: "#a00",
+        //                 },
+        //             }}
+        //         >
+        //             Shoot a Direct Mail
+        //         </Button>
+        //     </Box>
+        //     <Box
+        //     sx={{
+        //         flex: 0.5,
+        //         padding: "1.5rem",
+        //     marginTop: "2rem",
+        //    }}
+        //   >
+        // <HowToPlay />
+        // </Box>
+        // </Box>
+
+
+// <Box
+//     sx={{
+//         display: "flex",
+//         justifyContent: "space-between",
+//         alignItems: "flex-start",
+//         backgroundColor: "#f9f9f9",
+//         padding: "2rem",
+//         gap: "2rem",
+//         borderRadius: "8px",
+//     }}
+// >
+//     {/* Left Section: Contact and How to Play */}
+//     <Box sx={{ flex: 0.5, display: "flex", flexDirection: "column", gap: "2rem" }}>
+//         {/* Contact Section */}
+//         <Box
+//             sx={{
+//                 padding: "1.5rem",
+//                 backgroundColor: "white",
+//                 border: "1px solid #ddd",
+//                 borderRadius: "8px",
+//                 textAlign: "center",
+//                 boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+//             }}
+//         >
+//             <div className={styles.shootmailicon}>
+//                 <img className={styles.shootmail} src={shootmail} alt="Shoot Mail" />
+//             </div>
+//             <Typography
+//                 variant="h6"
+//                 sx={{
+//                     fontWeight: "bold",
+//                     fontSize: "1.2rem",
+//                     marginBottom: "0.5rem",
+//                     color: "#333",
+//                 }}
+//             >
+//                 Do you have more questions?
+//             </Typography>
+//             <Typography
+//                 sx={{
+//                     fontSize: "0.9rem",
+//                     color: "#666",
+//                     marginBottom: "2rem",
+//                 }}
+//             >
+//                 End-to-end payments and financial management in a single solution.
+//                 Meet the right platform to help realize.
+//             </Typography>
+//             <Button
+//                 variant="contained"
+//                 sx={{
+//                     backgroundColor: "#c00",
+//                     color: "white",
+//                     textTransform: "none",
+//                     fontWeight: "bold",
+//                     "&:hover": {
+//                         backgroundColor: "#a00",
+//                     }
+//                 }}
+//             >
+//                 Shoot a Direct Mail
+//             </Button>
+//         </Box>
+
+//         {/* How to Play Section */}
+//         <Box
+//             sx={{
+//                 padding: "1.5rem",
+//                 backgroundColor: "white",
+//                 border: "1px solid #ddd",
+//                 borderRadius: "8px",
+//                 boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+//             }}
+//         >
+//             <HowToPlay />
+//         </Box>
+//     </Box>
+
+//     {/* Right Section: FAQ */}
+//     <Box sx={{ flex: 2 }}>
+//         <div className={styles.heading}>
+//             FREQUENTLY <br />ASKED QUESTIONS
+//         </div>
+
+//         {/* FAQ Items */}
+//         {faqData.map((faq, index) => (
+//             <Accordion
+//                 key={index}
+//                 expanded={expanded === `panel${index}`}
+//                 onChange={handleChange(`panel${index}`)}
+//                 sx={{
+//                     boxShadow: "none",
+//                     border: "1px solid #ddd",
+//                     borderRadius: "8px",
+//                     marginBottom: "1rem",
+//                     "&:before": { display: "none" }, // Remove default accordion line
+//                 }}
+//             >
+//                 <AccordionSummary
+//                     expandIcon={<ExpandMoreIcon />}
+//                     aria-controls={`panel${index}-content`}
+//                     id={`panel${index}-header`}
+//                     sx={{
+//                         fontWeight: 600,
+//                         fontSize: "1rem",
+//                         color: "#333",
+//                     }}
+//                 >
+//                     {faq.question}
+//                 </AccordionSummary>
+//                 <AccordionDetails sx={{ fontSize: "0.9rem", color: "#666" }}>
+//                     {faq.answer}
+//                 </AccordionDetails>
+//             </Accordion>
+//         ))}
+//     </Box>
+// </Box>
+
+<Box
+    sx={{
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "flex-start",
+        backgroundColor: "#f9f9f9",
+        padding: "2rem",
+        gap: "2rem",
+        borderRadius: "8px",
+    }}
+>
+    {/* Left Section: FAQ */}
+    <Box sx={{ flex: 2 }}>
+        <div className={styles.heading}>
+            FREQUENTLY <br />ASKED QUESTIONS
+        </div>
+
+        {/* FAQ Items */}
+        {faqData.map((faq, index) => (
+            <Accordion
+                key={index}
+                expanded={expanded === `panel${index}`}
+                onChange={handleChange(`panel${index}`)}
                 sx={{
-                    flex: 0.5,
-                    padding: "1.5rem",
-                    backgroundColor: "white",
+                    boxShadow: "none",
                     border: "1px solid #ddd",
                     borderRadius: "8px",
-                    marginTop: "9.5rem",
-                    textAlign: "center",
-                    boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+                    marginBottom: "1rem",
+                    "&:before": { display: "none" }, // Remove default accordion line
                 }}
             >
-                {/* <Box
+                <AccordionSummary
+                    expandIcon={<ExpandMoreIcon />}
+                    aria-controls={`panel${index}-content`}
+                    id={`panel${index}-header`}
                     sx={{
-                        // backgroundColor: "#000",
-                        height: "50px",
-                        width: "50px",
-                        // borderRadius: "50%",
-                        margin: "1rem",
-                    }}
-                > */}
-                <div className={styles.shootmailicon}><img className={styles.shootmail} src={shootmail}></img></div>
-                {/* </Box> */}
-                <Typography
-                    variant="h6"
-                    sx={{
-                        fontWeight: "bold",
-                        fontSize: "1.2rem",
-                        marginBottom: "0.5rem",
+                        fontWeight: 600,
+                        fontSize: "1rem",
                         color: "#333",
                     }}
                 >
-                    Do you have more questions?
-                </Typography>
-                <Typography
-                    sx={{
-                        fontSize: "0.9rem",
-                        color: "#666",
-                        marginBottom: "2rem",
-                    }}
-                >
-                    End-to-end payments and financial management in a single solution.
-                    Meet the right platform to help realize.
-                </Typography>
-                <Button
-                    variant="contained"
-                    sx={{
-                        backgroundColor: "#c00",
-                        color: "white",
-                        textTransform: "none",
-                        fontWeight: "bold",
-                        "&:hover": {
-                            backgroundColor: "#a00",
-                        },
-                    }}
-                >
-                    Shoot a Direct Mail
-                </Button>
-            </Box>
+                    {faq.question}
+                </AccordionSummary>
+                <AccordionDetails sx={{ fontSize: "0.9rem", color: "#666" }}>
+                    {faq.answer}
+                </AccordionDetails>
+            </Accordion>
+        ))}
+    </Box>
+
+    {/* Right Section: Contact and How to Play */}
+    <Box
+        sx={{
+            flex: 0.5,
+            display: "flex",
+            flexDirection: "column",
+            gap: "2rem",
+        }}
+    >
+        {/* Contact Section */}
+        <Box
+            sx={{
+                padding: "1.5rem",
+                backgroundColor: "white",
+                border: "1px solid #ddd",
+                borderRadius: "8px",
+                textAlign: "center",
+                boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
+            }}
+        >
+            <div className={styles.shootmailicon}>
+                <img className={styles.shootmail} src={shootmail} alt="Shoot Mail" />
+            </div>
+            <Typography
+                variant="h6"
+                sx={{
+                    fontWeight: "bold",
+                    fontSize: "1.2rem",
+                    marginBottom: "0.5rem",
+                    color: "#333",
+                }}
+            >
+                Do you have more questions?
+            </Typography>
+            <Typography
+                sx={{
+                    fontSize: "0.9rem",
+                    color: "#666",
+                    marginBottom: "2rem",
+                }}
+            >
+                End-to-end payments and financial management in a single solution.
+                Meet the right platform to help realize.
+            </Typography>
+            <Button
+                variant="contained"
+                sx={{
+                    backgroundColor: "#c00",
+                    color: "white",
+                    textTransform: "none",
+                    fontWeight: "bold",
+                    "&:hover": {
+                        backgroundColor: "#a00",
+                    },
+                }}
+            >
+                Shoot a Direct Mail
+            </Button>
         </Box>
+
+        {/* How to Play Section */}
+        <Box
+            sx={{
+                padding: "1.5rem",
+
+            }}
+        >
+            <HowToPlay />
+        </Box>
+    </Box>
+</Box>
+
+
     );
 };
 
