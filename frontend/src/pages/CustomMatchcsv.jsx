@@ -14,7 +14,7 @@ import { motion, AnimatePresence } from "framer-motion";
 //import PlayerSearch from "../component/PlayerSearch";
 import PlayerCard from "../component/playerCard";
 import Navbar from "../component/Navbar";
-import ReadOnlyDate from "../component/common/readOnlyDate";
+// import ReadOnlyDate from "../component/common/readOnlyDate";
 import ImportCSV from "../component/ImportCSV";
 import batsmanimg from "../assets/batsman.png";
 import { useNavigate } from "react-router-dom";
@@ -24,6 +24,8 @@ export default function CustomMatch() {
   const [teamB, setTeamB] = useState(Array(11).fill(null));
   const [teamAInfo, setTeamAInfo] = useState({});
   const [teamBInfo, setTeamBInfo] = useState({});
+  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedMatchType, setSelectedMatchType] = useState("");
   const [alert, setAlert] = useState({
     message: "",
     severity: "",
@@ -32,12 +34,12 @@ export default function CustomMatch() {
   const navigate = useNavigate();
 
   const generateDreamTeam = () => {
-    navigate("/dreamTeamPage", {
+    navigate("/dreamTeam", {
       state: {
-        teamA,
-        teamB,
-        date: selectedDate,
-        matchType: selectedMatchType,
+        teamA: teamA,
+        teamB: teamB,
+        match_date: selectedDate,
+        match_type: selectedMatchType,
       },
     });
   };
@@ -46,11 +48,11 @@ export default function CustomMatch() {
     const updateTeam = team === "A" ? [...teamA] : [...teamB];
     const playerIndex = updateTeam.findIndex((p) => p && p.key === playerKey);
 
-  if (playerIndex !== -1) {
-    updatedTeam[playerIndex] = null;
-    team === "A" ? setTeamA(updatedTeam) : setTeamB(updatedTeam);
-  }
-};
+    if (playerIndex !== -1) {
+      updateTeam[playerIndex] = null;
+      team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
+    }
+  };
 
   const handleCloseAlert = () => {
     setAlert({ ...alert, show: false });
@@ -70,6 +72,8 @@ export default function CustomMatch() {
       setTeamB(teamB);
       setTeamAInfo(teamAInfo);
       setTeamBInfo(teamBInfo);
+      setSelectedDate(response.match_date);
+      setSelectedMatchType(response.match_type);
 
       console.log("teamA", teamAInfo);
 
@@ -117,100 +121,100 @@ export default function CustomMatch() {
         >
           {/* Left Section */}
           <Box
-  sx={{
-    width: { xs: "100%", md: "30%" },
-    background: "rgba(255, 255, 255, 0.5)",
-    boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
-    backdropFilter: "blur(10px)",
-    borderRadius: "10px",
-    border: "1px solid rgba(255, 255, 255, 0.18)",
-    marginTop: "30px",
-    padding: 2,
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    alignItems: "center",
-  }}
->
-  <Typography
-    variant="h4"
-    sx={{
-      fontWeight: "bold",
-      textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
-      mb: 3,
-    }}
-  >
-    Select Players
-  </Typography>
-  {/* <ReadOnlyDate value={matchDate} /> */}
-  <Box
-    sx={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      gap: 2,
-      marginBottom: 4,
-    }}
-  >
-    {/* Team A */}
-    <Box
-      sx={{
-        width: 100,
-        height: 100,
-        borderRadius: "50%",
-        background: "white",
-        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <img
-        src={teamAInfo.url}
-        alt={teamAInfo.name}
-        style={{ width: "100%", height:"100%" }}
-      />
-    </Box>
-    <Box sx={{ textAlign: "center" }}>
-      <Typography variant="h6">{teamBInfo.name}</Typography>
-    </Box>
+            sx={{
+              width: { xs: "100%", md: "30%" },
+              background: "rgba(255, 255, 255, 0.5)",
+              boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
+              backdropFilter: "blur(10px)",
+              borderRadius: "10px",
+              border: "1px solid rgba(255, 255, 255, 0.18)",
+              marginTop: "30px",
+              padding: 2,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-start",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="h4"
+              sx={{
+                fontWeight: "bold",
+                textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
+                mb: 3,
+              }}
+            >
+              Select Players
+            </Typography>
+            {/* <ReadOnlyDate value={matchDate} /> */}
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: 2,
+                marginBottom: 4,
+              }}
+            >
+              {/* Team A */}
+              <Box
+                sx={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: "50%",
+                  background: "white",
+                  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={teamAInfo.url}
+                  alt={teamAInfo.name}
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </Box>
+              <Box sx={{ textAlign: "center" }}>
+                <Typography variant="h6">{teamBInfo.name}</Typography>
+              </Box>
 
-    {/* Team B */}
-    <Box
-      sx={{
-        width: 100,
-        height: 100,
-        borderRadius: "50%",
-        background: "white",
-        boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <img
-        src={teamBInfo.url}
-        alt={teamBInfo.name}
-        style={{  width: "100%", height:"100%" }}
-      />
-    </Box>
-    <Box sx={{ textAlign: "center" }}>
-      <Typography variant="h6">{teamBInfo.name}</Typography>
-    </Box>
-  </Box>
-  <Typography variant="h6" sx={{ mb: 2 }}>
-    Select Match Type
-  </Typography>
-  <Select
-    defaultValue=""
-    variant="outlined"
-    sx={{ width: "100%", marginBottom: 3 }}
-  >
-    <MenuItem value="Test">Test</MenuItem>
-    <MenuItem value="ODI">ODI</MenuItem>
-    <MenuItem value="T20">T20</MenuItem>
-  </Select>
-  {/* <Typography variant="h6" color="#333" sx={{ mb: 1 }}>
+              {/* Team B */}
+              <Box
+                sx={{
+                  width: 100,
+                  height: 100,
+                  borderRadius: "50%",
+                  background: "white",
+                  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <img
+                  src={teamBInfo.url}
+                  alt={teamBInfo.name}
+                  style={{ width: "100%", height: "100%" }}
+                />
+              </Box>
+              <Box sx={{ textAlign: "center" }}>
+                <Typography variant="h6">{teamBInfo.name}</Typography>
+              </Box>
+            </Box>
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              Select Match Type
+            </Typography>
+            <Select
+              defaultValue=""
+              variant="outlined"
+              sx={{ width: "100%", marginBottom: 3 }}
+            >
+              <MenuItem value="Test">Test</MenuItem>
+              <MenuItem value="ODI">ODI</MenuItem>
+              <MenuItem value="T20">T20</MenuItem>
+            </Select>
+            {/* <Typography variant="h6" color="#333" sx={{ mb: 1 }}>
     Search for Player
   </Typography>
   <PlayerSearch onAddToTeam={handleAddToTeam} />
@@ -250,12 +254,14 @@ export default function CustomMatch() {
                   >
                     {player ? (
                       <PlayerCard
-                      name={player.full_name}
-                      points={player.key_cricinfo}
-                      bgImage={player.bg_image_url}
-                      profileImage={player.img_src_url}
-                      isInField={true}
-                      onRemove={() => handleRemoveFromTeam(player.player_id, "A")}
+                        name={player.full_name}
+                        points={player.key_cricinfo}
+                        bgImage={player.bg_image_url}
+                        profileImage={player.img_src_url}
+                        isInField={true}
+                        onRemove={() =>
+                          handleRemoveFromTeam(player.player_id, "A")
+                        }
                       />
                     ) : (
                       <div
@@ -291,12 +297,14 @@ export default function CustomMatch() {
                   >
                     {player ? (
                       <PlayerCard
-                      name={player.full_name}
-                      points={player.key_cricinfo}
-                      bgImage={player.bg_image_url}
-                      profileImage={player.img_src_url}
-                      isInField={true}
-                      onRemove={() => handleRemoveFromTeam(player.player_id, "B")}
+                        name={player.full_name}
+                        points={player.key_cricinfo}
+                        bgImage={player.bg_image_url}
+                        profileImage={player.img_src_url}
+                        isInField={true}
+                        onRemove={() =>
+                          handleRemoveFromTeam(player.player_id, "B")
+                        }
                       />
                     ) : (
                       <div

@@ -28,8 +28,8 @@ const CardStack = () => {
         const response = await fetch(`${BASE_URL}/team/teams/`, {
           method: "GET",
         });
-        const data = await response.json(); 
-        setallTeams(data.data); 
+        const data = await response.json();
+        setallTeams(data.data);
       } catch (error) {
         alert("We encountered an issue. Please try again later.");
         console.error("Error fetching teams:", error);
@@ -66,8 +66,8 @@ const CardStack = () => {
   return allTeams == null ? (
     <Loading />
   ) : (
-      <div className={styles.fullscreenBackground}>
-        <Navbar />
+    <div className={styles.fullscreenBackground}>
+      <Navbar />
       {/* <div className={styles.backgroundCover}></div> */}
       <motion.div
         className={styles.cardStackContainer}
@@ -79,6 +79,9 @@ const CardStack = () => {
         <div className={styles.progressBarWrapper}>
           <ProgressBar currentStep={currentStep} steps={steps} />
         </div>
+        <p className="w-full m-auto mt-4 text-center text-cyan-300 text-xl">
+          Lets find a match
+        </p>
         <div className={styles.cardContainer}>
           <motion.div className={styles.cardStack}>
             {firstCardMoved && secondCardMoved && (
@@ -96,7 +99,7 @@ const CardStack = () => {
             animate={{
               x: secondCardMoved
                 ? `${Math.max(Math.max(window.innerWidth * 0.35, 200), 500)}px`
-                : "0", 
+                : "0",
               zIndex: secondCardMoved ? 2 : 1,
               // width: secondCardMoved ? "20%" : "45%", // Adjust width dynamically
               backgroundColor: secondCardMoved ? "transparent" : "white",
@@ -135,7 +138,7 @@ const CardStack = () => {
               duration: 0.6,
               ease: "easeInOut",
             }}
-            >
+          >
             <TeamSearchCard
               setTeam={setFirstTeam}
               moveCard={setFirstCardMoved}

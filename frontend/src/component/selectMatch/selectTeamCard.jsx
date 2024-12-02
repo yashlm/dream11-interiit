@@ -10,13 +10,12 @@ import SearchIcon from "@mui/icons-material/Search";
 const teamIcon = (url, name) => {
   return (
     <div key={name} className="team-icon">
-      <Avatar
-        alt={name}
+      <img
         src={url}
-        sx={{
+        alt={name}
+        style={{
           height: "auto", // Fix the height
-          width: "75px", // Allow natural width
-          variant: "square", // Prevent circular shape
+          width: "75px",
         }}
       />
       <p>{name}</p>
@@ -49,15 +48,15 @@ const selectedTeamCard = (imageUrl, teamName, onClose) => {
           <FaTimes size={20} color="black" />
         </div>
 
-        <Avatar
-          alt={teamName}
+        <img
           src={imageUrl}
+          alt={teamName}
           style={{
             height: "auto",
-            width: "250px",
+            width: "200px",
             variant: "rectangle",
           }}
-        />
+        ></img>
         <h2 className="team-name-title">{teamName}</h2>
       </div>
     </div>
@@ -116,7 +115,6 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
     setIsTeamSet(false);
     setSelectedTeam(null);
   };
-
   const selectTeamIcon = (team) => {
     return (
       <div
@@ -132,7 +130,6 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
       </div>
     );
   };
-
   const searchDiv = () => {
     return (
       <div className="search-card" id={id}>

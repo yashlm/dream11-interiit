@@ -10,15 +10,6 @@
   margin-bottom: 20px;
 }
 
-.teams-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  overflow-y: scroll;
-  max-height: 450px;
-  grid-auto-rows: min-content;
-}
-
 .team-icon {
   display: flex;
   flex-direction: column;
@@ -27,13 +18,18 @@
   text-align: center;
   height: 120px;
 }
+.team-icon img {
+  margin: auto;
+}
 
 .team-icon p {
-  margin-top: 8px;
+  margin-top: 8px auto 8px;
   font-size: 0.8rem;
 }
 .fav-teams-title {
-  font-size: 16px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-align: center;
   color: #4a90e2;
   margin-bottom: 15px;
   text-align: center;
@@ -89,27 +85,27 @@
 }
 
 .teams-grid {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   gap: 16px;
   padding: 10px;
   justify-content: center;
   overflow-y: auto; /* Enable vertical scrolling */
+  max-height: 60vh;
   scrollbar-width: none; /* Hide scrollbar in Firefox */
   -ms-overflow-style: none; /* Hide scrollbar in IE/Edge */
 }
 
 .teams-grid::-webkit-scrollbar {
+  overflow: hidden;
   display: none; /* Hide scrollbar in Chrome, Safari, and Opera */
+}
+
+.team-item.empty {
+  margin-top: 100px;
+  visibility: hidden; /* Hide the empty divs */
 }
 
 .search-card {
   padding: 20px;
-}
-
-.fav-teams-title {
-  font-size: 1.4rem;
-  font-weight: bold;
-  text-align: center;
-  margin-bottom: 20px;
 }

@@ -11,7 +11,6 @@ import CardStack from "./component/selectMatch/cardStack";
 import DreamTeamGround from "./pages/dreamTeam";
 import FavTeam from "./pages/FavTeam";
 import Loading from "./component/Loading";
-import CustomMatch from "./pages/CustomMatch";
 import CustomMatchcsv from "./pages/CustomMatchcsv";
 // import DescriptionCard from "./component/matchDescriptionCard";
 import MatchDetails from "./pages/MatchDetails";
@@ -33,7 +32,6 @@ function App() {
         <Routes>
           <Route path="/home" element={<HomePage />} />
           <Route path="/matchdetails/:match_id" element={<MatchDetails />} />
-          <Route path="/custommatch/:date" element={<CustomMatch />} />
           <Route path="/custommatch" element={<CustomMatchcsv />} />
           <Route path="/teamSelect" element={<CardStack />} />
           <Route path="/loading" element={<Loading />} />

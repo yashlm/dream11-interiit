@@ -29,9 +29,6 @@ export default function DreamTeamGround() {
   const navigate = useNavigate();
   const { match_id } = useParams();
 
-  const [teamA, setTeamA] = useState([]);
-  const [teamB, setTeamB] = useState([]);
-
   const [isLoading, setIsLoading] = useState(false);
   const [offFieldPlayers, setOffFieldPlayers] = useState([]);
 
@@ -145,12 +142,18 @@ export default function DreamTeamGround() {
   }, [positions]);
 
   useEffect(() => {
+    const isValidState = (state) =>
+      state?.teamA &&
+      state?.teamB &&
+      state.teamA.length > 0 &&
+      state.teamB.length > 0;
+
     const processData = (data) => {
-      const allPlayers = data.data.map((player) => {
+      const allPlayers = data.players.map((player) => {
         return {
           name: player.full_name || "loading...",
           key: player.player_id || null,
-          dreamPoints: player.fantasy_score_total || null,
+          dreamPoints: player.predicted_score || null,
           type: player.playing_role || null,
           profileImage: player.img_src_url,
           bgImage: player.bg_image_url,
@@ -244,14 +247,20 @@ export default function DreamTeamGround() {
       try {
         setIsLoading(true);
         const url = `${BASE_URL}/match/dreamTeam`;
-        console.log("fetching data by state");
-        console.log(JSON.stringify({ state }));
+        const body = {
+          match_date: state.match_date,
+          match_type: state.match_type,
+          player_ids: state.teamA
+            .concat(state.teamB)
+            .map((player) => player.player_id),
+        };
+        console.log(body);
         const response = await fetch(url, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ state }),
+          body: JSON.stringify(body),
         });
         const data = await response.json();
         if (!response.ok) {
@@ -276,11 +285,13 @@ export default function DreamTeamGround() {
         await fetchDataByState(location.state);
       } else {
         alert("No match found");
-        // navigate("/home");
+        navigate("/home");
       }
       setIsLoading(false);
     };
-    fetchData();
+    if (match_id || isValidState(location.state)) {
+      fetchData();
+    }
   }, [match_id, location.state]);
 
   return isLoading ? (
@@ -357,7 +368,7 @@ export default function DreamTeamGround() {
           </div>
         </div>
       </DndProvider>
-      <DescriptionCard onUndo={redo} info={info} />
+      <DescriptionCard onUndo={redo} info={info} match_id={match_id} />
     </div>
   );
 }
