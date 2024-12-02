@@ -19,8 +19,8 @@ const SelectMatchCard = ({ teamA, teamB }) => {
     const formattedDate = matchDate.toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
     navigate(`/custommatch/${formattedDate}`, {
       state: {
-        teamAdata: { name: teamA.name, imageUrl: teamA.imageUrl },
-        teamBdata: { name: teamB.name, imageUrl: teamB.imageUrl },
+        teamAdata: { name: teamA.name, url: teamA.url },
+        teamBdata: { name: teamB.name, url: teamB.url },
       },
     });
   };

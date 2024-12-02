@@ -1,21 +1,23 @@
 import Avatar from "@mui/material/Avatar";
-// import Fuse from "fuse.js";
-import { useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import "./selectTeamCard.css";
 import { motion } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
 import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
+import { BASE_URL } from "../../constants";
 
+// Helper function to render a team icon
 const teamIcon = (url, name) => {
   return (
     <div key={name} className="team-icon">
-      <img
-        src={url}
+      <Avatar
         alt={name}
-        style={{
-          height: "auto", // Fix the height
+        src={url}
+        sx={{
+          height: "auto",
           width: "75px",
+          variant: "square",
         }}
       />
       <p>{name}</p>
@@ -23,6 +25,7 @@ const teamIcon = (url, name) => {
   );
 };
 
+// Helper function to render the selected team card
 const selectedTeamCard = (imageUrl, teamName, onClose) => {
   return (
     <div
@@ -63,50 +66,49 @@ const selectedTeamCard = (imageUrl, teamName, onClose) => {
   );
 };
 
-const allFavTeams = [
-  {
-    name: "India",
-    url:
-      "https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/Cricket_India_Crest.svg/800px-Cricket_India_Crest.svg.png",
-  },
-  {
-    name: "Australia",
-    url:
-      "https://upload.wikimedia.org/wikipedia/en/4/4f/Western_Australia_Women_Badge.png",
-  },
-  {
-    name: "England",
-    url:
-      "https://upload.wikimedia.org/wikipedia/en/thumb/c/ce/England_cricket_team_logo.svg/1200px-England_cricket_team_logo.svg.png",
-  },
-  {
-    name: "New Zealand",
-    url:
-      "https://upload.wikimedia.org/wikipedia/en/1/19/Logo_of_cricket_New_zealand_Team.png",
-  },
-  {
-    name: "Pakistan",
-    url:
-      "https://upload.wikimedia.org/wikipedia/commons/a/ad/Pakistan_cricket_team_logo.png",
-  },
-  {
-    name: "West Indies",
-    url:
-      "https://upload.wikimedia.org/wikipedia/en/9/9b/Cricket_West_Indies_Logo_2017.png",
-  },
-  {
-    name: "Sri Lanka",
-    url:
-      "https://upload.wikimedia.org/wikipedia/en/3/32/Sri_Lanka_Cricket_Logo.jpg",
-  },
-];
-
+// Main Team Search Component
 const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
   const [searchTeam, setSearchTeam] = useState("");
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [isTeamSet, setIsTeamSet] = useState(false);
+  const [allFavTeams, setTeams] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const teams = allTeams.filter((item) => !remove.includes(item.name));
+  // Fetch favorite teams from the server
+  useEffect(() => {
+    const fetchTeams = async () => {
+      setLoading(true);
+      try {
+        const response = await fetch(`${BASE_URL}/team/teams`);
+        if (!response.ok) throw new Error("Network response was not ok");
+        const data = await response.json();
+        if (data.status === "ok" && Array.isArray(data.data)) {
+          setTeams(data.data.map(({ name, url }) => ({ name, url })));
+        } else {
+          throw new Error("Failed to fetch teams");
+        }
+      } catch (error) {
+        setError(error.message || "An unexpected error occurred");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTeams();
+  }, []);
+
+  // Filtered teams based on search input and removal list
+  const filteredTeams = useMemo(() => {
+    return searchTeam.length === 0
+      ? []
+      : allTeams.filter(
+          ({ name }) =>
+            name.toLowerCase().includes(searchTeam.toLowerCase()) &&
+            !remove.includes(name)
+        );
+  }, [searchTeam, allTeams, remove]);
+
   const favTeams = allFavTeams.filter((item) => !remove.includes(item.name));
 
   const deselectTeam = () => {
@@ -118,7 +120,7 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
   const selectTeamIcon = (team) => {
     return (
       <div
-        key={name}
+        key={team.name}
         onClick={() => {
           setTeam(team);
           moveCard(true);
@@ -138,17 +140,15 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
             variant="outlined"
             fullWidth
             value={searchTeam}
-            //  (Loose Equality) required do not change to strict equality
+            aria-label="Search Teams"
             placeholder={remove == "" ? `Select your team` : `${remove} vs`}
             onChange={(e) => setSearchTeam(e.target.value)}
-            slotProps={{
-              input: {
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchIcon />
-                  </InputAdornment>
-                ),
-              },
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
             }}
           />
         </div>
@@ -163,8 +163,9 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
         <div
           className="teams-grid"
           style={{
-            maxHeight: "60vh", // Limits the height to 60% of the viewport
-            overflowY: "auto", // Enables scrolling
+            maxHeight: "60vh",
+            overflowY: "auto",
+            scrollBehavior:"smooth"
           }}
         >
           {filteredTeams.length > 0
@@ -175,18 +176,13 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
     );
   };
 
-  const filteredTeams =
-    searchTeam.length == 0
-      ? []
-      : teams.filter((team) =>
-          team.name.toLowerCase().includes(searchTeam.toLowerCase())
-        );
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div>
       {isTeamSet ? (
         <>
-          {/* Fade-out Search Div */}
           <motion.div
             key="searchDiv"
             style={{
@@ -202,7 +198,6 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
             {searchDiv()}
           </motion.div>
 
-          {/* Fade-in Selected Team Card */}
           <motion.div
             key="selectedTeamCard"
             style={{
