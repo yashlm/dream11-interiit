@@ -1,4 +1,4 @@
-export const BASE_URL = "http://13.233.12.228:8000";
+export const BASE_URL = "http://13.233.12.228"
 
 // Screen parameters, no need to change as ratio will be taken
 export const fieldPositionsInPx = [
