@@ -1,6 +1,6 @@
-import styles from "../../css/HomePage/NewMatchCard.module.css";
 import { CalendarToday, LocationOn } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
+import styles from "./newMatchCard.module.css";
 
 const NewMatchCard = ({ match, team_info }) => {
   const navigate = useNavigate();
