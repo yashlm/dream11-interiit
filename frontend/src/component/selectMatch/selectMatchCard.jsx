@@ -8,7 +8,8 @@ import { useNavigate } from "react-router-dom";
 import NewMatchCard from "./newMatchCard.jsx";
 
 const SelectMatchCard = ({ teamA, teamB }) => {
-  const [matchDate, setMatchDate] = useState();
+  const [matchDate, setMatchDate] = useState(null);
+  const [teamInfo, setTeamInfo] = useState(null);
   const [allMatches, setAllMatches] = useState(null);
   const [filteredMatches, setFilteredMatches] = useState(null);
 
@@ -170,6 +171,7 @@ const SelectMatchCard = ({ teamA, teamB }) => {
             index === self.findIndex((t) => t.match_id === obj.match_id)
         );
         setAllMatches(dist);
+        setTeamInfo(data.team_info);
       } catch (error) {
         alert("We encountered an issue. Please try again later.");
         console.error("Error fetching teams:", error);
@@ -216,6 +218,7 @@ const SelectMatchCard = ({ teamA, teamB }) => {
                   key={match.match_id}
                   match={match}
                   formDreamTeam={formDreamTeam}
+                  team_info={teamInfo}
                 />
               ))}
             </div>
@@ -235,6 +238,7 @@ const SelectMatchCard = ({ teamA, teamB }) => {
               key={match.match_id}
               match={match}
               formDreamTeam={formDreamTeam}
+              team_info={teamInfo}
             />
           ))}
         </div>

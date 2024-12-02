@@ -2,7 +2,7 @@ import styles from "../../css/HomePage/NewMatchCard.module.css";
 import { CalendarToday, LocationOn } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 
-const NewMatchCard = ({ match }) => {
+const NewMatchCard = ({ match, team_info }) => {
   const navigate = useNavigate();
   const teams = match?.teams || [];
   const team1 = teams[0] || "Team 1";
@@ -35,7 +35,7 @@ const NewMatchCard = ({ match }) => {
           <img
             className={styles["team-logo"]}
             alt={`${team1} logo`}
-            src={match?.team1_logo}
+            src={team_info[0]?.url}
           />
           {/* <p className={styles["team-name"]}>{team1}</p> */}
         </div>
@@ -44,7 +44,7 @@ const NewMatchCard = ({ match }) => {
           <img
             className={styles["team-logo"]}
             alt={`${team2} logo`}
-            src={match?.team2_logo}
+            src={team_info[1]?.url}
           />
           {/* <p className={styles["team-name"]}>{team2}</p> */}
         </div>

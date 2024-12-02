@@ -3,7 +3,8 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from app.db.session import get_db
 from app.schemas.team import TeamInput
-from app.services.match import get_match_weather_from_db,get_data_from_csv,get_match_details_from_db,get_all_featured_matches_for_date_from_db,get_all_matches_for_date_from_db,get_all_matches_from_db,get_all_team_matches_from_db,get_all_teams_matches_from_db,match_to_dict
+from app.schemas.pydantic_schema import ModelInput
+from app.services.match import get_all_matches_for_date_from_db,get_match_weather_from_db,get_data_from_csv,get_match_details_from_db,get_all_featured_matches_for_date_from_db,get_all_matches_from_db,get_all_team_matches_from_db,get_all_teams_matches_from_db,match_to_dict
 from app.services.team import get_teams_by_name_from_db,get_team_info_by_name_from_db
 from app.services.player import get_all_match_players_profile_from_db,get_player_ids_for_match, get_player_profile_for_ids
 from fastapi import File, UploadFile
@@ -45,10 +46,23 @@ async def get_matches_by_date(date: str, db: Session = Depends(get_db)):
         return {"status": "ok", "message": "Teams retrieved successfully", "data": matches}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
 @router.get("/date/featured")
 async def get_matches_by_date(date: str, db: Session = Depends(get_db)):
     try:
         matches = get_all_featured_matches_for_date_from_db(db,date)
+        for match in matches:
+            teamA=match.teams[0]
+            teamB=match.teams[1]
+            teamA_info = get_team_info_by_name_from_db(db, teamA)
+            teamB_info = get_team_info_by_name_from_db(db, teamB)
+            match.team_info = {
+                "teamA": teamA,
+                "teamAinfo": teamA_info,
+                "teamB": teamB,
+                "teamBinfo": teamB_info,
+            }
         return {"status": "ok", "message": "Teams retrieved successfully", "data": matches}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -275,6 +289,7 @@ async def dreamScores(match_id: str, db: Session = Depends(get_db)):
             "status": "ok",
             "message": "Teams retrieved successfully",
             "data": mapped_data,
+            "count": len(mapped_data)
         }
 
     except Exception as e:
@@ -290,250 +305,51 @@ async def dreamScores(match_id: str, db: Session = Depends(get_db)):
 #     except Exception as e:
 #         raise HTTPException(status_code=500, detail=str(e))
 
-csv_data = [
-        {
-            "key_cricinfo": 267192.0,
-            "gender": "male",
-            "player_id": "30a45b23",
-            "full_name": "Steven Peter Devereux Smith",
-            "playing_role": "Top order Batter",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/385700/385794.1.png",
-            "unique_name": "SPD Smith",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/226800/226897.jpg",
-            "squad": "India"
-        },
-        {
-            "key_cricinfo": 311592.0,
-            "gender": "male",
-            "player_id": "3fb19989",
-            "full_name": "Mitchell Aaron Starc",
-            "playing_role": "Bowler",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/390900/390978.5.png",
-            "unique_name": "MA Starc",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/209900/209915.jpg",
-            "squad": "India"
-        },
-        {
-            "key_cricinfo": 272279.0,
-            "gender": "male",
-            "player_id": "96a6a7ad",
-            "full_name": "Nathan Michael Lyon",
-            "playing_role": "Bowler",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/385700/385796.1.png",
-            "unique_name": "NM Lyon",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/200700/200753.jpg",
-            "squad": "India"
-        },
-        {
-            "key_cricinfo": 398666.0,
-            "gender": "male",
-            "player_id": "1a2676c5",
-            "full_name": "Sean Anthony Abbott",
-            "playing_role": "Bowling Allrounder",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/321600/321601.2.png",
-            "unique_name": "SA Abbott",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/189700/189779.jpg",
-            "squad": "India"
-        },
-        {
-            "key_cricinfo": 5961.0,
-            "gender": "male",
-            "player_id": "32198ae0",
-            "full_name": "Moises Constantino Henriques",
-            "playing_role": "Allrounder",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/321500/321588.2.png",
-            "unique_name": "MC Henriques",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/213400/213475.3.jpg",
-            "squad": "India"
-        },
-        {
-            "key_cricinfo": 434813.0,
-            "gender": "male",
-            "player_id": "9e85455c",
-            "full_name": "Marcus Sinclair Harris",
-            "playing_role": "Opening Batter",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/390600/390642.2.png",
-            "unique_name": "MS Harris",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/195700/195773.jpg",
-            "squad": "India"
-        },
-        {
-            "key_cricinfo": 772361.0,
-            "gender": "male",
-            "player_id": "a756e61a",
-            "full_name": "Samuel Bryan Harper",
-            "playing_role": "Top order Batter",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/391200/391242.2.png",
-            "unique_name": "SB Harper",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/373600/373629.jpg",
-            "squad": "India"
-        },
-        {
-            "key_cricinfo": 333780.0,
-            "gender": "male",
-            "player_id": "44afbf2d",
-            "full_name": "Nicolas James Maddinson",
-            "playing_role": "Opening Batter",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/321500/321599.2.png",
-            "unique_name": "NJ Maddinson",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/201200/201261.jpg",
-            "squad": "India"
-        },
-        {
-            "key_cricinfo": 215152.0,
-            "gender": "male",
-            "player_id": "bc773eeb",
-            "full_name": "Jackson Munro Bird",
-            "playing_role": "Bowler",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_h_100_2x/lsci/db/PICTURES/CMS/157200/157259.1.jpg",
-            "unique_name": "JM Bird",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/202200/202271.jpg",
-            "squad": "India"
-        },
-        {
-            "key_cricinfo": 334337.0,
-            "gender": "male",
-            "player_id": "ada15e88",
-            "full_name": "Peter Stephen Patrick Handscomb",
-            "playing_role": "Batter",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/321600/321688.2.png",
-            "unique_name": "PSP Handscomb",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/204000/204093.jpg",
-            "squad": "India"
-        },
-        {
-            "key_cricinfo": 446548.0,
-            "gender": "male",
-            "player_id": "d167edd3",
-            "full_name": "Scott Michael Boland",
-            "playing_role": "Bowler",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/321500/321592.2.png",
-            "unique_name": "SM Boland",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/231200/231211.jpg",
-            "squad": "South Africa"
-        },
-        {
-            "key_cricinfo": 1124282.0,
-            "gender": "male",
-            "player_id": "39086549",
-            "full_name": "Joshua Ryan Philippe",
-            "playing_role": "Wicketkeeper Batter",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/321600/321602.2.png",
-            "unique_name": "JR Philippe",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/200600/200668.jpg",
-            "squad": "South Africa"
-        },
-        {
-            "key_cricinfo": 388503.0,
-            "gender": "male",
-            "player_id": "fe5be60a",
-            "full_name": "James Jason Pattinson",
-            "playing_role": "Bowler",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/391000/391056.2.png",
-            "unique_name": "JJ Pattinson",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/181200/181287.jpg",
-            "squad": "South Africa"
-        },
-        {
-            "key_cricinfo": 1195525.0,
-            "gender": "male",
-            "player_id": "af2d3fc3",
-            "full_name": "Daniel Mark Hughes",
-            "playing_role": "Opening Batter",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/321700/321703.2.png",
-            "unique_name": "DM Hughes",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/177200/177241.jpg",
-            "squad": "South Africa"
-        },
-        {
-            "key_cricinfo": 1117010.0,
-            "gender": "male",
-            "player_id": "bd59bb3f",
-            "full_name": "Mark Edward Steketee",
-            "playing_role": "Bowler",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/380300/380351.3.png",
-            "unique_name": "ME Steketee",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/196800/196828.jpg",
-            "squad": "South Africa"
-        },
-        {
-            "key_cricinfo": 270152.0,
-            "gender": "male",
-            "player_id": "5e401637",
-            "full_name": "William Robert Sutherland",
-            "playing_role": "Allrounder",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/321600/321610.2.png",
-            "unique_name": "WR Sutherland",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/233100/233187.jpg",
-            "squad": "South Africa"
-        },
-        {
-            "key_cricinfo": 1122368.0,
-            "gender": "male",
-            "player_id": "134bbc72",
-            "full_name": "Aaron Christopher Finch",
-            "playing_role": "Opening Batter",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/398400/398468.2.png",
-            "unique_name": "AC Finch",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/193600/193695.jpg",
-            "squad": "South Africa"
-        },
-        {
-            "key_cricinfo": 200310.0,
-            "gender": "male",
-            "player_id": "a7420c85",
-            "full_name": "Matthew John Renshaw",
-            "playing_role": "Batter",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/391000/391044.2.png",
-            "unique_name": "MJ Renshaw",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/160400/160419.jpg",
-            "squad": "South Africa"
-        },
-        {
-            "key_cricinfo": 799053.0,
-            "gender": "male",
-            "player_id": "7f83f408",
-            "full_name": "James Sutherland Faulkner",
-            "playing_role": "Bowler",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/321500/321597.2.png",
-            "unique_name": "JS Faulkner",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/177200/177265.jpg",
-            "squad": "South Africa"
-        },
-        {
-            "key_cricinfo": 1122368.0,
-            "gender": "male",
-            "player_id": "134bbc72",
-            "full_name": "Aaron Christopher Finch",
-            "playing_role": "Opening Batter",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/398400/398468.2.png",
-            "unique_name": "AC Finch",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/193600/193695.jpg",
-            "squad": "South Africa"
-        },
-        {
-            "key_cricinfo": 200310.0,
-            "gender": "male",
-            "player_id": "a7420c85",
-            "full_name": "Matthew John Renshaw",
-            "playing_role": "Batter",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/391000/391044.2.png",
-            "unique_name": "MJ Renshaw",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/160400/160419.jpg",
-            "squad": "South Africa"
-        },
-        {
-            "key_cricinfo": 799053.0,
-            "gender": "male",
-            "player_id": "7f83f408",
-            "full_name": "James Sutherland Faulkner",
-            "playing_role": "Bowler",
-            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/321500/321597.2.png",
-            "unique_name": "JS Faulkner",
-            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/177200/177265.jpg",
-            "squad": "South Africa"
-        }
-    ]
+@router.post("/dreamTeam")
+async def dreamScores(modelInput: ModelInput, db: Session = Depends(get_db)):
+    modulOutput = {
+        "13c35c9e": 100.55634319218704,
+        "21e5f325": 87.17585733448124,
+        "2f49c897": 72.00954285338004,
+        "462411b3": 93.62300411370316,
+        "495d42a5": 132.09295517607978,
+        "6c19c6e5": 97.96542444280506,
+        "740742ef": 78.78837143431772,
+        "8afe73e2": 76.93286397858712,
+        "8d2c70ad": 93.46000246872988,
+        "919a3be2": 110.96721181511865,
+        "9a46c4e5": 104.82554099843752,
+        "b17e2f24": 80.75461188866599,
+        "ba5e1069": 116.70623794132668,
+        "ba607b88": 102.35442442893832,
+        "cb9b8664": 84.72428983178646,
+        "df5a6881": 91.5380033869391,
+        "e824e6ee": 95.4223177249687,
+        "e84ac20c": 132.50066442016148,
+        "eade4650": 119.33194580708863,
+        "f088b960": 76.93057990710558,
+        "fbd4f01f": 98.16267907703993,
+        "fe93fd9d": 116.2944171880359
+    },
+
+     # Access the dictionary inside the tuple
+    player_ids = list(modulOutput[0].keys())  # Access the dictionary (first element of the tuple)
+    players = get_player_profile_for_ids(db, player_ids)
+    mapped_data = []
+    player_dict = {player.player_id: player for player in players}
+
+    for player_id, score in modulOutput[0].items():  # Access the dictionary again for iteration
+        if player_id in player_dict:
+            player_profile = player_dict[player_id]
+            mapped_data.append({**player_profile.__dict__, "predicted_score": score})
+
+    # return {
+    #     "status": "ok",
+    #     "message": "Teams retrieved successfully",
+    #     "data": mapped_data,
+    #     "count": len(mapped_data)
+    # }
+    return dreamTeamForCustomData
 
 @router.post("/upload_csv/")
 async def upload_csv(file: UploadFile = File(...), db: Session = Depends(get_db)):
@@ -541,7 +357,6 @@ async def upload_csv(file: UploadFile = File(...), db: Session = Depends(get_db)
         # Step 1: Read and process the uploaded CSV
         data = await get_data_from_csv(file)
         result_df = runner_main(data)  # Assuming this returns a DataFrame with player_id and player_team
-        
         # Step 2: Get the list of player_ids from result_df
         player_ids = result_df['player_id'].to_list()
         
@@ -563,6 +378,8 @@ async def upload_csv(file: UploadFile = File(...), db: Session = Depends(get_db)
 
         # Step 7: Get unique teams and fetch team information from the database
         unique_teams = result_df['player_team'].unique()
+        match_date = data['Match Date'].iloc[0]
+        match_type = data['Format'].iloc[0]
         teamA_players = [player for player in players_with_team if player["player_team"] == unique_teams[0]]
         teamB_players = [player for player in players_with_team if player["player_team"] == unique_teams[1]]
         team_info = {}
@@ -573,6 +390,8 @@ async def upload_csv(file: UploadFile = File(...), db: Session = Depends(get_db)
         return {
             "status": "ok",
             "message": "Data retrieved successfully",
+            "match_date": match_date,
+            "match_type": match_type,
             "teamA": teamA_players,  # Players for Team A
             "teamB": teamB_players,  # Players for Team B
             "player_count": len(players_with_team),
@@ -591,3 +410,252 @@ async def get_weather(match_id: str, db: Session = Depends(get_db)):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     
+dreamTeamForCustomData = {
+    "status": "ok",
+    "message": "Teams retrieved successfully",
+    "data": [
+        {
+            "unique_name": "TG Southee",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/206300/206313.jpg",
+            "key_cricinfo": 232364.0,
+            "player_id": "13c35c9e",
+            "full_name": "Timothy Grant Southee",
+            "playing_role": "Bowler",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/383100/383184.1.png",
+            "predicted_score": 100.55634319218704
+        },
+        {
+            "unique_name": "TA Blundell",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/389800/389844.jpg",
+            "key_cricinfo": 440516.0,
+            "player_id": "21e5f325",
+            "full_name": "Thomas Ackland Blundell",
+            "playing_role": "Wicketkeeper Batter",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/321300/321315.1.png",
+            "predicted_score": 87.17585733448124
+        },
+        {
+            "unique_name": "Mohammed Siraj",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/391600/391662.jpg",
+            "key_cricinfo": 940973.0,
+            "player_id": "2f49c897",
+            "full_name": "Mohammed Siraj",
+            "playing_role": "Bowler",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/322600/322611.1.png",
+            "predicted_score": 72.00954285338004
+        },
+        {
+            "unique_name": "JJ Bumrah",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/232500/232565.jpg",
+            "key_cricinfo": 625383.0,
+            "player_id": "462411b3",
+            "full_name": "Jasprit Jasbirsingh Bumrah",
+            "playing_role": "Bowler",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/319900/319940.2.png",
+            "predicted_score": 93.62300411370316
+        },
+        {
+            "unique_name": "R Ashwin",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/219800/219835.jpg",
+            "key_cricinfo": 26421.0,
+            "player_id": "495d42a5",
+            "full_name": "Ravichandran Ashwin",
+            "playing_role": "Bowling Allrounder",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316500/316521.2.png",
+            "predicted_score": 132.09295517607978
+        },
+        {
+            "unique_name": "YBK Jaiswal",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/391600/391660.jpg",
+            "key_cricinfo": 1151278.0,
+            "player_id": "6c19c6e5",
+            "full_name": "Yashasvi Bhupendra Kumar Jaiswal",
+            "playing_role": "Opening Batter",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/340300/340309.1.png",
+            "predicted_score": 97.96542444280506
+        },
+        {
+            "unique_name": "RG Sharma",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/237400/237453.jpg",
+            "key_cricinfo": 34102.0,
+            "player_id": "740742ef",
+            "full_name": "Rohit Gurunath Sharma",
+            "playing_role": "Top order Batter",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/385800/385819.2.png",
+            "predicted_score": 78.78837143431772
+        },
+        {
+            "unique_name": "WA Young",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/391700/391749.jpg",
+            "key_cricinfo": 547749.0,
+            "player_id": "8afe73e2",
+            "full_name": "William Alexander Young",
+            "playing_role": "Top order Batter",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/346200/346246.1.png",
+            "predicted_score": 76.93286397858712
+        },
+        {
+            "unique_name": "Kuldeep Yadav",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/194300/194379.jpg",
+            "key_cricinfo": 559235.0,
+            "player_id": "8d2c70ad",
+            "full_name": "Kuldeep Yadav",
+            "playing_role": "Bowler",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/319900/319943.2.png",
+            "predicted_score": 93.46000246872988
+        },
+        {
+            "unique_name": "RR Pant",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/241100/241167.jpg",
+            "key_cricinfo": 931581.0,
+            "player_id": "919a3be2",
+            "full_name": "Rishabh Rajendra Pant",
+            "playing_role": "Wicketkeeper Batter",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/323000/323036.1.png",
+            "predicted_score": 110.96721181511865
+        },
+        {
+            "unique_name": "GD Phillips",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/391800/391855.jpg",
+            "key_cricinfo": 823509.0,
+            "player_id": "9a46c4e5",
+            "full_name": "Glenn Dominic Phillips",
+            "playing_role": "Allrounder",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/383100/383167.1.png",
+            "predicted_score": 104.82554099843752
+        },
+        {
+            "unique_name": "KL Rahul",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/220400/220491.jpg",
+            "key_cricinfo": 422108.0,
+            "player_id": "b17e2f24",
+            "full_name": "Kannaur Lokesh Rahul",
+            "playing_role": "Wicketkeeper Batter",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/319900/319942.3.png",
+            "predicted_score": 80.75461188866599
+        },
+        {
+            "unique_name": "R Ravindra",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/391800/391806.jpg",
+            "key_cricinfo": 959767.0,
+            "player_id": "ba5e1069",
+            "full_name": "Rachin Ravindra",
+            "playing_role": "Batting Allrounder",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/383100/383182.1.png",
+            "predicted_score": 116.70623794132668
+        },
+        {
+            "unique_name": "V Kohli",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/240800/240853.jpg",
+            "key_cricinfo": 253802.0,
+            "player_id": "ba607b88",
+            "full_name": "Virat Kohli",
+            "playing_role": "Top order Batter",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png",
+            "predicted_score": 102.35442442893832
+        },
+        {
+            "unique_name": "W O'Rourke",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/389400/389417.jpg",
+            "key_cricinfo": 1211825.0,
+            "player_id": "cb9b8664",
+            "full_name": "William Peter O'Rourke",
+            "playing_role": "Bowler",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/387600/387602.4.png",
+            "predicted_score": 84.72428983178646
+        },
+        {
+            "unique_name": "DP Conway",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/389600/389692.jpg",
+            "key_cricinfo": 379140.0,
+            "player_id": "df5a6881",
+            "full_name": "Devon Philip Conway",
+            "playing_role": "Wicketkeeper Batter",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/383100/383148.1.png",
+            "predicted_score": 91.5380033869391
+        },
+        {
+            "unique_name": "TWM Latham",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/186800/186843.jpg",
+            "key_cricinfo": 388802.0,
+            "player_id": "e824e6ee",
+            "full_name": "Thomas William Maxwell Latham",
+            "playing_role": "Wicketkeeper Batter",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316672.1.png",
+            "predicted_score": 95.4223177249687
+        },
+        {
+            "unique_name": "MJ Henry",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/209600/209603.jpg",
+            "key_cricinfo": 506612.0,
+            "player_id": "e84ac20c",
+            "full_name": "Matthew James Henry",
+            "playing_role": "Bowler",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/383100/383178.1.png",
+            "predicted_score": 132.50066442016148
+        },
+        {
+            "unique_name": "DJ Mitchell",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/391800/391810.jpg",
+            "key_cricinfo": 381743.0,
+            "player_id": "eade4650",
+            "full_name": "Daryl Joseph Mitchell",
+            "playing_role": "Batting Allrounder",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/383100/383147.2.png",
+            "predicted_score": 119.33194580708863
+        },
+        {
+            "unique_name": "SN Khan",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/178800/178885.jpg",
+            "key_cricinfo": 642525.0,
+            "player_id": "f088b960",
+            "full_name": "Sarfaraz Naushad Khan",
+            "playing_role": "Middle order Batter",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/386300/386338.16.png",
+            "predicted_score": 76.93057990710558
+        },
+        {
+            "unique_name": "AY Patel",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/390300/390306.jpg",
+            "key_cricinfo": 595783.0,
+            "player_id": "fbd4f01f",
+            "full_name": "Ajaz Yunus Patel",
+            "playing_role": "Bowler",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/390100/390169.5.png",
+            "predicted_score": 98.16267907703993
+        },
+        {
+            "unique_name": "RA Jadeja",
+            "gender": "male",
+            "bg_image_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_960/lsci/db/PICTURES/CMS/189600/189659.jpg",
+            "key_cricinfo": 234675.0,
+            "player_id": "fe93fd9d",
+            "full_name": "Ravindrasinh Anirudhsinh Jadeja",
+            "playing_role": "Allrounder",
+            "img_src_url": "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316600.2.png",
+            "predicted_score": 116.2944171880359
+        }
+    ],
+    "count": 22
+}
