@@ -16,15 +16,15 @@ const TestimonialCard = ({ avatar, name, role, rating, content }) => {
                 </svg>
               ))}
             </div>
-            <blockquote className="flex-1 mt-8">
+            <blockquote className="flex-1 mt-6">
               <p className="text-lg leading-relaxed text-gray-900">{content}</p>
             </blockquote>
           </div>
-          <div className="flex items-center mt-8">
+          <div className="flex items-center mt-4">
             <img className="flex-shrink-0 object-cover rounded-full w-11 h-11" src={avatar} alt={name} />
             <div className="ml-4">
               <p className="text-base font-bold text-gray-900">{name}</p>
-              <p className="mt-0.5 text-sm text-gray-600">{role}</p>
+              <p className="mt-0.5 text-sm text-gray-500">{role}</p>
             </div>
           </div>
         </div>
