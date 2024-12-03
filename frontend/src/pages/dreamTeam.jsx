@@ -520,7 +520,6 @@ export default function DreamTeamGround() {
   const location = useLocation();
   const navigate = useNavigate();
   const { match_id } = useParams();
-
    //....tour....
    const [pageReady, setPageReady] = useState(false);
    useEffect(() => {
@@ -604,7 +603,6 @@ export default function DreamTeamGround() {
    };
  
    //......tour.....
-
   // Refs
   const dockListRef = useRef(null);
   const screenshotRef = useRef(null);
@@ -728,8 +726,6 @@ export default function DreamTeamGround() {
     } finally {
       setIsLoading(false);
     }
-  };
-
   const fetchDataByState = async (state) => {
     try {
       setIsLoading(true);
@@ -757,7 +753,6 @@ export default function DreamTeamGround() {
       setIsLoading(false);
     }
   };
-
   const fetchData = async () => {
     if (match_id) {
       await fetchDataByMatchId(match_id);
@@ -882,7 +877,6 @@ export default function DreamTeamGround() {
     setExpanded((prev) => !prev); // Toggle the expanded state when the icon is clicked
   };
 
-
   const handleSave = () => {
     try {
       localStorage.setItem("positions", JSON.stringify(positions));
@@ -892,6 +886,7 @@ export default function DreamTeamGround() {
       console.error("Error saving to localStorage:", error);
     }
   };
+
 
   const handleRedo = () => {
     setOffFieldPlayers(modelOuput.slice(11));

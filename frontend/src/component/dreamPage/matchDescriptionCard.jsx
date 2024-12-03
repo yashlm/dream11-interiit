@@ -9,17 +9,27 @@ import { FaUndo, FaShareAlt, FaSave, FaInfoCircle } from "react-icons/fa";
 import styles from "../../css/DescriptionCard.module.css";
 import { BASE_URL } from "../../constants";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useNavigate } from "react-router-dom";
 
 export default function DescriptionCard({
   match_id,
   onUndo,
   onMatchDetails,
   onSave,
+  onSS,
   info,
+  expanded,
+  handleExpandToggle
 }) {
   const [audioUrl, setAudioUrl] = useState(null);
   const audioRef = useRef(null);
   const [audioLoading, setAudioLoading] = useState(false);
+
+  const navigate = useNavigate()
+  const handleMatchDetailsroute = () => {
+    navigate(`/matchdetails/${match_id}`);
+  };
+
 
   // const fetchAudio = async () => {
   //   const text = document.getElementById("infoSectionText").textContent;
@@ -54,7 +64,7 @@ export default function DescriptionCard({
     }
   }, [audioUrl]);
 
-  const [expanded, setExpanded] = useState(false); // Controls the expanded state for ShowMoreText
+   // Controls the expanded state for ShowMoreText
   const [isOverflowing, setIsOverflowing] = useState(false);
   const infoRef = useRef(null);
 
@@ -94,11 +104,6 @@ export default function DescriptionCard({
     console.log("Voice button clicked");
     await fetchAudio(); // Ensure fetchAudio is awaited
   };
-
-  const handleExpandToggle = () => {
-    setExpanded((prev) => !prev); // Toggle the expanded state when the icon is clicked
-  };
-
   // Effect to run whenever 'expanded' changes
   useEffect(() => {
     console.log("The expanded state has changed:", expanded);
@@ -231,12 +236,12 @@ export default function DescriptionCard({
           </button>
         </Tooltip>
         <Tooltip title="Share" placement="top">
-          <button className={styles.actionButton}>
+          <button className={styles.actionButton} onClick={onSS}>
             <FaShareAlt />
           </button>
         </Tooltip>
         <Tooltip title="Match Details" placement="top">
-          <button className={styles.actionButton} onClick={onMatchDetails}>
+          <button className={styles.actionButton} onClick={handleMatchDetailsroute}>
             <FaInfoCircle />
           </button>
         </Tooltip>
