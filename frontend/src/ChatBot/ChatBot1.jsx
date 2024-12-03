@@ -47,9 +47,11 @@ function ChatBot({ isChatOpen, setIsChatOpen }) {
     setIsProcessing(true);
 
     try {
-      const response = await axios.post(`${BASE_URL}/chat/bot`, {
-        question: input,
+      const response = await axios.post(`http://34.93.115.47/ai/chat`, {
+        message: input,
       });
+
+      console.log(response.data.response.content)
 
       // Add bot response
       setMessages((prevMessages) => {
@@ -80,16 +82,68 @@ function ChatBot({ isChatOpen, setIsChatOpen }) {
   return (
     <div className={`chatbot ${isChatOpen ? "open" : ""}`}>
       <div className="chat-window">
-        <div className="chat-header">
-          <span>ChatBot</span>
-          <button className="close-button" onClick={() => setIsChatOpen(false)}>✕</button>
+        <div
+          className="chat-header"
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            padding: "10px",
+            background: "linear-gradient(to right, #d12c2c, #7d0404)",
+            borderBottom: "1px solid #ddd",
+          }}
+        >
+          <div
+            className="chat-text"
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "flex-start", // Ensure both lines start from the same left margin
+            }}
+          >
+            <span
+              className="line-1"
+              style={{
+                fontSize: "14px",
+                color: "#fff",
+                margin: "0", // Remove default margin for consistency
+              }}
+            >
+              Chat with
+            </span>
+            <span
+              className="line-2"
+              style={{
+                fontSize: "18px",
+                fontWeight: "bold",
+                color: "#fff",
+                margin: "0", // Aligns perfectly with the first line
+              }}
+            >
+              Dream11 BOT
+            </span>
+          </div>
+          <button
+            className="close-button"
+            onClick={() => setIsChatOpen(false)}
+            style={{
+              background: "none",
+              border: "none",
+              fontSize: "18px",
+              cursor: "pointer",
+              color: "#fff", // Adjusted for visibility over the gradient
+            }}
+          >
+            ✕
+          </button>
         </div>
+
         <div className="chat-messages">
           {messages.map((msg, index) => (
             <ChatBubble key={index} message={msg} />
           ))}
           {isProcessing && (
-            <ChatBubble key="processing" message={{ text: <span className="loading-dots">...</span>, sender: "bot" }} />
+            <ChatBubble key="processing" message={{ text: <span className="loading-dots">. . . . .</span>, sender: "bot" }} />
           )}
           <div ref={messagesEndRef} />
         </div>
@@ -103,7 +157,7 @@ function ChatBot({ isChatOpen, setIsChatOpen }) {
           />
           <button type="submit"
           disabled={!input.trim()} 
-          style={input.trim() ? {} : {backgroundColor:"gray"}}>
+          style={input.trim() ? {background: "linear-gradient(to right, #d12c2c, #7d0404)"} : {backgroundColor:"gray"}}>
             Send
           </button>
         </form>

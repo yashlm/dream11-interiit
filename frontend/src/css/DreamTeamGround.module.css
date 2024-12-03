@@ -165,3 +165,50 @@
   opacity: 0.4;
   transform: translateX(5px) translateY(5px);
 }
+
+/* The container that will display the screenshot */
+.screenshotContainer {
+  position: fixed; 
+  top: 0%; 
+  left: 0%; 
+  width: 100vw; 
+  height: 100vh; 
+  background-color: rgba(255, 255, 255, 0.8); 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; 
+  overflow: hidden; 
+}
+
+.screenshotContainer img {
+  max-width: 100%; 
+  max-height: 100%; 
+  object-fit: contain; 
+  z-index: 4;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.shareButtonsContainer {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 15px 25px;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.closeButton {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease;
+}
+
+.closeButton:hover {
+  transform: scale(1.1);
+}
