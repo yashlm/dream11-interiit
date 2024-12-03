@@ -74,12 +74,24 @@ export default function PlayerPopOut({
             <RxCross2 size={20} />
           </button>
           <div className={styles.topPanel}>
-            <CardMedia className={styles.bgImageProfile} image={bgImage} title={name}>
+            <CardMedia
+              className={styles.bgImageProfile}
+              image={bgImage}
+              title={name}
+            >
               <div className={styles.blackCover}>
-                <CardMedia className={styles.playerImageProfile} image={profileImage} />
+                <CardMedia
+                  className={styles.playerImageProfile}
+                  image={profileImage}
+                />
               </div>
             </CardMedia>
-            <div className={styles.playerdesc}><h3>Player Description:</h3></div>
+             {description && (
+              <div className={styles.playerdesc}>
+                <h3>Player Description:</h3>
+                <p> {description}</p>
+              </div>
+            )}
             <div className={styles.profiledata}>
               <p className={styles.profileName}>
                 {firstName} <br />
@@ -88,8 +100,14 @@ export default function PlayerPopOut({
               {/* Display Cricketer Data */}
               {sidePanelData && (
                 <div className={styles.cricketerData}>
-                  <p><strong>Batting Style:</strong> {sidePanelData.batting_style}</p>
-                  <p><strong>Bowling Style:</strong> {sidePanelData.bowling_style}</p>
+                  <p>
+                    <strong>Batting Style:</strong>{" "}
+                    {sidePanelData.batting_style}
+                  </p>
+                  <p>
+                    <strong>Bowling Style:</strong>{" "}
+                    {sidePanelData.bowling_style}
+                  </p>
                 </div>
               )}
               <div>
@@ -97,7 +115,6 @@ export default function PlayerPopOut({
                   {sidePanelData ? sidePanelData.player_role : ""}
                 </p>
               </div>
-              <p>{description ? description : ""}</p>
             </div>
           </div>
           {data ? (

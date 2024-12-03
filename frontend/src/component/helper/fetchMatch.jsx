@@ -16,7 +16,7 @@ const MatchDataFetch = async (url, setFunction) => {
     setFunction(dist);
     console.log(dist);
   } catch (error) {
-    alert("We encountered an issue. Please try again later.");
+    // alert("We encountered an issue. Please try again later.");
     console.error("Error fetching teams:", error);
   }
 };
