@@ -202,7 +202,7 @@ const SelectMatchCard = ({ teamA, teamB }) => {
       className={styles.calenderMatchCardWrapper}
       style={{ height: "300px" }}
     >
-      <div className={styles.calender}>
+      <div className={styles.calender} data-tour-id="scrolling-calendar">
         <h3>SELECT MATCH</h3>
         <HorizontalCalendar
           initialDate={new Date()}

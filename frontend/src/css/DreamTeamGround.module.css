@@ -100,9 +100,10 @@
 .dreamPointsCard {
   padding: 0;
   position: fixed;
-  top: 10px;
-  right: 10px;
-  width: 150px;
+  top: 20px;
+ left:80vw;
+  width: 240px;
+ 
   z-index: 999;
   border-radius: 10px;
   background: rgba(0, 0, 0, 0.7);

@@ -111,7 +111,7 @@ export default function DescriptionCard({
   }, [expanded]); // Dependency array ensures this effect runs on 'expanded' change
 
   return (
-    <div className={`${styles.descriptionCard}`}>
+    <div className={`${styles.descriptionCard}`} >
       <audio ref={audioRef} style={{ display: "none" }} />
       <div className={styles.bgBlur}>
         <div className={styles.cardHeader}>
@@ -148,6 +148,7 @@ export default function DescriptionCard({
           ref={infoRef}
           className={`${styles.infoSection} ${expanded ? styles.expanded : ""}`}
           id="infoSectionText"
+          
         >
           {match_id && (
             <div>
