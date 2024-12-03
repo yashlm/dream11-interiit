@@ -165,3 +165,51 @@
   opacity: 0.4;
   transform: translateX(5px) translateY(5px);
 }
+
+
+/* The container that will display the screenshot */
+.screenshotContainer {
+  position: fixed; /* Position it relative to the viewport */
+  top: 0%; /* Adjust the top position */
+  left: 0%; /* Adjust the left position */
+  width: 100vw; /* 80% of the viewport width */
+  height: 100vh; /* 80% of the viewport height */
+  background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999; /* Ensure it overlays on top of other elements */
+  overflow: hidden; /* Hide any content that exceeds the boundaries */
+}
+
+.screenshotContainer img {
+  max-width: 100%; /* Ensure the image fits within the container */
+  max-height: 100%; /* Ensure the image doesn't exceed the container */
+  object-fit: contain; 
+  z-index: 4;/* Maintain aspect ratio */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+}
+
+.shareButtonsContainer {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 15px 25px;
+  border-radius: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.closeButton {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease;
+}
+
+.closeButton:hover {
+  transform: scale(1.1);
+}

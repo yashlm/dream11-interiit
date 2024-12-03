@@ -1,64 +1,217 @@
-import React, { useState, useRef, useEffect } from "react";
-import { DndProvider, useDrop } from "react-dnd";
+import React, { useState, useRef, useEffect, useLayoutEffect } from "react";
+import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import { useNavigate, useLocation, useParams } from "react-router-dom";
+import { toPng } from 'html-to-image';
 import styles from "../css/DreamTeamGround.module.css";
-import { FaArrowRight, FaArrowLeft } from "react-icons/fa";
+import { FaArrowRight, FaArrowLeft, FaTimes } from "react-icons/fa";
 import WeatherCard from "../component/common/weatherCard";
 import DreamPointsCard from "../component/common/dreamPoints";
 import DescriptionCard from "../component/dreamPage/matchDescriptionCard";
 import Loading from "../component/Loading";
 import DragPlayerCard from "../component/dreamPage/dragPlayerCard";
 import DropZone from "../component/dreamPage/dropZone";
-import { useNavigate, useLocation } from "react-router-dom";
+import html2canvas from 'html2canvas';
+import { motion } from "framer-motion";
+import { FacebookShareButton, TwitterShareButton, WhatsappShareButton, FacebookIcon, TwitterIcon, WhatsappIcon } from 'react-share';
 import {
   BASE_URL,
   fieldPositionsInPx,
   referenceX,
   referenceY,
 } from "../constants";
-import { useParams } from "react-router-dom";
 
+// Constants
 const initialFieldPositions = fieldPositionsInPx.map((position) => ({
   ...position,
   x: (position.x / referenceX) * 100,
   y: (position.y / referenceY) * 100,
 }));
 
+const getLocalStorageData = (key, defaultValue) => {
+  if (typeof window !== "undefined") {
+    const savedData = localStorage.getItem(key);
+    return savedData ? JSON.parse(savedData) : defaultValue;
+  }
+  return defaultValue;
+};
+
 export default function DreamTeamGround() {
+  // Router hooks
   const location = useLocation();
   const navigate = useNavigate();
   const { match_id } = useParams();
 
+  // Refs
+  const dockListRef = useRef(null);
+  const screenshotRef = useRef(null);
+  const firstUpdate = useRef(true);
+
+  // State management
   const [isLoading, setIsLoading] = useState(false);
-  const [offFieldPlayers, setOffFieldPlayers] = useState([]);
-
-  const [initialOnFieldPlayers, setInitialOnFieldPlayers] = useState([]);
-
-  const [modelOuput, setModelOutput] = useState([]);
-  const [positions, setPositions] = useState(initialFieldPositions);
+  const [info, setInfo] = useState("");
   const [isAtEnd, setIsAtEnd] = useState(null);
   const [isAtStart, setIsAtStart] = useState(null);
-  const [dreamPoints, setDreamPoints] = useState(0);
-  const [info, setInfo] = useState("");
-  const dockListRef = useRef(null);
+  const [expanded, setExpanded] = useState(false);
+  const [screeanshot, setScreenshot] = useState(false);
 
-  const redo = () => {
-    setOffFieldPlayers(modelOuput.slice(11));
-    setPositions((prevPositions) => {
-      const initialOnFieldPlayers = modelOuput.slice(0, 11);
-      return prevPositions.map((position, index) => ({
+  // Game state
+  const [offFieldPlayers, setOffFieldPlayers] = useState(() =>
+    getLocalStorageData("offFieldPlayers", [])
+  );
+  const [positions, setPositions] = useState(() =>
+    getLocalStorageData("positions", initialFieldPositions)
+  );
+  const [modelOuput, setModelOutput] = useState(() =>
+    getLocalStorageData("modelOutput", [])
+  );
+  const [dreamPoints, setDreamPoints] = useState(() =>
+    getLocalStorageData("dreamPoints", 0)
+  );
+
+  // Effects
+  useEffect(() => {
+    // Sync state with localStorage after refresh
+    setOffFieldPlayers(getLocalStorageData("offFieldPlayers", []));
+    setPositions(getLocalStorageData("positions", initialFieldPositions));
+    setModelOutput(getLocalStorageData("modelOutput", []));
+    setDreamPoints(getLocalStorageData("dreamPoints", 0));
+  }, []);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem("modelOutput", JSON.stringify(modelOuput));
+    } catch (error) {
+      console.error("Error saving to localStorage:", error);
+    }
+  }, [modelOuput]);
+
+  useEffect(() => {
+    const total = positions.reduce((sum, position) => {
+      if (position.player) {
+        return sum + (position.player.dreamPoints || 0);
+      }
+      return sum;
+    }, 0);
+    setDreamPoints(total);
+  }, [positions]);
+
+  useLayoutEffect(() => {
+    if (firstUpdate.current) {
+      firstUpdate.current = false;
+      return;
+    }
+    // Only fetch if we don't have data in localStorage
+    const hasStoredData = localStorage.getItem("positions") && 
+                         localStorage.getItem("offFieldPlayers") && 
+                         localStorage.getItem("modelOutput") &&
+                         localStorage.getItem("dreamPoints");
+    
+    if (!hasStoredData) {
+      fetchData();
+    }
+  }, [match_id]);
+
+  // Helper functions
+  const isValidState = (state) =>
+    state?.teamA &&
+    state?.teamB &&
+    state.teamA.length > 0 &&
+    state.teamB.length > 0;
+
+  const processData = (data) => {
+    const allPlayers = data.players.map((player) => ({
+      name: player.full_name || "loading...",
+      key: player.player_id || null,
+      dreamPoints: player.predicted_score || null,
+      type: player.playing_role || null,
+      profileImage: player.img_src_url,
+      bgImage: player.bg_image_url,
+      player_id: player.player_id,
+    }));
+
+    const sortedPlayers = [...allPlayers].sort(
+      (a, b) => b.dreamPoints - a.dreamPoints
+    );
+    
+    setModelOutput(sortedPlayers);
+    setOffFieldPlayers(sortedPlayers.slice(11));
+    
+    const initialOnFieldPlayers = sortedPlayers.slice(0, 11);
+    setPositions((prevPositions) =>
+      prevPositions.map((position, index) => ({
         ...position,
         isFilled: index < initialOnFieldPlayers.length,
         player: initialOnFieldPlayers[index] || null,
-      }));
-    });
+      }))
+    );
   };
+
+  // API calls
+  const fetchDataByMatchId = async (match_id) => {
+    try {
+      setIsLoading(true);
+      const url = `${BASE_URL}/match/dreamTeam/${match_id}`;
+      const response = await fetch(url, { method: "GET" });
+      if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status} - ${response.statusText}`);
+      }
+      const data = await response.json();
+      processData(data);
+    } catch (error) {
+      alert("We encountered an issue. Please try again later.");
+      console.error("Error fetching teams:", error);
+      navigate("/home");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchDataByState = async (state) => {
+    try {
+      setIsLoading(true);
+      const url = `${BASE_URL}/match/dreamTeam`;
+      const body = {
+        match_date: state.match_date,
+        match_type: state.match_type,
+        player_ids: state.teamA.concat(state.teamB).map((player) => player.player_id),
+      };
+      const response = await fetch(url, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body),
+      });
+      if (!response.ok) {
+        throw new Error(`HTTP Error: ${response.status} - ${response.statusText}`);
+      }
+      const data = await response.json();
+      processData(data);
+    } catch (error) {
+      alert("We encountered an issue. Please try again later.");
+      console.error("Error fetching teams:", error);
+      navigate("/home");
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const fetchData = async () => {
+    if (match_id) {
+      await fetchDataByMatchId(match_id);
+    } else if (location.state && isValidState(location.state)) {
+      await fetchDataByState(location.state);
+    } else {
+      alert("No match found");
+      navigate("/home");
+    }
+  };
+
+  // Event handlers
   const handleDrop = (droppedPlayer, targetPositionId) => {
     setPositions((prevPositions) =>
       prevPositions.map((position) => {
         if (position.id === targetPositionId) {
           if (position.isFilled) {
-            // Swap current player with dropped player
             setOffFieldPlayers((prev) => [...prev, position.player]);
           }
           return { ...position, isFilled: true, player: droppedPlayer };
@@ -70,6 +223,7 @@ export default function DreamTeamGround() {
       prev.filter((player) => player.key !== droppedPlayer.key)
     );
   };
+
   const handleRemovePlayer = (positionId) => {
     setPositions((prevPositions) =>
       prevPositions.map((position) => {
@@ -81,17 +235,17 @@ export default function DreamTeamGround() {
       })
     );
   };
+
   const handleAddToField = (player) => {
     if (positions.filter((position) => position.isFilled).length >= 11) {
       alert("No space left on the field");
       return;
     }
 
-    // Add player to the field (find the first empty position)
     const firstEmptyPosition = positions.find((position) => !position.isFilled);
     if (firstEmptyPosition) {
-      setPositions(() =>
-        positions.map((position) =>
+      setPositions((prevPositions) =>
+        prevPositions.map((position) =>
           position.id === firstEmptyPosition.id
             ? { ...position, isFilled: true, player }
             : position
@@ -100,204 +254,98 @@ export default function DreamTeamGround() {
       setOffFieldPlayers((prev) => prev.filter((p) => p.key !== player.key));
     }
   };
+
   const handleScroll = () => {
     if (dockListRef.current) {
-      // const isEnd =
-      //   dockListRef.current.scrollLeft + dockListRef.current.clientWidth ===
-      //   dockListRef.current.scrollWidth;
       const canScrollRight =
         dockListRef.current.scrollLeft + dockListRef.current.clientWidth <
         dockListRef.current.scrollWidth;
       setIsAtEnd(!canScrollRight);
-      const isStart = dockListRef.current.scrollLeft === 0;
-      setIsAtStart(isStart);
+      setIsAtStart(dockListRef.current.scrollLeft === 0);
     }
   };
+
   const scrollRight = () => {
     if (dockListRef.current) {
-      dockListRef.current.scrollLeft += 200; // Adjust scroll amount as needed
+      dockListRef.current.scrollLeft += 200;
       handleScroll();
     }
   };
+
   const scrollLeft = () => {
     if (dockListRef.current) {
-      dockListRef.current.scrollLeft -= 200; // Adjust scroll amount as needed
+      dockListRef.current.scrollLeft -= 200;
       handleScroll();
     }
   };
+  
+  const [screenshotUrl, setScreenshotUrl] = useState(null);  
 
-  useEffect(() => {
-    handleScroll();
-  });
+  const handleTakeScreenshot = async () => {
+    setExpanded(false);
+    setScreenshot(true);
 
-  useEffect(() => {
-    const total = positions.reduce((sum, position) => {
-      if (position.player) {
-        return sum + (position.player.dreamPoints || 0);
-      }
-      return sum;
-    }, 0);
-
-    setDreamPoints(total);
-  }, [positions]);
-
-  useEffect(() => {
-    const isValidState = (state) =>
-      state?.teamA &&
-      state?.teamB &&
-      state.teamA.length > 0 &&
-      state.teamB.length > 0;
-
-    const processData = (data) => {
-      const allPlayers = data.players.map((player) => {
-        return {
-          name: player.full_name || "loading...",
-          key: player.player_id || null,
-          dreamPoints: player.predicted_score || null,
-          type: player.playing_role || null,
-          profileImage: player.img_src_url,
-          bgImage: player.bg_image_url,
-          player_id: player.player_id,
-        };
-      });
-      // console.log(allPlayers);
-      if (allPlayers.length < 22) {
-        // alert("Less Number of Plyers fetched, some error");
-        // throw new Error("Not enough players");
-      }
-      const sortedPlayers = [...allPlayers].sort(
-        (a, b) => b.dreamPoints - a.dreamPoints
-      );
-      setModelOutput(sortedPlayers);
-      setOffFieldPlayers(sortedPlayers.slice(11));
-      const initialOnFieldPlayers = sortedPlayers.slice(0, 11);
-      // setInitialOnFieldPlayers(sortedPlayers.slice(0, 11));
-      // Error //
-      // issue likely arises due to the timing of state updates in your useEffect.
-      // When FetchDreamTeam updates positions after setting initialOnFieldPlayers,
-      // the state might not yet reflect the updated initialOnFieldPlayers because
-      // React batches state updates asynchronously.
-      setPositions((prevPositions) =>
-        prevPositions.map((position, index) => ({
-          ...position,
-          isFilled: index < initialOnFieldPlayers.length,
-          player: initialOnFieldPlayers[index] || null,
-        }))
-      );
-    };
-    const fetchDataByMatchId = async (match_id) => {
+    if (screenshotRef.current) {
       try {
-        setIsLoading(true);
-        const url = `${BASE_URL}/match/dreamTeam/${match_id}`;
-        const response = await fetch(url, {
-          method: "GET",
+        // Capture the screenshot using html2canvas
+        const canvas = await html2canvas(screenshotRef.current, {
+          useCORS: true,
+          backgroundColor: "#ffffff",
         });
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(
-            `HTTP Error: ${response.status} - ${response.statusText}`
-          );
-        }
-        processData(data);
-        // const allPlayers = data.data.map((player) => {
-        //   return {
-        //     name: player.full_name || "loading...",
-        //     key: player.player_id || null,
-        //     dreamPoints: player.fantasy_score_total || null,
-        //     type: player.playing_role || null,
-        //     profileImage: player.img_src_url,
-        //     bgImage: player.bg_image_url,
-        //     player_id: player.player_id,
-        //   };
-        // });
-        // // console.log(allPlayers);
-        // if (allPlayers.length < 22) {
-        //   // alert("Less Number of Plyers fetched, some error");
-        //   // throw new Error("Not enough players");
-        // }
-        // const sortedPlayers = [...allPlayers].sort(
-        //   (a, b) => b.dreamPoints - a.dreamPoints
-        // );
-        // setModelOutput(sortedPlayers);
-        // setOffFieldPlayers(sortedPlayers.slice(11));
-        // const initialOnFieldPlayers = sortedPlayers.slice(0, 11);
-        // // setInitialOnFieldPlayers(sortedPlayers.slice(0, 11));
-        // // Error //
-        // // issue likely arises due to the timing of state updates in your useEffect.
-        // // When FetchDreamTeam updates positions after setting initialOnFieldPlayers,
-        // // the state might not yet reflect the updated initialOnFieldPlayers because
-        // // React batches state updates asynchronously.
-        // setPositions((prevPositions) =>
-        //   prevPositions.map((position, index) => ({
-        //     ...position,
-        //     isFilled: index < initialOnFieldPlayers.length,
-        //     player: initialOnFieldPlayers[index] || null,
-        //   }))
-        // );
-      } catch (error) {
-        alert("We encountered an issue. Please try again later.");
-        console.error("Error fetching teams:", error);
-        navigate("/home");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    const fetchDataByState = async (state) => {
-      console.log("fetching data by state");
-      try {
-        setIsLoading(true);
-        const url = `${BASE_URL}/match/dreamTeam`;
-        const body = {
-          match_date: state.match_date,
-          match_type: state.match_type,
-          player_ids: state.teamA
-            .concat(state.teamB)
-            .map((player) => player.player_id),
-        };
-        console.log(body);
-        const response = await fetch(url, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
+
+        // Convert the canvas to a data URL
+        const dataUrl = canvas.toDataURL();
+
+        // Set the screenshot URL in the state
+        setScreenshotUrl(dataUrl);
+
+        canvas.toBlob((blob) => {
+          if (blob) {
+            // Create a valid URL from the Blob
+            const url = URL.createObjectURL(blob);
+            setScreenshotUrl(url); // Set the URL as the screenshot URL
+          }
         });
-        const data = await response.json();
-        if (!response.ok) {
-          throw new Error(
-            `HTTP Error: ${response.status} - ${response.statusText}`
-          );
-        }
-        processData(data);
+
       } catch (error) {
-        alert("We encountered an issue. Please try again later.");
-        console.error("Error fetching teams:", error);
-        navigate("/home");
-      } finally {
-        setIsLoading(false);
+        console.error("Error taking screenshot:", error);
       }
-    };
-    const fetchData = async () => {
-      setIsLoading(true);
-      if (match_id) {
-        await fetchDataByMatchId(match_id);
-      } else if (location.state) {
-        await fetchDataByState(location.state);
-      } else {
-        alert("No match found");
-        navigate("/home");
-      }
-      setIsLoading(false);
-    };
-    if (match_id || isValidState(location.state)) {
-      fetchData();
     }
-  }, [match_id, location.state]);
+  };
 
-  return isLoading ? (
-    <Loading />
-  ) : (
-    <div className={styles.bgImageHolder}>
+  
+
+  const handleExpandToggle = () => {
+    setExpanded((prev) => !prev); // Toggle the expanded state when the icon is clicked
+  };
+
+
+  const handleSave = () => {
+    try {
+      localStorage.setItem("positions", JSON.stringify(positions));
+      localStorage.setItem("offFieldPlayers", JSON.stringify(offFieldPlayers));
+      localStorage.setItem("dreamPoints", JSON.stringify(dreamPoints));
+    } catch (error) {
+      console.error("Error saving to localStorage:", error);
+    }
+  };
+
+  const handleRedo = () => {
+    setOffFieldPlayers(modelOuput.slice(11));
+    setPositions((prevPositions) => {
+      const initialOnFieldPlayers = modelOuput.slice(0, 11);
+      return prevPositions.map((position, index) => ({
+        ...position,
+        isFilled: index < initialOnFieldPlayers.length,
+        player: initialOnFieldPlayers[index] || null,
+      }));
+    });
+  };
+
+  if (isLoading) return <Loading />;
+
+  return (
+    <div className={styles.bgImageHolder} ref={screenshotRef}>
       {match_id && (
         <div className={styles.weatherCardContainer}>
           <WeatherCard
@@ -312,13 +360,12 @@ export default function DreamTeamGround() {
           />
         </div>
       )}
+      
       <div className={styles.dreamPointsCard}>
         <DreamPointsCard points={dreamPoints} />
       </div>
 
-      <h1
-        className={`${styles.centerH1} className=" font-bold bg-gradient-to-r from-amber-500 to-pink-500 inline-block text-transparent bg-clip-text`}
-      >
+      <h1 className={`${styles.centerH1} font-bold bg-gradient-to-r from-amber-500 to-pink-500 inline-block text-transparent bg-clip-text`}>
         YOUR DREAM TEAM
       </h1>
 
@@ -333,6 +380,7 @@ export default function DreamTeamGround() {
             onRemove={handleRemovePlayer}
           />
         ))}
+        
         <div className={styles.bottomDock}>
           <h2>Other Players</h2>
           <div className={styles.dockListWrapper}>
@@ -340,7 +388,7 @@ export default function DreamTeamGround() {
               className={`${styles.arrowButton} ${styles.leftArrow} ${
                 isAtStart ? styles.hidden : ""
               }`}
-              onClick={scrollLeft} // Handle scrolling left
+              onClick={scrollLeft}
             />
             <FaArrowRight
               className={`${styles.arrowButton} ${styles.rightArrow} ${
@@ -358,17 +406,97 @@ export default function DreamTeamGround() {
                 <DragPlayerCard
                   key={player.key}
                   player={player}
-                  onAddToField={() => {
-                    console.log("add to filed cliced");
-                    handleAddToField(player);
-                  }}
+                  onAddToField={() => handleAddToField(player)}
                 />
               ))}
             </div>
           </div>
         </div>
       </DndProvider>
-      <DescriptionCard onUndo={redo} info={info} match_id={match_id} />
+      
+      <DescriptionCard
+        onUndo={handleRedo}
+        info={info}
+        match_id={match_id}
+        onSave={handleSave}
+        onSS={handleTakeScreenshot}
+        expanded={expanded}
+        handleExpandToggle={handleExpandToggle}
+      />
+      {screeanshot && (
+        <motion.div
+          id="screenshot-container"
+          className={styles.screenshotContainer}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3 }}
+          style={{ position: "relative" }}
+        >
+          <motion.img
+            src={screenshotUrl}
+            alt="Screenshot Preview"
+            style={{
+              position: "absolute",
+              top: "4%",
+              left: "10%",
+              width: "80vw",
+              height: "80vh",
+              objectFit: "cover",
+            }}
+            initial={{ scale: 0.95 }}
+            animate={{ scale: 1 }}
+            transition={{ duration: 0.3 }}
+          />
+          
+          <motion.div
+            className={styles.shareButtonsContainer}
+            style={{
+              position: "absolute",
+              top: "86%",
+              left: "36%",
+              transform: "translateX(-50%)",
+            }}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.4, ease: "easeOut" }}
+          >
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+              <FacebookShareButton url={screenshotUrl} quote="Check out my Dream11 team!">
+                <FacebookIcon size={52} round />
+              </FacebookShareButton>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+              <TwitterShareButton url={screenshotUrl} title="Check out my Dream11 team!">
+                <TwitterIcon size={52} round />
+              </TwitterShareButton>
+            </motion.div>
+            <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }}>
+              <WhatsappShareButton url={screenshotUrl} title="Check out my Dream11 team!">
+                <WhatsappIcon size={52} round />
+              </WhatsappShareButton>
+            </motion.div>
+          </motion.div>
+          
+          <motion.div
+            className={styles.closeButton}
+            onClick={() => setScreenshot(false)}
+            style={{
+              position: "absolute",
+              top: "4%",
+              right: "4%",
+            }}
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+          >
+            <FaTimes />
+          </motion.div>
+        </motion.div>
+      )}
     </div>
+
+    
   );
 }
