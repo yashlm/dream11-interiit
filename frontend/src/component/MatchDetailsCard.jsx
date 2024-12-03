@@ -6,6 +6,7 @@ const MatchDetailsCard = ({ match }) => {
   const parsedVenue = fixedVenue.split(","); // Split the string into an array
   const venue = parsedVenue.join(" "); // Join with a space
 
+
   return (
     <div className={styles.container}>
   <div className={styles.matchCard}>
