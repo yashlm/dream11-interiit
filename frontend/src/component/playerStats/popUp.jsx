@@ -107,7 +107,7 @@ export default function PlayerPopOut({
                   flexDirection: "row",
                   justifyContent: "flex-start",
                   marginLeft: "2%",
-                  width: "80%",
+                  width: "100%",
                 }}
               >
                 <div className={styles.bottomTop} style={{
@@ -133,13 +133,13 @@ export default function PlayerPopOut({
                         </div>
                       </CardMedia>
                     </div>
-                    {description && (
+                    {/* {description && ( */}
                       <div className={styles.playerdesc}>
                         <h3>Player Description:</h3>
-                        <p>{description}</p>
-                        {/* <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur saepe doloribus cum. Dolores mollitia distinctio fugiat assumenda necessitatibus facere expedita optio vitae ipsa asperiores perferendis pariatur doloribus debitis, dignissimos explicabo? </p> */}
+                        {/* <p className={styles.typing}>{description}</p> */}
+                        <p className={styles.typing}> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur saepe doloribus cum. Dolores mollitia distinctio fugiat assumenda necessitatibus facere expedita optio vitae ipsa asperiores perferendis pariatur doloribus debitis, dignissimos explicabo? </p>
                       </div>
-                    )}
+                    {/* )} */}
                   </div>
                   <img
                     src="/assets/playerStats.png"

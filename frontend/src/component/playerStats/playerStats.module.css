@@ -12,6 +12,7 @@
   padding: 20px;
   z-index: 1000;
   overflow-y: auto;
+  overflow-x: hidden;
   font-family: "Poppins", sans-serif;
   color: #333;
 }
@@ -19,15 +20,17 @@
 .topPanel {
   display: flex;
   flex-direction: row;
+  gap: 10%;
   width: 100%;
-  padding: 0;
+  align-items: center;
 }
 
 .nameTypeData {
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   gap: 10%;
-  width: 90%;
+  width: 100%;
   background-color: white;
   padding-top: 2rem;
   padding-bottom: 4rem;
@@ -65,7 +68,8 @@
 }
 .profileName {
   padding-top: 1%;
-  margin: 0 1%;
+  margin-left: 2.5%;
+  margin-bottom: 1%;
   font-family: "Franklin Gothic Medium", "Arial Narrow", Arial, sans-serif;
   font-size: 2rem;
   font-weight: 100;
@@ -82,25 +86,37 @@
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.8); /* Slightly opaque background */
   border-radius: 10px;
-  margin-top: -20px;
+  margin: 0 5rem;
   text-align: left;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  width: 400px;
+  /* width: 400px; */
 }
+
 
 .removeBtn {
   position: absolute;
-  top: 10px;
-  right: 10px;
+  top: 2rem;
+  right: 2rem;
   margin: 0;
   padding: 0;
   width: 30px;
   height: 30px;
   font-size: 25px;
   line-height: 30px;
-  background-color: transparent;
-  color: black;
+  background: rgba(0, 0, 0, 0.2);
+  border: none;
   border-radius: 50%;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: absolute;
+  transition: background 0.3s ease;
+}
+
+.removeBtn:hover {
+  background: rgba(0, 0, 0, 0.3);
 }
 
 .bottomPanel {
@@ -158,6 +174,10 @@
   color: #757575; /* Color for unselected state */
 }
 
+.statspng{
+  margin-right: 3rem;
+}
+
 /* For mobile responsiveness, ensure buttons fit in smaller spaces */
 @media (max-width: 600px) {
   .buttonContainer {
@@ -201,6 +221,76 @@
   padding: 0 2%;
   color: #999;
 }
+
+.playerdesc {
+  margin-top: 2%;
+  background: rgba(0, 0, 0, 0.85); /* Darker background for a sleek, futuristic look */
+  border-radius: 12px;
+  min-width: 350px; /* Wider minimum width for better text display */
+  max-height: 200px; /* Slightly taller for better content accommodation */
+  overflow-y: hidden;
+  margin-left: 5%;
+  padding: 15px;
+  font-family: 'Courier New', Courier, monospace; /* Monospace font for a more robotic feel */
+  color: #fff; /* White text for contrast */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
+}
+
+.playerdesc::-webkit-scrollbar {
+  width: 8px; /* Visible scrollbar */
+}
+
+.playerdesc::-webkit-scrollbar-thumb {
+  background-color: #666; /* Scrollbar thumb color */
+  border-radius: 4px;
+}
+
+.playerdesc h3 {
+  margin-top: 0;
+  text-align: left;
+  padding-left: 10px;
+  margin-bottom: 12px;
+  color: #00FF7F;
+  /* color:white; */
+  font-size: 20px;
+  font-weight: 600;
+  text-transform: uppercase; /* Uppercase for a more robotic touch */
+}
+
+.playerdesc p {
+  text-align: left;
+  padding: 0 10px;
+  color: #ddd; /* Slightly lighter text for readability */
+  line-height: 1.6;
+  font-size: 14px;
+  max-height: 140px;
+  overflow: hidden;
+}
+
+/* Typing effect animation */
+@keyframes type {
+  0% {
+    width: 0;
+    border-right: 3px solid rgba(255, 255, 255, 0.75);
+  }
+  100% {
+    width: 100%;
+    border-right: none;
+  }
+}
+
+.playerdesc p.typing {
+  width: 0;
+  animation: type 2s steps(30) 1s forwards, blink 0.7s step-end infinite; /* Typing animation */
+}
+
+/* Blinking cursor effect */
+@keyframes blink {
+  50% {
+    border-right-color: transparent;
+  }
+}
+
 
 /* Cricketer Role */
 .profileRole {
