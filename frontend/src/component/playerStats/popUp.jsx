@@ -74,46 +74,74 @@ export default function PlayerPopOut({
             <RxCross2 size={20} />
           </button>
           <div className={styles.topPanel}>
-            <CardMedia
-              className={styles.bgImageProfile}
-              image={bgImage}
-              title={name}
-            >
-              <div className={styles.blackCover}>
-                <CardMedia
-                  className={styles.playerImageProfile}
-                  image={profileImage}
-                />
-              </div>
-            </CardMedia>
-             {description && (
-              <div className={styles.playerdesc}>
-                <h3>Player Description:</h3>
-                <p> {description}</p>
-              </div>
-            )}
-            <div className={styles.profiledata}>
-              <p className={styles.profileName}>
-                {firstName} <br />
-                <span className={styles.lastName}>{lastName}</span>
-              </p>
-              {/* Display Cricketer Data */}
-              {sidePanelData && (
-                <div className={styles.cricketerData}>
-                  <p>
-                    <strong>Batting Style:</strong>{" "}
-                    {sidePanelData.batting_style}
-                  </p>
-                  <p>
-                    <strong>Bowling Style:</strong>{" "}
-                    {sidePanelData.bowling_style}
-                  </p>
-                </div>
-              )}
-              <div>
-                <p style={{ color: "#333", fontSize: "24px" }}>
-                  {sidePanelData ? sidePanelData.player_role : ""}
+            <div style={{ width: "100%", alignItems: "center" }}>
+              <div className={styles.nameTypeData}>
+                <p className={styles.profileName}>
+                  {firstName} <br />
+                  <span className={styles.lastName}>{lastName}</span>
                 </p>
+                <div className={styles.profiledata}>
+                  {sidePanelData && (
+                    <div className={styles.cricketerData}>
+                      <p>
+                        <strong>Batting Style: </strong>{" "}
+                        {sidePanelData.batting_style}
+                      </p>
+                      <p>
+                        <strong>Bowling Style: </strong>{" "}
+                        {sidePanelData.bowling_style}
+                      </p>
+                    </div>
+                  )}
+                  <div>
+                    <p style={{ color: "#333", fontSize: "24px" }}>
+                      {sidePanelData ? sidePanelData.player_role : ""}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div
+                style={{
+                  marginTop: "-4rem",
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "flex-start",
+                  marginLeft: "2%",
+                  width: "80%",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    width: "100%",
+                    gap: "5%",
+                  }}
+                >
+                  <div>
+                    <CardMedia
+                      className={styles.bgImageProfile}
+                      image={bgImage}
+                      title={name}
+                    >
+                      <div className={styles.blackCover}>
+                        <CardMedia
+                          className={styles.playerImageProfile}
+                          image={profileImage}
+                        />
+                      </div>
+                    </CardMedia>
+                  </div>
+                  {description && (
+                    <div className={styles.playerdesc}>
+                      <h3>Player Description:</h3>
+                      <p> {description}</p>
+                    </div>
+                  )}
+                  <img
+                    src="/assets/playerStats.png"
+                    style={{ marginTop: "5%" }}
+                  ></img>
+                </div>
               </div>
             </div>
           </div>

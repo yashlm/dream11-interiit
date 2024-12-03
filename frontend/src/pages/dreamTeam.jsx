@@ -313,13 +313,15 @@ export default function DreamTeamGround() {
 
       <DndProvider backend={HTML5Backend}>
         {positions.map((position) => {
+          const description =
+            reason?.player_explanations?.[position?.player?.player_id] ?? null;
+
           const currentPlayer = {
             ...position.player,
-            description: reason
-              ? reason.player_explanations[position?.player?.player_id]
-              : null,
+            ...(description && { description }), // Add `description` only if it exists
           };
           console.log(currentPlayer);
+
           return (
             <DropZone
               key={position.id}

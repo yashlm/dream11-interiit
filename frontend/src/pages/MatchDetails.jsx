@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
-import{ useParams, useLocation, useNavigate } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import Playerlist from "../component/Playerlist";
 import Navbar from "../component/Navbar";
 import MatchDetailsCard from "../component/MatchDetailsCard";
-import styles from '../css/MatchDetails.module.css';
-import batsman_img from '../assets/matchdetails.png'; 
+import styles from "../css/MatchDetails.module.css";
+import batsman_img from "../assets/matchdetails.png";
 import { BASE_URL } from "../constants";
 import { Button } from "@mui/material"; // Import the Button component
+import Loading from "../component/Loading";
 
 const MatchDetails = () => {
   const { match_id } = useParams();
@@ -21,12 +22,15 @@ const MatchDetails = () => {
   useEffect(() => {
     const fetchMatchDetails = async () => {
       try {
-        const response = await fetch(`${BASE_URL}/match/matchdetails/${match_id}`, {
-          method: "GET", 
-        });
+        const response = await fetch(
+          `${BASE_URL}/match/matchdetails/${match_id}`,
+          {
+            method: "GET",
+          }
+        );
 
         const data = await response.json();
-    
+
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -37,7 +41,7 @@ const MatchDetails = () => {
             setTeamBPlayers(data.teamB);
           } else {
             setError("Team data is missing or undefined.");
-            return; 
+            return;
           }
           setCardData({
             venue: match.venue,
@@ -61,7 +65,7 @@ const MatchDetails = () => {
   }, []);
 
   if (loading) {
-    return <div>Loading match details...</div>;
+    return <Loading />;
   }
 
   if (error) {
@@ -87,7 +91,7 @@ const MatchDetails = () => {
           </div>
           <Playerlist playerdata={teamAPlayers} />
         </div>
-        
+
         <div className={styles.matchDetailsCardwithimg}>
           <MatchDetailsCard
             match={carddata}
@@ -99,20 +103,20 @@ const MatchDetails = () => {
             variant="contained"
             color="error"
             sx={{
-              position: "absolute",  // Position it at the bottom of the card
+              position: "absolute", // Position it at the bottom of the card
               bottom: "20px",
               left: "50%",
               transform: "translateX(-50%)",
-           
+
               padding: "10px 20px",
               fontSize: "16px",
             }}
-            onClick={handleGenerateDreamTeam} 
+            onClick={handleGenerateDreamTeam}
           >
             Generate Dream Team
           </Button>
         </div>
-        
+
         <div className={styles.teamCard}>
           <div className={styles.teamHeader}>
             <div className={styles.team}>
