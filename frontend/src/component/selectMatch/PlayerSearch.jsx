@@ -14,6 +14,7 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
   const [options, setOptions] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
   const [buttonLoading, setButtonLoading] = React.useState({});
+  const [searchTerm, setSearchTerm] = React.useState("");
 
   const parsePlayers = (playersData) => {
     return Object.values(playersData).map((player) => ({
@@ -63,7 +64,12 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
   }, [teamA, teamB]);
 
   const handleOpen = () => {
-    setOpen((prev) => (prev = !prev));
+    setOpen(true);
+  };
+
+  const handleClear = () => {
+    setOpen(false);
+    setSearchTerm(""); // Clear search term
   };
 
   const handleAddToTeam = (player, team) => {
@@ -81,8 +87,12 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
     }, 1000);
   };
 
+  const filteredOptions = options.filter((option) =>
+    option.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   const Row = ({ index, style }) => {
-    const option = options[index];
+    const option = filteredOptions[index];
     const isAssigned = assignedPlayers[option.key] || false;
 
     return (
@@ -156,31 +166,28 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
         label="Search Players"
         placeholder="Search..."
         fullWidth
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)} // Update searchTerm state
         InputProps={{
           endAdornment: (
             <>
               {loading && <CircularProgress color="inherit" size={20} />}
-              
-                <div
-                  aria-label="clear"
-                  size="small"
-                  // onClick={handleClear}
-                >
-                  <Close fontSize="small" />
-                </div>
+              <Close fontSize="small" onClick={handleClear} style={{ cursor: "pointer" }} />
             </>
           ),
         }}
         onClick={handleOpen}
       />
-      {open && <List
-        height={400}
-        itemCount={options.length}
-        itemSize={80} // Adjust based on your row height
-        width="100%"
-      >
-        {Row}
-      </List>}
+      {open && (
+        <List
+          height={400}
+          itemCount={filteredOptions.length}
+          itemSize={80} 
+          width="100%"
+        >
+          {Row}
+        </List>
+      )}
     </Box>
   );
 }
