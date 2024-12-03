@@ -1,5 +1,6 @@
 import React from "react";
 import "./FloatingButton.css";
+import bot from '../../public/chatbott.png'; 
 
 function FloatingButton({ setIsChatOpen, isChatOpen }) {
   return (
@@ -7,7 +8,7 @@ function FloatingButton({ setIsChatOpen, isChatOpen }) {
       className={`floating-button ${isChatOpen ? 'hidden' : ''}`}
       onClick={() => setIsChatOpen(prev => !prev)}
     >
-      💬
+      <img src={bot} alt="Chatbot" />
     </div>
   );
 }

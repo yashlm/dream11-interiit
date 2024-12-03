@@ -1,10 +1,11 @@
 .floating-button {
   display: flex;
   justify-content: center;
+  align-items: center; /* Centers the image inside the button */
   position: fixed;
   bottom: 20px;
   right: 20px;
-  background-color: #f70202;
+  background-color: #b30707;
   color: white;
   border-radius: 50%;
   padding: 20px;
@@ -22,5 +23,13 @@
 }
 
 .floating-button:hover {
-  background-color: #b32a00;
+  background-color: hsl(7, 93%, 29%);
+}
+
+.floating-button img {
+  max-height: 90px; /* Ensures the image fits within the button */
+  max-width: 90px;  /* Adjusts the image size to fit */
+  object-fit: contain; 
+  padding-left: 6px;/* Keeps the image's aspect ratio intact */
+  padding-top: 6px;
 }
