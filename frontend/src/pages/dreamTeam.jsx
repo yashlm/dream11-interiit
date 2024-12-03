@@ -726,6 +726,8 @@ export default function DreamTeamGround() {
     } finally {
       setIsLoading(false);
     }
+  };
+
   const fetchDataByState = async (state) => {
     try {
       setIsLoading(true);
@@ -753,6 +755,7 @@ export default function DreamTeamGround() {
       setIsLoading(false);
     }
   };
+
   const fetchData = async () => {
     if (match_id) {
       await fetchDataByMatchId(match_id);
