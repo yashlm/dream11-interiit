@@ -53,23 +53,32 @@ const handleAddToTeam = (player, team) => {
     return;
   }
 
-  const updateTeam = team === "A" ? [...teamA] : [...teamB];
-  const emptyIndex = updateTeam.findIndex((p) => p === null);
+  const updateTeamState = (prevTeam) => {
+    const emptyIndex = prevTeam.findIndex((p) => p === null);
+    if (emptyIndex !== -1) {
+      const newTeam = [...prevTeam];
+      newTeam[emptyIndex] = player;
+      return newTeam;
+    } else {
+      setAlert({
+        message: `Team ${team} is already full!`,
+        severity: "info",
+        show: true,
+      });
+      return prevTeam;
+    }
+  };
 
-  if (emptyIndex !== -1) {
-    updateTeam[emptyIndex] = player;
-    team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
-
-    // Mark player as assigned
-    setAssignedPlayers((prev) => ({ ...prev, [player.key]: true }));
+  if (team === "A") {
+    setTeamA((prev) => updateTeamState(prev));
   } else {
-    setAlert({
-      message: `Team ${team} is already full!`,
-      severity: "info",
-      show: true,
-    });
+    setTeamB((prev) => updateTeamState(prev));
   }
+
+  // Mark player as assigned
+  setAssignedPlayers((prev) => ({ ...prev, [player.key]: true }));
 };
+
 
 const handleRemoveFromTeam = (playerKey, team) => {
   const updateTeam = team === "A" ? [...teamA] : [...teamB];
@@ -97,7 +106,7 @@ const handleRemoveFromTeam = (playerKey, team) => {
     setPlayers(loadedPlayers);
   };
 
-  console.log(teamAdata)
+  console.log(teamA)
 
   return (
     <div>
