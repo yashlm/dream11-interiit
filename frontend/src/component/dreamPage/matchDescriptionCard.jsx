@@ -15,7 +15,10 @@ export default function DescriptionCard({
   onUndo,
   onMatchDetails,
   onSave,
+  onSS,
   info,
+  expanded,
+  handleExpandToggle,
   reason,
 }) {
   const [audioUrl, setAudioUrl] = useState(null);
@@ -30,9 +33,14 @@ export default function DescriptionCard({
     }
   }, [audioUrl]);
 
-  const [expanded, setExpanded] = useState(false); // Controls the expanded state for ShowMoreText
+  // const [expanded, setExpanded] = useState(false); // Controls the expanded state for ShowMoreText
   const [isOverflowing, setIsOverflowing] = useState(false);
   const infoRef = useRef(null);
+
+  const navigate = useNavigate()
+  const handleMatchDetailsroute = () => {
+    navigate(`/matchdetails/${match_id}`);
+  };
 
   const fetchAudio = async () => {
     setAudioLoading(true); // Show the loader while fetching
@@ -69,10 +77,6 @@ export default function DescriptionCard({
   const handleVoiceClick = async () => {
     console.log("Voice button clicked");
     await fetchAudio(); // Ensure fetchAudio is awaited
-  };
-
-  const handleExpandToggle = () => {
-    setExpanded((prev) => !prev); // Toggle the expanded state when the icon is clicked
   };
 
   // Effect to run whenever 'expanded' changes
@@ -140,12 +144,12 @@ export default function DescriptionCard({
           </button>
         </Tooltip>
         <Tooltip title="Share" placement="top">
-          <button className={styles.actionButton}>
+          <button className={styles.actionButton} onClick={onSS}>
             <FaShareAlt />
           </button>
         </Tooltip>
         <Tooltip title="Match Details" placement="top">
-          <button className={styles.actionButton} onClick={onMatchDetails}>
+          <button className={styles.actionButton} onClick={handleMatchDetailsroute}>
             <FaInfoCircle />
           </button>
         </Tooltip>
