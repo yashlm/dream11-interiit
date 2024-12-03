@@ -96,7 +96,6 @@ const Navbar = () => {
                 key={link.path}
                 to={link.path}
                 style={{ textDecoration: "none" }}
-                data-tour-id={link.path}
               >
                 <Button
                   variant="contained"

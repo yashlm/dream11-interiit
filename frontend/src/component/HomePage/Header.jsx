@@ -147,7 +147,6 @@ const Header = () => {
               </Button>
               <Button
                 variant="outlined"
-                data-tour-id="select-match" 
                 style={{
                   color: "var(--bg)",
                   fontWeight: "bold",

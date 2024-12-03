@@ -161,7 +161,7 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
   const searchDiv = () => {
     return (
       <div className="search-card" id={id}>
-        <div className="search-bar" data-tour-id="search-team">
+        <div className="search-bar">
           <TextField
             variant="outlined"
             fullWidth

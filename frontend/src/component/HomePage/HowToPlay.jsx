@@ -1,8 +1,7 @@
 import styles from "../../css/HomePage/HowToPlay.module.css";
 
 
-const HowToPlay = ( { startTour }) => {
-
+const HowToPlay = ({ startTour }) => {
   return (
     <div className={styles.container} onClick={startTour} style={{ cursor: "pointer" }}>
       <h2>How To Play</h2>

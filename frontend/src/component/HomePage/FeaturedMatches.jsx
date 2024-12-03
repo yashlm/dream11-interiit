@@ -132,7 +132,7 @@ const FeaturedMatches = ({ matches }) => {
       ) : (
         <Slider {...settings}>
           {sortedMatches.map((match, index) => (
-            <div key={index} >
+            <div key={index}>
               <MatchCard match={match} />
             </div>
           ))}

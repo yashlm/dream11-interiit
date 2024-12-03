@@ -16,10 +16,8 @@ import PlayerCard from "../component/playerCard";
 import Navbar from "../component/Navbar";
 import ImportCSV from "../component/ImportCSV";
 import batsmanimg from "../assets/batsman.png";
-import { useNavigate,useLocation } from "react-router-dom";
-import { useEffect } from "react";
-import Joyride from "react-joyride";
-import CustomStyles from "../component/Tourstyles";
+import { useNavigate } from "react-router-dom";
+
 export default function CustomMatch() {
   const [teamA, setTeamA] = useState(Array(11).fill(null));
   const [teamB, setTeamB] = useState(Array(11).fill(null));
@@ -33,71 +31,6 @@ export default function CustomMatch() {
     show: false,
   });
   const navigate = useNavigate();
-  //....tour....
-  const { state } = useLocation();
-  const [tourCompleted, setTourCompleted] = useState(false);
-  const [run, setRun] = useState(false);
-  const [stepIndex, setStepIndex] = useState(0);
-  const stepstour = [
-    {
-      target: '[data-tour-id="match-type"]',
-      content: "In the custom match option , you can select the type of match you want to play.",
-    },
-    {
-      target: '[data-tour-id="player-search"]',
-      content: "To select the 22 players for Team A and Team B , search players name here, or you can directly import them from a CSV file",
-    },
-    {
-      target: '[data-tour-id="view-players"]',
-      content: "You can view the 22 players in this section after selecting from the dropwdown or importing from CSV.",
-    },
-    {
-      target: '[data-tour-id="generate-team"]',
-      content: "Finally, generate your dream team by clicking on this button!",
-    },
-
-  ];
-
-  useEffect(() => {
-    if (state?.continueTour) {
-      setRun(true); // Start the tour if continueTour is passed
-    }
-  }, [state]);
-  
-  const handleJoyrideCallback = (data) => {
-    const { action, index, type } = data;
-
-    if (type === "step:after") {
-      // Handle navigation at the end of the last step
-      if (index === stepstour.length - 1 && action === "next") {
-       console.log("next")
-        setRun(false);
-        setTourCompleted(true);
-   
-      }
-      else{
-       console.log("index", index)
-          setStepIndex(index+1);
-        }
-    }
-
-   // Handle "skip" action
-   if (type === "tour:end" && action === "skip") {
-    setRun(false);
-    setStepIndex(0);
-  }
-
-  // End of the tour
-  if (type === "tour:end" && action !== "skip") {
-    setRun(false);
-    setStepIndex(0);
-    setTourCompleted(true);
-  }
-  
-  };
-
-  //......tour.....
-
 
   const generateDreamTeam = () => {
     navigate("/dreamTeam", {
@@ -109,32 +42,20 @@ export default function CustomMatch() {
       },
     });
   };
-  const handleAddToTeam = (player, team) => {
-    const isPlayerInTeamA = teamA.some((p) => p && p.key === player.key);
-    const isPlayerInTeamB = teamB.some((p) => p && p.key === player.key);
 
-  if (isPlayerInTeamA || isPlayerInTeamB) {
-    setAlert({
-      message: "This player is already in a team!",
-      severity: "info",
-      show: true,
-    });
-    return;
-  }
-}
-  const handleRemoveFromTeam = (playerKey, team) => {
-    const updateTeam = team === "A" ? [...teamA] : [...teamB];
-    const playerIndex = updateTeam.findIndex((p) => p && p.key === playerKey);
+  // const handleRemoveFromTeam = (playerKey, team) => {
+  //   const updateTeam = team === "A" ? [...teamA] : [...teamB];
+  //   const playerIndex = updateTeam.findIndex((p) => p && p.key === playerKey);
 
-    if (playerIndex !== -1) {
-      updateTeam[playerIndex] = null;
-      team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
-    }
-  };
+  //   if (playerIndex !== -1) {
+  //     updateTeam[playerIndex] = null;
+  //     team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
+  //   }
+  // };
 
-  const handleCloseAlert = () => {
-    setAlert({ ...alert, show: false });
-  };
+  // const handleCloseAlert = () => {
+  //   setAlert({ ...alert, show: false });
+  // };
 
   const cardVariants = {
     hidden: { opacity: 0, y: 40 },
@@ -167,17 +88,6 @@ export default function CustomMatch() {
   };
   return (
     <div>
-      <Joyride
-        steps={stepstour}
-        run={run}
-        stepIndex={stepIndex}
-        continuous
-        callback={handleJoyrideCallback}
-        showSkipButton
-        styles={CustomStyles}
-        hideBackButton
-        disableScrolling={false} 
-      />
       <Navbar />
       <Box
         sx={{
@@ -291,7 +201,6 @@ export default function CustomMatch() {
                 <Typography variant="h6">{teamBInfo.name}</Typography>
               </Box>
             </Box>
-            <div data-tour-id="match-type" >
             <Typography variant="h6" sx={{ mb: 2 }}>
               Select Match Type
             </Typography>
@@ -304,16 +213,12 @@ export default function CustomMatch() {
               <MenuItem value="ODI">ODI</MenuItem>
               <MenuItem value="T20">T20</MenuItem>
             </Select>
-            </div>
-           <div data-tour-id="player-search">
             <Typography variant="h6" color="#333" sx={{ mb: 1 }}>
               Search for Player
             </Typography>
-            <PlayerSearch onAddToTeam={handleAddToTeam} />
+            {/* <PlayerSearch onAddToTeam={handleAddToTeam} /> */}
             <Typography sx={{ mt: 2, mb: 2 }}>OR</Typography>
             <ImportCSV onPlayersLoaded={handlePlayersLoaded} />
-            </div>
-            <div data-tour-id="generate-team">
             <Box sx={{ textAlign: "center", mt: 5 }}>
               <Button
                 variant="contained"
@@ -323,8 +228,6 @@ export default function CustomMatch() {
                 GENERATE TEAM
               </Button>
             </Box>
-            </div>
-            
           </Box>
 
           {/* Right Section */}
@@ -360,7 +263,7 @@ export default function CustomMatch() {
                         }
                       />
                     ) : (
-                      <div data-tour-id="view-players"
+                      <div
                         style={{
                           height: "20vh",
                           width: "100%",
@@ -371,7 +274,6 @@ export default function CustomMatch() {
                           boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
                           borderRadius: "10px",
                           border: "1px solid rgba( 255, 255, 255, 0.18 )",
-                        
                         }}
                       ></div>
                     )}
