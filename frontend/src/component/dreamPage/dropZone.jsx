@@ -30,7 +30,7 @@ export default function DropZone({
         alignItems: "center",
       }}
     >
-      {currentPlayer.player_id ? (
+      {currentPlayer?.player_id ? (
         <div
           className={`${styles.playerCardContainer} ${
             isOver ? styles.moveAsideAndFade : ""

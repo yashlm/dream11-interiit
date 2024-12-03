@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Joyride from "react-joyride";
 import dayjs from "dayjs";
 import FeaturedMatches from "../component/HomePage/FeaturedMatches";
@@ -10,17 +11,40 @@ import Navbar from "../component/Navbar";
 import MatchDataFetch from "../component/helper/fetchMatch";
 import { BASE_URL } from "../constants";
 import styles from "../css/HomePage/HomePage.module.css";
+import CustomStyles from "../component/Tourstyles";
 
 const HomePage = () => {
   const [allMatchData, setAllMatchData] = useState([]);
   const [featuredMatchData, setFeaturedMatchData] = useState([]);
   const [selectedDate, setSelectedDate] = useState(new Date(2024, 6, 6));
-  const [run, setRun] = useState(false);
+  const [run, setRun] = useState(false); // Tour running state
+  const [stepIndex, setStepIndex] = useState(0); // Current step index
+  const [tourCompleted, setTourCompleted] = useState(false); // Track if tour is completed
+  const navigate = useNavigate();
 
-  const handleStartTour = () => {
-    setTimeout(() => setRun(true), 500); // Delay by 500ms to ensure all components are rendered
-  };
+  const steps = [
+    {
+      target: '[data-tour-id="matches"]',
+      content:
+        "Here are the featured matches of the day. You can also browse through all the available matches. You can click on a match to view its details",
+    },
+    {
+      target: '[data-tour-id="calendar"]',
+      content:
+        "Select the date of the match you want to play. Matches of that day and future matches will show on your screen accordingly.",
+    },
+    {
+      target: '[data-tour-id="select-match"]',
+      content: "Click here to select a match to create your Dream11 team.",
+    },
+    {
+      target: '[data-tour-id="/teamSelect"]',
+      content:
+        "You can also select a match and create your desirable Dream11 team from here.",
+    },
+  ];
 
+  // Fetch matches data whenever the selected date changes
   useEffect(() => {
     const formattedDate = dayjs(selectedDate).format("YYYY-MM-DD");
     const urlFeature = `${BASE_URL}/match/date/featured?date=${formattedDate}`;
@@ -30,54 +54,72 @@ const HomePage = () => {
     MatchDataFetch(urlAll, setAllMatchData);
   }, [selectedDate]);
 
+  const handleJoyrideCallback = (data) => {
+    const { action, index, type } = data;
+
+    if (type === "step:after") {
+      // Handle navigation at the end of the last step
+      if (index === steps.length - 1 && action === "next") {
+        // console.log("next")
+        setRun(false);
+        setTourCompleted(true);
+        navigate("/teamSelect", { state: { continueTour: true } });
+      } else {
+        // console.log("index")
+        setStepIndex(index + 1);
+      }
+    }
+
+    // Handle "skip" action
+    if (type === "tour:end" && action === "skip") {
+      setRun(false);
+      setStepIndex(0);
+    }
+
+    // End of the tour
+    if (type === "tour:end" && action !== "skip") {
+      setRun(false);
+      setStepIndex(0);
+      setTourCompleted(true);
+    }
+  };
+
+  const handleStartTour = () => {
+    if (!tourCompleted) {
+      setTimeout(() => setRun(true), 500); // Small delay to ensure components render
+    }
+  };
+
   return (
     <div className={styles.container}>
       <Joyride
-        steps={[
-          {
-            target: '[data-tour-id="navbar"]',
-            content: "This is the navigation bar. You can switch between pages here.",
-          },
-          {
-            target: '[data-tour-id="header"]',
-            content: "This is the header showcasing the latest updates and banners.",
-          },
-          {
-            target: '[data-tour-id="featured-matches"]',
-            content: "Here are the featured matches of the day.",
-          },
-          {
-            target: '[data-tour-id="all-matches"]',
-            content: "Browse through all the available matches here.",
-          },
-          {
-            target: '[data-tour-id="calendar"]',
-            content: "Use the calendar to pick a date and view matches accordingly.",
-          },
-        ]}
+        steps={steps}
         run={run}
+        stepIndex={stepIndex}
         continuous
+        callback={handleJoyrideCallback}
         showSkipButton
-        styles={{
-          options: {
-            zIndex: 10000,
-          },
-        }}
+        styles={CustomStyles}
+        hideBackButton
+        disableScrolling={true}
       />
-      <Navbar className="navbar" data-tour-id="navbar" />
-      <Header className="header" data-tour-id="header" />
+      <Navbar className="navbar" />
+      <Header className="header" />
       <div className={styles.nonheader}>
-        <div className={`${styles.matchlist} featured-matches`} data-tour-id="featured-matches">
+        <div
+          className={`${styles.matchlist} featured-matches`}
+          data-tour-id="matches"
+        >
           <FeaturedMatches matches={featuredMatchData} />
-          <AllMatches matches={allMatchData} className="all-matches" data-tour-id="all-matches" />
+          <AllMatches matches={allMatchData} className="all-matches" />
         </div>
-        <div className={`${styles.sidebar}`}>
+
+        <div className={`${styles.sidebar}`} data-tour-id="calendar">
           <Calendar
             selectedDate={selectedDate}
             setSelectedDate={setSelectedDate}
             minDate={new Date(2024, 6, 1)}
             className="calendar"
-            data-tour-id="calendar"
           />
           <HowToPlay startTour={handleStartTour} />
         </div>

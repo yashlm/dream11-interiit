@@ -91,8 +91,9 @@ const SelectMatchCard = ({ teamA, teamB }) => {
   return allMatches === null ? (
     <Loading />
   ) : (
-    <div className={styles.calenderMatchCardWrapper}>
-      <div className={styles.calender}>
+    <div
+      className={styles.calenderMatchCardWrapper}>
+      <div className={styles.calender} data-tour-id="scrolling-calendar">
         <h3>SELECT MATCH</h3>
         <HorizontalCalendar
           initialDate={new Date()}
