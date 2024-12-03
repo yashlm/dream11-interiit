@@ -23,6 +23,7 @@ export default function PlayerPopOut({
   lastName,
   matchId,
   playerId,
+  description,
 }) {
   const [data, setData] = useState(null);
   const [sidePanelData, setSidePanelData] = useState(null);
@@ -118,6 +119,7 @@ export default function PlayerPopOut({
             </div>
             <div>
               <p>{sidePanelData ? sidePanelData.player_role : ""}</p>
+              <p>{description ? description : ""}</p>
             </div>
           </div>
           {data ? (

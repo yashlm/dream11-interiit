@@ -44,6 +44,7 @@ export default function PlayerCard({
   team,
   matchId,
   player_id,
+  description,
 }) {
   const [isVisible, setIsVisible] = useState(false);
   const handleClick = () => {
@@ -51,13 +52,13 @@ export default function PlayerCard({
   };
 
   const firstName = name
-    .toUpperCase()
-    .split(" ")
+    ?.toUpperCase()
+    ?.split(" ")
     .slice(0, -1)
     .join(" ");
   const lastName = name
-    .toUpperCase()
-    .split(" ")
+    ?.toUpperCase()
+    ?.split(" ")
     .slice(-1)
     .join(" ");
 
@@ -236,6 +237,7 @@ export default function PlayerCard({
           lastName={lastName}
           matchId={matchId}
           playerId={player_id}
+          description={description}
         />
       )}
     </div>

@@ -15,6 +15,7 @@ import {
   fieldPositionsInPx,
   referenceX,
   referenceY,
+  exp,
 } from "../constants";
 import { useParams } from "react-router-dom";
 
@@ -31,16 +32,17 @@ export default function DreamTeamGround() {
 
   const [isLoading, setIsLoading] = useState(false);
   const [offFieldPlayers, setOffFieldPlayers] = useState([]);
-
-  const [initialOnFieldPlayers, setInitialOnFieldPlayers] = useState([]);
-
   const [modelOuput, setModelOutput] = useState([]);
+  const [matchdetails, setMatchDetails] = useState({});
   const [positions, setPositions] = useState(initialFieldPositions);
   const [isAtEnd, setIsAtEnd] = useState(null);
   const [isAtStart, setIsAtStart] = useState(null);
   const [dreamPoints, setDreamPoints] = useState(0);
   const [info, setInfo] = useState("");
   const dockListRef = useRef(null);
+
+  const [generatingDescription, setGeneratingDescription] = useState(false);
+  const [reason, setReason] = useState(exp);
 
   const redo = () => {
     setOffFieldPlayers(modelOuput.slice(11));
@@ -102,9 +104,6 @@ export default function DreamTeamGround() {
   };
   const handleScroll = () => {
     if (dockListRef.current) {
-      // const isEnd =
-      //   dockListRef.current.scrollLeft + dockListRef.current.clientWidth ===
-      //   dockListRef.current.scrollWidth;
       const canScrollRight =
         dockListRef.current.scrollLeft + dockListRef.current.clientWidth <
         dockListRef.current.scrollWidth;
@@ -169,6 +168,7 @@ export default function DreamTeamGround() {
         (a, b) => b.dreamPoints - a.dreamPoints
       );
       setModelOutput(sortedPlayers);
+      setMatchDetails(data?.match_details);
       setOffFieldPlayers(sortedPlayers.slice(11));
       const initialOnFieldPlayers = sortedPlayers.slice(0, 11);
       // setInitialOnFieldPlayers(sortedPlayers.slice(0, 11));
@@ -199,41 +199,6 @@ export default function DreamTeamGround() {
           );
         }
         processData(data);
-        // const allPlayers = data.data.map((player) => {
-        //   return {
-        //     name: player.full_name || "loading...",
-        //     key: player.player_id || null,
-        //     dreamPoints: player.fantasy_score_total || null,
-        //     type: player.playing_role || null,
-        //     profileImage: player.img_src_url,
-        //     bgImage: player.bg_image_url,
-        //     player_id: player.player_id,
-        //   };
-        // });
-        // // console.log(allPlayers);
-        // if (allPlayers.length < 22) {
-        //   // alert("Less Number of Plyers fetched, some error");
-        //   // throw new Error("Not enough players");
-        // }
-        // const sortedPlayers = [...allPlayers].sort(
-        //   (a, b) => b.dreamPoints - a.dreamPoints
-        // );
-        // setModelOutput(sortedPlayers);
-        // setOffFieldPlayers(sortedPlayers.slice(11));
-        // const initialOnFieldPlayers = sortedPlayers.slice(0, 11);
-        // // setInitialOnFieldPlayers(sortedPlayers.slice(0, 11));
-        // // Error //
-        // // issue likely arises due to the timing of state updates in your useEffect.
-        // // When FetchDreamTeam updates positions after setting initialOnFieldPlayers,
-        // // the state might not yet reflect the updated initialOnFieldPlayers because
-        // // React batches state updates asynchronously.
-        // setPositions((prevPositions) =>
-        //   prevPositions.map((position, index) => ({
-        //     ...position,
-        //     isFilled: index < initialOnFieldPlayers.length,
-        //     player: initialOnFieldPlayers[index] || null,
-        //   }))
-        // );
       } catch (error) {
         alert("We encountered an issue. Please try again later.");
         console.error("Error fetching teams:", error);
@@ -294,6 +259,35 @@ export default function DreamTeamGround() {
     }
   }, [match_id, location.state]);
 
+  useEffect(() => {
+    const llmReason = async () => {
+      try {
+        setGeneratingDescription(true);
+
+        const body = {
+          match_type: matchdetails?.match_type,
+          player_ids: modelOuput.slice(0, 11).map((player) => player.player_id),
+        };
+
+        const response = await fetch(`${BASE_URL}/ai/audio`, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(body),
+        });
+        if (!response.ok) {
+          throw new Error("Failed to generate description");
+        }
+        setReason(response.json());
+      } catch {
+        console.log("error in generating description");
+      } finally {
+        setGeneratingDescription(false);
+      }
+    };
+  }, [modelOuput]);
+
   return isLoading ? (
     <Loading />
   ) : (
@@ -302,13 +296,8 @@ export default function DreamTeamGround() {
         <div className={styles.weatherCardContainer}>
           <WeatherCard
             matchId={match_id}
-            time={"13:50"}
-            place={"place"}
-            temp={13}
-            weatherType={"stormy"}
-            humidity={"96%"}
-            windSpeed={"98kmph"}
             setEffect={setInfo}
+            place={matchdetails?.city}
           />
         </div>
       )}
@@ -323,16 +312,25 @@ export default function DreamTeamGround() {
       </h1>
 
       <DndProvider backend={HTML5Backend}>
-        {positions.map((position) => (
-          <DropZone
-            key={position.id}
-            id={position.id}
-            position={{ x: position.x, y: position.y }}
-            currentPlayer={position.player}
-            onDrop={handleDrop}
-            onRemove={handleRemovePlayer}
-          />
-        ))}
+        {positions.map((position) => {
+          const currentPlayer = {
+            ...position.player,
+            description: reason
+              ? reason.player_explanations[position?.player?.player_id]
+              : null,
+          };
+          console.log(currentPlayer);
+          return (
+            <DropZone
+              key={position.id}
+              id={position.id}
+              position={{ x: position.x, y: position.y }}
+              currentPlayer={currentPlayer}
+              onDrop={handleDrop}
+              onRemove={handleRemovePlayer}
+            />
+          );
+        })}
         <div className={styles.bottomDock}>
           <h2>Other Players</h2>
           <div className={styles.dockListWrapper}>
@@ -368,7 +366,12 @@ export default function DreamTeamGround() {
           </div>
         </div>
       </DndProvider>
-      <DescriptionCard onUndo={redo} info={info} match_id={match_id} />
+      <DescriptionCard
+        onUndo={redo}
+        info={info}
+        match_id={match_id}
+        reason={reason.team_explanation}
+      />
     </div>
   );
 }
