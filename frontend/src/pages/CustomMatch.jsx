@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import {
   Grid,
@@ -29,8 +29,20 @@ export default function CustomMatch() {
     return <p>Error: Missing team data!</p>;
   }
 
-  const [teamA, setTeamA] = useState(Array(11).fill(null));
-  const [teamB, setTeamB] = useState(Array(11).fill(null));
+  const [teamA, setTeamA] = useState(() => {
+    const savedTeamA = localStorage.getItem('selectedteamA');
+    return savedTeamA ? JSON.parse(savedTeamA) : Array(11).fill(null);
+  });
+
+  const [teamB, setTeamB] = useState(() => {
+    const savedTeamB = localStorage.getItem('selectedteamB');
+    return savedTeamB ? JSON.parse(savedTeamB) : Array(11).fill(null);
+  });
+
+  const [assignedPlayers, setAssignedPlayers] = React.useState(() => {
+    const savedAssignedPlayers = localStorage.getItem('assignedPlayers');
+    return savedAssignedPlayers ? JSON.parse(savedAssignedPlayers) : {};
+  });
 
   const [alert, setAlert] = useState({
     message: "",
@@ -38,11 +50,15 @@ export default function CustomMatch() {
     show: false,
   });
 
-const [assignedPlayers, setAssignedPlayers] = React.useState({}); // {playerKey: true/false}
+  useEffect(() => {
+    localStorage.setItem('selectedteamA', JSON.stringify(teamA));
+    localStorage.setItem('selectedteamB', JSON.stringify(teamB));
+    localStorage.setItem('assignedPlayers', JSON.stringify(assignedPlayers));
+  }, [teamA, teamB, assignedPlayers]);
 
-const handleAddToTeam = (player, team) => {
-  const isPlayerInTeamA = teamA.some((p) => p && p.key === player.key);
-  const isPlayerInTeamB = teamB.some((p) => p && p.key === player.key);
+  const handleAddToTeam = (player, team) => {
+    const isPlayerInTeamA = teamA.some((p) => p && p.key === player.key);
+    const isPlayerInTeamB = teamB.some((p) => p && p.key === player.key);
 
   if (isPlayerInTeamA || isPlayerInTeamB) {
     setAlert({
@@ -53,23 +69,34 @@ const handleAddToTeam = (player, team) => {
     return;
   }
 
-  const updateTeam = team === "A" ? [...teamA] : [...teamB];
-  const emptyIndex = updateTeam.findIndex((p) => p === null);
+  const updateTeamState = (prevTeam) => {
+    const emptyIndex = prevTeam.findIndex((p) => p === null);
+    if (emptyIndex !== -1) {
+      const newTeam = [...prevTeam];
+      newTeam[emptyIndex] = player;
+      return newTeam;
+    } else {
+      setAlert({
+        message: `Team ${team} is already full!`,
+        severity: "info",
+        show: true,
+      });
+      return prevTeam;
+    }
+  };
 
-  if (emptyIndex !== -1) {
-    updateTeam[emptyIndex] = player;
-    team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
-
-    // Mark player as assigned
-    setAssignedPlayers((prev) => ({ ...prev, [player.key]: true }));
+  if (team === "A") {
+    setTeamA((prev) => updateTeamState(prev));
   } else {
-    setAlert({
-      message: `Team ${team} is already full!`,
-      severity: "info",
-      show: true,
-    });
+    setTeamB((prev) => updateTeamState(prev));
   }
+
+  // Mark player as assigned
+  if((team == "A" && teamA.filter((player) => player !== null).length < 11) || (team == "B" && teamB.filter((player) => player !== null).length < 11)){
+    setAssignedPlayers((prev) => ({ ...prev, [player.key]: true }));
+  }  
 };
+
 
 const handleRemoveFromTeam = (playerKey, team) => {
   const updateTeam = team === "A" ? [...teamA] : [...teamB];
@@ -97,7 +124,8 @@ const handleRemoveFromTeam = (playerKey, team) => {
     setPlayers(loadedPlayers);
   };
 
-  console.log(teamAdata)
+  console.log(teamA)
+  console.log(assignedPlayers)
 
   return (
     <div>
@@ -163,11 +191,12 @@ const handleRemoveFromTeam = (playerKey, team) => {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "space-around",
+                justifyContent: 'space-between',
                 alignItems: "center",
-                gap: "100%",
+                gap: "min(40px, 9vw)",
                 marginBottom: 4,
-                paddingTop: "70px"
+                paddingTop: "70px",
+                flexDirection:"row"
               }}
             >
               {/* Team A */}
