@@ -18,8 +18,6 @@ export default function PlayerPopOut({
   name,
   bgImage,
   profileImage,
-  // teamIconUrl,
-  // team,
   firstName,
   lastName,
   matchId,
@@ -27,6 +25,7 @@ export default function PlayerPopOut({
 }) {
   const [data, setData] = useState(null);
   const [sidePanelData, setSidePanelData] = useState(null);
+
   useEffect(() => {
     const dataFeatch = async () => {
       try {
@@ -58,7 +57,7 @@ export default function PlayerPopOut({
       }
     };
     dataFeatch();
-  }, []);
+  }, [matchId, playerId]);
 
   return (
     <AnimatePresence>
@@ -69,7 +68,6 @@ export default function PlayerPopOut({
           animate={{ y: "0%", opacity: 1 }}
           exit={{ y: "100%", opacity: 0 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
-
         >
           <button onClick={onClose} className={styles.removeBtn}>
             <RxCross2 size={20} />
@@ -78,31 +76,27 @@ export default function PlayerPopOut({
             <CardMedia className={styles.bgImageProfile} image={bgImage} title={name}>
               <div className={styles.blackCover}>
                 <CardMedia className={styles.playerImageProfile} image={profileImage} />
-                {/* <Avatar
-                  alt={team}
-                  src={teamIconUrl || "/assets/noTeamIcon.png"}
-                  sx={{
-                    height: "6vh",
-                    width: "6vh",
-                    position: "absolute",
-                    top: "5%",
-                    right: "5%",
-                  }}
-                  className={styles.avatar}
-                /> */}
               </div>
             </CardMedia>
-            <div className={playerId.profiledata}>
+            <div className={styles.playerdesc}><h3>Player Description:</h3></div>
+            <div className={styles.profiledata}>
               <p className={styles.profileName}>
                 {firstName} <br />
                 <span className={styles.lastName}>{lastName}</span>
               </p>
+              {/* Display Cricketer Data */}
+              {sidePanelData && (
+                <div className={styles.cricketerData}>
+                  <p><strong>Batting Style:</strong> {sidePanelData.batting_style}</p>
+                  <p><strong>Bowling Style:</strong> {sidePanelData.bowling_style}</p>
+                </div>
+              )}
+              <div>
+                <p style={{ color: "#333", fontSize: "24px" }}>
+                  {sidePanelData ? sidePanelData.player_role : ""}
+                </p>
+              </div>
             </div>
-          </div>
-          <div>
-            <p style={{ color: "#333", fontSize: "16px" }}>
-              {sidePanelData ? sidePanelData.player_role : ""}
-            </p>
           </div>
           {data ? (
             <div className={styles.bottomPanel}>
