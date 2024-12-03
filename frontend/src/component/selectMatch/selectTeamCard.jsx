@@ -1,23 +1,85 @@
 import Avatar from "@mui/material/Avatar";
-import { useEffect, useState, useMemo } from "react";
+// import Fuse from "fuse.js";
+import { useState } from "react";
 import "./selectTeamCard.css";
 import { motion } from "framer-motion";
 import { FaTimes } from "react-icons/fa";
 import { TextField, InputAdornment } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import { BASE_URL } from "../../constants";
 
-// Helper function to render a team icon
+const allFavTeams = [
+  {
+    name: "India",
+    url: "https://upload.wikimedia.org/wikipedia/en/thumb/8/8d/Cricket_India_Crest.svg/800px-Cricket_India_Crest.svg.png",
+  },
+  {
+    name: "Australia",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/h5apsohhlfsn9ydrivoe",
+  },
+  {
+    name: "England",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/pnintojotbm9ll60cczx",
+  },
+  {
+    name: "South Africa",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/kaefiv6vudqhj1vbqq0h",
+  },
+  {
+    name: "New Zealand",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/ftjoqz45fxlacmrej5oc",
+  },
+  {
+    name: "Pakistan",
+    url: "https://upload.wikimedia.org/wikipedia/commons/a/ad/Pakistan_cricket_team_logo.png",
+  },
+  {
+    name: "West Indies",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/vwd5gtsu96yeq44kntsv",
+  },
+  {
+    name: "Sri Lanka",
+    url: "https://upload.wikimedia.org/wikipedia/en/3/32/Sri_Lanka_Cricket_Logo.jpg",
+  },
+  {
+    name: "Bangladesh",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/jxmhkysemy0gkkmjwmct",
+  },
+  {
+    name: "Afghanistan",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/iwjk0vb7agpa7tyhuzea",
+  },
+  {
+    name: "Ireland",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/j5p9gymd8zwbdt102sta",
+  },
+  {
+    name: "Zimbabwe",
+    url: "https://images.icc-cricket.com/image/upload/t_q-best/prd/vz1jpphfrjvbuowwrrtt",
+  },
+  {
+    name: "Scotland",
+    url: "https://upload.wikimedia.org/wikipedia/en/thumb/6/64/ScotlandMenCricketLogo.svg/308px-ScotlandMenCricketLogo.svg.png",
+  },
+  {
+    name: "Netherlands",
+    url: "https://upload.wikimedia.org/wikipedia/en/thumb/8/86/Logo_of_cricket_Netherlands.png/248px-Logo_of_cricket_Netherlands.png",
+  },
+  {
+    name: "United States of America",
+    url: "https://usacricket.org/wp-content/uploads/2018/03/usacricket-logo.svg",
+  },
+];
+
 const teamIcon = (url, name) => {
   return (
     <div key={name} className="team-icon">
-      <Avatar
+      <img
         alt={name}
         src={url}
-        sx={{
-          height: "auto",
-          width: "75px",
-          variant: "square",
+        style={{
+          height: "80px",
+          width: "80px",
+          objectFit: "contain",
         }}
       />
       <p>{name}</p>
@@ -25,7 +87,6 @@ const teamIcon = (url, name) => {
   );
 };
 
-// Helper function to render the selected team card
 const selectedTeamCard = (imageUrl, teamName, onClose) => {
   return (
     <div
@@ -52,63 +113,26 @@ const selectedTeamCard = (imageUrl, teamName, onClose) => {
         </div>
 
         <img
-          src={imageUrl}
           alt={teamName}
+          src={imageUrl}
           style={{
             height: "auto",
-            width: "200px",
+            width: "250px",
             variant: "rectangle",
           }}
-        ></img>
+        />
         <h2 className="team-name-title">{teamName}</h2>
       </div>
     </div>
   );
 };
 
-// Main Team Search Component
 const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
   const [searchTeam, setSearchTeam] = useState("");
   const [selectedTeam, setSelectedTeam] = useState(null);
   const [isTeamSet, setIsTeamSet] = useState(false);
-  const [allFavTeams, setTeams] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
-  // Fetch favorite teams from the server
-  useEffect(() => {
-    const fetchTeams = async () => {
-      setLoading(true);
-      try {
-        const response = await fetch(`${BASE_URL}/team/teams`);
-        if (!response.ok) throw new Error("Network response was not ok");
-        const data = await response.json();
-        if (data.status === "ok" && Array.isArray(data.data)) {
-          setTeams(data.data.map(({ name, url }) => ({ name, url })));
-        } else {
-          throw new Error("Failed to fetch teams");
-        }
-      } catch (error) {
-        setError(error.message || "An unexpected error occurred");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchTeams();
-  }, []);
-
-  // Filtered teams based on search input and removal list
-  const filteredTeams = useMemo(() => {
-    return searchTeam.length === 0
-      ? []
-      : allTeams.filter(
-          ({ name }) =>
-            name.toLowerCase().includes(searchTeam.toLowerCase()) &&
-            !remove.includes(name)
-        );
-  }, [searchTeam, allTeams, remove]);
-
+  const teams = allTeams.filter((item) => !remove.includes(item.name));
   const favTeams = allFavTeams.filter((item) => !remove.includes(item.name));
 
   const deselectTeam = () => {
@@ -117,6 +141,7 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
     setIsTeamSet(false);
     setSelectedTeam(null);
   };
+
   const selectTeamIcon = (team) => {
     return (
       <div
@@ -132,6 +157,7 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
       </div>
     );
   };
+
   const searchDiv = () => {
     return (
       <div className="search-card" id={id}>
@@ -141,7 +167,7 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
             fullWidth
             value={searchTeam}
             aria-label="Search Teams"
-            placeholder={remove == "" ? `Select your team` : `${remove} vs`}
+            placeholder={remove === "" ? `Select your team` : `${remove} vs`}
             onChange={(e) => setSearchTeam(e.target.value)}
             InputProps={{
               startAdornment: (
@@ -154,18 +180,18 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
         </div>
         {filteredTeams.length === 0 && searchTeam.length > 0 && (
           <p className="no-teams-error">
-            No teams found, here are your favourite teams:
+            No teams found, here are the featured teams:
           </p>
         )}
         {filteredTeams.length === 0 && searchTeam.length === 0 && (
-          <p className="fav-teams-title">My Teams</p>
+          <p className="fav-teams-title">Featured Teams</p>
         )}
         <div
           className="teams-grid"
           style={{
-            maxHeight: "60vh",
+            scrollBehavior: "smooth",
+            maxHeight: "40vh",
             overflowY: "auto",
-            scrollBehavior:"smooth"
           }}
         >
           {filteredTeams.length > 0
@@ -176,13 +202,18 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
     );
   };
 
-  if (loading) return <div>Loading...</div>;
-  if (error) return <div>Error: {error}</div>;
+  const filteredTeams =
+    searchTeam.length === 0
+      ? []
+      : teams.filter((team) =>
+        team.name.toLowerCase().includes(searchTeam.toLowerCase())
+      );
 
   return (
     <div>
       {isTeamSet ? (
         <>
+          {/* Fade-out Search Div */}
           <motion.div
             key="searchDiv"
             style={{
@@ -198,6 +229,7 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
             {searchDiv()}
           </motion.div>
 
+          {/* Fade-in Selected Team Card */}
           <motion.div
             key="selectedTeamCard"
             style={{
