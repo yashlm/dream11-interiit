@@ -17,7 +17,6 @@
   height: 100vh;
 }
 .cardStack {
-  justify-content: center;
   align-items: center;
   position: absolute;
   top: 10px;
@@ -34,6 +33,9 @@
   flex-direction: column;
   overflow: scroll;
 }
+.cardStack::-webkit-scrollbar {
+  width: 0px;
+}
 
 .calenderMatchCardWrapper {
   padding: 0;
@@ -41,7 +43,6 @@
   margin: 0;
   padding: 0;
   width: 100%;
-  height: 100%;
 }
 .matchCardList {
   margin: 0;

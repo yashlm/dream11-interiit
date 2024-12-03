@@ -28,7 +28,7 @@ const NewMatchCard = ({ match, team_info }) => {
   return (
     <div className={styles["match-card"]}>
       <h2 className={styles["match-type"]}>
-        {match?.match_type || "Match Type Not Available"}
+        {match?.event_name || "Name Not Available"}
       </h2>
       <div className={styles.logos}>
         <div className={styles.team}>
@@ -51,10 +51,20 @@ const NewMatchCard = ({ match, team_info }) => {
       </div>
 
       <div className={styles["match-details"]}>
-        <p>
-          <CalendarToday className={styles.icon} />
-          {matchDate}
-        </p>
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "row",
+            gap: "20px",
+          }}
+        >
+          <p>
+            <CalendarToday className={styles.icon} />
+            {matchDate}
+          </p>
+          <p>Type: {match?.match_type || "Match Type Not Available"}</p>
+        </div>
+
         <p>
           <LocationOn className={styles.icon} />
           {venue}
