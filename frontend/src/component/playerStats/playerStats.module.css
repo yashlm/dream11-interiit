@@ -19,6 +19,8 @@
 .topPanel {
   display: flex;
   flex-direction: row;
+  width: 100%;
+  padding: 0;
 }
 
 .nameTypeData {
@@ -179,6 +181,7 @@
   min-width: 200px;
   max-height: 200px;
   overflow-y: scroll;
+  margin-left: 5%;
 }
 
 .playerdesc::-webkit-scrollbar {
@@ -268,6 +271,22 @@
   font-size: 1rem;
   color: #333;
 }
+
+.bottomTop{
+  display: "flex";
+  /* flex-direction: row;
+  justify-content: space-between;
+  width: "100%";
+  gap: "5%"; */
+}
+
+.imgplusdesc{
+  display: flex;
+  flex-direction: row;
+  width: 60%;
+  justify-content: space-between;
+}
+
 
 /* Responsive Styling */
 @media (max-width: 600px) {

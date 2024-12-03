@@ -110,36 +110,41 @@ export default function PlayerPopOut({
                   width: "80%",
                 }}
               >
-                <div
-                  style={{
-                    display: "flex",
-                    width: "100%",
-                    gap: "5%",
-                  }}
-                >
-                  <div>
-                    <CardMedia
-                      className={styles.bgImageProfile}
-                      image={bgImage}
-                      title={name}
-                    >
-                      <div className={styles.blackCover}>
-                        <CardMedia
-                          className={styles.playerImageProfile}
-                          image={profileImage}
-                        />
-                      </div>
-                    </CardMedia>
-                  </div>
-                  {description && (
-                    <div className={styles.playerdesc}>
-                      <h3>Player Description:</h3>
-                      <p> {description}</p>
+                <div className={styles.bottomTop} style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  width: "100%",
+                  gap: "5%",
+                }}>
+
+                  <div className={styles.imgplusdesc}>
+                    <div>
+                      <CardMedia
+                        className={styles.bgImageProfile}
+                        image={bgImage}
+                        title={name}
+                      >
+                        <div className={styles.blackCover}>
+                          <CardMedia
+                            className={styles.playerImageProfile}
+                            image={profileImage}
+                          />
+                        </div>
+                      </CardMedia>
                     </div>
-                  )}
+                    {description && (
+                      <div className={styles.playerdesc}>
+                        <h3>Player Description:</h3>
+                        <p>{description}</p>
+                        {/* <p> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur saepe doloribus cum. Dolores mollitia distinctio fugiat assumenda necessitatibus facere expedita optio vitae ipsa asperiores perferendis pariatur doloribus debitis, dignissimos explicabo? </p> */}
+                      </div>
+                    )}
+                  </div>
                   <img
                     src="/assets/playerStats.png"
                     style={{ marginTop: "5%" }}
+                    className={styles.statspng}
                   ></img>
                 </div>
               </div>

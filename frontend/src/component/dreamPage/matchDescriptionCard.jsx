@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect, CSSProperties } from "react";
+/* eslint-disable react/prop-types */
+import { useState, useRef, useEffect, CSSProperties } from "react";
 import { Tooltip } from "@mui/material";
 import {
   BsFillVolumeUpFill,
@@ -6,6 +7,7 @@ import {
   BsArrowsCollapse,
 } from "react-icons/bs";
 import { FaUndo, FaShareAlt, FaSave, FaInfoCircle } from "react-icons/fa";
+import { useNavigate } from "react-router-dom"; // Import useNavigate here
 import styles from "../../css/DescriptionCard.module.css";
 import { BASE_URL } from "../../constants";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -33,11 +35,10 @@ export default function DescriptionCard({
     }
   }, [audioUrl]);
 
-  // const [expanded, setExpanded] = useState(false); // Controls the expanded state for ShowMoreText
   const [isOverflowing, setIsOverflowing] = useState(false);
   const infoRef = useRef(null);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate(); // Initialize useNavigate
   const handleMatchDetailsroute = () => {
     navigate(`/matchdetails/${match_id}`);
   };
