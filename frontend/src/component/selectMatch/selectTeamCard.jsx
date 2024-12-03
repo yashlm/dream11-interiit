@@ -1,4 +1,4 @@
-import Avatar from "@mui/material/Avatar";
+/* eslint-disable react/prop-types */
 // import Fuse from "fuse.js";
 import { useState } from "react";
 import "./selectTeamCard.css";

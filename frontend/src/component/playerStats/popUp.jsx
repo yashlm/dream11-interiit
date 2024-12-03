@@ -1,5 +1,6 @@
+/* eslint-disable react/prop-types */
 import { motion, AnimatePresence } from "framer-motion";
-import Avatar from "@mui/material/Avatar";
+// import Avatar from "@mui/material/Avatar";
 import CardMedia from "@mui/material/CardMedia";
 import PlayerStatsAccordion from "./accordian";
 import { RxCross2 } from "react-icons/rx";
@@ -17,8 +18,6 @@ export default function PlayerPopOut({
   name,
   bgImage,
   profileImage,
-  teamIconUrl,
-  team,
   firstName,
   lastName,
   matchId,
@@ -26,6 +25,7 @@ export default function PlayerPopOut({
 }) {
   const [data, setData] = useState(null);
   const [sidePanelData, setSidePanelData] = useState(null);
+
   useEffect(() => {
     const dataFeatch = async () => {
       try {
@@ -46,6 +46,7 @@ export default function PlayerPopOut({
           );
         }
         const rawData = await response.json();
+        console.log(rawData);
         const responseData = rawData.data;
         setData({ bat: responseData.bat, bowl: responseData.bowl });
         setSidePanelData(rawData.data.cricketer_data);
@@ -56,7 +57,7 @@ export default function PlayerPopOut({
       }
     };
     dataFeatch();
-  }, []);
+  }, [matchId, playerId]);
 
   return (
     <AnimatePresence>
@@ -67,57 +68,34 @@ export default function PlayerPopOut({
           animate={{ y: "0%", opacity: 1 }}
           exit={{ y: "100%", opacity: 0 }}
           transition={{ duration: 0.6, ease: "easeInOut" }}
-          style={{
-            position: "fixed",
-            bottom: 0,
-            left: 0,
-            width: "100%",
-            height: "80%",
-            backgroundColor: "white",
-            boxShadow: "0 -4px 10px rgba(0, 0, 0, 0.1)",
-            borderRadius: "20px 20px 0 0",
-            textAlign: "center",
-            padding: "20px",
-            zIndex: 1000,
-            overflow: "scroll",
-          }}
         >
           <button onClick={onClose} className={styles.removeBtn}>
-            <RxCross2 />
+            <RxCross2 size={20} />
           </button>
           <div className={styles.topPanel}>
-            <div className={styles.topPanel}>
-              <CardMedia
-                className={styles.bgImageProfile}
-                image={bgImage}
-                title={name}
-              >
-                <div className={styles.blackCover}>
-                  <CardMedia
-                    className={styles.playerImageProfile}
-                    image={profileImage}
-                  />
-                  <Avatar
-                    alt={team}
-                    src={teamIconUrl || "/assets/noTeamIcon.png"}
-                    sx={{
-                      height: "6vh",
-                      width: "6vh",
-                      color: "black",
-                      position: "absolute",
-                      top: "5%",
-                      right: "5%",
-                    }}
-                  />
-                </div>
-              </CardMedia>
+            <CardMedia className={styles.bgImageProfile} image={bgImage} title={name}>
+              <div className={styles.blackCover}>
+                <CardMedia className={styles.playerImageProfile} image={profileImage} />
+              </div>
+            </CardMedia>
+            <div className={styles.playerdesc}><h3>Player Description:</h3></div>
+            <div className={styles.profiledata}>
               <p className={styles.profileName}>
                 {firstName} <br />
                 <span className={styles.lastName}>{lastName}</span>
               </p>
-            </div>
-            <div>
-              <p>{sidePanelData ? sidePanelData.player_role : ""}</p>
+              {/* Display Cricketer Data */}
+              {sidePanelData && (
+                <div className={styles.cricketerData}>
+                  <p><strong>Batting Style:</strong> {sidePanelData.batting_style}</p>
+                  <p><strong>Bowling Style:</strong> {sidePanelData.bowling_style}</p>
+                </div>
+              )}
+              <div>
+                <p style={{ color: "#333", fontSize: "24px" }}>
+                  {sidePanelData ? sidePanelData.player_role : ""}
+                </p>
+              </div>
             </div>
           </div>
           {data ? (
