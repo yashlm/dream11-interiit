@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import MatchCard from "../HomePage/MatchCard.jsx";
 import styles from "../../css/cardStack.module.css";
 import HorizontalCalendar from "./horizontalCalendar.jsx";
-import Loading from "../Loading.jsx";
+import Loading from "../common/Loading.jsx";
 import { BASE_URL } from "../../constants.jsx";
 import { useNavigate } from "react-router-dom";
 import NewMatchCard from "./newMatchCard.jsx";
@@ -18,7 +18,7 @@ const SelectMatchCard = ({ teamA, teamB }) => {
 
   const customMatch = () => {
     const formattedDate = matchDate.toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
-    navigate(`/custommatch/${formattedDate}`, {
+    navigate(`/custommatch`, {
       state: {
         teamAdata: { name: teamA.name, url: teamA.url },
         teamBdata: { name: teamB.name, url: teamB.url },
@@ -91,8 +91,7 @@ const SelectMatchCard = ({ teamA, teamB }) => {
   return allMatches === null ? (
     <Loading />
   ) : (
-    <div
-      className={styles.calenderMatchCardWrapper}>
+    <div className={styles.calenderMatchCardWrapper}>
       <div className={styles.calender} data-tour-id="scrolling-calendar">
         <h3>SELECT MATCH</h3>
         <HorizontalCalendar

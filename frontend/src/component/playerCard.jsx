@@ -110,7 +110,7 @@ export default function PlayerCard({
               border: "2px solid white",
             }}
           />
-          {isInField && (
+          {isInField && onRemove && (
             <IconButton
               onClick={onRemove}
               sx={{
@@ -190,8 +190,8 @@ export default function PlayerCard({
                 }}
               >
                 {type &&
-                  type.
-                    split(" ")
+                  type
+                    .split(" ")
                     .filter((word) => word.toLowerCase() !== "order") // Exclude "order"
                     .map((word, index) => (
                       <Typography

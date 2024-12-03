@@ -32,6 +32,7 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
 
     const fetchAndStorePlayersData = async () => {
       setLoading(true);
+      console.log(teamA, teamB);
       try {
         const responseA = await fetch(
           `${BASE_URL}/player/search_players/${teamA}`
@@ -49,6 +50,7 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
 
           localStorage.setItem("teamA", JSON.stringify(playersTeamA));
           localStorage.setItem("teamB", JSON.stringify(playersTeamB));
+          console.log(playersTeamA, playersTeamB);
 
           setOptions([...playersTeamA, ...playersTeamB]);
         }
@@ -58,7 +60,6 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
         setLoading(false);
       }
     };
-
     fetchAndStorePlayersData();
   }, [teamA, teamB]);
 

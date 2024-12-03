@@ -10,10 +10,9 @@ import FloatingButton from "./ChatBot/FloatingButton";
 import CardStack from "./component/selectMatch/cardStack";
 import DreamTeamGround from "./pages/dreamTeam";
 import FavTeam from "./pages/FavTeam";
-import Loading from "./component/Loading";
+import Loading from "./component/common/Loading";
 import CustomMatch from "./pages/CustomMatch";
 import CustomMatchcsv from "./pages/CustomMatchcsv";
-// import DescriptionCard from "./component/matchDescriptionCard";
 import MatchDetails from "./pages/MatchDetails";
 import HomePage from "./pages/HomePage";
 import PlayerCard from "./component/playerCard";
@@ -33,7 +32,7 @@ function App() {
         <Routes>
           <Route path="/home" element={<HomePage />} />
           <Route path="/matchdetails/:match_id" element={<MatchDetails />} />
-          <Route path="/custommatch/:date" element={<CustomMatch />} />
+          {/* <Route path="/custommatch" element={<CustomMatch />} /> */}
           <Route path="/custommatch" element={<CustomMatchcsv />} />
           <Route path="/teamSelect" element={<CardStack />} />
           <Route path="/loading" element={<Loading />} />
