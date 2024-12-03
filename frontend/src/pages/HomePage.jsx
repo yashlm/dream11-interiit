@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Joyride from "react-joyride";
@@ -26,11 +25,13 @@ const HomePage = () => {
   const steps = [
     {
       target: '[data-tour-id="matches"]',
-      content: "Here are the featured matches of the day. You can also browse through all the available matches. You can click on a match to view its details",
+      content:
+        "Here are the featured matches of the day. You can also browse through all the available matches. You can click on a match to view its details",
     },
     {
       target: '[data-tour-id="calendar"]',
-      content: "Select the date of the match you want to play. Matches of that day and future matches will show on your screen accordingly.",
+      content:
+        "Select the date of the match you want to play. Matches of that day and future matches will show on your screen accordingly.",
     },
     {
       target: '[data-tour-id="select-match"]',
@@ -38,10 +39,10 @@ const HomePage = () => {
     },
     {
       target: '[data-tour-id="/teamSelect"]',
-      content: "You can also select a match and create your desirable Dream11 team from here.",
+      content:
+        "You can also select a match and create your desirable Dream11 team from here.",
     },
   ];
-  
 
   // Fetch matches data whenever the selected date changes
   useEffect(() => {
@@ -57,35 +58,30 @@ const HomePage = () => {
     const { action, index, type } = data;
 
     if (type === "step:after") {
-
       // Handle navigation at the end of the last step
       if (index === steps.length - 1 && action === "next") {
-       // console.log("next")
+        // console.log("next")
         setRun(false);
         setTourCompleted(true);
         navigate("/teamSelect", { state: { continueTour: true } });
+      } else {
+        // console.log("index")
+        setStepIndex(index + 1);
       }
-      else{
-       // console.log("index")
-          setStepIndex(index+1);
-        }
     }
 
- 
-  
     // Handle "skip" action
     if (type === "tour:end" && action === "skip") {
       setRun(false);
       setStepIndex(0);
     }
-  
+
     // End of the tour
     if (type === "tour:end" && action !== "skip") {
       setRun(false);
       setStepIndex(0);
       setTourCompleted(true);
     }
-    
   };
 
   const handleStartTour = () => {
@@ -104,16 +100,20 @@ const HomePage = () => {
         callback={handleJoyrideCallback}
         showSkipButton
         styles={CustomStyles}
-        hideBackButton 
-        disableScrolling={false} 
+        hideBackButton
+        disableScrolling={true}
       />
       <Navbar className="navbar" />
       <Header className="header" />
-      <div className={styles.nonheader} >
-        <div className={`${styles.matchlist} featured-matches`} data-tour-id="matches">
+      <div className={styles.nonheader}>
+        <div
+          className={`${styles.matchlist} featured-matches`}
+          data-tour-id="matches"
+        >
           <FeaturedMatches matches={featuredMatchData} />
           <AllMatches matches={allMatchData} className="all-matches" />
         </div>
+
         <div className={`${styles.sidebar}`} data-tour-id="calendar">
           <Calendar
             selectedDate={selectedDate}

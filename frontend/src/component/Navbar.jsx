@@ -17,7 +17,18 @@ const Navbar = () => {
   const location = useLocation();
   const todayDate = dayjs().format("YYYY-MM-DD");
 
-  const handleLanguageChange = (event) => setLanguage(event.target.value);
+  // Load the name from local storage when the component mounts
+  useEffect(() => {
+    const savedLang = localStorage.getItem("lang");
+    if (savedLang) {
+      setLanguage(savedLang);
+    }
+  }, []);
+
+  const handleLanguageChange = (event) => {
+    setLanguage(event.target.value);
+    localStorage.setItem("lang", event.target.value);
+  };
 
   useEffect(() => {
     if (location.pathname === "/") {
@@ -85,9 +96,16 @@ const Navbar = () => {
                 }}
               >
                 <MenuItem value="en">English</MenuItem>
-                <MenuItem value="hi">हिन्दी</MenuItem>
-                <MenuItem value="fr">Français</MenuItem>
-                <MenuItem value="es">Español</MenuItem>
+                <MenuItem value="hi-IN">हिन्दी</MenuItem>
+                <MenuItem value="bn-IN">বাংলা</MenuItem>
+                <MenuItem value="kn-IN">ಕನ್ನಡ</MenuItem>
+                <MenuItem value="ml-IN">മലയാളം</MenuItem>
+                <MenuItem value="mr-IN">मराठी</MenuItem>
+                <MenuItem value="od-IN">ଓଡ଼ିଆ</MenuItem>
+                <MenuItem value="pa-IN">ਪੰਜਾਬੀ</MenuItem>
+                <MenuItem value="ta-IN">தமிழ்</MenuItem>
+                <MenuItem value="te-IN">తెలుగు</MenuItem>
+                <MenuItem value="gu-IN">ગુજરાતી</MenuItem>
               </Select>
             </FormControl>
 

@@ -1,9 +1,77 @@
 .cardStackContainer {
+  background-image: url("../assets/matches/bgimage.webp");
+  background-repeat: no-repeat;
+  background-size: 100vw 100vh;
   position: relative;
   width: 100%;
   height: 100vh;
   display: flex;
   flex-direction: column;
+}
+.cardContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100vh;
+}
+.cardStack {
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 10px;
+  width: 45vw;
+  min-width: 325px;
+  max-width: 375px;
+  height: 60vh;
+  border-radius: 15px;
+  padding: 0 0.5em;
+  background-color: white;
+  transition: transform 0.5s ease, scale 0.5s ease;
+  color: black;
+  display: flex;
+  flex-direction: column;
+  overflow: scroll;
+}
+
+.calenderMatchCardWrapper {
+  padding: 0;
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+}
+.matchCardList {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  grid-template-columns: repeat(1, 1fr);
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+.matchCardList h4 {
+  margin-top: 1%;
+  font-size: 1.25rem;
+  color: red;
+}
+
+.customMatchBtn {
+  background-color: rgb(232, 240, 219);
+  width: 60%;
+  font-size: 1rem;
+  margin: 10px auto;
+  border: 0.2px solid green;
+}
+.customMatchDiv {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 .progressBarWrapper {
   width: 45vw;
@@ -55,121 +123,16 @@ progress {
   border-radius: 10px;
 }
 
-.progress::after {
-  content: attr(value) "%";
-  position: absolute;
-  width: 56px;
-  top: 53%;
-  left: 50%;
-  margin-left: -28px;
-  font-weight: bold;
-}
-
-.cardContainer {
-  position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-  height: 100vh;
-}
-
-.cardStack {
-  justify-content: center;
-  position: absolute;
-  top: 10px;
-  width: 45vw;
-  max-width: 375px;
-  height: 60vh;
-  border-radius: 15px;
-  padding: 1em;
-  background-color: white;
-  transition: transform 0.5s ease, scale 0.5s ease;
-  color: black;
-  display: flex;
-  flex-direction: column;
-  overflow: hidden;
-}
-
-.calenderMatchCardWrapper {
-  padding: 0;
-  scroll-behavior: smooth;
-  overflow: hidden;
-  width: 100%;
-}
 .calender {
-  position: absolute;
+  position: sticky;
   top: 0;
   background-color: #fff;
   z-index: 1;
-  margin: 0.2em;
+  margin: -2% auto 0.2em;
 }
 .calender h3 {
   color: black;
   padding: 0;
   font-size: 2rem;
   margin: 0 auto;
-}
-
-.matchCardList {
-  margin: 0;
-  margin-top: 120px;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  overflow-y: scroll;
-}
-
-.matchCardList .matchCard {
-  margin: 0;
-  background-color: black;
-}
-
-.matchCardList::-webkit-scrollbar {
-  display: none;
-}
-
-.fullscreenBackground {
-  background-image: url("../assets/matches/bgimage.webp");
-
-  background-repeat: no-repeat;
-  background-size: 100vw 100vh;
-}
-
-.customMatchBtn {
-  background-color: rgb(232, 240, 219);
-  width: 60%;
-  font-size: 1rem;
-  margin: 10px auto;
-  border: 0.2px solid green;
-}
-
-.matchCardListWrapper {
-  width: 100%;
-  border: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column; /* Ensures the button is above the match cards */
-  align-items: flex-start;
-  gap: 10px; /* Adjust gap between the button and match cards */
-}
-
-.customMatchDiv {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
-}
-
-.scrollAllMatches {
-  flex-grow: 1;
-  overflow: scroll;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 10px;
-  padding: 0;
-  margin: 0;
 }

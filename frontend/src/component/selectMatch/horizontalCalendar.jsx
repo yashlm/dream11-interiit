@@ -1,13 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaRegCalendarAlt } from "react-icons/fa";
 import ReactDOM from "react-dom";
 import { DayPicker } from "react-day-picker";
 import "react-day-picker/dist/style.css";
 import styles from "./HorizontalCalendar.module.css"; // Import the CSS module
 
-const HorizontalCalendar = ({ initialDate, onDateChange, setMatchDate }) => {
+const HorizontalCalendar = ({ initialDate, setMatchDate }) => {
   const [selectedDate, setSelectedDate] = useState(null);
   const [showPopup, setShowPopup] = useState(false);
+  const [dateRange, setDateRange] = useState([]);
 
   // Helper function to get a formatted date string
   const formatDate = (date) => {
@@ -20,10 +21,9 @@ const HorizontalCalendar = ({ initialDate, onDateChange, setMatchDate }) => {
   // Generate a range of dates based on the selected date
   const generateDateRange = () => {
     const dates = [];
-    const realDate = new Date(selectedDate ? selectedDate : initialDate);
     for (let i = -1; i <= 2; i++) {
-      const date = new Date();
-      date.setDate(realDate.getDate() + i);
+      const date = new Date(selectedDate ? selectedDate : initialDate);
+      date.setDate(date.getDate() + i);
       dates.push(date);
     }
     return dates;
@@ -33,37 +33,37 @@ const HorizontalCalendar = ({ initialDate, onDateChange, setMatchDate }) => {
     setMatchDate(date);
     setSelectedDate(date);
     setShowPopup(false);
-    if (onDateChange) onDateChange(date); // Callback for parent
   };
-
   const togglePopup = () => setShowPopup(!showPopup);
 
-  const dateRange = generateDateRange();
+  useEffect(() => {
+    setDateRange(generateDateRange());
+  }, [selectedDate]);
 
   return (
     <div className={styles.calendarContainer}>
       <div className={styles.horizontalCalendar}>
-        {dateRange.map((date, index) => (
-          <button
-            key={index}
-            className={`${styles.dateButton} ${
-              selectedDate && selectedDate.getDate() === date.getDate()
-                ? styles.dateButtonSelected
-                : ""
-            }`}
-            onClick={() => {
-              if (selectedDate && selectedDate.getDate() === date.getDate()) {
-                console.log("Deselect");
-                handleDateChange(null); // Deselect
-              } else {
-                console.log(date);
-                handleDateChange(date); // Select
-              }
-            }}
-          >
-            {formatDate(date)}
-          </button>
-        ))}
+        {dateRange.length &&
+          dateRange.map((date, index) => (
+            <button
+              key={index}
+              className={`${styles.dateButton} ${
+                selectedDate && selectedDate.getDate() === date.getDate()
+                  ? styles.dateButtonSelected
+                  : ""
+              }`}
+              onClick={() => {
+                if (selectedDate && selectedDate.getDate() === date.getDate()) {
+                  handleDateChange(null); // Deselect
+                } else {
+                  console.log(date);
+                  handleDateChange(date); // Select
+                }
+              }}
+            >
+              {formatDate(date)}
+            </button>
+          ))}
       </div>
 
       <div className={styles.iconWrapper}>

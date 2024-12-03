@@ -122,15 +122,15 @@ const CardStack = () => {
     secondCardMoved && firstCardMoved
       ? setCurrentStep(1)
       : secondCardMoved || firstCardMoved
-        ? setCurrentStep(0)
-        : setCurrentStep(-1);
+      ? setCurrentStep(0)
+      : setCurrentStep(-1);
   }, [firstTeam, secondTeam]);
 
   return allTeams == null ? (
     <Loading />
   ) : (
-      <div className={styles.fullscreenBackground}>
-         <Joyride
+    <div>
+      <Joyride
         steps={stepstour}
         run={run}
         stepIndex={stepIndex}
@@ -142,7 +142,7 @@ const CardStack = () => {
        disableScrolling={false} 
        
       />
-        <Navbar />
+      <Navbar />
       {/* <div className={styles.backgroundCover}></div> */}
       <motion.div
         className={styles.cardStackContainer}
@@ -223,7 +223,7 @@ const CardStack = () => {
               setTeam={setFirstTeam}
               moveCard={setFirstCardMoved}
               id="team-1-search-card"
-              remove={[""]}
+              remove={""}
               allTeams={allTeams}
             />
           </motion.div>

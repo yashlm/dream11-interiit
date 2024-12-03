@@ -49,7 +49,7 @@ const TransparentTabs = React.memo(({ inputData, dataType }) => {
         );
         if (Object.keys(filteredBaseData).length > 0) {
           return {
-            label: type,
+            label: type.toUpperCase(),
             value: type.toLowerCase(),
             ...filteredBaseData,
             chartData,
@@ -80,7 +80,7 @@ const TransparentTabs = React.memo(({ inputData, dataType }) => {
         );
         if (Object.keys(filteredBaseData).length > 0) {
           return {
-            label: type,
+            label: type.toUpperCase(),
             value: type.toLowerCase(),
             ...filteredBaseData,
             chartData,
