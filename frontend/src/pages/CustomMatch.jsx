@@ -76,7 +76,9 @@ const handleAddToTeam = (player, team) => {
   }
 
   // Mark player as assigned
-  setAssignedPlayers((prev) => ({ ...prev, [player.key]: true }));
+  if((team == "A" && teamA.filter((player) => player !== null).length < 11) || (team == "B" && teamB.filter((player) => player !== null).length < 11)){
+    setAssignedPlayers((prev) => ({ ...prev, [player.key]: true }));
+  }  
 };
 
 
@@ -107,6 +109,7 @@ const handleRemoveFromTeam = (playerKey, team) => {
   };
 
   console.log(teamA)
+  console.log(assignedPlayers)
 
   return (
     <div>
