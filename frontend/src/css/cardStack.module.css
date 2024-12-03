@@ -136,3 +136,25 @@ progress {
   font-size: 2rem;
   margin: 0 auto;
 }
+
+/* Hide scrollbars for the parent and all its child elements */
+.hide-scrollbar {
+  overflow: hidden !important;  /* Force overflow hidden */
+  -ms-overflow-style: none !important;  /* For Internet Explorer */
+  scrollbar-width: none !important;  /* For Firefox */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none !important;  /* For Webkit browsers (Chrome, Safari) */
+}
+
+/* Hide scrollbars for all child elements */
+.hide-scrollbar * {
+  overflow: hidden !important;  /* Ensure no scrollbars in child elements */
+  -ms-overflow-style: none !important;  /* For Internet Explorer */
+  scrollbar-width: none !important;  /* For Firefox */
+}
+
+.hide-scrollbar *::-webkit-scrollbar {
+  display: none !important;  /* For Webkit browsers (Chrome, Safari) */
+}

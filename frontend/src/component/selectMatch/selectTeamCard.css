@@ -109,3 +109,19 @@
 .search-card {
   padding: 20px;
 }
+
+.teams-grid {
+  scroll-behavior: smooth;
+  max-height: 40vh;
+  overflow-y: scroll; /* Enable scrolling */
+}
+
+/* Hide the scrollbar */
+.teams-grid::-webkit-scrollbar {
+  display: none;
+}
+
+/* Optional: You can still keep the scrollbar functionality in Firefox with these settings */
+.teams-grid {
+  scrollbar-width: none; /* Firefox */
+}

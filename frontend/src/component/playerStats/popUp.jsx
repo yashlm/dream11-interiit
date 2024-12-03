@@ -133,13 +133,13 @@ export default function PlayerPopOut({
                         </div>
                       </CardMedia>
                     </div>
-                    {/* {description && ( */}
+                    {description && (
                       <div className={styles.playerdesc}>
                         <h3>Player Description:</h3>
-                        {/* <p className={styles.typing}>{description}</p> */}
-                        <p className={styles.typing}> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur saepe doloribus cum. Dolores mollitia distinctio fugiat assumenda necessitatibus facere expedita optio vitae ipsa asperiores perferendis pariatur doloribus debitis, dignissimos explicabo? </p>
+                        <p className={styles.typing}>{description}</p>
+                        {/* <p className={styles.typing}> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur saepe doloribus cum. Dolores mollitia distinctio fugiat assumenda necessitatibus facere expedita optio vitae ipsa asperiores perferendis pariatur doloribus debitis, dignissimos explicabo? </p> */}
                       </div>
-                    {/* )} */}
+                    )}
                   </div>
                   <img
                     src="/assets/playerStats.png"

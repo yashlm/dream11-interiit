@@ -100,10 +100,10 @@ const SelectMatchCard = ({ teamA, teamB }) => {
           setMatchDate={setMatchDate}
         />
       </div>
-      <div className={styles.matchCardList}>
+      <div className={`${styles.matchCardList} hide-scrollbar`}>
         {/* If a date is selected, show matches for that date */}
         {matchDate && filteredMatches && filteredMatches.length > 0 ? (
-          <div className={styles.matchCardList} style={{ width: "100%" }}>
+          <div className={`${styles.matchCardList} hide-scrollbar`} style={{ width: "100%" }}>
             <h4>Matches on Selected Date</h4>
             {filteredMatches.map((match) => (
               <NewMatchCard
