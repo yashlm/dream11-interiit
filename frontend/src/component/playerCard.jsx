@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
@@ -189,22 +190,25 @@ export default function PlayerCard({
                 }}
               >
                 {type &&
-                  type.split(" ").map((word, index) => (
-                    <Typography
-                      key={index}
-                      variant="p"
-                      sx={{
-                        backgroundColor: getWordColor(word), // Dynamically set the color for each word
-                        display: "inline", // Ensure words are inline
-                        marginRight: 1, // Add spacing between words
-                        padding: 0.3,
-                        border: `1px solid ${getWordColor(word)}`,
-                        borderRadius: "5px",
-                      }}
-                    >
-                      {word}
-                    </Typography>
-                  ))}
+                  type.
+                    split(" ")
+                    .filter((word) => word.toLowerCase() !== "order") // Exclude "order"
+                    .map((word, index) => (
+                      <Typography
+                        key={index}
+                        variant="p"
+                        sx={{
+                          backgroundColor: getWordColor(word), // Dynamically set the color for each word
+                          display: "inline", // Ensure words are inline
+                          marginRight: 1, // Add spacing between words
+                          padding: 0.3,
+                          border: `1px solid ${getWordColor(word)}`,
+                          borderRadius: "5px",
+                        }}
+                      >
+                        {word}
+                      </Typography>
+                    ))}
               </Box>
             </Box>
             <Tooltip title={"Add player to your squad"}>
