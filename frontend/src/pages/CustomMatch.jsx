@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import {
   Grid,
@@ -29,8 +29,20 @@ export default function CustomMatch() {
     return <p>Error: Missing team data!</p>;
   }
 
-  const [teamA, setTeamA] = useState(Array(11).fill(null));
-  const [teamB, setTeamB] = useState(Array(11).fill(null));
+  const [teamA, setTeamA] = useState(() => {
+    const savedTeamA = localStorage.getItem('selectedteamA');
+    return savedTeamA ? JSON.parse(savedTeamA) : Array(11).fill(null);
+  });
+
+  const [teamB, setTeamB] = useState(() => {
+    const savedTeamB = localStorage.getItem('selectedteamB');
+    return savedTeamB ? JSON.parse(savedTeamB) : Array(11).fill(null);
+  });
+
+  const [assignedPlayers, setAssignedPlayers] = React.useState(() => {
+    const savedAssignedPlayers = localStorage.getItem('assignedPlayers');
+    return savedAssignedPlayers ? JSON.parse(savedAssignedPlayers) : {};
+  });
 
   const [alert, setAlert] = useState({
     message: "",
@@ -38,11 +50,15 @@ export default function CustomMatch() {
     show: false,
   });
 
-const [assignedPlayers, setAssignedPlayers] = React.useState({}); // {playerKey: true/false}
+  useEffect(() => {
+    localStorage.setItem('selectedteamA', JSON.stringify(teamA));
+    localStorage.setItem('selectedteamB', JSON.stringify(teamB));
+    localStorage.setItem('assignedPlayers', JSON.stringify(assignedPlayers));
+  }, [teamA, teamB, assignedPlayers]);
 
-const handleAddToTeam = (player, team) => {
-  const isPlayerInTeamA = teamA.some((p) => p && p.key === player.key);
-  const isPlayerInTeamB = teamB.some((p) => p && p.key === player.key);
+  const handleAddToTeam = (player, team) => {
+    const isPlayerInTeamA = teamA.some((p) => p && p.key === player.key);
+    const isPlayerInTeamB = teamB.some((p) => p && p.key === player.key);
 
   if (isPlayerInTeamA || isPlayerInTeamB) {
     setAlert({
