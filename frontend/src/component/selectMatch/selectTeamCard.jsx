@@ -167,6 +167,7 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
           style={{
             maxHeight: "60vh",
             overflowY: "auto",
+            scrollBehavior:"smooth"
           }}
         >
           {filteredTeams.length > 0
