@@ -22,8 +22,8 @@ const CustomStyles = {
       border: "none",
     },
     buttonClose: {
-      backgroundColor: "white", // Red for "Close" button
-      color: "#fff",
+      backgroundColor: "transparent", 
+      
     },
   };
   
