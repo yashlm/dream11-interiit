@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { motion } from "framer-motion";
 import styles from "../../css/cardStack.module.css";
 import TeamSearchCard from "./selectTeamCard.jsx";
@@ -10,17 +11,79 @@ import ProgressBar from "./progressBar.jsx";
 import SelectMatchCard from "./selectMatchCard.jsx";
 import { BASE_URL } from "../../constants.jsx";
 import Navbar from "../Navbar.jsx";
-
+import Joyride from "react-joyride";
+import CustomStyles from "../Tourstyles.jsx";
 const CardStack = () => {
   const [firstCardMoved, setFirstCardMoved] = useState(false);
   const [secondCardMoved, setSecondCardMoved] = useState(false);
   const [currentStep, setCurrentStep] = useState(-1);
-
   const [firstTeam, setFirstTeam] = useState(null);
   const [secondTeam, setSecondTeam] = useState(null);
 
   const [allTeams, setallTeams] = useState(null);
   const navigate = useNavigate();
+//....tour....
+  const { state } = useLocation();
+  const [tourCompleted, setTourCompleted] = useState(false);
+  const [run, setRun] = useState(false);
+  const [stepIndex, setStepIndex] = useState(0);
+  const stepstour = [
+    {
+      target: '[data-tour-id="search-team"]',
+      content: "Search the names of teams you would like to play a match with and select them.",
+    },
+    {
+      target: '[data-tour-id="scrolling-calendar"]',
+      content: "Select a date to play a match. If a match is scheduled, choose to continue with your current Dream11 squad or customize it. If no match is scheduled, create your own by selecting 22 players.",
+    },
+
+  ];
+  useEffect(() => {
+    if (state?.continueTour) {
+      setRun(true); // Start the tour if continueTour is passed
+    }
+  }, [state]);
+  
+  const handleStartTour = () => {
+    if (!tourCompleted) {
+      setTimeout(() => setRun(true), 500); // Small delay to ensure components render
+    }
+  };
+  
+  const handleJoyrideCallback = (data) => {
+    const { action, index, type } = data;
+
+    if (type === "step:after") {
+      // Handle navigation at the end of the last step
+      if (index === stepstour.length - 1 && action === "next") {
+       console.log("next")
+        setRun(false);
+        setTourCompleted(true);
+        navigate("/dreamTeam/1426757", { state: { continueTour: true } });
+      }
+      else{
+       console.log("index", index)
+          setStepIndex(index+1);
+        }
+    }
+
+      // Handle "skip" action
+      if (type === "tour:end" && action === "skip") {
+        setRun(false);
+        setStepIndex(0);
+      }
+    
+      // End of the tour
+      if (type === "tour:end" && action !== "skip") {
+        setRun(false);
+        setStepIndex(0);
+        setTourCompleted(true);
+      }
+      
+    
+  };
+
+  //......tour.....
 
   useEffect(() => {
     const dataFetch = async () => {
@@ -66,8 +129,20 @@ const CardStack = () => {
   return allTeams == null ? (
     <Loading />
   ) : (
-    <div className={styles.fullscreenBackground}>
-      <Navbar />
+      <div className={styles.fullscreenBackground}>
+         <Joyride
+        steps={stepstour}
+        run={run}
+        stepIndex={stepIndex}
+        continuous
+        callback={handleJoyrideCallback}
+        showSkipButton
+        styles={CustomStyles}
+       hideBackButton 
+       disableScrolling={false} 
+       
+      />
+        <Navbar />
       {/* <div className={styles.backgroundCover}></div> */}
       <motion.div
         className={styles.cardStackContainer}
@@ -76,7 +151,7 @@ const CardStack = () => {
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         {/* Progress Bar */}
-        <div className={styles.progressBarWrapper}>
+        <div className={styles.progressBarWrapper} >
           <ProgressBar currentStep={currentStep} steps={steps} />
         </div>
         <p className="w-full m-auto mt-4 text-center text-cyan-300 text-xl">
@@ -91,6 +166,7 @@ const CardStack = () => {
           {/* Card 2 */}
           <motion.div
             className={styles.cardStack}
+              data-tour-id="scrolling-calendar"
             style={{
               boxShadow: secondCardMoved
                 ? "none"
@@ -109,6 +185,7 @@ const CardStack = () => {
               ease: "easeInOut",
             }}
           >
+           
             <TeamSearchCard
               setTeam={setSecondTeam}
               moveCard={setSecondCardMoved}
@@ -116,11 +193,14 @@ const CardStack = () => {
               remove={[firstTeam?.name]}
               allTeams={allTeams}
             />
+           
           </motion.div>
 
           {/* Card 1 */}
           <motion.div
             className={styles.cardStack}
+            data-tour-id="search-team"
+           
             style={{
               boxShadow: firstCardMoved
                 ? "none"
