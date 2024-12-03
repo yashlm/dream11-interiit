@@ -1,12 +1,13 @@
 import * as React from "react";
 import TextField from "@mui/material/TextField";
-import Autocomplete from "@mui/material/Autocomplete";
 import CircularProgress from "@mui/material/CircularProgress";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import { FixedSizeList as List } from "react-window";
 import { BASE_URL } from "../../constants";
+import { Close } from "@mui/icons-material";
 
 export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayers }) {
   const [open, setOpen] = React.useState(false);
@@ -62,19 +63,7 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
   }, [teamA, teamB]);
 
   const handleOpen = () => {
-    setOpen(true);
-
-    const storedPlayersTeamA = JSON.parse(localStorage.getItem("teamA"));
-    const storedPlayersTeamB = JSON.parse(localStorage.getItem("teamB"));
-
-    if (storedPlayersTeamA && storedPlayersTeamB) {
-      setOptions([...storedPlayersTeamA, ...storedPlayersTeamB]);
-    }
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setOptions([]);
+    setOpen((prev) => (prev = !prev));
   };
 
   const handleAddToTeam = (player, team) => {
@@ -92,102 +81,106 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
     }, 1000);
   };
 
+  const Row = ({ index, style }) => {
+    const option = options[index];
+    const isAssigned = assignedPlayers[option.key] || false;
+
+    return (
+      <Box
+        component="li"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          py: 1,
+          px: 2,
+          borderBottom: "1px solid #ddd",
+          ...style,
+        }}
+      >
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs={2} sx={{ display: "flex", justifyContent: "center", textWrap:"nowrap", color:"#173bb0"}}>
+            <Button
+              variant="outlined"
+              size="small"
+              sx={{ textTransform: "none" }}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleAddToTeam(option, "A");
+              }}
+              disabled={isAssigned}
+            >
+              Add to A
+            </Button>
+          </Grid>
+          <Grid item xs={8} sx={{ display: "flex", alignItems: "center", padding:0}}>
+            <Avatar
+              src={option.profileImage}
+              alt={option.name}
+              sx={{ width: 40, height: 40, marginRight: 2 }}
+            />
+            <Box>
+              <div style={{ fontSize: "16px", fontWeight: "bold" }}>
+                {option.name}
+              </div>
+              <div style={{ fontSize: "15px", color: "gray" }}>
+                {option.type}
+              </div>
+              <div style={{ fontSize: "12px", color: "gray" }}>
+                Dream Points: {option.dreamPoints}
+              </div>
+            </Box>
+          </Grid>
+          <Grid item xs={2} sx={{ display: "flex", justifyContent: "flex-end", padding: 0, textWrap:"nowrap", color: "#173bb0"}}>
+            <Button
+              variant="outlined"
+              size="small"
+              sx={{ textTransform: "none" }}
+              onClick={(event) => {
+                event.stopPropagation();
+                handleAddToTeam(option, "B");
+              }}
+              disabled={isAssigned}
+            >
+              Add to B
+            </Button>
+          </Grid>
+        </Grid>
+      </Box>
+    );
+  };
+
   return (
-    <Autocomplete
-      sx={{ width: "100%" }}
-      open={open}
-      onOpen={handleOpen}
-      onClose={handleClose}
-      disableCloseOnSelect
-      isOptionEqualToValue={(option, value) => option.name === value.name}
-      getOptionLabel={(option) => option.name}
-      options={options}
-      loading={loading}
-      renderOption={(props, option) => {
-        const isAssigned = assignedPlayers[option.key] || false;
-        return (
-          <Box
-            component="li"
-            {...props}
-            sx={{
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-              py: 1,
-              px: 2,
-              borderBottom: "1px solid #ddd",
-            }}
-          >
-            <Grid container spacing={2} alignItems="center">
-              <Grid item xs={2} sx={{ display: "flex", justifyContent: "center", textWrap:"nowrap", color:"#173bb0"}}>
-                <Button
-                  variant="outlined"
+    <Box sx={{ width: "100%" }}>
+      <TextField
+        label="Search Players"
+        placeholder="Search..."
+        fullWidth
+        InputProps={{
+          endAdornment: (
+            <>
+              {loading && <CircularProgress color="inherit" size={20} />}
+              
+                <div
+                  aria-label="clear"
                   size="small"
-                  sx={{ textTransform: "none" }}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    handleAddToTeam(option, "A");
-                  }}
-                  disabled={isAssigned}
+                  // onClick={handleClear}
                 >
-                  Add to A
-                </Button>
-              </Grid>
-              <Grid item xs={8} sx={{ display: "flex", alignItems: "center", padding:0}}>
-                <Avatar
-                  src={option.profileImage}
-                  alt={option.name}
-                  sx={{ width: 40, height: 40, marginRight: 2 }}
-                />
-                <Box>
-                  <div style={{ fontSize: "16px", fontWeight: "bold" }}>
-                    {option.name}
-                  </div>
-                  <div style={{ fontSize: "15px", color: "gray" }}>
-                    {option.type}
-                  </div>
-                  <div style={{ fontSize: "12px", color: "gray" }}>
-                    Dream Points: {option.dreamPoints}
-                  </div>
-                </Box>
-              </Grid>
-              <Grid item xs={2} sx={{ display: "flex", justifyContent: "flex-end", padding: 0, textWrap:"nowrap", color: "#173bb0"}}>
-                <Button
-                  variant="outlined"
-                  size="small"
-                  sx={{ textTransform: "none" }}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    handleAddToTeam(option, "B");
-                  }}
-                  disabled={isAssigned}
-                >
-                  Add to B
-                </Button>
-              </Grid>
-            </Grid>
-          </Box>
-        );
-      }}
-      renderInput={(params) => (
-        <TextField
-          {...params}
-          label="Search Players"
-          slotProps={{
-            input: {
-              ...params.InputProps,
-              endAdornment: (
-                <React.Fragment>
-                  {loading ? (
-                    <CircularProgress color="inherit" size={20} />
-                  ) : null}
-                  {params.InputProps.endAdornment}
-                </React.Fragment>
-              ),
-            },
-          }}
-        />
-      )}
-    />
+                  <Close fontSize="small" />
+                </div>
+            </>
+          ),
+        }}
+        onClick={handleOpen}
+      />
+      {open && <List
+        height={400}
+        itemCount={options.length}
+        itemSize={80} // Adjust based on your row height
+        width="100%"
+      >
+        {Row}
+      </List>}
+    </Box>
   );
 }

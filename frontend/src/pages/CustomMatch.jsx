@@ -163,11 +163,12 @@ const handleRemoveFromTeam = (playerKey, team) => {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "space-around",
+                justifyContent: 'space-between',
                 alignItems: "center",
-                gap: "100%",
+                gap: "min(40px, 9vw)",
                 marginBottom: 4,
-                paddingTop: "70px"
+                paddingTop: "70px",
+                flexDirection:"row"
               }}
             >
               {/* Team A */}
