@@ -22,6 +22,7 @@ const SelectMatchCard = ({ teamA, teamB }) => {
       state: {
         teamAdata: { name: teamA.name, url: teamA.url },
         teamBdata: { name: teamB.name, url: teamB.url },
+        date: formattedDate,
       },
     });
   };

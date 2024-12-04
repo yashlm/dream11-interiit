@@ -19,10 +19,11 @@ import batsmanimg from "../assets/batsman.png";
 import { useEffect } from "react";
 import Joyride from "react-joyride";
 import CustomStyles from "../component/Tourstyles";
+import ReadOnlyDate from "../component/common/readOnlyDate";
 
 export default function CustomMatch() {
   const { state } = useLocation();
-  const { teamAdata = {}, teamBdata = {} } = state || {};
+  const { teamAdata = {}, teamBdata = {}, matchDate } = state || {};
   const [teamAInfo, setTeamAInfo] = useState({});
   const [teamBInfo, setTeamBInfo] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
@@ -353,7 +354,7 @@ export default function CustomMatch() {
               </Box>
             )}
 
-            {teamAInfo && (
+            {(teamAInfo?.url || teamAdata?.url) && (
               <div
                 style={{
                   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
@@ -362,6 +363,7 @@ export default function CustomMatch() {
                   padding: "3% 3% 5%",
                 }}
               >
+                <ReadOnlyDate value={matchDate} />
                 <div data-tour-id="match-type" style={{ width: "100%" }}>
                   <Select
                     value={selectedMatchType}
@@ -389,7 +391,9 @@ export default function CustomMatch() {
                 </div>
               </div>
             )}
-            <Typography sx={{ mt: 2, mb: 2 }}>OR</Typography>
+            {(teamAInfo?.url || teamAdata?.url) && (
+              <Typography sx={{ mt: 2, mb: 2 }}>OR</Typography>
+            )}
 
             {/* Import CSV */}
             <div
@@ -439,28 +443,18 @@ export default function CustomMatch() {
                     animate="visible"
                   >
                     {player ? (
-                      teamAInfo ? (
-                        <PlayerCard
-                          name={player.full_name}
-                          points={player.key_cricinfo}
-                          bgImage={player.bg_image_url}
-                          profileImage={player.img_src_url}
-                          isInField={true}
-                          onRemove={() =>
-                            handleRemoveFromTeam(player.player_id, "A")
-                          }
-                        />
-                      ) : (
-                        <PlayerCard
-                          name={player.name}
-                          points={player.dreamPoints}
-                          bgImage={player.bgImage}
-                          profileImage={player.profileImage}
-                          player_id={player.player_id}
-                          isInField={true}
-                          onRemove={null}
-                        />
-                      )
+                      <PlayerCard
+                        name={player?.full_name || player?.name}
+                        points={player?.key_cricinfo || player?.dreamPoints}
+                        bgImage={player?.bg_image_url || player?.bgImage}
+                        profileImage={
+                          player?.img_src_url || player?.profileImage
+                        }
+                        isInField={true}
+                        onRemove={() =>
+                          handleRemoveFromTeam(player.player_id, "A")
+                        }
+                      />
                     ) : (
                       <div
                         data-tour-id="view-players"
@@ -495,28 +489,18 @@ export default function CustomMatch() {
                     animate="visible"
                   >
                     {player ? (
-                      teamBInfo ? (
-                        <PlayerCard
-                          name={player.full_name}
-                          points={player.key_cricinfo}
-                          bgImage={player.bg_image_url}
-                          profileImage={player.img_src_url}
-                          isInField={true}
-                          onRemove={() =>
-                            handleRemoveFromTeam(player.player_id, "A")
-                          }
-                        />
-                      ) : (
-                        <PlayerCard
-                          name={player.name}
-                          points={player.dreamPoints}
-                          bgImage={player.bgImage}
-                          profileImage={player.profileImage}
-                          player_id={player.player_id}
-                          isInField={true}
-                          onRemove={null}
-                        />
-                      )
+                      <PlayerCard
+                        name={player?.full_name || player?.name}
+                        points={player?.key_cricinfo || player?.dreamPoints}
+                        bgImage={player?.bg_image_url || player?.bgImage}
+                        profileImage={
+                          player?.img_src_url || player?.profileImage
+                        }
+                        isInField={true}
+                        onRemove={() =>
+                          handleRemoveFromTeam(player.player_id, "B")
+                        }
+                      />
                     ) : (
                       <div
                         style={{
