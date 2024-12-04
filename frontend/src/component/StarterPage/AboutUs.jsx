@@ -6,7 +6,7 @@ import img3 from "../../assets/landing_page/aboutus3.png";
 
 const AboutUs = () => {
     return (
-        <div className={styles.aboutUsContainer}>
+        <div className={styles.aboutUsContainer} id="about">
             <div className={styles.imageGrid}>
                 <div className={styles.imageBox}>
                     <img src={img1} alt="Player 1" className={styles.image1} />

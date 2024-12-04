@@ -71,7 +71,7 @@ const NewMatchCard = ({ match, team_info }) => {
             <CalendarToday className={styles.icon} />
             {matchDate}
           </p>
-          <p>Type: {match?.match_type || "Match Type Not Available"}</p>
+          <p>Format: {match?.match_type || "Match Type Not Available"}</p>
         </div>
 
         <p>
