@@ -26,7 +26,7 @@ export default function CustomMatch() {
   const { teamAdata = {}, teamBdata = {}, matchDate } = state || {};
   const [teamAInfo, setTeamAInfo] = useState({});
   const [teamBInfo, setTeamBInfo] = useState({});
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(matchDate);
   const [selectedMatchType, setSelectedMatchType] = useState("");
 
   const [teamA, setTeamA] = useState(() => {
@@ -49,6 +49,7 @@ export default function CustomMatch() {
     severity: "",
     show: false,
   });
+
   const navigate = useNavigate();
 
   //....tour....
@@ -58,10 +59,10 @@ export default function CustomMatch() {
   const stepstour = [
     {
       target: '[data-tour-id="match-type"]',
-      content: "In the custom match option , you can select the type of match you want to play.",
+      content:
+        "In the custom match option , you can select the type of match you want to play.",
       disableBeacon: true,
-    }
-    ,
+    },
     {
       target: '[data-tour-id="player-search"]',
       content:
@@ -81,10 +82,10 @@ export default function CustomMatch() {
   useEffect(() => {
     if (state?.continueTour && !tourCompleted) {
       setRun(true);
-console.log("state", state.continueTour)
-    // Clear the state after starting the tour
-    navigate(location.pathname, { replace: true }); 
-    console.log("state", state.continueTour)
+      console.log("state", state.continueTour);
+      // Clear the state after starting the tour
+      navigate(location.pathname, { replace: true });
+      console.log("state", state.continueTour);
     }
   }, [state, location.pathname, navigate]);
 
@@ -100,6 +101,7 @@ console.log("state", state.continueTour)
     localStorage.removeItem("teamB");
     localStorage.removeItem("savedID");
   }, []);
+
   const handleJoyrideCallback = (data) => {
     const { action, index, type } = data;
 
@@ -133,6 +135,12 @@ console.log("state", state.continueTour)
 
   // redirect to dream team page
   const generateDreamTeam = () => {
+    console.log("teamA", teamA);
+    console.log("teamB", teamB);
+    console.log("date", selectedDate);
+    console.log("match type", selectedMatchType);
+    console.log("teamAInfo", teamAInfo);
+    console.log("teamBInfo", teamBInfo);
     navigate("/dreamTeam", {
       state: {
         teamA: teamA,
@@ -222,12 +230,9 @@ console.log("state", state.continueTour)
       setSelectedDate(response.match_date);
       console.log("date : !", selectedDate);
       setSelectedMatchType(response.match_type);
-
       console.log("teamA", teamAInfo);
-
       console.log("team B", teamBInfo);
-      console.log("teamAPlayers", teamA); 
-
+      console.log("teamAPlayers", teamA);
       console.log("teamBPlayers", teamB);
     } else {
       setAlert({
@@ -240,23 +245,23 @@ console.log("state", state.continueTour)
 
   return (
     <div>
-      {run &&
-      <Joyride
-      locale={{
-        skip: "End Tour", 
-        last: "Finish",  
-      }}
-        steps={stepstour}
-        run={run}
-        stepIndex={stepIndex}
-        continuous
-        callback={handleJoyrideCallback}
-        showSkipButton
-        styles={CustomStyles}
-        hideBackButton
-        disableScrolling={false}
-      />
-}
+      {run && (
+        <Joyride
+          locale={{
+            skip: "End Tour",
+            last: "Finish",
+          }}
+          steps={stepstour}
+          run={run}
+          stepIndex={stepIndex}
+          continuous
+          callback={handleJoyrideCallback}
+          showSkipButton
+          styles={CustomStyles}
+          hideBackButton
+          disableScrolling={false}
+        />
+      )}
       <Navbar />
 
       <Box

@@ -9,7 +9,12 @@ import { FixedSizeList as List } from "react-window";
 import { BASE_URL } from "../../constants";
 import { Close } from "@mui/icons-material";
 
-export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayers }) {
+export default function PlayerSearch({
+  teamA,
+  teamB,
+  onAddToTeam,
+  assignedPlayers,
+}) {
   const [open, setOpen] = React.useState(false);
   const [options, setOptions] = React.useState([]);
   const [loading, setLoading] = React.useState(false);
@@ -24,6 +29,7 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
       type: player.playing_role,
       profileImage: player.img_src_url,
       bgImage: player.bg_image_url,
+      player_id: player.player_id,
     }));
   };
 
@@ -110,7 +116,16 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
         }}
       >
         <Grid container spacing={2} alignItems="center">
-          <Grid item xs={2} sx={{ display: "flex", justifyContent: "center", textWrap:"nowrap", color:"#173bb0"}}>
+          <Grid
+            item
+            xs={2}
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              textWrap: "nowrap",
+              color: "#173bb0",
+            }}
+          >
             <Button
               variant="outlined"
               size="small"
@@ -124,7 +139,11 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
               Add to A
             </Button>
           </Grid>
-          <Grid item xs={8} sx={{ display: "flex", alignItems: "center", padding:0}}>
+          <Grid
+            item
+            xs={8}
+            sx={{ display: "flex", alignItems: "center", padding: 0 }}
+          >
             <Avatar
               src={option.profileImage}
               alt={option.name}
@@ -142,7 +161,17 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
               </div>
             </Box>
           </Grid>
-          <Grid item xs={2} sx={{ display: "flex", justifyContent: "flex-end", padding: 0, textWrap:"nowrap", color: "#173bb0"}}>
+          <Grid
+            item
+            xs={2}
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+              padding: 0,
+              textWrap: "nowrap",
+              color: "#173bb0",
+            }}
+          >
             <Button
               variant="outlined"
               size="small"
@@ -173,7 +202,11 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
           endAdornment: (
             <>
               {loading && <CircularProgress color="inherit" size={20} />}
-              <Close fontSize="small" onClick={handleClear} style={{ cursor: "pointer" }} />
+              <Close
+                fontSize="small"
+                onClick={handleClear}
+                style={{ cursor: "pointer" }}
+              />
             </>
           ),
         }}
@@ -183,7 +216,7 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
         <List
           height={400}
           itemCount={filteredOptions.length}
-          itemSize={80} 
+          itemSize={80}
           width="100%"
         >
           {Row}

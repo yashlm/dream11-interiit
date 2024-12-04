@@ -17,12 +17,14 @@ const SelectMatchCard = ({ teamA, teamB }) => {
   const navigate = useNavigate();
 
   const customMatch = () => {
-    const formattedDate = matchDate.toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
+    console.log(matchDate);
+    // const formattedDate = matchDate.toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
+    const formattedDate = matchDate.toLocaleDateString("en-CA");
     navigate(`/custommatch`, {
       state: {
         teamAdata: { name: teamA.name, url: teamA.url },
         teamBdata: { name: teamB.name, url: teamB.url },
-        date: formattedDate,
+        matchDate: formattedDate,
       },
     });
   };
@@ -103,7 +105,10 @@ const SelectMatchCard = ({ teamA, teamB }) => {
       <div className={`${styles.matchCardList} hide-scrollbar`}>
         {/* If a date is selected, show matches for that date */}
         {matchDate && filteredMatches && filteredMatches.length > 0 ? (
-          <div className={`${styles.matchCardList} hide-scrollbar`} style={{ width: "100%" }}>
+          <div
+            className={`${styles.matchCardList} hide-scrollbar`}
+            style={{ width: "100%" }}
+          >
             <h4>Matches on Selected Date</h4>
             {filteredMatches.map((match) => (
               <NewMatchCard
