@@ -38,15 +38,14 @@ const HomePage = () => {
     {
       target: '[data-tour-id="matches"]',
       content:
-        "Here are the featured matches of the day. You can also browse through all the available matches. You can click on a match to view its details",
-        disableBeacon: true,
-       
-        placement: "top-right"
-      },
+        "Here are the featured matches of the day. You can also browse through all the available matches. Click on a match to view its details.",
+      disableBeacon: true,
+      placement: "top-right"
+    },
     {
       target: '[data-tour-id="calendar"]',
       content:
-        "Select the date of the match you want to play. Matches of that day and future matches will show on your screen accordingly.",
+        "Select the date of the match you want to play. Matches for that day and future matches will be displayed accordingly.",
     },
     {
       target: '[data-tour-id="select-match"]',
@@ -54,14 +53,14 @@ const HomePage = () => {
     },
     {
       target: '[data-tour-id="create-match"]',
-      content: "or you can create a match with your desirable squad.",
+      content: "Alternatively, you can create a match with your desired squad.",
     },
     {
       target: '[data-tour-id="/teamSelect"]',
       content:
-        "You can also select a match and create your desirable Dream11 team from here.",
+        "You can also select a match and create your desired Dream11 team from here.",
     },
-  ];
+  ];  
 
   // Fetch matches data whenever the selected date changes
   useEffect(() => {
