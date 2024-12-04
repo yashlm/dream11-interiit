@@ -54,7 +54,7 @@ export default function DescriptionCard({
     console.log("Text to be converted to audio:", text);
     try {
       const body = {
-        target_language_code: localStorage.getItem("lang"),
+        target_language_code: localStorage.getItem("lang") || "hi-IN",
         message: text,
       };
       console.log("Body:", body);

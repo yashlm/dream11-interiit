@@ -3,11 +3,13 @@ import { MDBCard, MDBCardBody, MDBIcon, MDBTypography } from "mdb-react-ui-kit";
 import { BASE_URL } from "../../constants";
 import WhichWeather from "../helper/weatherIdentifier";
 
-export default function WeatherCard({ matchId, place, setEffect }) {
+export default function WeatherCard({ matchId, place, setEffect, showEffect }) {
   const [weatherData, setWeatherData] = useState(null);
+  const [effect, setEffectLocal] = useState(null);
   useEffect(() => {
     if (weatherData) {
       setEffect(weatherData.effect);
+      setEffectLocal(weatherData.effect);
     }
   }, [weatherData]);
   useEffect(() => {
@@ -20,7 +22,7 @@ export default function WeatherCard({ matchId, place, setEffect }) {
           );
         }
         const rawData = await response.json();
-        console.log("weather",rawData);
+        console.log("weather", rawData);
         // temp and humidity
         setWeatherData({
           ...WhichWeather(rawData.data[0][0], rawData.data[0][1]),
@@ -81,6 +83,7 @@ export default function WeatherCard({ matchId, place, setEffect }) {
               <span className="ms-2">{weatherData.humidity}</span>
             </span>
           </div>
+          {showEffect && <h6 style={{ marginTop: "2%" }}>{effect}</h6>}
         </MDBCardBody>
       </MDBCard>
     )

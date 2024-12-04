@@ -232,6 +232,8 @@ export default function DreamTeamGround() {
         player: initialOnFieldPlayers[index] || null,
       }))
     );
+
+    return sortedPlayers;
   };
 
   const llmReason = async (players11, match_id, match_type) => {
@@ -285,9 +287,9 @@ export default function DreamTeamGround() {
         );
       }
       const data = await response.json();
-      processData(data);
+      const sortedPlayers = processData(data);
       llmReason(
-        data.players?.slice(0, 11),
+        sortedPlayers?.slice(0, 11),
         match_id,
         data.match_details.match_type
       );
@@ -322,7 +324,7 @@ export default function DreamTeamGround() {
         );
       }
       const data = await response.json();
-      processData(data);
+      const sortedPlayers = processData(data);
 
       const bodyHash = sha256(
         JSON.stringify({
@@ -330,7 +332,7 @@ export default function DreamTeamGround() {
           match_type: body.match_type,
         })
       );
-      llmReason(data.players?.slice(0, 11), bodyHash, state.match_type);
+      llmReason(sortedPlayers?.slice(0, 11), bodyHash, state.match_type);
     } catch (error) {
       alert("We encountered an issue. Please try again later.");
       console.error("Error fetching teams:", error);

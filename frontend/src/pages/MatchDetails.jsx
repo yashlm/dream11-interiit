@@ -28,22 +28,21 @@ const MatchDetails = () => {
   const isStateTypehome =
     state.hasOwnProperty("matchDate") && state.hasOwnProperty("team1Logo");
 
-    const headdatadummy = {
-      "avg_batting_a": 188.4,
-      "id": 12760,
-      "team_a": "Australia",
-      "avg_wickets_a": 6.2,
-      "match_date": "2024-10-13",
-      "winner": "Australia",
-      "winner_b": 2,
-      "avg_batting_b": 155.0,
-      "team_b": "India",
-      "avg_wickets_b": 6.0,
-      "match_type": "T20",
-      "winner_a": 3,
-      "draws": 0
-    };
-    
+  const headdatadummy = {
+    avg_batting_a: 188.4,
+    id: 12760,
+    team_a: "Australia",
+    avg_wickets_a: 6.2,
+    match_date: "2024-10-13",
+    winner: "Australia",
+    winner_b: 2,
+    avg_batting_b: 155.0,
+    team_b: "India",
+    avg_wickets_b: 6.0,
+    match_type: "T20",
+    winner_a: 3,
+    draws: 0,
+  };
 
   useEffect(() => {
     const fetchMatchDetails = async () => {
@@ -53,14 +52,12 @@ const MatchDetails = () => {
           { method: "GET" }
         );
         const data = await response.json();
-        console.log("Data",data)
+        console.log("Data", data);
         if (data.pitch) {
           setpitchdata(data.pitch);
-
         }
-        if(data.wins)
-        {
-          const head=data.wins;
+        if (data.wins) {
+          const head = data.wins;
 
           //console.log(data.wins);
           setheaddata(head);
@@ -137,7 +134,11 @@ const MatchDetails = () => {
         {/* Weather and Pitch Section */}
         <div className={styles.weatherAndPitchContainer}>
           <div className={styles.weathercard}>
-            <WeatherCard matchId={match_id} setEffect={setInfo} />
+            <WeatherCard
+              matchId={match_id}
+              setEffect={setInfo}
+              showEffect={true}
+            />
           </div>
           <div className={styles.pitchcard}>
             <PitchCard pitch={pitchdata} />
@@ -146,37 +147,34 @@ const MatchDetails = () => {
 
         {/* Match Details Card */}
         <div className={styles.matchDetailsCardwithimg}>
-  <MatchDetailsCard
-    match={carddata}
-    className={styles.matchDetailsCard}
-  />
-  {/* Head-to-Head Card */}
- 
-  <img src={batsman_img} alt="Batsman" className={styles.batsmanImg} />
- 
-  <div className={styles.headToHeadContainer}>
-    <HeadToHeadCard headdata={headdatadummy}/>
-  </div>
+          <MatchDetailsCard
+            match={carddata}
+            className={styles.matchDetailsCard}
+          />
+          {/* Head-to-Head Card */}
 
+          <img src={batsman_img} alt="Batsman" className={styles.batsmanImg} />
 
-  <Button
-    variant="contained"
-    color="error"
-    sx={{
-      position: "absolute",
-      bottom: "20px",
-      left: "50%",
-      transform: "translateX(-50%)",
-      padding: "10px 20px",
-      fontSize: "16px",
-    }}
-    onClick={handleGenerateDreamTeam}
-  >
-    Generate Dream Team
-  </Button>
-</div>
+          <div className={styles.headToHeadContainer}>
+            <HeadToHeadCard headdata={headdatadummy} />
+          </div>
 
-        
+          <Button
+            variant="contained"
+            color="error"
+            sx={{
+              position: "absolute",
+              bottom: "20px",
+              left: "50%",
+              transform: "translateX(-50%)",
+              padding: "10px 20px",
+              fontSize: "16px",
+            }}
+            onClick={handleGenerateDreamTeam}
+          >
+            Generate Dream Team
+          </Button>
+        </div>
 
         {/* Team B Card */}
         <div className={styles.teamCard}>
@@ -193,8 +191,6 @@ const MatchDetails = () => {
           </div>
           <Playerlist playerdata={teamBPlayers} />
         </div>
-
-        
       </div>
     </div>
   );
