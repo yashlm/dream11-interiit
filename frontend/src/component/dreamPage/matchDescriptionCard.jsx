@@ -48,12 +48,17 @@ export default function DescriptionCard({
     const text = document.getElementById("infoSectionText").textContent;
     console.log("Text to be converted to audio:", text);
     try {
+      const body = {
+        target_language_code: localStorage.getItem("lang"),
+        message: text,
+      };
+      console.log("Body:", body);
       const response = await fetch(`${BASE_URL}/ai/audio`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({ message: text }),
+        body: JSON.stringify(body),
       });
       if (!response.ok) {
         throw new Error("Failed to fetch audio");
@@ -148,14 +153,16 @@ export default function DescriptionCard({
             <FaShareAlt />
           </button>
         </Tooltip>
-        <Tooltip title="Match Details" placement="top">
-          <button
-            className={styles.actionButton}
-            onClick={handleMatchDetailsroute}
-          >
-            <FaInfoCircle />
-          </button>
-        </Tooltip>
+        {match_id && (
+          <Tooltip title="Match Details" placement="top">
+            <button
+              className={styles.actionButton}
+              onClick={handleMatchDetailsroute}
+            >
+              <FaInfoCircle />
+            </button>
+          </Tooltip>
+        )}
         <Tooltip title="Save" placement="top">
           <button className={styles.actionButton} onClick={onSave}>
             <FaSave />

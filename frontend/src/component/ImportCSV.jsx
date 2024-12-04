@@ -41,9 +41,6 @@ export default function CSVImporter({ onPlayersLoaded }) {
 
       if (result) {
         setPlayers(result);
-        // console.log("result", result)
-        // console.log("date", result.match_date)
-        // console.log("type", result.match_type)
         onPlayersLoaded(result); // Pass the players data back to the parent
         setAlert({
           message: "Successfully imported players from the CSV file.",
@@ -68,7 +65,6 @@ export default function CSVImporter({ onPlayersLoaded }) {
     } finally {
       setLoading(false);
     }
-
   };
 
   const handleAlertClose = () => {
