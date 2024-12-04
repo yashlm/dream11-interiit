@@ -9,11 +9,16 @@ import { BASE_URL } from "../constants";
 import { Button } from "@mui/material"; // Import the Button component
 import Loading from "../component/common/Loading";
 import WeatherCard from "../component/common/weatherCard";
+import PitchCard from "../component/Pitchcard";
+import HeadToHeadCard from "../component/HeadToHead";
+
 const MatchDetails = () => {
   const { match_id } = useParams();
   const location = useLocation();
   const [teamAPlayers, setTeamAPlayers] = useState([]);
   const [info, setInfo] = useState("");
+  const [pitchdata, setpitchdata] = useState("");
+  const [headdata, setheaddata] = useState("");
   const [teamBPlayers, setTeamBPlayers] = useState([]);
   const [carddata, setCardData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,19 +28,43 @@ const MatchDetails = () => {
   const isStateTypehome =
     state.hasOwnProperty("matchDate") && state.hasOwnProperty("team1Logo");
 
+    const headdatadummy = {
+      "avg_batting_a": 188.4,
+      "id": 12760,
+      "team_a": "Australia",
+      "avg_wickets_a": 6.2,
+      "match_date": "2024-10-13",
+      "winner": "Australia",
+      "winner_b": 2,
+      "avg_batting_b": 155.0,
+      "team_b": "India",
+      "avg_wickets_b": 6.0,
+      "match_type": "T20",
+      "winner_a": 3,
+      "draws": 0
+    };
+    
+
   useEffect(() => {
     const fetchMatchDetails = async () => {
       try {
         const response = await fetch(
           `${BASE_URL}/match/matchdetails/${match_id}`,
-          {
-            method: "GET",
-          }
+          { method: "GET" }
         );
-
         const data = await response.json();
-        console.log("data", data);
+        console.log("Data",data)
+        if (data.pitch) {
+          setpitchdata(data.pitch);
 
+        }
+        if(data.wins)
+        {
+          const head=data.wins;
+
+          //console.log(data.wins);
+          setheaddata(head);
+        }
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
@@ -45,7 +74,6 @@ const MatchDetails = () => {
           if (data.teamA && data.teamB) {
             setTeamAPlayers(data.teamA);
             setTeamBPlayers(data.teamB);
-            //  console.log("list",data.teamA);
           } else {
             setError("Team data is missing or undefined.");
             return;
@@ -81,13 +109,16 @@ const MatchDetails = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
+
   const handleGenerateDreamTeam = () => {
     navigate(`/dreamTeam/${match_id}`);
   };
+
   return (
     <div>
       <Navbar />
       <div className={styles.matchDetailsContainer}>
+        {/* Team A Card */}
         <div className={styles.teamCard}>
           <div className={styles.teamHeader}>
             <div className={styles.team}>
@@ -102,35 +133,52 @@ const MatchDetails = () => {
           </div>
           <Playerlist playerdata={teamAPlayers} />
         </div>
-        <div className={styles.weathercard}>
-          <WeatherCard matchId={match_id} setEffect={setInfo} />
+
+        {/* Weather and Pitch Section */}
+        <div className={styles.weatherAndPitchContainer}>
+          <div className={styles.weathercard}>
+            <WeatherCard matchId={match_id} setEffect={setInfo} />
+          </div>
+          <div className={styles.pitchcard}>
+            <PitchCard pitch={pitchdata} />
+          </div>
         </div>
+
+        {/* Match Details Card */}
         <div className={styles.matchDetailsCardwithimg}>
-          <MatchDetailsCard
-            match={carddata}
-            className={styles.matchDetailsCard}
-          />
+  <MatchDetailsCard
+    match={carddata}
+    className={styles.matchDetailsCard}
+  />
+  {/* Head-to-Head Card */}
+ 
+  <img src={batsman_img} alt="Batsman" className={styles.batsmanImg} />
+ 
+  <div className={styles.headToHeadContainer}>
+    <HeadToHeadCard headdata={headdatadummy}/>
+  </div>
 
-          <img src={batsman_img} alt="Batsman" className={styles.batsmanImg} />
 
-          <Button
-            variant="contained"
-            color="error"
-            sx={{
-              position: "absolute", // Position it at the bottom of the card
-              bottom: "20px",
-              left: "50%",
-              transform: "translateX(-50%)",
+  <Button
+    variant="contained"
+    color="error"
+    sx={{
+      position: "absolute",
+      bottom: "20px",
+      left: "50%",
+      transform: "translateX(-50%)",
+      padding: "10px 20px",
+      fontSize: "16px",
+    }}
+    onClick={handleGenerateDreamTeam}
+  >
+    Generate Dream Team
+  </Button>
+</div>
 
-              padding: "10px 20px",
-              fontSize: "16px",
-            }}
-            onClick={handleGenerateDreamTeam}
-          >
-            Generate Dream Team
-          </Button>
-        </div>
+        
 
+        {/* Team B Card */}
         <div className={styles.teamCard}>
           <div className={styles.teamHeader}>
             <div className={styles.team}>
@@ -145,6 +193,8 @@ const MatchDetails = () => {
           </div>
           <Playerlist playerdata={teamBPlayers} />
         </div>
+
+        
       </div>
     </div>
   );
