@@ -22,6 +22,7 @@ const FAQ = () => {
                 gap: "2rem",
                 borderRadius: "8px",
             }}
+            id="faqs"
         >
             {/* FAQ Section */}
             <Box sx={{ flex: 2 }}>

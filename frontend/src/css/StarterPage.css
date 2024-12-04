@@ -5,6 +5,7 @@ body {
   height: 100%;
   margin: 0;
   font-family: Lato, sans-serif;
+  scroll-behavior: smooth;
 }
 
 .main-container {
@@ -28,12 +29,12 @@ body {
 }
 
 .welcome-text {
-  font-size: 2.5rem; /* Reduce font size for smaller screens */
+  font-size: 3rem; /* Reduce font size for smaller screens */
   font-family: Oswald, sans-serif;
   font-weight: 700;
   color: white;
   margin-bottom: 20px;
-  width: 12em;
+  width: em;
   display: flex;
   flex-direction: column;
 }
@@ -141,3 +142,26 @@ body {
     width: auto;
   }
 }
+/* StarterPage.css */
+
+/* Typing animation for the text */
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+/* Make the text appear progressively in typing effect */
+.lets {
+  font-size: 2rem;
+  display: inline-block;
+  overflow: hidden; /* Hide text not yet typed */
+  white-space: nowrap;
+  border-right: 4px solid #e6e6e6; /* Simulate typing cursor */
+  animation: typing 3s steps(50) 1s 1 normal forwards;
+  color: #fcf3f2;
+}
+

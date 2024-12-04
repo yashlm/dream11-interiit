@@ -73,7 +73,7 @@
    */
   .teamCard {
     flex: 1;
-    max-width: 400px;
+    max-width: 315px;
     max-height: 87vh; 
     overflow-y: scroll; 
     text-align: center;
@@ -120,10 +120,17 @@
     top: 65%; /* Position the image vertically at the center */
     left: 50%; /* Position the image horizontally at the center */
     transform: translate(-50%, -50%); /* Center the image completely */
-    width: 50vw; /* Adjust the width as needed */
+    width: 55vw; /* Adjust the width as needed */
     height: auto; /* Maintain aspect ratio */
     z-index: 0; /* Ensure the image stays behind the card */
     opacity: 0.5; /* Optional: Add transparency if the image should be subtle */
     pointer-events: none; /* Ensures the image does not interfere with user interactions */
   }
-  
+  .weathercard{
+    background-color: black;
+    margin-top: 2vh;
+    width:15vw;
+    height:20vh;
+    border:1px solid black;
+    border-radius: 8px;
+  }

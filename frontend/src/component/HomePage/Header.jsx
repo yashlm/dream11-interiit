@@ -89,7 +89,7 @@ const Header = () => {
             style={{
               position: "absolute",
               top: "70%",
-              left: "5%",
+              left: "2%",
               transform: "translateY(-50%)",
               textAlign: "left",
               color: "white",
