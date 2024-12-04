@@ -15,6 +15,7 @@ const HeadToHeadCard = ({ headdata }) => {
     draws 
   } = headdata;
 
+  // Determine the dominance message based on the winner
   const dominanceMessage =
     winner === team_a
       ? `${team_a} has been more dominant than ${team_b}.`
@@ -31,18 +32,18 @@ const HeadToHeadCard = ({ headdata }) => {
       <div className={styles.row}>
         {/* Team A */}
         <div className={styles.teamColumn}>
-          <h3 className={styles.teamName}>{team_a}</h3>
-          <p className={styles.stat}>Wins: {winner_a}</p>
-          <p className={styles.stat}>Avg Batting Score: {avg_batting_a}</p>
-          <p className={styles.stat}>Avg Wickets: {avg_wickets_a}</p>
+          {team_a && <h3 className={styles.teamName}>{team_a}</h3>}
+          {winner_a !== undefined && <p className={styles.stat}>Wins: {winner_a}</p>}
+          {avg_batting_a !== undefined && <p className={styles.stat}>Avg Batting Score: {avg_batting_a}</p>}
+          {avg_wickets_a !== undefined && <p className={styles.stat}>Avg Wickets: {avg_wickets_a}</p>}
         </div>
 
         {/* Team B */}
         <div className={styles.teamColumn}>
-          <h3 className={styles.teamName}>{team_b}</h3>
-          <p className={styles.stat}>Wins: {winner_b}</p>
-          <p className={styles.stat}>Avg Batting Score: {avg_batting_b}</p>
-          <p className={styles.stat}>Avg Wickets: {avg_wickets_b}</p>
+          {team_b && <h3 className={styles.teamName}>{team_b}</h3>}
+          {winner_b !== undefined && <p className={styles.stat}>Wins: {winner_b}</p>}
+          {avg_batting_b !== undefined && <p className={styles.stat}>Avg Batting Score: {avg_batting_b}</p>}
+          {avg_wickets_b !== undefined && <p className={styles.stat}>Avg Wickets: {avg_wickets_b}</p>}
         </div>
       </div>
 
@@ -50,6 +51,13 @@ const HeadToHeadCard = ({ headdata }) => {
       <div className={styles.dominanceMessage}>
         <p>{dominanceMessage}</p>
       </div>
+
+      {/* Draws (conditionally render if present) */}
+      {draws !== undefined && (
+        <div className={styles.drawsMessage}>
+          <p>Draws: {draws}</p>
+        </div>
+      )}
     </div>
   );
 };

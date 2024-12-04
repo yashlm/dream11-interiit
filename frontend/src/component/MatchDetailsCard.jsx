@@ -7,15 +7,15 @@ const MatchDetailsCard = ({ match }) => {
     : "";
   const parsedVenue = fixedVenue.split(",");
   const stadium = parsedVenue[0] || "Stadium not available"; // Stadium part
-  const city = parsedVenue[1] || ""; // City part, leave empty if not available
+  const city = match.city || "";  // City part, leave empty if not available
 
   const matchDate = match?.dates?.[0] ? new Date(match.dates[0]) : null;
   const formattedDate = matchDate
     ? matchDate.toLocaleDateString("en-GB", {
-        day: "numeric",
-        month: "long",
-        year: "numeric",
-      })
+      day: "numeric",
+      month: "long",
+      year: "numeric",
+    })
     : "Date not available";
 
   const teams = match?.teams || [];
@@ -75,6 +75,7 @@ const MatchDetailsCard = ({ match }) => {
               {city}
             </p>
           )}
+          
           {stadium && (
             <p>
               <SportsCricket className={styles.icon} />
@@ -87,14 +88,14 @@ const MatchDetailsCard = ({ match }) => {
         <div className={styles.separator}></div>
 
         {/* Referee and Umpires */}
-     
-<div className={styles["officials"]}>
-  <p className={styles["referee"]}>
-    <strong>Referee:</strong>{referee}</p>
-  <p className={styles["umpires"]}>
-    <strong>Umpires:</strong> {umpires.join(", ") || "Umpires not available"}
-  </p>
-</div>
+
+        <div className={styles["officials"]}>
+          <p className={styles["referee"]}>
+            <strong>Referee:</strong>{referee}</p>
+          <p className={styles["umpires"]}>
+            <strong>Umpires:</strong> {umpires.join(", ") || "Umpires not available"}
+          </p>
+        </div>
 
       </div>
     </div>
