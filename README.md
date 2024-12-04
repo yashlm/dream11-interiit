@@ -1,7 +1,98 @@
 # DreamAI Web App Developer Documentation
 
-## 1. Overview
 The DreamAI web app merges machine learning, natural language processing, and user-centric design to deliver a seamless predictive fantasy cricket experience. Key features include LLM-based Dream Team summarization, an AI Assistant Bot, and multilingual generative AI support.
+
+---
+## Overall Project structure
+
+```plaintext
+ProductUI
+├── backend
+├── docker-compose.yaml
+├── frontend
+└── main.py
+```
+
+---
+
+## 1. Backend Technical Architecture(FastAPI)
+
+The backend of the **ProductUI** project is built using **FastAPI** and follows a modular architecture. Below is an outline of the key components:
+
+### Key Components
+
+1. **API (`/api`)**  
+   - Defines FastAPI routes and endpoint logic (e.g., `/users`, `/products`).
+   
+2. **Chatbot (`/chatbot`)**  
+   - Handles chatbot-specific functionality and integrations.
+   
+3. **Database (`/db`)**  
+   - Manages database models, migrations, and interactions (via ORM or raw SQL).
+   
+4. **Models (`/model`)**  
+   - Contains machine learning models and inference logic.
+   
+5. **UI Models (`/product_ui_model`)**  
+   - Defines data structures related to UI features and components.
+   
+6. **Schemas (`/schemas`)**  
+   - Pydantic models for request and response validation.
+   
+7. **Services (`/services`)**  
+   - Contains business logic and external service integrations.
+   
+8. **Utils (`/utils`)**  
+   - Helper functions for common tasks like logging, error handling, etc.
+   
+9. **`main.py`**  
+   - Initializes the FastAPI app, loads routes, and configures the application.
+
+### Data Flow in the Backend
+
+1. **Client Request** →
+2. **Route Handler (`api/`)** →
+3. **Request Validation (`schemas/`)** →
+4. **Business Logic (`services/`)** →
+5. **Database Interaction (`db/`)** →
+6. **Machine Learning (`model/`)** →
+7. **Response Preparation (`schemas/`)** →
+8. **Send Response**
+
+
+### Backend Structure
+
+```plaintext
+
+backend                     	# Backend logic and services
+├── Dockerfile               	# Docker setup for backend
+├── app
+│   ├── api                  	# API endpoints and routes
+│   ├── chatbot              	# Chatbot related code
+│   ├── db                   	# Database models and migrations
+│   ├── model                	# Machine learning models
+│   ├── product_ui_model     	# UI-related product models
+│   ├── schemas              	# Data validation schemas
+│   ├── services             	# Service layer for business logic
+│   └── utils                	# Utility functions
+├── entrypoint.sh            	# Script to start the app
+├── execute_sql_from_file.py 	# Execute SQL commands from file
+├── main.py                  	# Main application logic
+├── requirements.txt         	# Python dependencies
+├── scripts                  	# Helper scripts for data processing
+├── sql                      	# SQL queries and scripts
+├── tests                    	# Unit and integration tests
+│   ├── test_api             	# API endpoint tests
+│   └── test_main.py         	# Main logic tests
+
+```
+
+
+
+---
+
+This architecture promotes separation of concerns, scalability, and maintainability, ensuring a clean and efficient flow from client request to server response.
+
 
 ---
 
@@ -75,7 +166,6 @@ User Input → React Components → Context API → Data Processing → UI Updat
   - Featured Matches: Top 20 matches with key information.
   - All Matches: List of all matches with initial 5 matches displayed.
   - Navigation: Access to other sections such as match details, team selection, and custom match features.
-  ![Alt text](public\picsinteriit\home.jpg)
 
 ### 3. **Select Match (/teamSelect)**
 - **Purpose**: Allows users to select two teams for comparison or simulation.
@@ -83,7 +173,6 @@ User Input → React Components → Context API → Data Processing → UI Updat
   - Team Selection: Choose two teams.
   - Schedule Options: Pick an existing match or create a custom match.
   - Custom Match Page: Create unique team compositions and simulate matches.
-  ![Alt text](public\picsinteriit\select-team.jpg)
 
 ### 4. **Match Details (/custommatch/:id)**
 - **Purpose**: Provides detailed information about a specific match.
@@ -91,7 +180,6 @@ User Input → React Components → Context API → Data Processing → UI Updat
   - Full Player Rosters: Displays all players with their statistics.
   - Custom Squad Creation: Combine players from different teams and analyze match performance.
   - Match Simulation: Simulate matches with different scenarios and strategies.
-  ![Alt text](public/picsinteriit/custom-match.png)
 
 ### 5. **Custom Match Input (/custommatch)**
 - **Purpose**: Dedicated page for creating matches from scratch.
@@ -99,7 +187,6 @@ User Input → React Components → Context API → Data Processing → UI Updat
   - CSV Upload: Upload a CSV file with player and team data.
   - Match Customization: Set match details like date, format, and team composition.
   - Simulate and Explore: Simulate matches and explore different outcomes.
-  ![Alt text](public\picsinteriit\custom-csv.jpg)
 
 ### 6. **Playground (/dreamTeam)**
 - **Purpose**: Central interactive feature for exploring curated teams, analyzing players, and experimenting with strategies.
@@ -108,7 +195,6 @@ User Input → React Components → Context API → Data Processing → UI Updat
   - GenAI Description: Explains team composition and predicts player performance.
   - Match Insights: Additional match details like pitch conditions and weather forecasts.
   - Player Profiles: Interactive player cards with career stats and achievements.
-  ![Alt text](public\picsinteriit\playground.jpg)
 
 ---
 
@@ -133,7 +219,6 @@ User Input → React Components → Context API → Data Processing → UI Updat
 - **Key Features**:
   - **CSV File Format**: Includes player names, squad details, match dates, and format information.
   - **Match Customization**: Users can customize teams, set match dates, and configure simulation formats.
-  
 
 ### Playground (Dream Team)
 - **Purpose**: Interactive feature for exploring curated teams and strategies.
@@ -142,11 +227,34 @@ User Input → React Components → Context API → Data Processing → UI Updat
   - **GenAI Description**: Explains team composition and projected performance.
   - **Match Insights**: Includes pitch conditions, weather forecasts, and more.
   - **Player Profiles**: Interactive cards with player career stats and achievements.
-  ![Alt text](public\picsinteriit\player-profile.jpg)
-  
+
+---
+## 5. Features
+
+### **SelectMatch**
+This feature allows users to select two teams from a list to compare or compete against each other. Users can choose a match from the existing schedules or create their own custom match.
+- **Team Selection**: Choose two teams from a comprehensive list.
+- **Schedule Options**: Pick an existing match or create a custom match.
+- **Custom Match Creation**: Build and simulate unique matches by selecting teams and analyzing player data.
+
+### **Custom Match**
+- **View Player Rosters**: Displays full rosters of selected teams.
+- **Create Custom Squads**: Users can create and combine teams using player data.
+- **Simulate Fantasy Matches**: Experiment with different strategies by simulating matches with custom teams.
+
+### **Custom Input**
+Allows users to upload CSV files to create custom teams and players from scratch. The file format should include player names, squad details, match dates, and format information.
+
+### **Playground (Dream Team)**
+The Playground serves as the heart of the product, offering an immersive, interactive environment for users to explore their teams and strategies:
+- **Dream Team**: AI-generated teams with Dream Scores to visualize player potential.
+- **GenAI Description**: Provides explanations of the team composition and predictions for player performances.
+- **Match Insights**: Provides additional match details such as pitch conditions and weather forecasts.
+- **Player Profiles**: Interactive player cards with career stats, skills, and achievements.
+
 ---
 
-## 5. API Documentation
+##6.  API Documentation
 
 ### **Teams**
 
@@ -168,52 +276,52 @@ User Input → React Components → Context API → Data Processing → UI Updat
    - **Endpoint**: `GET /player/cricketers_lifetime_stats/{player_id}`
    - **Path Parameter**: `player_id` (required)
    - **Response**:
-     - `200 OK`: Returns the lifetime statistics for the player.
-     - `422 Validation Error`: If the player ID is invalid.
+ 	- `200 OK`: Returns the lifetime statistics for the player.
+ 	- `422 Validation Error`: If the player ID is invalid.
 
 5. **Get Player Stats for Multiple Players**
    - **Endpoint**: `POST /player/player_stats/all`
    - **Request Body**:
-     - `match_id` (required): The match ID.
-     - `player_ids` (required): A list of player IDs.
+ 	- `match_id` (required): The match ID.
+ 	- `player_ids` (required): A list of player IDs.
    - **Response**:
-     - `200 OK`: Returns the stats for the specified players.
-     - `422 Validation Error`: If the request body is invalid or if any player ID is incorrect.
+ 	- `200 OK`: Returns the stats for the specified players.
+ 	- `422 Validation Error`: If the request body is invalid or if any player ID is incorrect.
 
 6. **Search Players by Team Name**
    - **Endpoint**: `GET /player/search_players/{team_name}`
    - **Path Parameter**: `team_name` (required)
    - **Response**:
-     - `200 OK`: Returns a list of players in the specified team.
-     - `422 Validation Error`: If the team name is invalid.
+ 	- `200 OK`: Returns a list of players in the specified team.
+ 	- `422 Validation Error`: If the team name is invalid.
 
 ### **AI**
 
 1. **Chat**
    - **Endpoint**: `POST /ai/chat`
    - **Request Body**:
-     - `message` (required): The message to send to the AI.
+ 	- `message` (required): The message to send to the AI.
    - **Response**:
-     - `200 OK`: Returns the AI's response to the message.
-     - `422 Validation Error`: If the request body is invalid or missing the message parameter.
+ 	- `200 OK`: Returns the AI's response to the message.
+ 	- `422 Validation Error`: If the request body is invalid or missing the message parameter.
 
 2. **Text to Speech**
    - **Endpoint**: `POST /ai/audio`
    - **Request Body**:
-     - `message` (required): The text message to convert to speech.
-     - `target_language_code` (required): The language code (e.g., "en" for English).
+ 	- `message` (required): The text message to convert to speech.
+ 	- `target_language_code` (required): The language code (e.g., "en" for English).
    - **Response**:
-     - `200 OK`: Returns an audio file created from the text.
-     - `422 Validation Error`: If the request body is invalid, or the language code is not supported.
+ 	- `200 OK`: Returns an audio file created from the text.
+ 	- `422 Validation Error`: If the request body is invalid, or the language code is not supported.
 
 3. **Get Match Description**
    - **Endpoint**: `POST /ai/description`
    - **Request Body**:
-     - `match_type` (required): The type of the match (e.g., Test, ODI, T20).
-     - `player_ids` (required): A list of player IDs involved in the match.
+ 	- `match_type` (required): The type of the match (e.g., Test, ODI, T20).
+ 	- `player_ids` (required): A list of player IDs involved in the match.
    - **Response**:
-     - `200 OK`: Returns a description of the match, including insights and potential strategies based on the players and match type.
-     - `422 Validation Error`: If the request body is malformed, or if player IDs or match type are incorrect.
+ 	- `200 OK`: Returns a description of the match, including insights and potential strategies based on the players and match type.
+ 	- `422 Validation Error`: If the request body is malformed, or if player IDs or match type are incorrect.
 
 ### **Error Responses**
 
@@ -228,7 +336,7 @@ User Input → React Components → Context API → Data Processing → UI Updat
 
 ---
 
-## 6. GenAI Features
+##  7. GenAI Features
 
 ### **LLM-Based Dream Team Summarization**
 
@@ -265,17 +373,17 @@ The DreamAI Web App has been designed with a robust architecture to deliver ligh
   We run two separate models with a single endpoint:
   - One model handles intelligent response generation based on user queries.
   - The other model is responsible for making Endpoint-to-DB calls to retrieve player statistic data.
-  
+ 
 - **Asynchronous Task Handling**: Non-blocking requests allow multiple processes, like data retrieval and audio generation, to run concurrently, ensuring a smooth user experience.
 
 ### 2. AI Acceleration
 - **Pre-trained Model Caching**: Frequently used models, such as SHAP for explainability and RAG for retrieval, are cached in memory to avoid repetitive initializations, speeding up response times.
-  
+ 
 - **Dynamic Resource Allocation**: Critical tasks, such as multilingual audio snippet generation, are prioritized dynamically based on user demand to maintain rapid response times.
 
 ### 3. Minimal Latency Visualizations
 - **Client-Side Rendering**: Graphs and charts are generated on the client side using pre-fetched JSON data, reducing server load and improving perceived speed.
-  
+ 
 - **React-Window Loading**: Prioritizes critical information first while loading additional insights in the background, ensuring that users can interact with the app while other data continues to load.
 
 - **Local Storage Utilization**: Saved and unsaved data are stored in local storage to avoid unnecessary API calls, enhancing performance by reducing network load.
