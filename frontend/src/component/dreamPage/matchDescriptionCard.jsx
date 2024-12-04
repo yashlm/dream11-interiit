@@ -148,14 +148,16 @@ export default function DescriptionCard({
             <FaShareAlt />
           </button>
         </Tooltip>
-        <Tooltip title="Match Details" placement="top">
-          <button
-            className={styles.actionButton}
-            onClick={handleMatchDetailsroute}
-          >
-            <FaInfoCircle />
-          </button>
-        </Tooltip>
+        {match_id && (
+          <Tooltip title="Match Details" placement="top">
+            <button
+              className={styles.actionButton}
+              onClick={handleMatchDetailsroute}
+            >
+              <FaInfoCircle />
+            </button>
+          </Tooltip>
+        )}
         <Tooltip title="Save" placement="top">
           <button className={styles.actionButton} onClick={onSave}>
             <FaSave />

@@ -25,7 +25,7 @@ export default function PlayerSearch({
     return Object.values(playersData).map((player) => ({
       name: player.full_name,
       key: player.key_cricinfo,
-      dreamPoints: Math.floor(Math.random() * 100), // Random points for demo
+      // dreamPoints: Math.floor(Math.random() * 100), // Random points for demo
       type: player.playing_role,
       profileImage: player.img_src_url,
       bgImage: player.bg_image_url,
@@ -156,9 +156,9 @@ export default function PlayerSearch({
               <div style={{ fontSize: "15px", color: "gray" }}>
                 {option.type}
               </div>
-              <div style={{ fontSize: "12px", color: "gray" }}>
+              {/* <div style={{ fontSize: "12px", color: "gray" }}>
                 Dream Points: {option.dreamPoints}
-              </div>
+              </div> */}
             </Box>
           </Grid>
           <Grid
@@ -214,7 +214,7 @@ export default function PlayerSearch({
       />
       {open && (
         <List
-          height={400}
+          height={200}
           itemCount={filteredOptions.length}
           itemSize={80}
           width="100%"

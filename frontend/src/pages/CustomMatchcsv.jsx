@@ -26,6 +26,7 @@ export default function CustomMatch() {
   const { teamAdata = {}, teamBdata = {}, matchDate } = state || {};
   const [teamAInfo, setTeamAInfo] = useState({});
   const [teamBInfo, setTeamBInfo] = useState({});
+  const [isDisabled, setIsDisabled] = useState(true);
   const [selectedDate, setSelectedDate] = useState(matchDate);
   const [selectedMatchType, setSelectedMatchType] = useState("");
 
@@ -89,6 +90,18 @@ export default function CustomMatch() {
     }
   }, [state, location.pathname, navigate]);
 
+  function hasNullElement(team) {
+    return team.some((element) => element === null);
+  }
+
+  useEffect(() => {
+    if (hasNullElement(teamA) || hasNullElement(teamB)) {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
+    }
+  }, [teamA, teamB]);
+
   useEffect(() => {
     localStorage.removeItem("positions");
     localStorage.removeItem("offFieldPlayers");
@@ -135,12 +148,6 @@ export default function CustomMatch() {
 
   // redirect to dream team page
   const generateDreamTeam = () => {
-    console.log("teamA", teamA);
-    console.log("teamB", teamB);
-    console.log("date", selectedDate);
-    console.log("match type", selectedMatchType);
-    console.log("teamAInfo", teamAInfo);
-    console.log("teamBInfo", teamBInfo);
     navigate("/dreamTeam", {
       state: {
         teamA: teamA,
@@ -216,24 +223,41 @@ export default function CustomMatch() {
     visible: { opacity: 1, y: 0, transition: { duration: 0.1 } },
   };
 
+  const mapping = (player) => {
+    return {
+      name: player.full_name,
+      key: player.key_cricinfo,
+      type: player.playing_role,
+      profileImage: player.img_src_url,
+      bgImage: player.bg_image_url,
+      player_id: player.player_id,
+    };
+  };
+
   const handlePlayersLoaded = (response) => {
-    console.log(response);
     if (response.status === "ok") {
+      console.log("response", response);
       const { teamA, teamB } = response;
       const teamAInfo = response.team_info.teamA;
       const teamBInfo = response.team_info.teamB;
-      setTeamA(teamA);
-      setTeamB(teamB);
+      setTeamA(teamA.map((player) => mapping(player)));
+      setTeamB(teamB.map((player) => mapping(player)));
       setTeamAInfo(teamAInfo);
       setTeamBInfo(teamBInfo);
-      console.log("date", response.match_date);
       setSelectedDate(response.match_date);
-      console.log("date : !", selectedDate);
       setSelectedMatchType(response.match_type);
-      console.log("teamA", teamAInfo);
-      console.log("team B", teamBInfo);
-      console.log("teamAPlayers", teamA);
-      console.log("teamBPlayers", teamB);
+      console.log("date", response.match_date);
+      console.log("type", response.match_type);
+      console.log("teamAinfo", teamAInfo);
+      console.log("teamBinfo", teamBInfo);
+      console.log(
+        "teamAPlayers",
+        teamA.map((player) => mapping(player))
+      );
+      console.log(
+        "teamBPlayers",
+        teamB.map((player) => mapping(player))
+      );
     } else {
       setAlert({
         message: response.message || "Failed to load players.",
@@ -387,7 +411,7 @@ export default function CustomMatch() {
               </Box>
             )}
 
-            {(teamAInfo?.url || teamAdata?.url) && (
+            {matchDate && (
               <div
                 style={{
                   boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
@@ -409,24 +433,25 @@ export default function CustomMatch() {
                       Select Match Type
                     </MenuItem>
                     <MenuItem value="Test">Test</MenuItem>
+                    <MenuItem value="Test">MDM</MenuItem>
                     <MenuItem value="ODI">ODI</MenuItem>
+                    <MenuItem value="ODI">ODM</MenuItem>
                     <MenuItem value="T20">T20</MenuItem>
+                    <MenuItem value="T20">IT20</MenuItem>
                   </Select>
                 </div>
 
                 <div data-tour-id="player-search" style={{ width: "100%" }}>
                   <PlayerSearch
-                    teamA={"India"}
-                    teamB={"Australia"}
+                    teamA={teamAInfo?.name || teamAdata?.name}
+                    teamB={teamBInfo?.name || teamBdata?.name}
                     onAddToTeam={handleAddToTeam}
                     assignedPlayers={assignedPlayers}
                   />
                 </div>
               </div>
             )}
-            {(teamAInfo?.url || teamAdata?.url) && (
-              <Typography sx={{ mt: 2, mb: 2 }}>OR</Typography>
-            )}
+            {matchDate && <Typography sx={{ mt: 2, mb: 2 }}>OR</Typography>}
 
             {/* Import CSV */}
             <div
@@ -437,6 +462,14 @@ export default function CustomMatch() {
                 padding: "3% 3% 5%",
               }}
             >
+              {isDisabled && teamAInfo?.name && (
+                <PlayerSearch
+                  teamA={teamAInfo?.name}
+                  teamB={teamBInfo?.name}
+                  onAddToTeam={handleAddToTeam}
+                  assignedPlayers={assignedPlayers}
+                />
+              )}
               <ImportCSV onPlayersLoaded={handlePlayersLoaded} />
             </div>
 
@@ -445,6 +478,7 @@ export default function CustomMatch() {
                 <Button
                   variant="contained"
                   color="error"
+                  disabled={isDisabled}
                   onClick={generateDreamTeam}
                   style={{ width: "100%" }}
                 >
@@ -483,10 +517,9 @@ export default function CustomMatch() {
                         profileImage={
                           player?.img_src_url || player?.profileImage
                         }
+                        type={player.type}
                         isInField={true}
-                        onRemove={() =>
-                          handleRemoveFromTeam(player.player_id, "A")
-                        }
+                        onRemove={() => handleRemoveFromTeam(player.key, "A")}
                       />
                     ) : (
                       <div
@@ -530,9 +563,8 @@ export default function CustomMatch() {
                           player?.img_src_url || player?.profileImage
                         }
                         isInField={true}
-                        onRemove={() =>
-                          handleRemoveFromTeam(player.player_id, "B")
-                        }
+                        type={player.type}
+                        onRemove={() => handleRemoveFromTeam(player.key, "B")}
                       />
                     ) : (
                       <div
