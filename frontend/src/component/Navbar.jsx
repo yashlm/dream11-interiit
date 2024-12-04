@@ -10,7 +10,7 @@ import MenuIcon from "@mui/icons-material/Menu";
 import CloseIcon from "@mui/icons-material/Close";
 
 const Navbar = () => {
-  const [language, setLanguage] = useState("en");
+  const [language, setLanguage] = useState("hi-IN");
   const [navColor, setNavColor] = useState("rgba(255, 255, 255, 0.1)");
   const [isMobile, setIsMobile] = useState(false);
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
@@ -85,6 +85,7 @@ const Navbar = () => {
 
         {!isMobile ? (
           <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+            <p style={{ color: "red" }}>Your AI Voice</p>
             <FormControl size="small">
               <Select
                 value={language}
@@ -119,37 +120,70 @@ const Navbar = () => {
                   </span>
                 )}
               >
-                <MenuItem value="en" style={{ color: "red", backgroundColor: "black" }}>
+                <MenuItem
+                  value="en-IN"
+                  style={{ color: "red", backgroundColor: "black" }}
+                >
                   English
                 </MenuItem>
-                <MenuItem value="hi-IN" style={{ color: "red", backgroundColor: "black" }}>
+                <MenuItem
+                  value="hi-IN"
+                  style={{ color: "red", backgroundColor: "black" }}
+                >
                   हिन्दी
                 </MenuItem>
-                <MenuItem value="bn-IN" style={{ color: "red", backgroundColor: "black" }}>
+                <MenuItem
+                  value="bn-IN"
+                  style={{ color: "red", backgroundColor: "black" }}
+                >
                   বাংলা
                 </MenuItem>
-                <MenuItem value="kn-IN" style={{ color: "red", backgroundColor: "black" }}>
+                <MenuItem
+                  value="kn-IN"
+                  style={{ color: "red", backgroundColor: "black" }}
+                >
                   ಕನ್ನಡ
                 </MenuItem>
-                <MenuItem value="ml-IN" style={{ color: "red", backgroundColor: "black" }}>
+                <MenuItem
+                  value="ml-IN"
+                  style={{ color: "red", backgroundColor: "black" }}
+                >
                   മലയാളം
                 </MenuItem>
-                <MenuItem value="mr-IN" style={{ color: "red", backgroundColor: "black" }}>
+                <MenuItem
+                  value="mr-IN"
+                  style={{ color: "red", backgroundColor: "black" }}
+                >
                   मराठी
                 </MenuItem>
-                <MenuItem value="od-IN" style={{ color: "red", backgroundColor: "black" }}>
+                <MenuItem
+                  value="od-IN"
+                  style={{ color: "red", backgroundColor: "black" }}
+                >
                   ଓଡ଼ିଆ
                 </MenuItem>
-                <MenuItem value="pa-IN" style={{ color: "red", backgroundColor: "black" }}>
+                <MenuItem
+                  value="pa-IN"
+                  style={{ color: "red", backgroundColor: "black" }}
+                >
                   ਪੰਜਾਬੀ
                 </MenuItem>
-                <MenuItem value="ta-IN" style={{ color: "red", backgroundColor: "black" }}>
+                <MenuItem
+                  value="ta-IN"
+                  style={{ color: "red", backgroundColor: "black" }}
+                >
                   தமிழ்
                 </MenuItem>
-                <MenuItem value="te-IN" style={{ color: "red", backgroundColor: "black" }}>
+                <MenuItem
+                  value="te-IN"
+                  style={{ color: "red", backgroundColor: "black" }}
+                >
                   తెలుగు
                 </MenuItem>
-                <MenuItem value="gu-IN" style={{ color: "red", backgroundColor: "black" }}>
+                <MenuItem
+                  value="gu-IN"
+                  style={{ color: "red", backgroundColor: "black" }}
+                >
                   ગુજરાતી
                 </MenuItem>
               </Select>
@@ -166,10 +200,12 @@ const Navbar = () => {
                   variant="contained"
                   style={{
                     backgroundColor:
-                      location.pathname === link.path ? "var(--red)" : "var(--dark-red)", // Reverse the background color
+                      location.pathname === link.path
+                        ? "var(--red)"
+                        : "var(--dark-red)", // Reverse the background color
                     color: location.pathname === link.path ? "black" : "white", // Reverse text color
                     textTransform: "none",
-                    // fontWeight: "bold", 
+                    // fontWeight: "bold",
                     boxShadow:
                       location.pathname === link.path
                         ? "0px 4px 10px rgba(0,0,0,0.3)"
@@ -191,7 +227,7 @@ const Navbar = () => {
             <MenuIcon style={{ color: "white", fontSize: "32px" }} />
           </div>
         )}
-      </nav >
+      </nav>
 
       {isMobile && isSidebarOpen && (
         <div
@@ -251,8 +287,7 @@ const Navbar = () => {
             </Link>
           ))}
         </div>
-      )
-      }
+      )}
     </>
   );
 };

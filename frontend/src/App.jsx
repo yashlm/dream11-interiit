@@ -40,24 +40,6 @@ function App() {
           <Route path="/dreamTeam/:match_id" element={<DreamTeamGround />} />
           <Route path="/" element={<StarterPage />} />
           <Route path="/fav" element={<FavTeam />} />
-          <Route
-            path="/player"
-            element={
-              <PlayerCard
-                name={"Virat Kohli"}
-                points={120}
-                type={"Batsman"}
-                teamIconUrl={""}
-                profileImage={
-                  "https://img1.hscicdn.com/image/upload/f_auto,t_ds_square_w_320,q_50/lsci/db/PICTURES/CMS/316600/316605.3.png"
-                }
-                bgImage={
-                  "https://img1.hscicdn.com/image/upload/f_auto,t_ds_wide_w_720/lsci/db/PICTURES/CMS/240800/240853.jpg"
-                }
-                player_id={"327b58d3"}
-              />
-            }
-          />
         </Routes>
       </div>
     </BrowserRouter>

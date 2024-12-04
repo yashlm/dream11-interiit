@@ -16,7 +16,7 @@ const getWordColor = (word) => {
   // Hardcoded colors for specific words
   const specialColors = {
     "Middle order Batter": "#FF6347", // Tomato Red
-    "Top order Batter": "#4682B4", // Steel Blue
+    "Top order Batter": "#FFB07C", // Peach
   };
 
   // Return the hardcoded color if the word matches
@@ -26,16 +26,16 @@ const getWordColor = (word) => {
 
   // Default color logic for other words
   const colors = [
-    "#FF9AA2", // Medium Pink
-    "#FFB07C", // Peach
-    "#FFD97D", // Warm Yellow
-    "#85E3B8", // Light Teal Green
-    "#8EC6FF", // Light Sky Blue
-    "#C4A3FF", // Soft Purple
-    "#FFA3C1", // Rose Pink
-    "#79D3FF", // Aqua Blue
-    "#A0B9FF", // Light Cornflower Blue
-    "#FFE29A", // Soft Gold
+    "#F05D5E", // Darker Medium Pink
+    "#FFB347", // Darker Warm Yellow
+    "#4CB0A6", // Darker Teal Green
+    "#F2740A", // Darker Vibrant Orange
+    "#8A64D1", // Darker Soft Purple
+    "#FF618F", // Darker Rose Pink
+    "#4AA8C1", // Darker Aqua Blue
+    "#6F92D9", // Darker Cornflower Blue
+    "#F2D04A", // Darker Soft Gold
+    "#B39EB5", // Darker Thistle (Lavender)
   ];
   const hash = word
     .split("")

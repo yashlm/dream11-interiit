@@ -133,7 +133,7 @@ const SelectMatchCard = ({ teamA, teamB }) => {
         ) : (
           <h4>All Matches</h4>
         )}
-        {!notEmpty &&
+        {!notEmpty && allMatches.length > 0 ? (
           allMatches.map((match) => (
             <NewMatchCard
               key={match.match_id}
@@ -141,7 +141,15 @@ const SelectMatchCard = ({ teamA, teamB }) => {
               formDreamTeam={formDreamTeam}
               team_info={teamInfo}
             />
-          ))}
+          ))
+        ) : (
+          <div className={styles.customMatchDiv}>
+            <p>No matches available for the selected date.</p>
+            <button className={styles.customMatchBtn} onClick={customMatch}>
+              Create Custom Match
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );

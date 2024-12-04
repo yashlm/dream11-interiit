@@ -54,8 +54,8 @@ export default function WeatherCard({ matchId, place, setEffect }) {
           {/* Temperature Section */}
           <div className="d-flex mt-1">
             <img
-              className="pt-3"
-              src={weatherData.url}
+              className="pt-2"
+              src={weatherData?.url}
               style={{
                 height: "50px",
                 width: "50px",
