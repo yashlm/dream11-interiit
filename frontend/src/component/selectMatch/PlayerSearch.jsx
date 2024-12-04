@@ -137,9 +137,9 @@ export default function PlayerSearch({ teamA, teamB, onAddToTeam, assignedPlayer
               <div style={{ fontSize: "15px", color: "gray" }}>
                 {option.type}
               </div>
-              <div style={{ fontSize: "12px", color: "gray" }}>
+              {/* <div style={{ fontSize: "12px", color: "gray" }}>
                 Dream Points: {option.dreamPoints}
-              </div>
+              </div> */}
             </Box>
           </Grid>
           <Grid item xs={2} sx={{ display: "flex", justifyContent: "flex-end", padding: 0, textWrap:"nowrap", color: "#173bb0"}}>

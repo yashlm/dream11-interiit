@@ -153,6 +153,23 @@ progress {
   font-weight: bold;
 }
 
+.noMatchesDiv {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.customMatchBtn {
+  background-color: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.customMatchBtn:hover {
+  background-color: #e60000;
+}
 
 /* Hide the scrollbar but keep the functionality for Webkit-based browsers (Chrome, Safari, etc.) */
 .hide-scrollbar::-webkit-scrollbar {

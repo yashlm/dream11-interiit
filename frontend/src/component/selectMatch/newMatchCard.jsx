@@ -37,7 +37,7 @@ const NewMatchCard = ({ match, team_info }) => {
       </h2>
 
       {/* Display event name */}
-      <h3 className={styles["event-name"]}>{eventName}</h3>  {/* Added event name here */}
+      {/* <h3 className={styles["event-name"]}>{eventName}</h3>   */}
 
       <div className={styles.logos}>
         <div className={styles.team}>
