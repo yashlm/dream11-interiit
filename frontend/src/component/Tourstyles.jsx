@@ -9,7 +9,9 @@ const CustomStyles = {
       textColor: "#333", // Tooltip text color
       targetOffset: [0, 100],
       zIndex: 1000, // Z-index for the tooltip
-      offset:1
+      offset:1,
+
+     
     },
     buttonNext: {
       backgroundColor: "#28a745", // Green for "Next" button

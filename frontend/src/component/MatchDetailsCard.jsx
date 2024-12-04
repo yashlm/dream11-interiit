@@ -1,52 +1,103 @@
-import { CalendarToday, LocationOn } from "@mui/icons-material";
+import { CalendarToday, LocationOn, SportsCricket } from "@mui/icons-material";
 import styles from "../css/MatchDetailsCard.module.css";
 
 const MatchDetailsCard = ({ match }) => {
-  const fixedVenue = match.venue.replace(/({|})/g, ""); // Remove curly braces
-  const parsedVenue = fixedVenue.split(","); // Split the string into an array
-  const venue = parsedVenue.join(" "); // Join with a space
+  const fixedVenue = match?.venue
+    ? match.venue.replace(/({|})/g, "").replace(/"/g, "")
+    : "";
+  const parsedVenue = fixedVenue.split(",");
+  const stadium = parsedVenue[0] || "Stadium not available"; // Stadium part
+  const city = parsedVenue[1] || ""; // City part, leave empty if not available
 
+  const matchDate = match?.dates?.[0] ? new Date(match.dates[0]) : null;
+  const formattedDate = matchDate
+    ? matchDate.toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "long",
+        year: "numeric",
+      })
+    : "Date not available";
+
+  const teams = match?.teams || [];
+  const team1 = teams[0] || "Team 1";
+  const team2 = teams[1] || "Team 2";
+
+  const umpires = match?.umpires || [];
+  const referee = match?.referees || "Referee not available";
+  const eventName = match?.event_name || "Event Name Not Available";
 
   return (
     <div className={styles.container}>
-  <div className={styles.matchCard}>
-    <h2 className={styles.matchType}>{match.match_type}</h2>
-    <div className={styles.logos}>
-      <div className={styles.team}>
-        <img
-          src={match.teamAicon}
-          alt={`${match.teams[0]} logo`}
-          className={styles.teamLogo}
-        />
-        <p className={styles.teamName}>{match.teams[0]}</p>
-      </div>
-      <span className={styles.vs}>vs</span>
-      <div className={styles.team}>
-        <img
-          src={match.teamBicon}
-          alt={`${match.teams[1]} logo`}
-          className={styles.teamLogo}
-        />
-        <p className={styles.teamName}>{match.teams[1]}</p>
-      </div>
-    </div>
-    
-    {/* Add Separator Line */}
-    <div className={styles.separatorLine}></div>
-    
-    <div className={styles.matchDetails}>
-      <p>
-        <CalendarToday className={styles.icon} />
-        {match.dates}
-      </p>
-      <p>
-        <LocationOn className={styles.icon} />
-        {venue}
-      </p>
-    </div>
-  </div>
+      <div className={styles["match-card"]}>
+        {/* Event Name */}
+        <h3 className={styles["event-name"]}>{eventName}</h3>
+
+        {/* Match Type */}
+        <h3 className={styles["match-type"]}>
+          {match?.match_type || "Match Type Not Available"}
+        </h3>
+
+        {/* Match Date */}
+        <div className={styles["match-date"]}>
+          <CalendarToday className={styles.icon} />
+          {formattedDate}
+        </div>
+
+        {/* Separator */}
+        <div className={styles.separator}></div>
+
+        {/* Team Logos */}
+        <div className={styles.logos}>
+          <div className={styles.team}>
+            <img
+              className={styles["team-logo"]}
+              alt={`${team1} logo`}
+              src={match?.teamAicon}
+            />
+            <p className={styles["team-name"]}>{team1}</p>
+          </div>
+          <span className={styles.vs}>vs</span>
+          <div className={styles.team}>
+            <img
+              className={styles["team-logo"]}
+              alt={`${team2} logo`}
+              src={match?.teamBicon}
+            />
+            <p className={styles["team-name"]}>{team2}</p>
+          </div>
+        </div>
+
+        {/* Match Details */}
+        <div className={styles["match-details"]}>
+          {city && (
+            <p>
+              <LocationOn className={styles.icon} />
+              {city}
+            </p>
+          )}
+          {stadium && (
+            <p>
+              <SportsCricket className={styles.icon} />
+              {stadium}
+            </p>
+          )}
+        </div>
+
+        {/* Separator */}
+        <div className={styles.separator}></div>
+
+        {/* Referee and Umpires */}
+     
+<div className={styles["officials"]}>
+  <p className={styles["referee"]}>
+    <strong>Referee:</strong>{referee}</p>
+  <p className={styles["umpires"]}>
+    <strong>Umpires:</strong> {umpires.join(", ") || "Umpires not available"}
+  </p>
 </div>
 
+      </div>
+    </div>
   );
 };
 

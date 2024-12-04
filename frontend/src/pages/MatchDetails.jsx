@@ -8,7 +8,7 @@ import batsman_img from "../assets/matchdetails.png";
 import { BASE_URL } from "../constants";
 import { Button } from "@mui/material"; // Import the Button component
 import Loading from "../component/Loading";
-
+import WeatherCard from "../component/common/weatherCard";
 const MatchDetails = () => {
   const { match_id } = useParams();
   const location = useLocation();
@@ -36,9 +36,11 @@ const MatchDetails = () => {
         }
         if (data.status === "ok") {
           const match = data.matchdetails;
+      
           if (data.teamA && data.teamB) {
             setTeamAPlayers(data.teamA);
             setTeamBPlayers(data.teamB);
+            console.log("list",data.teamA);
           } else {
             setError("Team data is missing or undefined.");
             return;
@@ -48,6 +50,9 @@ const MatchDetails = () => {
             teamAicon: team1Logo,
             teamBicon: team2Logo,
             match_type: match.match_type,
+          event_name:match.event_name,
+          umpires:match.umpires,
+          referees:match.match_referees,
             teams: match.teams,
             dates: matchDate,
           });
@@ -78,7 +83,7 @@ const MatchDetails = () => {
     <div>
       <Navbar />
       <div className={styles.matchDetailsContainer}>
-        <div className={styles.teamCard}>
+        <div className={styles.teamCard} >
           <div className={styles.teamHeader}>
             <div className={styles.team}>
               <img
