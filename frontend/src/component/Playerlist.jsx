@@ -16,6 +16,9 @@ export default function AlignItemsList({ playerdata }) {
 
   // Add items one by one with a delay
   useEffect(() => {
+    // Clear the list before adding new items
+    setItems([]);
+
     let timeouts = [];
     playerdata.forEach((item, index) => {
       const timeout = setTimeout(() => {
@@ -54,7 +57,7 @@ export default function AlignItemsList({ playerdata }) {
                       variant="body2"
                       sx={{ color: "text.primary", display: "inline" }}
                     >
-                      {item.playing_role} 
+                      {item.playing_role}
                     </Typography>
                   </React.Fragment>
                 }

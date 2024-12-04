@@ -19,11 +19,13 @@ const NewMatchCard = ({ match, team_info }) => {
 
   const handleCardClick = () => {
     // Pass the necessary data as state when navigating to the match details page
+  
+    console.log("match ok", team_info)
     navigate(`/matchdetails/${match.match_id}`, {
       state: {
         matchDate,
-        team1Logo: match?.team1_logo,
-        team2Logo: match?.team2_logo,
+        team1Logo: team_info[0].url,
+        team2Logo:  team_info[1].url,
       },
     });
   };
@@ -79,9 +81,8 @@ const NewMatchCard = ({ match, team_info }) => {
       </div>
       <div className={styles.buttonDiv}>
         <button
-          onClick={() => {
-            navigate(`/matchdetails/${match.match_id}`);
-          }}
+          onClick={
+            handleCardClick}
         >
           View Details
         </button>

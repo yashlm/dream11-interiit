@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { useParams, useLocation } from "react-router-dom";
+import { useParams, useLocation, generatePath, useNavigate } from "react-router-dom";
 import {
   Grid,
   Card,
@@ -22,11 +22,14 @@ export default function CustomMatch() {
   const matchDate = new Date(date);
   const { state } = useLocation();
   const { teamAdata = {}, teamBdata = {} } = state || {};
+  const navigate = useNavigate();
+
 
   if (!teamAdata || !teamBdata) {
     return <p>Error: Missing team data!</p>;
   }
-
+  
+  const [matchType, setMatchType] = useState("");
   const [teamA, setTeamA] = useState(() => {
     const savedTeamA = localStorage.getItem("selectedteamA");
     return savedTeamA ? JSON.parse(savedTeamA) : Array(11).fill(null);
@@ -89,14 +92,23 @@ export default function CustomMatch() {
       setTeamB((prev) => updateTeamState(prev));
     }
 
-    // Mark player as assigned
-    if (
-      (team == "A" && teamA.filter((player) => player !== null).length < 11) ||
-      (team == "B" && teamB.filter((player) => player !== null).length < 11)
-    ) {
-      setAssignedPlayers((prev) => ({ ...prev, [player.key]: true }));
-    }
-  };
+  // Mark player as assigned
+  if((team == "A" && teamA.filter((player) => player !== null).length < 11) || (team == "B" && teamB.filter((player) => player !== null).length < 11)){
+    setAssignedPlayers((prev) => ({ ...prev, [player.key]: true }));
+  }  
+};
+
+const generateDreamTeam = () => {
+  navigate("/dreamTeam", {
+    state: {
+      teamA: teamA,
+      teamB: teamB,
+      match_date: matchDate,
+      match_type: matchType,
+    },
+  });
+};
+
 
   const handleRemoveFromTeam = (playerKey, team) => {
     const updateTeam = team === "A" ? [...teamA] : [...teamB];
@@ -106,8 +118,12 @@ export default function CustomMatch() {
       updateTeam[playerIndex] = null;
       team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
 
-      setAssignedPlayers((prev) => ({ ...prev, [playerKey]: false }));
-    }
+    setAssignedPlayers((prev) => ({ ...prev, [playerKey]: false }));
+  }
+};
+
+  const handleChange = (event) => {
+    setMatchType(event.target.value); // Save the selected value
   };
 
   const handleCloseAlert = () => {
@@ -270,6 +286,8 @@ export default function CustomMatch() {
               Select Match Type
             </Typography>
             <Select
+              value={matchType} 
+              onChange={handleChange}
               defaultValue=""
               variant="outlined"
               sx={{ width: "100%", marginBottom: 3 }}
@@ -289,7 +307,7 @@ export default function CustomMatch() {
               assignedPlayers={assignedPlayers}
             />
             <Box sx={{ textAlign: "center", mt: 5 }}>
-              <Button variant="contained" color="success">
+              <Button variant="contained" color="success" onClick={generateDreamTeam}>
                 GENERATE TEAM
               </Button>
             </Box>

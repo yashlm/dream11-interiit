@@ -30,20 +30,24 @@ const CardStack = () => {
   const stepstour = [
     {
       target: '[data-tour-id="search-team"]',
-      content:
-        "Search the names of teams you would like to play a match with and select them.",
+      content: "Search the names of teams you would like to play a match with and select them.",
+      disableBeacon: true,
     },
     {
       target: '[data-tour-id="scrolling-calendar"]',
-      content:
-        "Select a date to play a match. If a match is scheduled, choose to continue with your current Dream11 squad or customize it. If no match is scheduled, create your own by selecting 22 players.",
+      content: "Select a date to play a match. If a match is scheduled, choose to continue with your current Dream11 squad or customize it. If no match is scheduled, create your own by selecting 22 players.",
+   placement:"left"
     },
   ];
   useEffect(() => {
-    if (state?.continueTour) {
-      setRun(true); // Start the tour if continueTour is passed
+    if (state?.continueTour && !tourCompleted) {
+      setRun(true);
+console.log("state", state.continueTour)
+    // Clear the state after starting the tour
+    navigate(location.pathname, { replace: true }); 
+    console.log("state", state.continueTour)
     }
-  }, [state]);
+  }, [state, location.pathname, navigate]);
   useEffect(() => {
     localStorage.removeItem("positions");
     localStorage.removeItem("offFieldPlayers");
@@ -68,7 +72,7 @@ const CardStack = () => {
     if (type === "step:after") {
       // Handle navigation at the end of the last step
       if (index === stepstour.length - 1 && action === "next") {
-        console.log("next");
+      // console.log("next")
         setRun(false);
         setTourCompleted(true);
         navigate("/dreamTeam/1426757", { state: { continueTour: true } });
@@ -139,7 +143,11 @@ const CardStack = () => {
     <Loading />
   ) : (
     <div>
-      <Joyride
+      {run && (<Joyride
+       locale={{
+        skip: "End Tour", 
+        last: "Next",  
+      }}
         steps={stepstour}
         run={run}
         stepIndex={stepIndex}
@@ -150,6 +158,7 @@ const CardStack = () => {
         hideBackButton
         disableScrolling={false}
       />
+      )}
       <Navbar />
       {/* <div className={styles.backgroundCover}></div> */}
       <motion.div

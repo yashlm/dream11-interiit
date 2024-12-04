@@ -58,9 +58,10 @@ export default function CustomMatch() {
   const stepstour = [
     {
       target: '[data-tour-id="match-type"]',
-      content:
-        "In the custom match option , you can select the type of match you want to play.",
-    },
+      content: "In the custom match option , you can select the type of match you want to play.",
+      disableBeacon: true,
+    }
+    ,
     {
       target: '[data-tour-id="player-search"]',
       content:
@@ -78,10 +79,15 @@ export default function CustomMatch() {
   ];
 
   useEffect(() => {
-    if (state?.continueTour) {
-      setRun(true); // Start the tour if continueTour is passed
+    if (state?.continueTour && !tourCompleted) {
+      setRun(true);
+console.log("state", state.continueTour)
+    // Clear the state after starting the tour
+    navigate(location.pathname, { replace: true }); 
+    console.log("state", state.continueTour)
     }
-  }, [state]);
+  }, [state, location.pathname, navigate]);
+
   useEffect(() => {
     localStorage.removeItem("positions");
     localStorage.removeItem("offFieldPlayers");
@@ -234,7 +240,12 @@ export default function CustomMatch() {
 
   return (
     <div>
+      {run &&
       <Joyride
+      locale={{
+        skip: "End Tour", 
+        last: "Finish",  
+      }}
         steps={stepstour}
         run={run}
         stepIndex={stepIndex}
@@ -245,6 +256,7 @@ export default function CustomMatch() {
         hideBackButton
         disableScrolling={false}
       />
+}
       <Navbar />
 
       <Box
