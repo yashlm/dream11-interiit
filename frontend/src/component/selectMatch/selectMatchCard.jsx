@@ -19,7 +19,9 @@ const SelectMatchCard = ({ teamA, teamB }) => {
   const customMatch = () => {
     console.log(matchDate);
     // const formattedDate = matchDate.toISOString().split("T")[0]; // Format as 'YYYY-MM-DD'
-    const formattedDate = matchDate.toLocaleDateString("en-CA");
+    const formattedDate = matchDate
+      ? matchDate.toLocaleDateString("en-CA")
+      : new Date().toLocaleDateString("en-CA");
     navigate(`/custommatch`, {
       state: {
         teamAdata: { name: teamA.name, url: teamA.url },
@@ -127,29 +129,19 @@ const SelectMatchCard = ({ teamA, teamB }) => {
             </button>
           </div>
         ) : null}
-
         {notEmpty ? null : matchDate ? (
           <h4>Other Matches</h4>
         ) : (
           <h4>All Matches</h4>
         )}
-        {!notEmpty && allMatches.length > 0 ? (
-          allMatches.map((match) => (
-            <NewMatchCard
-              key={match.match_id}
-              match={match}
-              formDreamTeam={formDreamTeam}
-              team_info={teamInfo}
-            />
-          ))
-        ) : (
-          <div className={styles.customMatchDiv}>
-            <p>No matches available for the selected date.</p>
-            <button className={styles.customMatchBtn} onClick={customMatch}>
-              Create Custom Match
-            </button>
-          </div>
-        )}
+        {allMatches.map((match) => (
+          <NewMatchCard
+            key={match.match_id}
+            match={match}
+            formDreamTeam={formDreamTeam}
+            team_info={teamInfo}
+          />
+        ))}
       </div>
     </div>
   );
