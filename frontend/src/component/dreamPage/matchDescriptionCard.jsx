@@ -35,7 +35,6 @@ export default function DescriptionCard({
     }
   }, [audioUrl]);
 
-  const [isOverflowing, setIsOverflowing] = useState(false);
   const infoRef = useRef(null);
 
   const navigate = useNavigate();

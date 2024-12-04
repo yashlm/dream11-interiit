@@ -14,6 +14,7 @@ import DropZone from "../component/dreamPage/dropZone";
 import Joyride from "react-joyride";
 import html2canvas from "html2canvas";
 import { motion } from "framer-motion";
+import sha256 from "js-sha256";
 import {
   FacebookShareButton,
   TwitterShareButton,
@@ -53,21 +54,6 @@ export default function DreamTeamGround() {
   const { match_id } = useParams();
 
   //....tour....
-  // const [pageReady, setPageReady] = useState(false);
-  // useEffect(() => {
-  //   // Simulate a delay to ensure components are fully rendered
-  //   const timer = setTimeout(() => {
-  //     setPageReady(true);
-  //   }, 500); // Adjust delay if necessary
-  //   return () => clearTimeout(timer);
-  // }, []);
-
-  // useEffect(() => {
-  //   if (pageReady) {
-  //     setRun(true); // Start the tour when the page is ready
-  //   }
-  // }, [pageReady]);
-
   const { state } = useLocation();
   const [tourCompleted, setTourCompleted] = useState(false);
   const [run, setRun] = useState(false);
@@ -137,8 +123,8 @@ export default function DreamTeamGround() {
       setTourCompleted(true);
     }
   };
-
   //......tour.....
+  
 
   // Refs
   const dockListRef = useRef(null);
@@ -152,6 +138,8 @@ export default function DreamTeamGround() {
   const [isAtStart, setIsAtStart] = useState(null);
   const [expanded, setExpanded] = useState(false);
   const [screeanshot, setScreenshot] = useState(false);
+  const [reason, setReason] = useState(null);
+  const [generatingDescription, setGeneratingDescription] = useState(false);
 
   // Game state
   const [offFieldPlayers, setOffFieldPlayers] = useState(() =>
@@ -246,6 +234,45 @@ export default function DreamTeamGround() {
     );
   };
 
+  const llmReason = async (players11, match_id, match_type) => {
+    try {
+      console.log("Generating description...");
+      setGeneratingDescription(true);
+      const cachedDescription = localStorage.getItem(match_id);
+      if (cachedDescription) {
+        setReason(JSON.parse(cachedDescription));
+        return;
+      }
+      const body = {
+        match_type: match_type,
+        player_ids: players11.map((player) => player.player_id),
+      };
+      // Fetch the description from the server if not cached
+      const response = await fetch(`${BASE_URL}/ai/description`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to generate description");
+      }
+      const description = await response.json();
+      console.log("Description generated:", description);
+
+      // Cache the response locally
+      localStorage.setItem(match_id, JSON.stringify(description));
+      // Update the state with the fetched description
+      setReason(description);
+    } catch {
+      console.log("error in generating description");
+    } finally {
+      setGeneratingDescription(false);
+    }
+  };
+
   // API calls
   const fetchDataByMatchId = async (match_id) => {
     try {
@@ -259,6 +286,11 @@ export default function DreamTeamGround() {
       }
       const data = await response.json();
       processData(data);
+      llmReason(
+        data.players?.slice(0, 11),
+        match_id,
+        data.match_details.match_type
+      );
     } catch (error) {
       alert("We encountered an issue. Please try again later.");
       console.error("Error fetching teams:", error);
@@ -291,6 +323,14 @@ export default function DreamTeamGround() {
       }
       const data = await response.json();
       processData(data);
+
+      const bodyHash = sha256(
+        JSON.stringify({
+          player_ids: body.player_ids.slice(0, 11),
+          match_type: body.match_type,
+        })
+      );
+      llmReason(data.players?.slice(0, 11), bodyHash, state.match_type);
     } catch (error) {
       alert("We encountered an issue. Please try again later.");
       console.error("Error fetching teams:", error);
@@ -311,35 +351,6 @@ export default function DreamTeamGround() {
     }
   };
 
-  useEffect(() => {
-    const llmReason = async () => {
-      try {
-        setGeneratingDescription(true);
-
-        const body = {
-          match_type: matchdetails?.match_type,
-          player_ids: modelOuput.slice(0, 11).map((player) => player.player_id),
-        };
-
-        const response = await fetch(`${BASE_URL}/ai/description`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(body),
-        });
-        if (!response.ok) {
-          throw new Error("Failed to generate description");
-        }
-        setReason(response.json());
-      } catch {
-        console.log("error in generating description");
-      } finally {
-        setGeneratingDescription(false);
-      }
-    };
-  }, [modelOuput]);
-
   // Event handlers
   const handleDrop = (droppedPlayer, targetPositionId) => {
     setPositions((prevPositions) =>
@@ -357,6 +368,8 @@ export default function DreamTeamGround() {
       prev.filter((player) => player.key !== droppedPlayer.key)
     );
   };
+
+  useEffect(() => {});
 
   const handleRemovePlayer = (positionId) => {
     setPositions((prevPositions) =>
@@ -518,22 +531,22 @@ export default function DreamTeamGround() {
 
       <DndProvider backend={HTML5Backend}>
         {positions.map((position) => {
-          // const description =
-          //   reason?.player_explanations?.[position?.player?.player_id] ?? null;
+          const description =
+            reason?.player_explanations?.[position?.player?.player_id] ?? null;
 
-          // const currentPlayer = {
-          //   ...position.player,
-          //   ...(description && { description }), // Add `description` only if it exists
-          // };
-          // console.log(currentPlayer);
+          const currentPlayer = {
+            ...position.player,
+            ...(description && { description }), // Add `description` only if it exists
+          };
+          console.log(currentPlayer);
 
           return (
             <DropZone
               key={position.id}
               id={position.id}
               position={{ x: position.x, y: position.y }}
-              // currentPlayer={currentPlayer}
-              currentPlayer={position.player}
+              currentPlayer={currentPlayer}
+              // currentPlayer={position.player}
               onDrop={handleDrop}
               onRemove={handleRemovePlayer}
             />
@@ -580,7 +593,7 @@ export default function DreamTeamGround() {
         onSS={handleTakeScreenshot}
         expanded={expanded}
         handleExpandToggle={handleExpandToggle}
-        // reason={reason.team_explanation}
+        reason={reason?.team_explanation}
       />
       {screeanshot && (
         <motion.div
