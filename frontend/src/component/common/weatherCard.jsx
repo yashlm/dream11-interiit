@@ -20,7 +20,7 @@ export default function WeatherCard({ matchId, place, setEffect }) {
           );
         }
         const rawData = await response.json();
-        console.log(rawData);
+        console.log("weather",rawData);
         // temp and humidity
         setWeatherData({
           ...WhichWeather(rawData.data[0][0], rawData.data[0][1]),

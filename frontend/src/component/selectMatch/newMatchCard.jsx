@@ -24,8 +24,7 @@ const NewMatchCard = ({ match, team_info }) => {
     navigate(`/matchdetails/${match.match_id}`, {
       state: {
         matchDate,
-        team1Logo: team_info[0].url,
-        team2Logo:  team_info[1].url,
+       team_info,
       },
     });
   };
