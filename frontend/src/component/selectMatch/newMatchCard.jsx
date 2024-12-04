@@ -36,7 +36,7 @@ const NewMatchCard = ({ match, team_info }) => {
       </h2>
 
       {/* Display event name */}
-      <h3 className={styles["event-name"]}>{eventName}</h3>  {/* Added event name here */}
+      {/* <h3 className={styles["event-name"]}>{eventName}</h3>   */}
 
       <div className={styles.logos}>
         <div className={styles.team}>
@@ -70,7 +70,7 @@ const NewMatchCard = ({ match, team_info }) => {
             <CalendarToday className={styles.icon} />
             {matchDate}
           </p>
-          <p>Type: {match?.match_type || "Match Type Not Available"}</p>
+          <p>Format: {match?.match_type || "Match Type Not Available"}</p>
         </div>
 
         <p>

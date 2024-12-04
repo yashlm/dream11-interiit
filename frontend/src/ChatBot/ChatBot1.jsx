@@ -121,7 +121,7 @@ function ChatBot({ isChatOpen, setIsChatOpen }) {
                 margin: "0", // Aligns perfectly with the first line
               }}
             >
-              Dream11 BOT
+              Dream11 Assistant
             </span>
           </div>
           <button

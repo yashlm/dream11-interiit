@@ -1,5 +1,5 @@
 .dream11Footer {
-  background-color: #a15434;
+  background-color: #212121; /* Dark background for a modern, sleek look */
   color: white;
   font-family: Arial, sans-serif;
   padding: 2rem;
@@ -34,20 +34,38 @@
 }
 
 .dream11Icon {
-  font-size: 1.5rem;
+  font-size: 1.3rem; /* Slightly smaller icon size */
   color: white;
   transition: color 0.3s ease;
 }
 
 .dream11Icon:hover {
-  color: #ffcc00;
+  color: var(--red); 
+  cursor: pointer;
+}
+
+.dream11Separator {
+  width: 100%;
+  border-top: 1px solid #333; /* Subtle separator */
+  margin: 1.5rem 0;
+}
+
+.dream11SeparatorVertical {
+  width: 1px;
+  height: 100%;
+  border-left: 2px solid #333;
+  margin: 0 1rem;
+  display: inline-block;
 }
 
 .dream11LinksSection {
   flex: 1;
   display: flex;
-  justify-content: flex-start; /* Align content toward the left */
-  margin-left: 3rem; /* Shift slightly toward the center */
+  justify-content: space-evenly;
+  align-items: flex-start;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+  gap: 1rem;
 }
 
 .dream11Column {
@@ -59,23 +77,47 @@
 
 .dream11Column a {
   color: white;
-  font-size: 1rem;
-  line-height: 1.8;
+  font-size: 0.9rem; /* Reduced font size */
+  line-height: 1.6;
   text-decoration: none;
   display: block;
   margin-bottom: 0.5rem;
 }
 
 .dream11Column a:hover {
-  color: #ffcc00;
+  color: var(--red);
+  cursor: pointer;
+}
+
+.dream11CorporateOffice {
+  font-size: 0.8rem; /* Reduced font size */
+  line-height: 1.4;
+  margin-bottom: 1rem;
+  color: #ffffff !important;
+}
+
+.dream11BottomSection {
+  margin-bottom: 1rem;
+}
+
+.dream11BottomSection a {
+  margin: 0 1rem;
+  color: white;
+  font-size: 0.8rem; /* Reduced font size */
+  text-decoration: none;
+}
+
+.dream11BottomSection a:hover {
+  color: var(--red); 
+  cursor: pointer;
 }
 
 .dream11Disclaimer {
-  font-size: 0.8rem;
+  font-size: 0.7rem; /* Smaller disclaimer font size */
   font-weight: bold;
   color: #ffffff !important;
-  margin-top: 2rem;
-  border-top: 1px solid #e1c4af;
+  margin-top: 1rem;
+  border-top: 1px solid #333;
   padding-top: 1rem;
   text-align: center;
 }

@@ -105,6 +105,16 @@ const SelectMatchCard = ({ teamA, teamB }) => {
         />
       </div>
       <div className={`${styles.matchCardList} hide-scrollbar`}>
+        {/* If there are no matches between the two teams */}
+        {allMatches.length === 0 && !filteredMatches && (
+          <div className={styles.noMatchesDiv}>
+            <p>
+              No matches have been played between <b>{teamA.name}</b> and <b>{teamB.name}</b>.
+            </p>
+            <p>You can create a custom match by selecting a date.</p>
+          </div>
+        )}
+
         {/* If a date is selected, show matches for that date */}
         {matchDate && filteredMatches && filteredMatches.length > 0 ? (
           <div

@@ -11,8 +11,8 @@
 
 .match-card {
   position: relative;
-width:auto;
-min-width:20em;
+  width: auto;
+  min-width: 20em;
   max-width: 40em; 
   height: 15em; 
   overflow: hidden;
@@ -37,14 +37,14 @@ min-width:20em;
 
 .match-type {
   font-size: 1.05rem;
-  font-weight: 400;
+  font-weight: 800;
   color: #676565; 
   text-align: center;
   align-self: center;
   margin-bottom: 4px;
 }
-.match-date {
 
+.match-date {
   display: flex;
   align-items: center;
   font-size: 14px;
@@ -60,14 +60,22 @@ min-width:20em;
 .logos {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   gap: 20px;
   width: 100%;
+}
+
+.team{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .team-logo {
   width: 70px;
   height: 70px;
+  object-fit: contain; /* Ensures the logo is contained within the dimensions */
   transition: transform 0.2s ease-in-out;
   align-items: center;
 }
@@ -100,6 +108,18 @@ min-width:20em;
   display: flex;
   text-align: center;
   align-items: center;
+  max-width: 150px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.ellipsis {
+  display: inline-block;
+  max-width: 120px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .icon {
