@@ -149,6 +149,7 @@ function ChatBot({ isChatOpen, setIsChatOpen }) {
         </div>
         <form className="chat-input" onSubmit={handleUserInput}>
           <input
+            style={{backgroundColor: "white", border:"none"}}
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
