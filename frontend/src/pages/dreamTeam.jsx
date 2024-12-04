@@ -31,6 +31,7 @@ import {
   exp,
 } from "../constants";
 import CustomStyles from "../component/Tourstyles";
+import dreamicon from "../assets/dreamteam.svg"
 
 // Constants
 const initialFieldPositions = fieldPositionsInPx.map((position) => ({
@@ -124,6 +125,7 @@ export default function DreamTeamGround() {
     }
   };
   //......tour.....
+
 
   // Refs
   const dockListRef = useRef(null);
@@ -368,7 +370,7 @@ export default function DreamTeamGround() {
     );
   };
 
-  useEffect(() => {});
+  useEffect(() => { });
 
   const handleRemovePlayer = (positionId) => {
     setPositions((prevPositions) =>
@@ -513,20 +515,23 @@ export default function DreamTeamGround() {
           <WeatherCard
             matchId={match_id}
             setEffect={setInfo}
-            // place={matchdetails?.city}
+          // place={matchdetails?.city}
           />
         </div>
       )}
 
       <div className={styles.dreamPointsCard} data-tour-id="dream-points">
         <DreamPointsCard points={dreamPoints} />
-      </div>
+      </div>.
+    
+    <img src={dreamicon} className={styles.centerH1}></img>
 
-      <h1
-        className={`${styles.centerH1} font-bold bg-gradient-to-r from-amber-500 to-pink-500 inline-block text-transparent bg-clip-text`}
+      {/* <h1
+        className={styles.centerH1}
+        style={{ fontFamily: 'Poppins, sans-serif' }} 
       >
         YOUR DREAM TEAM
-      </h1>
+      </h1> */}
 
       <DndProvider backend={HTML5Backend}>
         {positions.map((position, index) => {
@@ -557,15 +562,13 @@ export default function DreamTeamGround() {
           <h2>Other Players</h2>
           <div className={styles.dockListWrapper} data-tour-id="click-player">
             <FaArrowLeft
-              className={`${styles.arrowButton} ${styles.leftArrow} ${
-                isAtStart ? styles.hidden : ""
-              }`}
+              className={`${styles.arrowButton} ${styles.leftArrow} ${isAtStart ? styles.hidden : ""
+                }`}
               onClick={scrollLeft}
             />
             <FaArrowRight
-              className={`${styles.arrowButton} ${styles.rightArrow} ${
-                isAtEnd ? styles.hidden : ""
-              }`}
+              className={`${styles.arrowButton} ${styles.rightArrow} ${isAtEnd ? styles.hidden : ""
+                }`}
               onClick={scrollRight}
             />
 
