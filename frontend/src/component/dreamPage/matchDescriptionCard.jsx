@@ -7,7 +7,6 @@ import {
   BsArrowsCollapse,
 } from "react-icons/bs";
 import { FaUndo, FaShareAlt, FaSave, FaInfoCircle } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; // Import useNavigate here
 import styles from "../../css/DescriptionCard.module.css";
 import { BASE_URL } from "../../constants";
 import ClipLoader from "react-spinners/ClipLoader";
