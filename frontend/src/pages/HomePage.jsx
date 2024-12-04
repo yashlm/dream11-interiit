@@ -27,7 +27,10 @@ const HomePage = () => {
       target: '[data-tour-id="matches"]',
       content:
         "Here are the featured matches of the day. You can also browse through all the available matches. You can click on a match to view its details",
-    },
+        disableBeacon: true,
+       
+        placement: "top-right"
+      },
     {
       target: '[data-tour-id="calendar"]',
       content:
@@ -36,6 +39,10 @@ const HomePage = () => {
     {
       target: '[data-tour-id="select-match"]',
       content: "Click here to select a match to create your Dream11 team.",
+    },
+    {
+      target: '[data-tour-id="create-match"]',
+      content: "or you can create a match with your desirable squad.",
     },
     {
       target: '[data-tour-id="/teamSelect"]',
@@ -93,6 +100,11 @@ const HomePage = () => {
   return (
     <div className={styles.container}>
       <Joyride
+      
+       locale={{
+        skip: "End Tour", 
+        last: "Next",  
+      }}
         steps={steps}
         run={run}
         stepIndex={stepIndex}
@@ -100,8 +112,9 @@ const HomePage = () => {
         callback={handleJoyrideCallback}
         showSkipButton
         styles={CustomStyles}
-        hideBackButton
-        disableScrolling={true}
+        hideBackButton 
+      disableScrolling={false}
+    
       />
       <Navbar className="navbar" />
       <Header className="header" />
