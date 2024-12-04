@@ -61,7 +61,6 @@ export default function PlayerPopOut({
           player_id: playerId,
         };
         const response = await fetch(`${BASE_URL}/player/player_all_stats2/`, {
-        const response = await fetch(`${BASE_URL}/player/player_all_stats2/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
