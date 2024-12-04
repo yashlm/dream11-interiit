@@ -49,7 +49,7 @@ const Navbar = () => {
 
   const links = [
     { path: "/teamSelect", label: "Select Team" },
-    { path: `/custommatch/${todayDate}`, label: "Custom Match" },
+    { path: `/custommatch`, label: "Custom Match" },
     { path: "/dreamTeam/1426757", label: "Dream Team" },
   ];
 

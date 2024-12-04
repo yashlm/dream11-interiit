@@ -9,6 +9,7 @@ import { FaUndo, FaShareAlt, FaSave, FaInfoCircle } from "react-icons/fa";
 import styles from "../../css/DescriptionCard.module.css";
 import { BASE_URL } from "../../constants";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useNavigate } from "react-router-dom";
 
 export default function DescriptionCard({
   match_id,
