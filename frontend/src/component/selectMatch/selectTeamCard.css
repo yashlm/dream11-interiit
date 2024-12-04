@@ -44,7 +44,7 @@
   position: relative;
   flex-direction: column;
   /* margin-top: 20%; */
-  height: 450px;
+  height: 60vh;
   border-radius: 20px;
   overflow: hidden;
   display: flex;
@@ -64,6 +64,7 @@
   justify-content: center;
   flex-direction: column;
   padding: 10px;
+  overflow: hidden;
 }
 
 .team-name-title {
@@ -112,7 +113,7 @@
 
 .teams-grid {
   scroll-behavior: smooth;
-  max-height: 40vh;
+  max-height: 46vh;
   overflow-y: scroll; /* Enable scrolling */
 }
 
@@ -125,3 +126,13 @@
 .teams-grid {
   scrollbar-width: none; /* Firefox */
 }
+
+.selected-team-card {
+  overflow: hidden; /* This hides the scrollbar */
+  width: 70%; /* Keep your previous styling */
+  background-size: cover;
+  background-position: center;
+  position: relative;
+}
+
+

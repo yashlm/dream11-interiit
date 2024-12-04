@@ -154,9 +154,9 @@ const CardStack = () => {
         <div className={styles.progressBarWrapper} >
           <ProgressBar currentStep={currentStep} steps={steps} />
         </div>
-        <p className="w-full m-auto mt-4 text-center text-cyan-300 text-xl">
-          Lets find a match
-        </p>
+        {/* <p className={styles.find}>
+          Let's find a Match
+        </p> */}
         <div className={`${styles.cardContainer} hide-scrollbar`}>
           <motion.div className={styles.cardStack}>
             {firstCardMoved && secondCardMoved && (

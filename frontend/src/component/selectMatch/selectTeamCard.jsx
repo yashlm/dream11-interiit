@@ -93,9 +93,11 @@ const selectedTeamCard = (imageUrl, teamName, onClose) => {
       className="selected-team-card"
       style={{
         width: "70%",
+        maxHeight: "60vh",
         backgroundImage: `url(${imageUrl})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
+        overflowY: "hidden",
       }}
     >
       <div className="glass-overlay">
@@ -107,6 +109,7 @@ const selectedTeamCard = (imageUrl, teamName, onClose) => {
             right: "10px",
             borderRadius: "50%",
             cursor: "pointer",
+            overflowY: "hidden",
           }}
         >
           <FaTimes size={20} color="black" />
@@ -190,7 +193,7 @@ const TeamSearchCard = ({ setTeam, moveCard, id, remove, allTeams }) => {
           className="teams-grid"
           style={{
             scrollBehavior: "smooth",
-            maxHeight: "40vh",
+            maxHeight: "46vh",
             overflowY: "auto",
           }}
         >

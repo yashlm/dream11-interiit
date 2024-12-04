@@ -22,9 +22,10 @@
   position: absolute;
   top: 10px;
   width: 45vw;
+  margin-top: 1rem;
   min-width: 325px;
   max-width: 375px;
-  height: 60vh;
+  height: 65vh;
   border-radius: 15px;
   padding: 0 0.5em;
   background-color: white;
@@ -33,6 +34,16 @@
   display: flex;
   flex-direction: column;
   overflow: scroll;
+  overflow-x: hidden;
+}
+
+.find{
+  position: relative;
+  left: 42vw;
+  width: 45vw;
+  font-size: 2rem;
+  margin: 0.25rem 0;
+  color: white;
 }
 
 .calenderMatchCardWrapper {
@@ -130,31 +141,42 @@ progress {
   z-index: 1;
   margin: -2% auto 0.2em;
 }
-.calender h3 {
+.headmatch {
+  text-align: center;
   color: black;
   padding: 0;
-  font-size: 2rem;
+  font-size: 1.5rem;
   margin: 0 auto;
+  font-family: 'Poppins';
+  margin: 1rem 0 0 0;
+  font-weight: bold;
 }
 
-/* Hide scrollbars for the parent and all its child elements */
+
+/* Hide the scrollbar but keep the functionality for Webkit-based browsers (Chrome, Safari, etc.) */
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
 .hide-scrollbar {
-  overflow: hidden !important;  /* Force overflow hidden */
-  -ms-overflow-style: none !important;  /* For Internet Explorer */
-  scrollbar-width: none !important;  /* For Firefox */
+  /* Hide scrollbar for all browsers */
+  overflow: -moz-scrollbars-none;  /* Firefox */
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
 }
 
 .hide-scrollbar::-webkit-scrollbar {
-  display: none !important;  /* For Webkit browsers (Chrome, Safari) */
+  display: none;  /* Safari and Chrome */
 }
 
-/* Hide scrollbars for all child elements */
-.hide-scrollbar * {
-  overflow: hidden !important;  /* Ensure no scrollbars in child elements */
-  -ms-overflow-style: none !important;  /* For Internet Explorer */
-  scrollbar-width: none !important;  /* For Firefox */
+/* For Firefox */
+.hide-scrollbar {
+  scrollbar-width: none; /* Hides the scrollbar */
 }
 
-.hide-scrollbar *::-webkit-scrollbar {
-  display: none !important;  /* For Webkit browsers (Chrome, Safari) */
+/* If you want the scrollbar to still be invisible but with a smooth scrolling effect */
+.hide-scrollbar {
+  overflow: scroll; /* Ensures the content is scrollable */
+  scroll-behavior: smooth; /* Optional: For smooth scrolling */
 }
+
