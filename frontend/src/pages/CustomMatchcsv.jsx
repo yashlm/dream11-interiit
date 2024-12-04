@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-
+import { useNavigate, useParams, useLocation } from "react-router-dom";
 import {
   Grid,
   Card,
@@ -16,29 +16,42 @@ import PlayerCard from "../component/playerCard";
 import Navbar from "../component/Navbar";
 import ImportCSV from "../component/ImportCSV";
 import batsmanimg from "../assets/batsman.png";
-import { useNavigate,useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import Joyride from "react-joyride";
 import CustomStyles from "../component/Tourstyles";
+import ReadOnlyDate from "../component/common/readOnlyDate";
+
 export default function CustomMatch() {
-  const [teamA, setTeamA] = useState(Array(11).fill(null));
-  const [teamB, setTeamB] = useState(Array(11).fill(null));
+  const { state } = useLocation();
+  const { teamAdata = {}, teamBdata = {}, matchDate } = state || {};
   const [teamAInfo, setTeamAInfo] = useState({});
   const [teamBInfo, setTeamBInfo] = useState({});
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedMatchType, setSelectedMatchType] = useState("");
+
+  const [teamA, setTeamA] = useState(() => {
+    const savedTeamA = localStorage.getItem("selectedteamA");
+    return savedTeamA ? JSON.parse(savedTeamA) : Array(11).fill(null);
+  });
+
+  const [teamB, setTeamB] = useState(() => {
+    const savedTeamB = localStorage.getItem("selectedteamB");
+    return savedTeamB ? JSON.parse(savedTeamB) : Array(11).fill(null);
+  });
+
+  const [assignedPlayers, setAssignedPlayers] = React.useState(() => {
+    const savedAssignedPlayers = localStorage.getItem("assignedPlayers");
+    return savedAssignedPlayers ? JSON.parse(savedAssignedPlayers) : {};
+  });
+
   const [alert, setAlert] = useState({
     message: "",
     severity: "",
     show: false,
   });
-  const [assignedPlayers, setAssignedPlayers] = React.useState(() => {
-    const savedAssignedPlayers = localStorage.getItem('assignedPlayers');
-    return savedAssignedPlayers ? JSON.parse(savedAssignedPlayers) : {};
-  });
   const navigate = useNavigate();
+
   //....tour....
-  const { state } = useLocation();
   const [tourCompleted, setTourCompleted] = useState(false);
   const [run, setRun] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
@@ -51,17 +64,18 @@ export default function CustomMatch() {
     ,
     {
       target: '[data-tour-id="player-search"]',
-      content: "To select the 22 players for Team A and Team B , search players name here, or you can directly import them from a CSV file",
+      content:
+        "To select the 22 players for Team A and Team B , search players name here, or you can directly import them from a CSV file",
     },
     {
       target: '[data-tour-id="view-players"]',
-      content: "You can view the 22 players in this section after selecting from the dropwdown or importing from CSV.",
+      content:
+        "You can view the 22 players in this section after selecting from the dropwdown or importing from CSV.",
     },
     {
       target: '[data-tour-id="generate-team"]',
       content: "Finally, generate your dream team by clicking on this button!",
     },
-
   ];
 
   useEffect(() => {
@@ -75,53 +89,49 @@ console.log("state", state.continueTour)
   }, [state, location.pathname, navigate]);
 
   useEffect(() => {
-      localStorage.removeItem("positions");
-      localStorage.removeItem("offFieldPlayers");
-      localStorage.removeItem("modelOutput");
-      localStorage.removeItem("dreamPoints");
-      localStorage.removeItem("assignedPlayers");
-      localStorage.removeItem("selectedteamA");
-      localStorage.removeItem("selectedteamB");
-      localStorage.removeItem("teamA");
-      localStorage.removeItem("teamB");
-      localStorage.removeItem("savedID");
+    localStorage.removeItem("positions");
+    localStorage.removeItem("offFieldPlayers");
+    localStorage.removeItem("modelOutput");
+    localStorage.removeItem("dreamPoints");
+    localStorage.removeItem("assignedPlayers");
+    localStorage.removeItem("selectedteamA");
+    localStorage.removeItem("selectedteamB");
+    localStorage.removeItem("teamA");
+    localStorage.removeItem("teamB");
+    localStorage.removeItem("savedID");
   }, []);
-  
   const handleJoyrideCallback = (data) => {
     const { action, index, type } = data;
 
     if (type === "step:after") {
       // Handle navigation at the end of the last step
       if (index === stepstour.length - 1 && action === "next") {
-       console.log("next")
+        console.log("next");
         setRun(false);
         setTourCompleted(true);
-   
+      } else {
+        console.log("index", index);
+        setStepIndex(index + 1);
       }
-      else{
-       console.log("index", index)
-          setStepIndex(index+1);
-        }
     }
 
-   // Handle "skip" action
-   if (type === "tour:end" && action === "skip") {
-    setRun(false);
-    setStepIndex(0);
-  }
+    // Handle "skip" action
+    if (type === "tour:end" && action === "skip") {
+      setRun(false);
+      setStepIndex(0);
+    }
 
-  // End of the tour
-  if (type === "tour:end" && action !== "skip") {
-    setRun(false);
-    setStepIndex(0);
-    setTourCompleted(true);
-  }
-  
+    // End of the tour
+    if (type === "tour:end" && action !== "skip") {
+      setRun(false);
+      setStepIndex(0);
+      setTourCompleted(true);
+    }
   };
 
   //......tour.....
 
-
+  // redirect to dream team page
   const generateDreamTeam = () => {
     navigate("/dreamTeam", {
       state: {
@@ -168,11 +178,15 @@ console.log("state", state.continueTour)
       setTeamB((prev) => updateTeamState(prev));
     }
 
-      // Mark player as assigned
-    if((team == "A" && teamA.filter((player) => player !== null).length < 11) || (team == "B" && teamB.filter((player) => player !== null).length < 11)){
+    // Mark player as assigned
+    if (
+      (team == "A" && teamA.filter((player) => player !== null).length < 11) ||
+      (team == "B" && teamB.filter((player) => player !== null).length < 11)
+    ) {
       setAssignedPlayers((prev) => ({ ...prev, [player.key]: true }));
-    } 
-  }
+    }
+  };
+
   const handleRemoveFromTeam = (playerKey, team) => {
     const updateTeam = team === "A" ? [...teamA] : [...teamB];
     const playerIndex = updateTeam.findIndex((p) => p && p.key === playerKey);
@@ -193,7 +207,7 @@ console.log("state", state.continueTour)
     hidden: { opacity: 0, y: 40 },
     visible: { opacity: 1, y: 0, transition: { duration: 0.1 } },
   };
-  
+
   const handlePlayersLoaded = (response) => {
     console.log(response);
     if (response.status === "ok") {
@@ -204,18 +218,17 @@ console.log("state", state.continueTour)
       setTeamB(teamB);
       setTeamAInfo(teamAInfo);
       setTeamBInfo(teamBInfo);
-      console.log("date", response.match_date)
+      console.log("date", response.match_date);
       setSelectedDate(response.match_date);
-      console.log("date : !", selectedDate)
+      console.log("date : !", selectedDate);
       setSelectedMatchType(response.match_type);
 
       console.log("teamA", teamAInfo);
 
       console.log("team B", teamBInfo);
-      console.log("teamAPlayers", teamA);
+      console.log("teamAPlayers", teamA); 
 
       console.log("teamBPlayers", teamB);
-      
     } else {
       setAlert({
         message: response.message || "Failed to load players.",
@@ -224,6 +237,7 @@ console.log("state", state.continueTour)
       });
     }
   };
+
   return (
     <div>
       {run &&
@@ -240,10 +254,11 @@ console.log("state", state.continueTour)
         showSkipButton
         styles={CustomStyles}
         hideBackButton
-        disableScrolling={false} 
+        disableScrolling={false}
       />
 }
       <Navbar />
+
       <Box
         sx={{
           position: "relative",
@@ -265,7 +280,6 @@ console.log("state", state.continueTour)
             opacity: 0.3,
           }}
         />
-
         <Box
           sx={{
             display: "flex",
@@ -277,7 +291,7 @@ console.log("state", state.continueTour)
           {/* Left Section */}
           <Box
             sx={{
-              width: { xs: "100%", md: "33%" },
+              width: { xs: "100%", md: "45%" },
               background: "rgba(255, 255, 255, 0.5)",
               boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
               backdropFilter: "blur(10px)",
@@ -291,6 +305,7 @@ console.log("state", state.continueTour)
               alignItems: "center",
             }}
           >
+            {/* Select player text */}
             <Typography
               variant="h4"
               sx={{
@@ -299,127 +314,139 @@ console.log("state", state.continueTour)
                 mb: 3,
               }}
             >
-              Select Players
+              Create Match
             </Typography>
-            {/* {selectedDate? <ReadOnlyDate value={selectedDate} />:<></>} */}
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: 'space-between',
-                alignItems: "center",
-                gap: "min(40px, 9vw)",
-                marginBottom: 4,
-                paddingTop: "70px",
-                flexDirection:"row"
+
+            {/* Team Icons */}
+            {(teamAInfo?.url || teamAdata?.url) && (
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 2,
+                  marginBottom: 4,
+                }}
+              >
+                {/* Team A */}
+                <Box
+                  sx={{
+                    height: 100,
+                    background: "transparent",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    border: "none",
+                  }}
+                >
+                  <img
+                    src={teamAInfo?.url || teamAdata?.url}
+                    alt={teamAInfo?.name || teamAdata?.name}
+                    style={{
+                      maxHeight: 110,
+                      maxWidth: 110,
+                    }}
+                  />
+                  <Typography variant="h6">
+                    {teamAInfo?.name || teamAdata?.name}
+                  </Typography>
+                </Box>
+                <Typography variant="h5" sx={{ color: "var(--primary)" }}>
+                  VS
+                </Typography>
+                {/* Team B */}
+                <Box
+                  sx={{
+                    height: 100,
+                    background: "transparent",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    border: "none",
+                  }}
+                >
+                  <img
+                    src={teamBInfo?.url || teamBdata?.url}
+                    alt={teamBInfo?.name || teamBdata?.name}
+                    style={{
+                      maxHeight: 110,
+                      maxWidth: 110,
+                    }}
+                  />
+                  <Typography variant="h6">
+                    {teamBInfo?.name || teamBdata?.name}
+                  </Typography>
+                </Box>
+              </Box>
+            )}
+
+            {(teamAInfo?.url || teamAdata?.url) && (
+              <div
+                style={{
+                  boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+                  borderRadius: "10px",
+                  width: "100%",
+                  padding: "3% 3% 5%",
+                }}
+              >
+                <ReadOnlyDate value={matchDate} />
+                <div data-tour-id="match-type" style={{ width: "100%" }}>
+                  <Select
+                    value={selectedMatchType}
+                    variant="outlined"
+                    displayEmpty // Ensures the placeholder is displayed when value is empty
+                    onChange={(e) => setSelectedMatchType(e.target.value)}
+                    sx={{ width: "100%", marginBottom: 3 }}
+                  >
+                    <MenuItem value="" disabled>
+                      Select Match Type
+                    </MenuItem>
+                    <MenuItem value="Test">Test</MenuItem>
+                    <MenuItem value="ODI">ODI</MenuItem>
+                    <MenuItem value="T20">T20</MenuItem>
+                  </Select>
+                </div>
+
+                <div data-tour-id="player-search" style={{ width: "100%" }}>
+                  <PlayerSearch
+                    teamA={"India"}
+                    teamB={"Australia"}
+                    onAddToTeam={handleAddToTeam}
+                    assignedPlayers={assignedPlayers}
+                  />
+                </div>
+              </div>
+            )}
+            {(teamAInfo?.url || teamAdata?.url) && (
+              <Typography sx={{ mt: 2, mb: 2 }}>OR</Typography>
+            )}
+
+            {/* Import CSV */}
+            <div
+              style={{
+                boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
+                borderRadius: "10px",
+                width: "100%",
+                padding: "3% 3% 5%",
               }}
             >
-              {/* Team A */}
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column", 
-                  alignItems: "center", 
-                  justifyContent: "center",
-                  width: 100,
-                  height: 150, 
-                }}
-              >
-                <Box
-                  sx={{
-                    width: 100,
-                    height: 100,
-                    borderRadius: "50%",
-                    background: "white",
-                    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
-                >
-                  <img
-                    src={teamAInfo.url}
-                    alt={teamAInfo.name}
-                    style={{ width: "80%", height: "80%", objectFit: "cover" }} // Ensures the image fits within the circle
-                  />
-                </Box>
-                <Typography variant="h6" sx={{ marginTop: 1}}>
-                  {teamAInfo.name}
-                </Typography>
-              </Box>
+              <ImportCSV onPlayersLoaded={handlePlayersLoaded} />
+            </div>
 
-              {/* Team B */}
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center", 
-                  justifyContent: "center", 
-                  width: 100,
-                  height: 150, 
-                }}
-              >
-                <Box
-                  sx={{
-                    width: 100,
-                    height: 100,
-                    borderRadius: "50%",
-                    background: "white",
-                    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                  }}
+            <div data-tour-id="generate-team" style={{ width: "100%" }}>
+              <Box sx={{ textAlign: "center", mt: 2, width: "100%" }}>
+                <Button
+                  variant="contained"
+                  color="error"
+                  onClick={generateDreamTeam}
+                  style={{ width: "100%" }}
                 >
-                  <img
-                    src={teamBInfo.url}
-                    alt={teamBInfo.name}
-                    style={{ width: "80%", height: "80%", objectFit: "cover" }} // Ensures the image fits within the circle
-                  />
-                </Box>
-                <Typography variant="h6" sx={{ marginTop: 1 }}>
-                  {teamBInfo.name}
-                </Typography>
+                  GENERATE TEAM
+                </Button>
               </Box>
-            </Box>
-            <div data-tour-id="match-type" >
-            {teamAInfo.length>0 && <Typography variant="h6" sx={{ mb: 2 }}>
-              Select Match Type
-            </Typography>}
-            {teamAInfo.length>0 && <Select
-              defaultValue=""
-              variant="outlined"
-              sx={{ width: "100%", marginBottom: 3 }}
-            >
-              <MenuItem value="Test">Test</MenuItem>
-              <MenuItem value="ODI">ODI</MenuItem>
-              <MenuItem value="T20">T20</MenuItem>
-            </Select>}
             </div>
-           <div data-tour-id="player-search">
-            {teamAInfo.length>0 && <Typography variant="h6" color="#333" sx={{ mb: 1 }}>
-              Search for Player
-            </Typography>}
-            {teamAInfo.length>0 && <PlayerSearch
-              onAddToTeam={handleAddToTeam}
-              teamA={teamAInfo.name}
-              teamB={teamBInfo.name}
-              assignedPlayers={assignedPlayers}
-            />}
-            {teamAInfo.length>0 && <Typography sx={{ mt: 2, mb: 2 }}>OR</Typography>}
-            <ImportCSV onPlayersLoaded={handlePlayersLoaded} />
-            </div>
-            <div data-tour-id="generate-team">
-            <Box sx={{ textAlign: "center", mt: 5 }}>
-              <Button
-                variant="contained"
-                color="success"
-                onClick={generateDreamTeam}
-              >
-                GENERATE TEAM
-              </Button>
-            </Box>
-            </div>
-            
           </Box>
 
           {/* Right Section */}
@@ -445,19 +472,22 @@ console.log("state", state.continueTour)
                   >
                     {player ? (
                       <PlayerCard
-                        name={player.full_name}
-                        points={player.key_cricinfo}
-                        bgImage={player.bg_image_url}
-                        profileImage={player.img_src_url}
+                        name={player?.full_name || player?.name}
+                        points={player?.key_cricinfo || player?.dreamPoints}
+                        bgImage={player?.bg_image_url || player?.bgImage}
+                        profileImage={
+                          player?.img_src_url || player?.profileImage
+                        }
                         isInField={true}
                         onRemove={() =>
                           handleRemoveFromTeam(player.player_id, "A")
                         }
                       />
                     ) : (
-                      <div data-tour-id="view-players"
+                      <div
+                        data-tour-id="view-players"
                         style={{
-                          height: "20vh",
+                          height: "15vh",
                           width: "100%",
                           display: "flex",
                           justifyContent: "center",
@@ -466,7 +496,6 @@ console.log("state", state.continueTour)
                           boxShadow: "0 8px 32px 0 rgba( 31, 38, 135, 0.37 )",
                           borderRadius: "10px",
                           border: "1px solid rgba( 255, 255, 255, 0.18 )",
-                        
                         }}
                       ></div>
                     )}
@@ -489,10 +518,12 @@ console.log("state", state.continueTour)
                   >
                     {player ? (
                       <PlayerCard
-                        name={player.full_name}
-                        points={player.key_cricinfo}
-                        bgImage={player.bg_image_url}
-                        profileImage={player.img_src_url}
+                        name={player?.full_name || player?.name}
+                        points={player?.key_cricinfo || player?.dreamPoints}
+                        bgImage={player?.bg_image_url || player?.bgImage}
+                        profileImage={
+                          player?.img_src_url || player?.profileImage
+                        }
                         isInField={true}
                         onRemove={() =>
                           handleRemoveFromTeam(player.player_id, "B")
@@ -501,8 +532,7 @@ console.log("state", state.continueTour)
                     ) : (
                       <div
                         style={{
-                          height: "20vh",
-                          width: "100%",
+                          height: "15vh",
                           display: "flex",
                           justifyContent: "center",
                           alignItems: "center",

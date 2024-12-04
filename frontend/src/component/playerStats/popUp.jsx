@@ -9,7 +9,7 @@ import styles from "./playerStats.module.css";
 import { useEffect, useState } from "react";
 
 import { BASE_URL } from "../../constants";
-import Loading from "../Loading";
+import Loading from "../common/Loading";
 import CleanPlayerType from "../helper/cleanPlayerType";
 
 export default function PlayerPopOut({

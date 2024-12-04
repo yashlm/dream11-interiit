@@ -38,7 +38,7 @@ export default function DescriptionCard({
   const [isOverflowing, setIsOverflowing] = useState(false);
   const infoRef = useRef(null);
 
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
   const handleMatchDetailsroute = () => {
     navigate(`/matchdetails/${match_id}`);
   };
@@ -87,7 +87,7 @@ export default function DescriptionCard({
   }, [expanded]); // Dependency array ensures this effect runs on 'expanded' change
 
   return (
-    <div className={`${styles.descriptionCard}`} >
+    <div className={`${styles.descriptionCard}`}>
       <audio ref={audioRef} style={{ display: "none" }} />
       <div className={styles.bgBlur}>
         <div className={styles.cardHeader}>
@@ -124,7 +124,6 @@ export default function DescriptionCard({
           ref={infoRef}
           className={`${styles.infoSection} ${expanded ? styles.expanded : ""}`}
           id="infoSectionText"
-          
         >
           {match_id && (
             <div>
@@ -150,7 +149,10 @@ export default function DescriptionCard({
           </button>
         </Tooltip>
         <Tooltip title="Match Details" placement="top">
-          <button className={styles.actionButton} onClick={handleMatchDetailsroute}>
+          <button
+            className={styles.actionButton}
+            onClick={handleMatchDetailsroute}
+          >
             <FaInfoCircle />
           </button>
         </Tooltip>

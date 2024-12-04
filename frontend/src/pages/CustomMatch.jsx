@@ -15,7 +15,7 @@ import PlayerSearch from "../component/selectMatch/PlayerSearch";
 import PlayerCard from "../component/playerCard";
 import Navbar from "../component/Navbar";
 import ReadOnlyDate from "../component/common/readOnlyDate";
-import batsmanimg from '../assets/batsman.png';
+import batsmanimg from "../assets/batsman.png";
 
 export default function CustomMatch() {
   const { date } = useParams();
@@ -31,17 +31,17 @@ export default function CustomMatch() {
   
   const [matchType, setMatchType] = useState("");
   const [teamA, setTeamA] = useState(() => {
-    const savedTeamA = localStorage.getItem('selectedteamA');
+    const savedTeamA = localStorage.getItem("selectedteamA");
     return savedTeamA ? JSON.parse(savedTeamA) : Array(11).fill(null);
   });
 
   const [teamB, setTeamB] = useState(() => {
-    const savedTeamB = localStorage.getItem('selectedteamB');
+    const savedTeamB = localStorage.getItem("selectedteamB");
     return savedTeamB ? JSON.parse(savedTeamB) : Array(11).fill(null);
   });
 
   const [assignedPlayers, setAssignedPlayers] = React.useState(() => {
-    const savedAssignedPlayers = localStorage.getItem('assignedPlayers');
+    const savedAssignedPlayers = localStorage.getItem("assignedPlayers");
     return savedAssignedPlayers ? JSON.parse(savedAssignedPlayers) : {};
   });
 
@@ -52,45 +52,45 @@ export default function CustomMatch() {
   });
 
   useEffect(() => {
-    localStorage.setItem('selectedteamA', JSON.stringify(teamA));
-    localStorage.setItem('selectedteamB', JSON.stringify(teamB));
-    localStorage.setItem('assignedPlayers', JSON.stringify(assignedPlayers));
+    localStorage.setItem("selectedteamA", JSON.stringify(teamA));
+    localStorage.setItem("selectedteamB", JSON.stringify(teamB));
+    localStorage.setItem("assignedPlayers", JSON.stringify(assignedPlayers));
   }, [teamA, teamB, assignedPlayers]);
 
   const handleAddToTeam = (player, team) => {
     const isPlayerInTeamA = teamA.some((p) => p && p.key === player.key);
     const isPlayerInTeamB = teamB.some((p) => p && p.key === player.key);
 
-  if (isPlayerInTeamA || isPlayerInTeamB) {
-    setAlert({
-      message: "This player is already in a team!",
-      severity: "info",
-      show: true,
-    });
-    return;
-  }
-
-  const updateTeamState = (prevTeam) => {
-    const emptyIndex = prevTeam.findIndex((p) => p === null);
-    if (emptyIndex !== -1) {
-      const newTeam = [...prevTeam];
-      newTeam[emptyIndex] = player;
-      return newTeam;
-    } else {
+    if (isPlayerInTeamA || isPlayerInTeamB) {
       setAlert({
-        message: `Team ${team} is already full!`,
+        message: "This player is already in a team!",
         severity: "info",
         show: true,
       });
-      return prevTeam;
+      return;
     }
-  };
 
-  if (team === "A") {
-    setTeamA((prev) => updateTeamState(prev));
-  } else {
-    setTeamB((prev) => updateTeamState(prev));
-  }
+    const updateTeamState = (prevTeam) => {
+      const emptyIndex = prevTeam.findIndex((p) => p === null);
+      if (emptyIndex !== -1) {
+        const newTeam = [...prevTeam];
+        newTeam[emptyIndex] = player;
+        return newTeam;
+      } else {
+        setAlert({
+          message: `Team ${team} is already full!`,
+          severity: "info",
+          show: true,
+        });
+        return prevTeam;
+      }
+    };
+
+    if (team === "A") {
+      setTeamA((prev) => updateTeamState(prev));
+    } else {
+      setTeamB((prev) => updateTeamState(prev));
+    }
 
   // Mark player as assigned
   if((team == "A" && teamA.filter((player) => player !== null).length < 11) || (team == "B" && teamB.filter((player) => player !== null).length < 11)){
@@ -110,13 +110,13 @@ const generateDreamTeam = () => {
 };
 
 
-const handleRemoveFromTeam = (playerKey, team) => {
-  const updateTeam = team === "A" ? [...teamA] : [...teamB];
-  const playerIndex = updateTeam.findIndex((p) => p && p.key === playerKey);
+  const handleRemoveFromTeam = (playerKey, team) => {
+    const updateTeam = team === "A" ? [...teamA] : [...teamB];
+    const playerIndex = updateTeam.findIndex((p) => p && p.key === playerKey);
 
-  if (playerIndex !== -1) {
-    updateTeam[playerIndex] = null;
-    team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
+    if (playerIndex !== -1) {
+      updateTeam[playerIndex] = null;
+      team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
 
     setAssignedPlayers((prev) => ({ ...prev, [playerKey]: false }));
   }
@@ -139,8 +139,8 @@ const handleRemoveFromTeam = (playerKey, team) => {
     setPlayers(loadedPlayers);
   };
 
-  console.log(teamA)
-  console.log(assignedPlayers)
+  console.log(teamA);
+  console.log(assignedPlayers);
 
   return (
     <div>
@@ -178,7 +178,7 @@ const handleRemoveFromTeam = (playerKey, team) => {
           {/* Left Section */}
           <Box
             sx={{
-              width: {sx:"100%", md: "33%"},
+              width: { sx: "100%", md: "33%" },
               background: "rgba(255, 255, 255, 0.5)",
               boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
               backdropFilter: "blur(10px)",
@@ -206,23 +206,23 @@ const handleRemoveFromTeam = (playerKey, team) => {
             <Box
               sx={{
                 display: "flex",
-                justifyContent: 'space-between',
+                justifyContent: "space-between",
                 alignItems: "center",
                 gap: "min(40px, 9vw)",
                 marginBottom: 4,
                 paddingTop: "70px",
-                flexDirection:"row"
+                flexDirection: "row",
               }}
             >
               {/* Team A */}
               <Box
                 sx={{
                   display: "flex",
-                  flexDirection: "column", 
-                  alignItems: "center", 
+                  flexDirection: "column",
+                  alignItems: "center",
                   justifyContent: "center",
                   width: 100,
-                  height: 150, 
+                  height: 150,
                 }}
               >
                 <Box
@@ -243,7 +243,7 @@ const handleRemoveFromTeam = (playerKey, team) => {
                     style={{ width: "80%", height: "80%", objectFit: "cover" }} // Ensures the image fits within the circle
                   />
                 </Box>
-                <Typography variant="h6" sx={{ marginTop: 1}}>
+                <Typography variant="h6" sx={{ marginTop: 1 }}>
                   {teamAdata.name}
                 </Typography>
               </Box>
@@ -253,10 +253,10 @@ const handleRemoveFromTeam = (playerKey, team) => {
                 sx={{
                   display: "flex",
                   flexDirection: "column",
-                  alignItems: "center", 
-                  justifyContent: "center", 
+                  alignItems: "center",
+                  justifyContent: "center",
                   width: 100,
-                  height: 150, 
+                  height: 150,
                 }}
               >
                 <Box

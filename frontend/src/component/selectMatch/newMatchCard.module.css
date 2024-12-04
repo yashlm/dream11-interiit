@@ -54,7 +54,8 @@
 
 .match-details {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  gap: 2px;
   width: 100%;
   margin-top: 10px; /* Reduced margin */
 }

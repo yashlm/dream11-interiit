@@ -7,7 +7,7 @@ import styles from "../css/MatchDetails.module.css";
 import batsman_img from "../assets/matchdetails.png";
 import { BASE_URL } from "../constants";
 import { Button } from "@mui/material"; // Import the Button component
-import Loading from "../component/Loading";
+import Loading from "../component/common/Loading";
 import WeatherCard from "../component/common/weatherCard";
 const MatchDetails = () => {
   const { match_id } = useParams();

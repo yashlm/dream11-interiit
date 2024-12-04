@@ -8,7 +8,7 @@ import { FaArrowRight, FaArrowLeft, FaTimes } from "react-icons/fa";
 import WeatherCard from "../component/common/weatherCard";
 import DreamPointsCard from "../component/common/dreamPoints";
 import DescriptionCard from "../component/dreamPage/matchDescriptionCard";
-import Loading from "../component/Loading";
+import Loading from "../component/common/Loading";
 import DragPlayerCard from "../component/dreamPage/dragPlayerCard";
 import DropZone from "../component/dreamPage/dropZone";
 import Joyride from "react-joyride";
@@ -246,7 +246,7 @@ console.log("state", state.continueTour)
       }))
     );
   };
-
+  
   // API calls
   const fetchDataByMatchId = async (match_id) => {
     try {

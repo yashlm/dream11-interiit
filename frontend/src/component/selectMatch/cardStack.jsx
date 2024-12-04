@@ -6,7 +6,7 @@ import TeamSearchCard from "./selectTeamCard.jsx";
 import { GiAmericanFootballHelmet } from "react-icons/gi";
 import { BiCricketBall } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
-import Loading from "../Loading.jsx";
+import Loading from "../common/Loading.jsx";
 import ProgressBar from "./progressBar.jsx";
 import SelectMatchCard from "./selectMatchCard.jsx";
 import { BASE_URL } from "../../constants.jsx";
@@ -22,7 +22,7 @@ const CardStack = () => {
 
   const [allTeams, setallTeams] = useState(null);
   const navigate = useNavigate();
-//....tour....
+  //....tour....
   const { state } = useLocation();
   const [tourCompleted, setTourCompleted] = useState(false);
   const [run, setRun] = useState(false);
@@ -38,7 +38,6 @@ const CardStack = () => {
       content: "Select a date to play a match. If a match is scheduled, choose to continue with your current Dream11 squad or customize it. If no match is scheduled, create your own by selecting 22 players.",
    placement:"left"
     },
-
   ];
   useEffect(() => {
     if (state?.continueTour && !tourCompleted) {
@@ -66,7 +65,7 @@ console.log("state", state.continueTour)
       setTimeout(() => setRun(true), 500); // Small delay to ensure components render
     }
   };
-  
+
   const handleJoyrideCallback = (data) => {
     const { action, index, type } = data;
 
@@ -77,27 +76,24 @@ console.log("state", state.continueTour)
         setRun(false);
         setTourCompleted(true);
         navigate("/dreamTeam/1426757", { state: { continueTour: true } });
+      } else {
+        console.log("index", index);
+        setStepIndex(index + 1);
       }
-      else{
-       console.log("index", index)
-          setStepIndex(index+1);
-        }
     }
 
-      // Handle "skip" action
-      if (type === "tour:end" && action === "skip") {
-        setRun(false);
-        setStepIndex(0);
-      }
-    
-      // End of the tour
-      if (type === "tour:end" && action !== "skip") {
-        setRun(false);
-        setStepIndex(0);
-        setTourCompleted(true);
-      }
-      
-    
+    // Handle "skip" action
+    if (type === "tour:end" && action === "skip") {
+      setRun(false);
+      setStepIndex(0);
+    }
+
+    // End of the tour
+    if (type === "tour:end" && action !== "skip") {
+      setRun(false);
+      setStepIndex(0);
+      setTourCompleted(true);
+    }
   };
 
   //......tour.....
@@ -159,9 +155,8 @@ console.log("state", state.continueTour)
         callback={handleJoyrideCallback}
         showSkipButton
         styles={CustomStyles}
-       hideBackButton 
-       disableScrolling={false} 
-       
+        hideBackButton
+        disableScrolling={false}
       />
       )}
       <Navbar />
@@ -173,7 +168,7 @@ console.log("state", state.continueTour)
         transition={{ duration: 0.6, ease: "easeOut" }}
       >
         {/* Progress Bar */}
-        <div className={styles.progressBarWrapper} >
+        <div className={styles.progressBarWrapper}>
           <ProgressBar currentStep={currentStep} steps={steps} />
         </div>
         {/* <p className={styles.find}>
@@ -188,7 +183,7 @@ console.log("state", state.continueTour)
           {/* Card 2 */}
           <motion.div
             className={styles.cardStack}
-              data-tour-id="scrolling-calendar"
+            data-tour-id="scrolling-calendar"
             style={{
               boxShadow: secondCardMoved
                 ? "none"
@@ -207,7 +202,6 @@ console.log("state", state.continueTour)
               ease: "easeInOut",
             }}
           >
-           
             <TeamSearchCard
               setTeam={setSecondTeam}
               moveCard={setSecondCardMoved}
@@ -215,14 +209,12 @@ console.log("state", state.continueTour)
               remove={[firstTeam?.name]}
               allTeams={allTeams}
             />
-           
           </motion.div>
 
           {/* Card 1 */}
           <motion.div
             className={styles.cardStack}
             data-tour-id="search-team"
-           
             style={{
               boxShadow: firstCardMoved
                 ? "none"
