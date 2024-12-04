@@ -82,7 +82,18 @@ export default function CustomMatch() {
       setRun(true); // Start the tour if continueTour is passed
     }
   }, [state]);
-
+  useEffect(() => {
+    localStorage.removeItem("positions");
+    localStorage.removeItem("offFieldPlayers");
+    localStorage.removeItem("modelOutput");
+    localStorage.removeItem("dreamPoints");
+    localStorage.removeItem("assignedPlayers");
+    localStorage.removeItem("selectedteamA");
+    localStorage.removeItem("selectedteamB");
+    localStorage.removeItem("teamA");
+    localStorage.removeItem("teamB");
+    localStorage.removeItem("savedID");
+  }, []);
   const handleJoyrideCallback = (data) => {
     const { action, index, type } = data;
 
@@ -201,12 +212,17 @@ export default function CustomMatch() {
       setTeamB(teamB);
       setTeamAInfo(teamAInfo);
       setTeamBInfo(teamBInfo);
+      console.log("date", response.match_date);
       setSelectedDate(response.match_date);
+      console.log("date : !", selectedDate);
       setSelectedMatchType(response.match_type);
 
       console.log("teamA", teamAInfo);
 
       console.log("team B", teamBInfo);
+      console.log("teamAPlayers", teamA); 
+
+      console.log("teamBPlayers", teamB);
     } else {
       setAlert({
         message: response.message || "Failed to load players.",

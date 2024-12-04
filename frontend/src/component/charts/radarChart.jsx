@@ -1,117 +1,3 @@
-// import React, { useState } from "react";
-// import { Radar } from "react-chartjs-2";
-// import {
-//   Chart as ChartJS,
-//   RadialLinearScale,
-//   PointElement,
-//   LineElement,
-//   Filler,
-//   Tooltip,
-//   Legend,
-// } from "chart.js";
-
-// // Register chart.js components
-// ChartJS.register(
-//   RadialLinearScale,
-//   PointElement,
-//   LineElement,
-//   Filler,
-//   Tooltip,
-//   Legend
-// );
-
-// const RadarChartComponent = ({ playerData }) => {
-//   const matchTypes = Object.keys(playerDataType).filter(
-//     (key) => typeof playerDataType[key] === "object"
-//   ); // e.g., t20, odi
-//   const [activeTab, setActiveTab] = useState(matchTypes[0]);
-
-//   const getNonNullFields = (data) => {
-//     return Object.entries(data)
-//       .filter(([_, value]) => value !== null && value !== "")
-//       .map(([key, value]) => ({ label: key, value: parseFloat(value) }));
-//   };
-
-//   const activeData = playerDataType[activeTab];
-//   const radarFields = getNonNullFields(activeData);
-
-//   const chartData = {
-//     labels: radarFields.map((field) => field.label),
-//     datasets: [
-//       {
-//         label: `${activeTab.toUpperCase()} Performance`,
-//         data: radarFields.map((field) => field.value),
-//         backgroundColor: "rgba(75, 192, 192, 0.2)",
-//         borderColor: "rgba(75, 192, 192, 1)",
-//         borderWidth: 2,
-//       },
-//     ],
-//   };
-
-//   const options = {
-//     plugins: {
-//       legend: { display: false },
-//     },
-//     scales: {
-//       r: {
-//         angleLines: { color: "rgba(0, 0, 0, 0.2)" }, // Axis lines visible
-//         grid: { display: false },
-//         ticks: { display: false }, // No ticks
-//         suggestedMin: 0,
-//         suggestedMax: 100,
-//       },
-//     },
-//   };
-
-//   return (
-//     <div
-//       style={{
-//         maxWidth: "600px",
-//         margin: "auto",
-//         backgroundColor: "rgba(255, 255, 255, 0.1)",
-//         borderRadius: "8px",
-//         padding: "20px",
-//       }}
-//     >
-//       <div
-//         style={{
-//           display: "flex",
-//           justifyContent: "center",
-//           marginBottom: "20px",
-//         }}
-//       >
-//         {matchTypes.map((type) => (
-//           <button
-//             key={type}
-//             onClick={() => setActiveTab(type)}
-//             style={{
-//               backgroundColor: activeTab === type ? "red" : "#f0f0f0",
-//               color: activeTab === type ? "#fff" : "#000",
-//               padding: "10px 20px",
-//               border: "none",
-//               borderRadius: "4px",
-//               cursor: "pointer",
-//               marginRight: "10px",
-//             }}
-//           >
-//             {type.toUpperCase()}
-//           </button>
-//         ))}
-//       </div>
-//       {radarFields.length > 0 ? (
-//         <Radar data={chartData} options={options} />
-//       ) : (
-//         <p style={{ textAlign: "center", color: "#fff" }}>
-//           No data available for {activeTab.toUpperCase()}
-//         </p>
-//       )}
-//     </div>
-//   );
-// };
-
-// export default RadarChartComponent;
-
-import React from "react";
 import { Radar } from "react-chartjs-2";
 import {
   Chart as ChartJS,
@@ -134,10 +20,23 @@ ChartJS.register(
 );
 
 const RadarChartComponent = ({ fields }) => {
-  // Filter out null or empty fields
+  // Ensure fields is an object and filter out null or empty values
+  if (!fields || typeof fields !== "object") {
+    console.error("Invalid fields data:", fields);
+    return <p style={{ color: "red" }}>Invalid data provided for chart</p>;
+  }
+
   const radarFields = Object.entries(fields)
-    .filter(([_, value]) => value !== null && value !== "")
-    .map(([key, value]) => ({ label: key, value: parseFloat(value) }));
+    .filter(([_, value]) => value !== null && value !== "") // Filter out null or empty values
+    .map(([key, value]) => ({
+      label: key,
+      value: !isNaN(parseFloat(value)) ? parseFloat(value) : 0, // Ensure valid numbers
+    }));
+
+  // If no valid data exists, show a fallback message
+  if (radarFields.length === 0) {
+    return <p style={{ textAlign: "center", color: "#fff" }}>No valid data available</p>;
+  }
 
   const chartData = {
     labels: radarFields.map((field) => field.label),
@@ -154,15 +53,15 @@ const RadarChartComponent = ({ fields }) => {
 
   const options = {
     plugins: {
-      legend: { display: false },
+      legend: { display: false }, // Hide legend if not needed
     },
     scales: {
       r: {
         angleLines: { color: "rgba(0, 0, 0, 0.4)" }, // Axis lines visible
         grid: { display: false },
-        ticks: { display: false }, // No ticks
+        ticks: { display: false }, // Hide ticks
         suggestedMin: 0,
-        suggestedMax: 10,
+        suggestedMax: 10, // Set a reasonable max for the radar chart
       },
     },
   };
@@ -171,15 +70,13 @@ const RadarChartComponent = ({ fields }) => {
     <div
       style={{
         borderRadius: "8px",
+        maxWidth: "600px", // Limit chart size for responsiveness
+        margin: "auto",
+        padding: "20px",
+        backgroundColor: "rgba(255, 255, 255, 0.1)", // Optional: add styling
       }}
     >
-      {radarFields.length > 0 ? (
-        <Radar data={chartData} options={options} />
-      ) : (
-        <p style={{ textAlign: "center", color: "#fff" }}>
-          No data available for the selected fields
-        </p>
-      )}
+      <Radar data={chartData} options={options} />
     </div>
   );
 };

@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import styles from "./newMatchCard.module.css";
 
 const NewMatchCard = ({ match, team_info }) => {
+  console.log(match);
+  console.log(team_info);
   const navigate = useNavigate();
   const teams = match?.teams || [];
   const team1 = teams[0] || "Team 1";
@@ -13,6 +15,7 @@ const NewMatchCard = ({ match, team_info }) => {
   const venue = parsedVenue.join(" ");
 
   const matchDate = match?.dates?.[0] || "Date not available";
+  const eventName = match?.event_name || "Event name not available";  // Add event name
 
   const handleCardClick = () => {
     // Pass the necessary data as state when navigating to the match details page
@@ -30,6 +33,10 @@ const NewMatchCard = ({ match, team_info }) => {
       <h2 className={styles["match-type"]}>
         {match?.event_name || "Name Not Available"}
       </h2>
+
+      {/* Display event name */}
+      <h3 className={styles["event-name"]}>{eventName}</h3>  {/* Added event name here */}
+
       <div className={styles.logos}>
         <div className={styles.team}>
           <img

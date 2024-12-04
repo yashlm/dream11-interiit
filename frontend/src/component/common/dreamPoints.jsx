@@ -4,7 +4,7 @@ import { LuCoins } from "react-icons/lu";
 const DreamPointsCard = ({ points }) => (
   <div
     className="bg-transparent z-5 rounded-md shadow-lg px-0 py-4 my-auto"
-    style={{ backgroundColor: "transparent"  }}
+    style={{ backgroundColor: "transparent" }}
   >
     <div className="flex items-center justify-between">
       <div className="flex items-center">
@@ -13,7 +13,7 @@ const DreamPointsCard = ({ points }) => (
         />
         <p className="text-white text-lg font-bold">Dream Score</p>
       </div>
-      <p className="text-4xl font-bold text-orange-500">{points}</p>
+      <p className="text-4xl font-bold text-orange-500">{points.toFixed(1)}</p>
     </div>
   </div>
 );

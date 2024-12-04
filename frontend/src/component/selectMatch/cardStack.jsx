@@ -44,7 +44,18 @@ const CardStack = () => {
       setRun(true); // Start the tour if continueTour is passed
     }
   }, [state]);
-
+  useEffect(() => {
+    localStorage.removeItem("positions");
+    localStorage.removeItem("offFieldPlayers");
+    localStorage.removeItem("modelOutput");
+    localStorage.removeItem("dreamPoints");
+    localStorage.removeItem("assignedPlayers");
+    localStorage.removeItem("selectedteamA");
+    localStorage.removeItem("selectedteamB");
+    localStorage.removeItem("teamA");
+    localStorage.removeItem("teamB");
+    localStorage.removeItem("savedID");
+  }, []);
   const handleStartTour = () => {
     if (!tourCompleted) {
       setTimeout(() => setRun(true), 500); // Small delay to ensure components render
@@ -142,7 +153,7 @@ const CardStack = () => {
       <Navbar />
       {/* <div className={styles.backgroundCover}></div> */}
       <motion.div
-        className={styles.cardStackContainer}
+        className={`${styles.cardStackContainer} hide-scrollbar`}
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, ease: "easeOut" }}
@@ -151,10 +162,10 @@ const CardStack = () => {
         <div className={styles.progressBarWrapper}>
           <ProgressBar currentStep={currentStep} steps={steps} />
         </div>
-        <p className="w-full m-auto mt-4 text-center text-cyan-300 text-xl">
-          Lets find a match
-        </p>
-        <div className={styles.cardContainer}>
+        {/* <p className={styles.find}>
+          Let's find a Match
+        </p> */}
+        <div className={`${styles.cardContainer} hide-scrollbar`}>
           <motion.div className={styles.cardStack}>
             {firstCardMoved && secondCardMoved && (
               <SelectMatchCard teamA={firstTeam} teamB={secondTeam} />

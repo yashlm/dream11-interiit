@@ -39,10 +39,15 @@ body {
 }
 
 .lets {
-  margin-top: 10px;
+  margin-top: 15px;
+  /* margin-left: 3px; */
   display: block;
-  font-size: 1.5rem; /* Adjust font size for readability */
+  font-size: 2rem; 
   font-family: Lato, sans-serif;
+}
+
+.red{
+  color: #df2228;
 }
 
 .welcome{
@@ -76,11 +81,12 @@ body {
 }
 
 .next-btn {
-  background-color: red;
-  color: black;
+  color: #df2228;
+  background-color: black;
+  font-family: 'Poppins';
   border: none;
   font-size: 1rem; /* Adjust button size */
-  font-weight: bold;
+  font-weight: 400;
   height: 3rem;
   padding: 0 20px;
   border-radius: 5px;
@@ -88,11 +94,15 @@ body {
   transition: background-color 0.3s;
   width: 100%;
   max-width: 200px;
+  border: 2px solid #df2228;
+  transform: translateY(2em);
 }
 
 .next-btn:hover {
   background-color: black;
-  color: red;
+  color: white;
+  border: 2px solid #df2228;
+  font-weight: 400;
 }
 
 /* Media Queries for Responsive Design */
@@ -115,7 +125,7 @@ body {
   }
 
   .lets {
-    font-size: 2.5rem;
+    /* font-size: 2.5rem; */
   }
 
   .dream11 img {

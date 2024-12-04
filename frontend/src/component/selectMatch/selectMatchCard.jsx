@@ -94,16 +94,16 @@ const SelectMatchCard = ({ teamA, teamB }) => {
   ) : (
     <div className={styles.calenderMatchCardWrapper}>
       <div className={styles.calender} data-tour-id="scrolling-calendar">
-        <h3>SELECT MATCH</h3>
+        <h3 className={styles.headmatch}>Select Match</h3>
         <HorizontalCalendar
           initialDate={new Date()}
           setMatchDate={setMatchDate}
         />
       </div>
-      <div className={styles.matchCardList}>
+      <div className={`${styles.matchCardList} hide-scrollbar`}>
         {/* If a date is selected, show matches for that date */}
         {matchDate && filteredMatches && filteredMatches.length > 0 ? (
-          <div className={styles.matchCardList} style={{ width: "100%" }}>
+          <div className={`${styles.matchCardList} hide-scrollbar`} style={{ width: "100%" }}>
             <h4>Matches on Selected Date</h4>
             {filteredMatches.map((match) => (
               <NewMatchCard
@@ -114,9 +114,7 @@ const SelectMatchCard = ({ teamA, teamB }) => {
               />
             ))}
           </div>
-        ) : // Immediately invoke the function
-        matchDate ? (
-          // Show a custom message if no matches are found for the selected date
+        ) : matchDate ? (
           <div className={styles.customMatchDiv}>
             <p>No matches available for the selected date.</p>
             <button className={styles.customMatchBtn} onClick={customMatch}>

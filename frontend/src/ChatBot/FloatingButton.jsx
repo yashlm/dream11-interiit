@@ -8,7 +8,7 @@ function FloatingButton({ setIsChatOpen, isChatOpen }) {
       className={`floating-button ${isChatOpen ? 'hidden' : ''}`}
       onClick={() => setIsChatOpen(prev => !prev)}
     >
-      <img src={bot} alt="Chatbot" />
+      <img className="pngchat" src={bot} alt="Chatbot" />
     </div>
   );
 }
