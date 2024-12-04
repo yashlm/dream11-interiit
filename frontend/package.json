@@ -33,6 +33,7 @@
     "fuse.js": "^7.0.0",
     "html-to-image": "^1.11.11",
     "html2canvas": "^1.4.1",
+    "js-sha256": "^0.11.0",
     "lodash.debounce": "^4.0.8",
     "lucide-react": "^0.461.0",
     "mdb-react-ui-kit": "^9.0.0",
