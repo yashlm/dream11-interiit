@@ -57,6 +57,8 @@ export default function PlayerCard({
   matchId,
   player_id,
   description,
+  isCap,
+  isVcap,
 }) {
   const [isVisible, setIsVisible] = useState(false);
   const handleClick = () => {
@@ -121,6 +123,26 @@ export default function PlayerCard({
               border: "2px solid white",
             }}
           />
+          {(isCap || isVcap) && (
+            <Box
+              sx={{
+                position: "absolute",
+                bottom: -7,
+                right: 1,
+                backgroundColor: isCap ? "gold" : "silver", // Dynamic color
+                color: "purple",
+                fontSize: "0.6rem",
+                fontWeight: "bold",
+                padding: "2px 6px",
+                borderRadius: "5px",
+                textTransform: "uppercase",
+                boxShadow: 1,
+                zIndex: 3,
+              }}
+            >
+              {isCap ? "Captain" : "Vice-Captain"}
+            </Box>
+          )}
           {isInField && onRemove && (
             <IconButton
               onClick={onRemove}
