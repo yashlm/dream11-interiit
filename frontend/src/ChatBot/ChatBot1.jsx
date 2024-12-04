@@ -48,7 +48,7 @@ function ChatBot({ isChatOpen, setIsChatOpen }) {
     setIsProcessing(true);
 
     try {
-      const response = await axios.post(`http://34.93.115.47/ai/chat`, {
+      const response = await axios.post(`${BASE_URL}/ai/chat`, {
         message: input,
       });
 
