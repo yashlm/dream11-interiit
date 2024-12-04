@@ -53,8 +53,8 @@ const MatchDetails = () => {
           if (isStateTypehome) {
             setCardData({
               venue: match.venue,
-              teamAicon: teamAIcon,
-              teamBicon: teamBIcon,
+              teamAicon: state.team1Logo,
+              teamBicon: state.team2Logo,
               match_type: match.match_type,
               event_name: match.event_name,
               umpires: match.umpires,
