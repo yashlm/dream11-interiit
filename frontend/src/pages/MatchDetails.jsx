@@ -122,7 +122,11 @@ const MatchDetails = () => {
         {/* Weather and Pitch Section */}
         <div className={styles.weatherAndPitchContainer}>
           <div className={styles.weathercard}>
-            <WeatherCard matchId={match_id} setEffect={setInfo} />
+            <WeatherCard
+              matchId={match_id}
+              setEffect={setInfo}
+              showEffect={true}
+            />
           </div>
           <div className={styles.pitchcard}>
             <PitchCard pitch={pitchdata} />

@@ -47,7 +47,10 @@ export default function PlayerPopOut({
     "The player shows tremendous talent, but wasn't selected as a standout performer by our model for this match under the present conditions.",
   ];
 
-  const randomMessage = noDescriptionMessages[Math.floor(Math.random() * noDescriptionMessages.length)];
+  const randomMessage =
+    noDescriptionMessages[
+      Math.floor(Math.random() * noDescriptionMessages.length)
+    ];
 
   // Fetch player stats data on load
   useEffect(() => {
@@ -58,6 +61,7 @@ export default function PlayerPopOut({
           player_id: playerId,
         };
         const response = await fetch(`${BASE_URL}/player/player_all_stats2/`, {
+        const response = await fetch(`${BASE_URL}/player/player_all_stats2/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -65,7 +69,9 @@ export default function PlayerPopOut({
           body: JSON.stringify(payload),
         });
         if (!response.ok) {
-          throw new Error(`HTTP Error: ${response.status} - ${response.statusText}`);
+          throw new Error(
+            `HTTP Error: ${response.status} - ${response.statusText}`
+          );
         }
         const rawData = await response.json();
         const responseData = rawData.data;
@@ -143,15 +149,23 @@ export default function PlayerPopOut({
                   {sidePanelData && (
                     <div className={styles.cricketerData}>
                       <p>
-                        <strong>Batting Style: </strong> {sidePanelData.batting_style}
+                        <strong>Batting Style: </strong>{" "}
+                        {sidePanelData.batting_style}
                       </p>
                       <p>
-                        <strong>Bowling Style: </strong> {sidePanelData.bowling_style}
+                        <strong>Bowling Style: </strong>{" "}
+                        {sidePanelData.bowling_style}
                       </p>
                     </div>
                   )}
                   <div>
-                    <p style={{ color: "var(--calendar)", fontSize: "30px", fontWeight: "bold" }}>
+                    <p
+                      style={{
+                        color: "var(--calendar)",
+                        fontSize: "30px",
+                        fontWeight: "bold",
+                      }}
+                    >
                       {sidePanelData ? sidePanelData.player_role : ""}
                     </p>
                   </div>
@@ -179,9 +193,16 @@ export default function PlayerPopOut({
                 >
                   <div className={styles.imgplusdesc}>
                     <div>
-                      <CardMedia className={styles.bgImageProfile} image={bgImage} title={name}>
+                      <CardMedia
+                        className={styles.bgImageProfile}
+                        image={bgImage}
+                        title={name}
+                      >
                         <div className={styles.blackCover}>
-                          <CardMedia className={styles.playerImageProfile} image={profileImage} />
+                          <CardMedia
+                            className={styles.playerImageProfile}
+                            image={profileImage}
+                          />
                         </div>
                       </CardMedia>
                     </div>
