@@ -124,7 +124,6 @@ export default function DreamTeamGround() {
     }
   };
   //......tour.....
-  
 
   // Refs
   const dockListRef = useRef(null);
@@ -506,7 +505,7 @@ export default function DreamTeamGround() {
           disableScrolling={false}
         />
       )}
-      {match_id && (
+      {match_id && !generatingDescription && (
         <div
           className={styles.weatherCardContainer}
           data-tour-id="weather-card"
@@ -530,13 +529,15 @@ export default function DreamTeamGround() {
       </h1>
 
       <DndProvider backend={HTML5Backend}>
-        {positions.map((position) => {
+        {positions.map((position, index) => {
           const description =
             reason?.player_explanations?.[position?.player?.player_id] ?? null;
 
           const currentPlayer = {
             ...position.player,
             ...(description && { description }), // Add `description` only if it exists
+            ...(position.player && index === 0 && { isCap: true }),
+            ...(position.player && index === 1 && { isVcap: true }),
           };
           console.log(currentPlayer);
 
@@ -585,16 +586,18 @@ export default function DreamTeamGround() {
         </div>
       </DndProvider>
 
-      <DescriptionCard
-        onUndo={handleRedo}
-        info={info}
-        match_id={match_id}
-        onSave={handleSave}
-        onSS={handleTakeScreenshot}
-        expanded={expanded}
-        handleExpandToggle={handleExpandToggle}
-        reason={reason?.team_explanation}
-      />
+      {!generatingDescription && (
+        <DescriptionCard
+          onUndo={handleRedo}
+          info={info}
+          match_id={match_id}
+          onSave={handleSave}
+          onSS={handleTakeScreenshot}
+          expanded={expanded}
+          handleExpandToggle={handleExpandToggle}
+          reason={reason?.team_explanation}
+        />
+      )}
       {screeanshot && (
         <motion.div
           id="screenshot-container"

@@ -6,7 +6,13 @@ import {
   BsArrowsExpand,
   BsArrowsCollapse,
 } from "react-icons/bs";
-import { FaUndo, FaShareAlt, FaSave, FaInfoCircle } from "react-icons/fa";
+import {
+  FaUndo,
+  FaShareAlt,
+  FaSave,
+  FaInfoCircle,
+  FaHome,
+} from "react-icons/fa";
 import styles from "../../css/DescriptionCard.module.css";
 import { BASE_URL } from "../../constants";
 import ClipLoader from "react-spinners/ClipLoader";
@@ -84,11 +90,11 @@ export default function DescriptionCard({
     await fetchAudio(); // Ensure fetchAudio is awaited
   };
 
-  // Effect to run whenever 'expanded' changes
-  useEffect(() => {
-    console.log("The expanded state has changed:", expanded);
-    // Additional logic when expanded changes can go here
-  }, [expanded]); // Dependency array ensures this effect runs on 'expanded' change
+  // // Effect to run whenever 'expanded' changes
+  // useEffect(() => {
+  //   console.log("The expanded state has changed:", expanded);
+  //   // Additional logic when expanded changes can go here
+  // }, [expanded]); // Dependency array ensures this effect runs on 'expanded' change
 
   return (
     <div className={`${styles.descriptionCard}`}>
@@ -165,6 +171,14 @@ export default function DescriptionCard({
         <Tooltip title="Save" placement="top">
           <button className={styles.actionButton} onClick={onSave}>
             <FaSave />
+          </button>
+        </Tooltip>
+        <Tooltip title="Home" placement="top">
+          <button
+            className={styles.actionButton}
+            onClick={() => navigate("/home", { replace: true })}
+          >
+            <FaHome />
           </button>
         </Tooltip>
       </div>
