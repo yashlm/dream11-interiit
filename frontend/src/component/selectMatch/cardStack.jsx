@@ -43,7 +43,18 @@ const CardStack = () => {
       setRun(true); // Start the tour if continueTour is passed
     }
   }, [state]);
-  
+  useEffect(() => {
+    localStorage.removeItem("positions");
+    localStorage.removeItem("offFieldPlayers");
+    localStorage.removeItem("modelOutput");
+    localStorage.removeItem("dreamPoints");
+    localStorage.removeItem("assignedPlayers");
+    localStorage.removeItem("selectedteamA");
+    localStorage.removeItem("selectedteamB");
+    localStorage.removeItem("teamA");
+    localStorage.removeItem("teamB");
+    localStorage.removeItem("savedID");
+  }, []);
   const handleStartTour = () => {
     if (!tourCompleted) {
       setTimeout(() => setRun(true), 500); // Small delay to ensure components render

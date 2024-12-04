@@ -32,6 +32,10 @@ export default function CustomMatch() {
     severity: "",
     show: false,
   });
+  const [assignedPlayers, setAssignedPlayers] = React.useState(() => {
+    const savedAssignedPlayers = localStorage.getItem('assignedPlayers');
+    return savedAssignedPlayers ? JSON.parse(savedAssignedPlayers) : {};
+  });
   const navigate = useNavigate();
   //....tour....
   const { state } = useLocation();
@@ -63,6 +67,19 @@ export default function CustomMatch() {
       setRun(true); // Start the tour if continueTour is passed
     }
   }, [state]);
+
+  useEffect(() => {
+      localStorage.removeItem("positions");
+      localStorage.removeItem("offFieldPlayers");
+      localStorage.removeItem("modelOutput");
+      localStorage.removeItem("dreamPoints");
+      localStorage.removeItem("assignedPlayers");
+      localStorage.removeItem("selectedteamA");
+      localStorage.removeItem("selectedteamB");
+      localStorage.removeItem("teamA");
+      localStorage.removeItem("teamB");
+      localStorage.removeItem("savedID");
+  }, []);
   
   const handleJoyrideCallback = (data) => {
     const { action, index, type } = data;
@@ -109,19 +126,47 @@ export default function CustomMatch() {
       },
     });
   };
+
   const handleAddToTeam = (player, team) => {
     const isPlayerInTeamA = teamA.some((p) => p && p.key === player.key);
     const isPlayerInTeamB = teamB.some((p) => p && p.key === player.key);
 
-  if (isPlayerInTeamA || isPlayerInTeamB) {
-    setAlert({
-      message: "This player is already in a team!",
-      severity: "info",
-      show: true,
-    });
-    return;
+    if (isPlayerInTeamA || isPlayerInTeamB) {
+      setAlert({
+        message: "This player is already in a team!",
+        severity: "info",
+        show: true,
+      });
+      return;
+    }
+
+    const updateTeamState = (prevTeam) => {
+      const emptyIndex = prevTeam.findIndex((p) => p === null);
+      if (emptyIndex !== -1) {
+        const newTeam = [...prevTeam];
+        newTeam[emptyIndex] = player;
+        return newTeam;
+      } else {
+        setAlert({
+          message: `Team ${team} is already full!`,
+          severity: "info",
+          show: true,
+        });
+        return prevTeam;
+      }
+    };
+
+    if (team === "A") {
+      setTeamA((prev) => updateTeamState(prev));
+    } else {
+      setTeamB((prev) => updateTeamState(prev));
+    }
+
+      // Mark player as assigned
+    if((team == "A" && teamA.filter((player) => player !== null).length < 11) || (team == "B" && teamB.filter((player) => player !== null).length < 11)){
+      setAssignedPlayers((prev) => ({ ...prev, [player.key]: true }));
+    } 
   }
-}
   const handleRemoveFromTeam = (playerKey, team) => {
     const updateTeam = team === "A" ? [...teamA] : [...teamB];
     const playerIndex = updateTeam.findIndex((p) => p && p.key === playerKey);
@@ -129,6 +174,8 @@ export default function CustomMatch() {
     if (playerIndex !== -1) {
       updateTeam[playerIndex] = null;
       team === "A" ? setTeamA(updateTeam) : setTeamB(updateTeam);
+
+      setAssignedPlayers((prev) => ({ ...prev, [playerKey]: false }));
     }
   };
 
@@ -151,12 +198,18 @@ export default function CustomMatch() {
       setTeamB(teamB);
       setTeamAInfo(teamAInfo);
       setTeamBInfo(teamBInfo);
+      console.log("date", response.match_date)
       setSelectedDate(response.match_date);
+      console.log("date : !", selectedDate)
       setSelectedMatchType(response.match_type);
 
       console.log("teamA", teamAInfo);
 
       console.log("team B", teamBInfo);
+      console.log("teamAPlayers", teamA);
+
+      console.log("teamBPlayers", teamB);
+      
     } else {
       setAlert({
         message: response.message || "Failed to load players.",
@@ -212,7 +265,7 @@ export default function CustomMatch() {
           {/* Left Section */}
           <Box
             sx={{
-              width: { xs: "100%", md: "30%" },
+              width: { xs: "100%", md: "33%" },
               background: "rgba(255, 255, 255, 0.5)",
               boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
               backdropFilter: "blur(10px)",
@@ -236,66 +289,91 @@ export default function CustomMatch() {
             >
               Select Players
             </Typography>
+            {/* {selectedDate? <ReadOnlyDate value={selectedDate} />:<></>} */}
             <Box
               sx={{
                 display: "flex",
-                justifyContent: "center",
+                justifyContent: 'space-between',
                 alignItems: "center",
-                gap: 2,
+                gap: "min(40px, 9vw)",
                 marginBottom: 4,
+                paddingTop: "70px",
+                flexDirection:"row"
               }}
             >
               {/* Team A */}
               <Box
                 sx={{
-                  width: 100,
-                  height: 100,
-                  borderRadius: "50%",
-                  background: "white",
-                  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
                   display: "flex",
+                  flexDirection: "column", 
+                  alignItems: "center", 
                   justifyContent: "center",
-                  alignItems: "center",
+                  width: 100,
+                  height: 150, 
                 }}
               >
-                <img
-                  src={teamAInfo.url}
-                  alt={teamAInfo.name}
-                  style={{ width: "100%", height: "100%" }}
-                />
-              </Box>
-              <Box sx={{ textAlign: "center" }}>
-                <Typography variant="h6">{teamBInfo.name}</Typography>
+                <Box
+                  sx={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: "50%",
+                    background: "white",
+                    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <img
+                    src={teamAInfo.url}
+                    alt={teamAInfo.name}
+                    style={{ width: "80%", height: "80%", objectFit: "cover" }} // Ensures the image fits within the circle
+                  />
+                </Box>
+                <Typography variant="h6" sx={{ marginTop: 1}}>
+                  {teamAInfo.name}
+                </Typography>
               </Box>
 
               {/* Team B */}
               <Box
                 sx={{
-                  width: 100,
-                  height: 100,
-                  borderRadius: "50%",
-                  background: "white",
-                  boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
                   display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
+                  flexDirection: "column",
+                  alignItems: "center", 
+                  justifyContent: "center", 
+                  width: 100,
+                  height: 150, 
                 }}
               >
-                <img
-                  src={teamBInfo.url}
-                  alt={teamBInfo.name}
-                  style={{ width: "100%", height: "100%" }}
-                />
-              </Box>
-              <Box sx={{ textAlign: "center" }}>
-                <Typography variant="h6">{teamBInfo.name}</Typography>
+                <Box
+                  sx={{
+                    width: 100,
+                    height: 100,
+                    borderRadius: "50%",
+                    background: "white",
+                    boxShadow: "0 4px 10px rgba(0, 0, 0, 0.2)",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <img
+                    src={teamBInfo.url}
+                    alt={teamBInfo.name}
+                    style={{ width: "80%", height: "80%", objectFit: "cover" }} // Ensures the image fits within the circle
+                  />
+                </Box>
+                <Typography variant="h6" sx={{ marginTop: 1 }}>
+                  {teamBInfo.name}
+                </Typography>
               </Box>
             </Box>
             <div data-tour-id="match-type" >
-            <Typography variant="h6" sx={{ mb: 2 }}>
+            {teamAInfo.length>0 && <Typography variant="h6" sx={{ mb: 2 }}>
               Select Match Type
-            </Typography>
-            <Select
+            </Typography>}
+            {teamAInfo.length>0 && <Select
               defaultValue=""
               variant="outlined"
               sx={{ width: "100%", marginBottom: 3 }}
@@ -303,14 +381,19 @@ export default function CustomMatch() {
               <MenuItem value="Test">Test</MenuItem>
               <MenuItem value="ODI">ODI</MenuItem>
               <MenuItem value="T20">T20</MenuItem>
-            </Select>
+            </Select>}
             </div>
            <div data-tour-id="player-search">
-            <Typography variant="h6" color="#333" sx={{ mb: 1 }}>
+            {teamAInfo.length>0 && <Typography variant="h6" color="#333" sx={{ mb: 1 }}>
               Search for Player
-            </Typography>
-            <PlayerSearch onAddToTeam={handleAddToTeam} />
-            <Typography sx={{ mt: 2, mb: 2 }}>OR</Typography>
+            </Typography>}
+            {teamAInfo.length>0 && <PlayerSearch
+              onAddToTeam={handleAddToTeam}
+              teamA={teamAInfo.name}
+              teamB={teamBInfo.name}
+              assignedPlayers={assignedPlayers}
+            />}
+            {teamAInfo.length>0 && <Typography sx={{ mt: 2, mb: 2 }}>OR</Typography>}
             <ImportCSV onPlayersLoaded={handlePlayersLoaded} />
             </div>
             <div data-tour-id="generate-team">
