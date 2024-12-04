@@ -300,11 +300,11 @@ export default function CustomMatch() {
               required
             >
               <MenuItem value="Test">Test</MenuItem>
-              <MenuItem value="Test">MDM</MenuItem>
               <MenuItem value="ODI">ODI</MenuItem>
-              <MenuItem value="ODI">ODM</MenuItem>
               <MenuItem value="T20">T20</MenuItem>
-              <MenuItem value="T20">IT20</MenuItem>
+              <MenuItem value="T20">T20I</MenuItem>
+              <MenuItem value="Test">MDM</MenuItem>
+              <MenuItem value="ODI">ODM</MenuItem>
             </Select>
             <Typography variant="h6" color="#333" sx={{ mb: 1 }}>
               Search for Player
@@ -356,7 +356,7 @@ export default function CustomMatch() {
                         player_id={player.player_id}
                         isInField={true}
                         onRemove={() => handleRemoveFromTeam(player.key, "A")}
-                    
+
                       />
                     ) : (
                       <div

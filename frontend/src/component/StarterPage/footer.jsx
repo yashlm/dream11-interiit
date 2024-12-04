@@ -59,7 +59,7 @@ const Footer = () => {
         <div className={styles.dream11Column}>
           <a href="/custommatch">Create a Match</a>
           <a href="/teamSelect">Select a Match</a>
-          <a href="/home">How To Play</a>
+          <a href="/home">Home Page</a>
         </div>
       </div>
       {/* <div className={styles.dream11Separator}></div> */}

@@ -26,6 +26,25 @@ export default function PlayerPopOut({
 }) {
   const [data, setData] = useState(null);
   const [sidePanelData, setSidePanelData] = useState(null);
+  const noDescriptionMessages = [
+    "Although the player is skilled, our model has not selected them to play in this match under the current conditions.",
+    "Despite their talent, the player wasn't picked by our model for this match given the circumstances.",
+    "The player might be talented, but they haven't been chosen by our model for this match due to specific conditions.",
+    "Even though the player shows great potential, they were not selected by our model for this match at this time.",
+    "Although skilled, our model has not considered the player for this match based on the current analysis.",
+    "The player is certainly capable, but under these match conditions, our model did not select them to play.",
+    "The player possesses notable skill, but was not picked by our model for the current match conditions.",
+    "Despite showing promise, the player wasn't selected by our model for this match.",
+    "Although the player demonstrates talent, our model didn't pick them for this particular match.",
+    "The player is undoubtedly skilled, but under the current conditions, our model did not deem them a fit for this match.",
+    "While the player has potential, they weren't selected by our model for this match due to the specific conditions.",
+    "The player has the skills, but based on our model's analysis, they haven't been selected for this match.",
+    "Although the player has proven abilities, they were not picked by our model for this match given the current conditions.",
+    "Despite their abilities, the player was not selected for this match by our model due to the current analysis.",
+    "The player shows talent, but wasn't selected by our model for this match under the present conditions."
+  ];
+
+  const randomMessage = noDescriptionMessages[Math.floor(Math.random() * noDescriptionMessages.length)];
 
   useEffect(() => {
     const dataFeatch = async () => {
@@ -94,7 +113,7 @@ export default function PlayerPopOut({
                     </div>
                   )}
                   <div>
-                    <p style={{ color: "#333", fontSize: "24px" }}>
+                    <p style={{ color: "var(--calendar)", fontSize: "30px" }}>
                       {sidePanelData ? sidePanelData.player_role : ""}
                     </p>
                   </div>
@@ -133,13 +152,17 @@ export default function PlayerPopOut({
                         </div>
                       </CardMedia>
                     </div>
-                    {description && (
-                      <div className={styles.playerdesc}>
-                        <h3>Player Description:</h3>
+                    {/* {description && ( */}
+                    <div className={styles.playerdesc}>
+                      <h3>Player Description:</h3>
+                      {description ? (
                         <p className={styles.typing}>{description}</p>
-                        {/* <p className={styles.typing}> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur saepe doloribus cum. Dolores mollitia distinctio fugiat assumenda necessitatibus facere expedita optio vitae ipsa asperiores perferendis pariatur doloribus debitis, dignissimos explicabo? </p> */}
-                      </div>
-                    )}
+                      ) : (
+                        <p className={styles.typing}>{randomMessage}</p>
+                      )}
+                      {/* <p className={styles.typing}> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur saepe doloribus cum. Dolores mollitia distinctio fugiat assumenda necessitatibus facere expedita optio vitae ipsa asperiores perferendis pariatur doloribus debitis, dignissimos explicabo? </p> */}
+                    </div>
+                    {/* )} */}
                   </div>
                   <img
                     src="/assets/playerStats.png"
