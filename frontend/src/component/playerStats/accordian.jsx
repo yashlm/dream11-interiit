@@ -47,7 +47,7 @@ const TransparentTabs = React.memo(({ inputData, dataType }) => {
         const filteredBaseData = Object.fromEntries(
           Object.entries(baseData).filter(([_, value]) => value)
         );
-        if (Object.keys(filteredBaseData).length > 1) {
+        if (Object.keys(filteredBaseData).length > 0) {
           return {
             label: type.toUpperCase(),
             value: type.toLowerCase(),
