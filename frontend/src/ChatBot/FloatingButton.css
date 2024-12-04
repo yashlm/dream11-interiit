@@ -15,7 +15,7 @@
   transition: background-color 0.3s ease;
   height: 80px;
   width: 80px;
-  z-index: 3;
+  z-index: 300;
 }
 
 .floating-button.hidden {

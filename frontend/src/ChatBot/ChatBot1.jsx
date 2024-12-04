@@ -36,6 +36,7 @@ function ChatBot({ isChatOpen, setIsChatOpen }) {
   const handleUserInput = async (e) => {
     e.preventDefault();
     if (!input.trim()) return;
+    setInput("");
     // Add user message
     setMessages((prevMessages) => {
       const newMessages = [...prevMessages, { text: input, sender: "user" }];

@@ -1,6 +1,6 @@
 .chatbot {
     font-family:'Segoe UI', Tahoma, Geneva, Verdana, ;
-    z-index: 3;
+    z-index: 700;
     position: fixed;
     bottom: 20px;
     right: calc(-40vw - 40px);  
