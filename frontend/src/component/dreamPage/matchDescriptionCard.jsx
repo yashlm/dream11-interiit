@@ -95,7 +95,7 @@ export default function DescriptionCard({
       <audio ref={audioRef} style={{ display: "none" }} />
       <div className={styles.bgBlur}>
         <div className={styles.cardHeader}>
-          <p>Info Section</p>
+          <p>INFO SECTION</p>
           <div className="flex flex-row justify-end">
             <Tooltip title="Listen" placement="top">
               <button className={styles.iconButton} onClick={handleVoiceClick}>

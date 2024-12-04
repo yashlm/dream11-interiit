@@ -1,13 +1,12 @@
-/* eslint-disable react/prop-types */
+import { useEffect, useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-// import Avatar from "@mui/material/Avatar";
 import CardMedia from "@mui/material/CardMedia";
 import PlayerStatsAccordion from "./accordian";
 import { RxCross2 } from "react-icons/rx";
-
+import { Tooltip } from "@mui/material";
+import { BsFillVolumeUpFill } from "react-icons/bs";
+import ClipLoader from "react-spinners/ClipLoader";
 import styles from "./playerStats.module.css";
-import { useEffect, useState } from "react";
-
 import { BASE_URL } from "../../constants";
 import Loading from "../common/Loading";
 import CleanPlayerType from "../helper/cleanPlayerType";
@@ -26,6 +25,10 @@ export default function PlayerPopOut({
 }) {
   const [data, setData] = useState(null);
   const [sidePanelData, setSidePanelData] = useState(null);
+  const [audioLoading, setAudioLoading] = useState(false);
+  const [audioUrl, setAudioUrl] = useState(null);
+  const audioRef = useRef(null);
+
   const noDescriptionMessages = [
     "Although the player is skilled, our model has not selected them to play in this match under the current conditions.",
     "Despite their talent, the player wasn't picked by our model for this match given the circumstances.",
@@ -41,11 +44,12 @@ export default function PlayerPopOut({
     "The player has the skills, but based on our model's analysis, they haven't been selected for this match.",
     "Although the player has proven abilities, they were not picked by our model for this match given the current conditions.",
     "Despite their abilities, the player was not selected for this match by our model due to the current analysis.",
-    "The player shows talent, but wasn't selected by our model for this match under the present conditions."
+    "The player shows talent, but wasn't selected by our model for this match under the present conditions.",
   ];
 
   const randomMessage = noDescriptionMessages[Math.floor(Math.random() * noDescriptionMessages.length)];
 
+  // Fetch player stats data on load
   useEffect(() => {
     const dataFeatch = async () => {
       try {
@@ -61,12 +65,9 @@ export default function PlayerPopOut({
           body: JSON.stringify(payload),
         });
         if (!response.ok) {
-          throw new Error(
-            `HTTP Error: ${response.status} - ${response.statusText}`
-          );
+          throw new Error(`HTTP Error: ${response.status} - ${response.statusText}`);
         }
         const rawData = await response.json();
-        console.log(rawData);
         const responseData = rawData.data;
         setData({ bat: responseData.bat, bowl: responseData.bowl });
         setSidePanelData(rawData.data.cricketer_data);
@@ -78,6 +79,45 @@ export default function PlayerPopOut({
     };
     dataFeatch();
   }, [matchId, playerId]);
+
+  // Fetch audio description logic
+  const fetchAudio = async () => {
+    setAudioLoading(true); // Show loader
+    const text = description || randomMessage; // Use description or random message if unavailable
+    try {
+      const body = {
+        target_language_code: localStorage.getItem("lang") || "en",
+        message: text,
+      };
+      const response = await fetch(`${BASE_URL}/ai/audio`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(body),
+      });
+      if (!response.ok) {
+        throw new Error("Failed to fetch audio");
+      }
+      const blob = await response.blob();
+      const url = URL.createObjectURL(blob);
+      setAudioUrl(url);
+
+      // Play audio after URL is set
+      if (audioRef.current) {
+        audioRef.current.src = url;
+        await audioRef.current.play();
+      }
+    } catch (err) {
+      console.log("Error in fetching audio:", err);
+    } finally {
+      setAudioLoading(false); // Hide loader
+    }
+  };
+
+  const handleVoiceClick = async () => {
+    await fetchAudio(); // Ensure fetchAudio is awaited
+  };
 
   return (
     <AnimatePresence>
@@ -103,17 +143,15 @@ export default function PlayerPopOut({
                   {sidePanelData && (
                     <div className={styles.cricketerData}>
                       <p>
-                        <strong>Batting Style: </strong>{" "}
-                        {sidePanelData.batting_style}
+                        <strong>Batting Style: </strong> {sidePanelData.batting_style}
                       </p>
                       <p>
-                        <strong>Bowling Style: </strong>{" "}
-                        {sidePanelData.bowling_style}
+                        <strong>Bowling Style: </strong> {sidePanelData.bowling_style}
                       </p>
                     </div>
                   )}
                   <div>
-                    <p style={{ color: "var(--calendar)", fontSize: "30px" }}>
+                    <p style={{ color: "var(--calendar)", fontSize: "30px", fontWeight: "bold" }}>
                       {sidePanelData ? sidePanelData.player_role : ""}
                     </p>
                   </div>
@@ -129,46 +167,60 @@ export default function PlayerPopOut({
                   width: "100%",
                 }}
               >
-                <div className={styles.bottomTop} style={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  width: "100%",
-                  gap: "5%",
-                }}>
-
+                <div
+                  className={styles.bottomTop}
+                  style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    width: "100%",
+                    gap: "5%",
+                  }}
+                >
                   <div className={styles.imgplusdesc}>
                     <div>
-                      <CardMedia
-                        className={styles.bgImageProfile}
-                        image={bgImage}
-                        title={name}
-                      >
+                      <CardMedia className={styles.bgImageProfile} image={bgImage} title={name}>
                         <div className={styles.blackCover}>
-                          <CardMedia
-                            className={styles.playerImageProfile}
-                            image={profileImage}
-                          />
+                          <CardMedia className={styles.playerImageProfile} image={profileImage} />
                         </div>
                       </CardMedia>
                     </div>
-                    {/* {description && ( */}
                     <div className={styles.playerdesc}>
-                      <h3>Player Description:</h3>
+                      <div className={styles.audio}>
+                      <h3>Model Insights:</h3>
+                      <Tooltip title="Listen" placement="top">
+                        <button className={styles.iconButton} onClick={handleVoiceClick}>
+                          {audioLoading ? (
+                            <ClipLoader
+                              color={"white"}
+                              className={styles.loader}
+                              loading={audioLoading}
+                              aria-label="Loading Spinner"
+                              data-testid="loader"
+                            />
+                          ) : (
+                            <BsFillVolumeUpFill />
+                          )}
+                        </button>
+                      </Tooltip>
+                      <audio ref={audioRef} hidden />
+                      </div>
                       {description ? (
-                        <p className={styles.typing}>{description}</p>
+                        <p id="infoSectionText" className={styles.typing}>
+                          {description}
+                        </p>
                       ) : (
-                        <p className={styles.typing}>{randomMessage}</p>
+                        <p id="infoSectionText" className={styles.typing}>
+                          {randomMessage}
+                        </p>
                       )}
-                      {/* <p className={styles.typing}> Lorem ipsum dolor sit amet consectetur adipisicing elit. Aspernatur saepe doloribus cum. Dolores mollitia distinctio fugiat assumenda necessitatibus facere expedita optio vitae ipsa asperiores perferendis pariatur doloribus debitis, dignissimos explicabo? </p> */}
                     </div>
-                    {/* )} */}
                   </div>
                   <img
                     src="/assets/playerStats.png"
                     style={{ marginTop: "5%" }}
                     className={styles.statspng}
-                  ></img>
+                  />
                 </div>
               </div>
             </div>
