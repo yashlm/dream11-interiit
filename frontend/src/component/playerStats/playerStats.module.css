@@ -203,6 +203,53 @@
   margin-left: 5%;
 }
 
+.audio{
+  display: flex;
+  flex-direction: row;
+}
+
+/* Audio container for icon and loader */
+.audio {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: top;
+  gap: 5px; /* Small space between the icon and loader */
+}
+
+/* Icon button styling */
+.iconButton {
+  background: transparent;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 20px; /* Adjust size of the button */
+  height: 20px; /* Adjust size of the button */
+}
+
+/* Icon size (volume icon) */
+.iconButton svg {
+  color: #fff;
+  font-size: 16px;
+}
+
+/* Loader styling */
+.loader {
+  width: 16px !important; /* Make loader smaller */
+  height: 16px !important; /* Make loader smaller */
+}
+
+/* Tooltip styling */
+.MuiTooltip-tooltip {
+  background-color: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-size: 12px;
+}
+
+
 .playerdesc::-webkit-scrollbar {
   width: 0;
 }
@@ -247,7 +294,7 @@
   border-radius: 4px;
 }
 
-.playerdesc h3 {
+.audio h3 {
   margin-top: 0;
   text-align: left;
   padding-left: 10px;
