@@ -7,8 +7,13 @@ const Loading = () => {
   const [progress, setProgress] = useState(0);
   const [textIndex, setTextIndex] = useState(0);
 
-  const texts = ["Loading", "Please wait...", "Almost there", "Almost done!"];
-
+  const texts = [
+    "Hold tight, something awesome is coming!",
+    "Hang on, we're setting things up just for you!",
+    "Get ready, we’re almost there!",
+    "The magic is happening—almost done!"
+  ];
+  
   // Lottie animation options
   const lottieOptions = {
     loop: true,
