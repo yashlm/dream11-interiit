@@ -132,14 +132,13 @@
 }
 
 .centerH1 {
-  /* YOUR DREAM TEAM */
   position: absolute;
-  width: 770px;
-  height: 110px;
-  top: 33vh;
-  left: 28vw;
+  width: 550px;
+  /* height: 110px; */
+  top: 27vh;
+  left: 31vw;
 
-  font-family: "Calistoga";
+  /* font-family: "Calistoga";
   font-style: normal;
   font-weight: 800;
   font-size: 60px;
@@ -148,16 +147,16 @@
 
   background: linear-gradient(
     0deg,
-    #d0f1e1 7.43%,
-    #f8d7db 29.13%,
-    #ffffff 94.6%
+    #668500 7.43%,
+    #668500 29.13%,
+    #668500 94.6%
   );
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
   -webkit-text-fill-color: transparent;
 
-  text-shadow: 0px 6px 8px rgba(0, 0, 0, 0.25);
+  text-shadow: 0px 6px 8px rgba(0, 0, 0, 0.25);  */
 }
 
 /* Apply transition for move, scale, and opacity */

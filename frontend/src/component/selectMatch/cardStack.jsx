@@ -30,15 +30,15 @@ const CardStack = () => {
   const stepstour = [
     {
       target: '[data-tour-id="search-team"]',
-      content: "Search the names of teams you would like to play a match with and select them.",
+      content: "Search for the teams you would like to play a match with and select them.",
       disableBeacon: true,
     },
     {
       target: '[data-tour-id="scrolling-calendar"]',
       content: "Select a date to play a match. If a match is scheduled, choose to continue with your current Dream11 squad or customize it. If no match is scheduled, create your own by selecting 22 players.",
-   placement:"left"
+      placement: "left"
     },
-  ];
+  ];  
   useEffect(() => {
     if (state?.continueTour && !tourCompleted) {
       setRun(true);

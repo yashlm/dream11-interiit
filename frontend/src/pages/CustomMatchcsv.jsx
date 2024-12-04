@@ -68,19 +68,17 @@ export default function CustomMatch() {
 
     {
       target: '[data-tour-id="player-search"]',
-      content:
-        "To select the 22 players for Team A and Team B you can directly import them from a CSV file",
-        disableBeacon: true,
+      content: "To select the 22 players for Team A and Team B, you can directly import them from a CSV file.",
+      disableBeacon: true,
     },
     {
       target: '[data-tour-id="view-players"]',
-      content:
-        "You can view the 22 players in this section after selecting from the dropwdown or importing from CSV.",
+      content: "You can view the 22 players in this section after selecting them from the dropdown or importing from a CSV file.",
     },
     {
       target: '[data-tour-id="generate-team"]',
       content: "Finally, generate your dream team by clicking on this button!",
-    },
+    },    
   ];
 
   useEffect(() => {
@@ -337,19 +335,21 @@ export default function CustomMatch() {
               alignItems: "center",
             }}
           >
-            {/* Select player text */}
+            {/* Create Match Text */}
             <Typography
               variant="h4"
               sx={{
                 fontWeight: "bold",
                 textShadow: "2px 2px 4px rgba(0, 0, 0, 0.5)",
                 mb: 3,
+                marginBottom: "45px",
               }}
             >
               Create Match
             </Typography>
 
-            {/* Team Icons */}
+
+            {/* Team Logos and Names */}
             {(teamAInfo?.url || teamAdata?.url) && (
               <Box
                 sx={{
@@ -378,15 +378,41 @@ export default function CustomMatch() {
                     style={{
                       maxHeight: 110,
                       maxWidth: 110,
+                      marginBottom: "10px",
+                      // borderRadius: "50%",
+                      // boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
+                      objectFit: "contain",
                     }}
                   />
-                  <Typography variant="h6">
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: "bold",
+                      // textShadow: "1px 1px 3px rgba(0, 0, 0, 0.6)",
+                      color: "black",
+                      fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+                      margin: "0",
+                      padding: "0",
+                      marginBottom: "10px",
+                    }}
+                  >
                     {teamAInfo?.name || teamAdata?.name}
                   </Typography>
                 </Box>
-                <Typography variant="h5" sx={{ color: "var(--primary)" }}>
+
+                {/* VS */}
+                <Typography
+                  variant="h5"
+                  sx={{
+                    color: "var(--primary)",
+                    fontWeight: "bold",
+                    fontSize: { xs: "1.5rem", sm: "2rem", md: "2.5rem" },
+                    // textShadow: "1px 1px 3px rgba(0, 0, 0, 0.4)",
+                  }}
+                >
                   VS
                 </Typography>
+
                 {/* Team B */}
                 <Box
                   sx={{
@@ -405,9 +431,22 @@ export default function CustomMatch() {
                     style={{
                       maxHeight: 110,
                       maxWidth: 110,
+                      marginBottom: "10px",
+                      objectFit: "contain",
+                      // borderRadius: "50%",
+                      // boxShadow: "0px 4px 6px rgba(0, 0, 0, 0.2)",
                     }}
                   />
-                  <Typography variant="h6">
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontWeight: "bold",
+                      // textShadow: "1px 1px 3px rgba(0, 0, 0, 0.6)",
+                      color: "#000",
+                      marginBottom: "10px",
+                      fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+                    }}
+                  >
                     {teamBInfo?.name || teamBdata?.name}
                   </Typography>
                 </Box>
@@ -435,16 +474,16 @@ export default function CustomMatch() {
                     <MenuItem value="" disabled>
                       Select Match Type
                     </MenuItem>
-                    <MenuItem value="Test">Test</MenuItem>
-                    <MenuItem value="Test">MDM</MenuItem>
-                    <MenuItem value="ODI">ODI</MenuItem>
-                    <MenuItem value="ODI">ODM</MenuItem>
-                    <MenuItem value="T20">T20</MenuItem>
                     <MenuItem value="T20">IT20</MenuItem>
+                    <MenuItem value="Test">Test</MenuItem>
+                    <MenuItem value="ODI">ODI</MenuItem>
+                    <MenuItem value="T20">T20</MenuItem>
+                    <MenuItem value="Test">MDM</MenuItem>
+                    <MenuItem value="ODI">ODM</MenuItem>
                   </Select>
                 </div>
 
-                <div  style={{ width: "100%" }}>
+                <div style={{ width: "100%" }}>
                   <PlayerSearch
                     teamA={teamAInfo?.name || teamAdata?.name}
                     teamB={teamBInfo?.name || teamBdata?.name}
@@ -483,7 +522,7 @@ export default function CustomMatch() {
                   color="error"
                   disabled={isDisabled}
                   onClick={generateDreamTeam}
-                  style={{ width: "100%" }}
+                  style={{ width: "50%" }}
                 >
                   GENERATE TEAM
                 </Button>
@@ -501,7 +540,12 @@ export default function CustomMatch() {
             <Grid container spacing={2}>
               {/* Team A */}
               <Grid item xs={12}>
-                <Typography variant="h5" align="center" gutterBottom>
+                <Typography variant="h5" align="center" gutterBottom sx={{
+                  fontWeight: "bold",
+                  // textShadow: "1px 1px 3px rgba(0, 0, 0, 0.6)",
+                  color: "#000",
+                  fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+                }}>
                   {teamAInfo.name}
                 </Typography>
               </Grid>
@@ -546,7 +590,12 @@ export default function CustomMatch() {
 
               {/* Team B */}
               <Grid item xs={12}>
-                <Typography variant="h5" align="center" gutterBottom>
+                <Typography variant="h5" align="center" gutterBottom sx={{
+                  fontWeight: "bold",
+                  // textShadow: "1px 1px 3px rgba(0, 0, 0, 0.6)",
+                  color: "#000",
+                  fontSize: { xs: "1rem", sm: "1.2rem", md: "1.5rem" },
+                }}>
                   {teamBInfo.name}
                 </Typography>
               </Grid>

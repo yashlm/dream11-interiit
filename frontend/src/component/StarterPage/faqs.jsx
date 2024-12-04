@@ -27,7 +27,7 @@ const FAQ = () => {
             {/* FAQ Section */}
             <Box sx={{ flex: 2 }}>
                 <div className={styles.heading}>
-                    FREQUENTLY <br/>ASKED QUESTIONS
+                    FREQUENTLY <br />ASKED QUESTIONS
                 </div>
 
                 {/* FAQ Items */}
@@ -116,52 +116,55 @@ const FAQ = () => {
             </Box>
 
         </Box>
-   );
+    );
 };
 
 // Sample FAQ Data
 const faqData = [
     {
-      question: "How are Dream11 points calculated?",
-      answer: "Dream11 points system is calculated on the basis of the performance of the player in an actual match. Check Dream11 Fantasy Points System for various sports."
+        question: "How are Dream11 points calculated?",
+        answer: "Dream11 points are calculated based on player performance in actual matches. Points are awarded for actions like runs, wickets, catches, and more. For a detailed breakdown of the scoring system, visit the Dream11 Fantasy Points System page for various sports."
     },
     {
-      question: "How does Dream11 work for cricket matches?",
-      answer: "Dream11 allows users to create their fantasy cricket team by selecting real players from an upcoming match. Your team earns points based on the players' performances in the real match."
+        question: "How does Dream11 work for cricket matches?",
+        answer: "Dream11 allows users to create a fantasy cricket team by selecting real players from upcoming matches. Your team's performance is based on the actual performance of the players in the match. Points are awarded for actions like batting, bowling, fielding, and captaincy."
     },
     {
-      question: "Can I make changes to my team after creating it?",
-      answer: "Yes, you can edit your team until the match deadline, which is typically when the match starts."
+        question: "How does the ML model select players for the Dream Team?",
+        answer: "The ML model uses advanced algorithms to evaluate player statistics, pitch conditions, weather, opposition strength, and historical data. It selects players who are likely to perform well based on these factors, optimizing the team to maximize points."
     },
     {
-      question: "How does the ML model select players for the Dream Team?",
-      answer: "The ML model uses advanced algorithms to evaluate: Player statistics (recent performances, strike rates, and economy rates), pitch and weather conditions (favoring spinners, pacers, or batsmen), opposition strength and head-to-head records, and historical performance in similar conditions (e.g., venue or tournament). The selected team is optimized for maximizing points based on these inputs."
+        question: "Does the ML Dream Team guarantee a win?",
+        answer: "No, the ML Dream Team does not guarantee a win. While the team is optimized for maximum points based on data analysis, the actual performance of players during a match can vary, and real-time factors like injuries or weather can affect outcomes."
     },
     {
-      question: "Does the ML Dream Team guarantee a win?",
-      answer: "No, the ML Dream Team does not guarantee a win. While it is optimized based on data-driven insights, actual match outcomes depend on real-time player performance, which may vary."
+        question: "Does the ML model consider match formats (T20, ODI, Test)?",
+        answer: "Yes, the ML model is tailored for specific formats. It adjusts: Player preferences based on match duration (e.g., explosive batsmen for T20, consistent performers for Tests) and strategy based on the scoring system for each format."
     },
     {
-      question: "Does the ML model consider match formats (T20, ODI, Test)?",
-      answer: "Yes, the ML model is tailored for specific formats. It adjusts: Player preferences based on match duration (e.g., explosive batsmen for T20, consistent performers for Tests) and strategy based on the scoring system for each format."
+        question: "Can I customize the ML-generated Dream Team?",
+        answer: "Yes, Dream11 allows customization of the ML-generated Dream Team. If you're not satisfied with the generated team, you can swap players by deleting them or selecting alternatives from your squad."
     },
     {
-      question: "Can I customize the ML-generated Dream Team?",
-      answer: "Yes, Dream11 often allows you to do the same. If the player is not satisfied with the current team, they can delete any player and drag and drop another player from the remaining squad."
+        question: "How do I know the ML model is unbiased?",
+        answer: "The ML model is based on data-driven logic and statistical algorithms, not influenced by subjective opinions or fan biases. It ensures a fair and objective selection of players based on performance metrics and match conditions."
     },
     {
-      question: "How do I know the ML model is unbiased?",
-      answer: "The ML model uses data-driven logic and statistical algorithms. It is not influenced by subjective opinions or fan biases, ensuring a fair and logical team recommendation."
-    },
-    {
-      question: "How does the custom match feature work on Dream11 website?",
-      answer: "There is a custom match button on the navigation bar which will lead the player to a custom match page wherein you can import players from a CSV file. Or on the select match page, the player can select players. This can either be done by searching and selecting players or importing them from a CSV file."
+        question: "How does the custom match feature work on Dream11?",
+        answer: "The custom match feature lets you create your own match by selecting 22 players manually or importing them from a CSV file. You can customize the match settings and generate your team based on your preferences."
     },
     {
         question: "What languages does the audio feature offer?",
-        answer: "It provides the option of Hindi, English, Marathi, Tamil, Telugu and some other regional languages."
-      }
-   
-  ];
-  
+        answer: "The audio feature supports languages including Hindi, English, Marathi, Tamil, Telugu, and several regional languages for accessibility."
+    },
+    {
+        question: "How do I create my own Dream11 match?",
+        answer: "To create your own Dream11 match, go to the 'Select Match' or 'Create Match' section. You can select teams, set match parameters, and choose players from the available pool. Once the match is created, you can finalize your Dream11 squad."
+    },
+    {
+        question: "Can I import my team from an external source?",
+        answer: "Yes, you can import your Dream11 team from a CSV file. This feature allows you to select players easily by uploading your pre-created squad, making team management faster and more efficient."
+    },
+];
+
 export default FAQ;
