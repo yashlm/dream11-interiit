@@ -68,19 +68,17 @@ export default function CustomMatch() {
 
     {
       target: '[data-tour-id="player-search"]',
-      content:
-        "To select the 22 players for Team A and Team B you can directly import them from a CSV file",
+      content: "To select the 22 players for Team A and Team B, you can directly import them from a CSV file.",
       disableBeacon: true,
     },
     {
       target: '[data-tour-id="view-players"]',
-      content:
-        "You can view the 22 players in this section after selecting from the dropwdown or importing from CSV.",
+      content: "You can view the 22 players in this section after selecting them from the dropdown or importing from a CSV file.",
     },
     {
       target: '[data-tour-id="generate-team"]',
       content: "Finally, generate your dream team by clicking on this button!",
-    },
+    },    
   ];
 
   useEffect(() => {
