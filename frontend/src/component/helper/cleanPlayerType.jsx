@@ -3,7 +3,7 @@ export default function CleanPlayerType(player_type) {
     "Batting Allrounder": "batting",
     "Wicketkeeper Batter": "batting",
     "Bowling Allrounder": "bowling",
-    "Middle order battingter": "batting",
+    "Middle order Batter": "batting",
     Batter: "batting",
     "Top order Batter": "batting",
     Bowler: "bowling",
