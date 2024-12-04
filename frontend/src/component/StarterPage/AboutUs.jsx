@@ -24,10 +24,9 @@ const AboutUs = () => {
                 <div className={styles.aboutbox}>
                     <h2 className={styles.title}>About us</h2>
                     <p className={styles.description}>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-                        venenatis, nulla vitae consectetur efficitur, ipsum elit vestibulum
-                        icia dolor ex nemo modi eum saepe nisi accusantium corrupti deleniti commodi culpa omnis maxime! Consequuntur, asperiores itaque doloribus earum maiores omnis laborum? Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sunt nam eos asperiores minus nihil blanditiis harum quaerat, dolores laudantium quod voluptates voluptatem facilis omnis pariatur incidunt unde, totam dicta? Inventore!
-                        Est suscipit debitis fugiat cum quia facere accusamus consequuntur dignissimos perspiciatis voluptatibus cumque laborum necessitatibus aut eos praesentium fugit reiciendis sapiente, quibusdam quidem tempora consequatur earum aspernatur dicta. Cum, dolor. Lorem ipsum, dolor sit amet consectetur adipisicing elit. Recusandae voluptates distinctio provident accusantium rerum inventore pariatur enim voluptas vitae quaerat cumque, aliquam quia dolor accusamus. Amet officia debitis consequatur harum!
+                    At Dream11, we are proud to be the world’s largest fantasy sports platform, uniting over 220 million passionate sports fans. A flagship brand of Dream Sports, India’s leading sports technology company, Dream11 offers a world-class fantasy sports experience across cricket, football, kabaddi, basketball, hockey, and more. With partnerships spanning national and international sports bodies, we aim to transform every sports event into an exhilarating experience. Dream11 is driven by a vision to "Make Sports Better," blending sports and technology to redefine fan engagement.
+
+Our cutting-edge solution for cricket enthusiasts takes fantasy sports to the next level. Leveraging advanced machine learning models, we empower users to create winning fantasy cricket teams by providing accurate player performance predictions based on historical data, match conditions, and other relevant factors. Our interactive interface incorporates Generative AI-driven aids, offering real-time insights and guidance to help users make informed team-building decisions.
                     </p>
                 </div>
             </div>

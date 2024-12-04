@@ -81,7 +81,7 @@
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-  z-index: 100;
+  z-index: 1;
     /* Hide scrollbar but enable scrolling */
     scrollbar-width: thin;
     scrollbar-color: transparent transparent; /* Hide scrollbar thumb and track */
@@ -103,25 +103,27 @@
     flex-direction: column;
     justify-content: space-between;
     position: absolute;
-    top: 8%; /* Reduced percentage to move the card upward */
+    top: 8%; /* Keeps the card in the correct vertical position */
     left: 50%;
-    transform: translate(-50%, -50%); /* Keep it centered horizontally, no vertical offset adjustment here */
-    width: 500px;
+    transform: translate(-50%, -50%); /* Centered horizontally */
+    width: 500px; /* Fixed width for the card */
     text-align: center;
-    z-index: 50;
+    z-index: 4; /* Ensures card stays above the batsman image */
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    background: white; /* Add background to make the card visible against the image */
   }
   
-
   .batsmanImg {
     position: fixed;
-    left: 28.5%; /* Align to the center horizontally */
-    transform: translateX(-80%); 
-    transform: translateY(-19%); /* Adjust for exact center alignment */
-    width:43vw; /* Adjust size as needed */
+    top: 65%; /* Position the image vertically at the center */
+    left: 50%; /* Position the image horizontally at the center */
+    transform: translate(-50%, -50%); /* Center the image completely */
+    width: 50vw; /* Adjust the width as needed */
     height: auto; /* Maintain aspect ratio */
-    z-index: 0;
+    z-index: 0; /* Ensure the image stays behind the card */
+    opacity: 0.5; /* Optional: Add transparency if the image should be subtle */
+    pointer-events: none; /* Ensures the image does not interfere with user interactions */
   }
   
