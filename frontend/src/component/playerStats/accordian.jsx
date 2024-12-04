@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState } from "react";
 import RadarChartComponent from "../charts/radarChart";
 import {
   Accordion,
@@ -16,7 +16,7 @@ import {
   TabPanel,
 } from "@material-tailwind/react";
 
-import styles from "./playerStats.module.css";
+import styles from "./accordian.module.css";
 
 const TransparentTabs = React.memo(({ inputData, dataType }) => {
   const data = Object.entries(inputData)
@@ -178,7 +178,21 @@ const PlayerStatsAccordion = ({ playerType, data }) => {
             expandIcon={<ExpandMoreIcon />}
             className={styles.accordionSummary}
           >
-            <Typography>Batting Stats</Typography>
+            <Typography
+              variant="h5" // Adjust the variant to suit your design requirements
+              sx={{
+                fontWeight: "bold",
+                textAlign: "left",
+                paddingLeft: "16px", // Padding to align the text properly
+                color: "var(--red)", // Adjust the color to match your app's theme (e.g., blue)
+                textTransform: "uppercase", // Converts the text to uppercase for emphasis
+                letterSpacing: "1px", // Adds some letter spacing for better readability
+                textShadow: "1px 1px 3px rgba(0, 0, 0, 0.3)", // Creates a slight shadow for depth
+              }}
+            >
+              Batting Stats
+            </Typography>
+
           </AccordionSummary>
           <AccordionDetails>
             <TransparentTabs inputData={data.bat} dataType="batting" />{" "}
@@ -198,7 +212,20 @@ const PlayerStatsAccordion = ({ playerType, data }) => {
             expandIcon={<ExpandMoreIcon />}
             className={styles.accordionSummary}
           >
-            <Typography>Bowling Stats</Typography>
+            <Typography
+              variant="h5" // Adjust the variant to suit your design requirements
+              sx={{
+                fontWeight: "bold",
+                textAlign: "left",
+                paddingLeft: "16px", // Padding to align the text properly
+                color: "var(--red)", // Adjust the color to match your app's theme (e.g., blue)
+                textTransform: "uppercase", // Converts the text to uppercase for emphasis
+                letterSpacing: "1px", // Adds some letter spacing for better readability
+                textShadow: "1px 1px 3px rgba(0, 0, 0, 0.3)", // Creates a slight shadow for depth
+              }}
+            >
+              Bowling Stats
+            </Typography>
           </AccordionSummary>
           <AccordionDetails>
             <TransparentTabs inputData={data.bowl} dataType="bowling" />{" "}

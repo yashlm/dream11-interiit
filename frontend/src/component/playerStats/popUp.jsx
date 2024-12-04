@@ -30,21 +30,21 @@ export default function PlayerPopOut({
   const audioRef = useRef(null);
 
   const noDescriptionMessages = [
-    "Although the player is skilled, our model has not selected them to play in this match under the current conditions.",
-    "Despite their talent, the player wasn't picked by our model for this match given the circumstances.",
-    "The player might be talented, but they haven't been chosen by our model for this match due to specific conditions.",
-    "Even though the player shows great potential, they were not selected by our model for this match at this time.",
-    "Although skilled, our model has not considered the player for this match based on the current analysis.",
-    "The player is certainly capable, but under these match conditions, our model did not select them to play.",
-    "The player possesses notable skill, but was not picked by our model for the current match conditions.",
-    "Despite showing promise, the player wasn't selected by our model for this match.",
-    "Although the player demonstrates talent, our model didn't pick them for this particular match.",
-    "The player is undoubtedly skilled, but under the current conditions, our model did not deem them a fit for this match.",
-    "While the player has potential, they weren't selected by our model for this match due to the specific conditions.",
-    "The player has the skills, but based on our model's analysis, they haven't been selected for this match.",
-    "Although the player has proven abilities, they were not picked by our model for this match given the current conditions.",
-    "Despite their abilities, the player was not selected for this match by our model due to the current analysis.",
-    "The player shows talent, but wasn't selected by our model for this match under the present conditions.",
+    "Although the player is great and has shown immense skill, our model hasn't selected them as a star performer for this match under the current conditions.",
+    "Despite their impressive experience and potential, the player isn't picked as a star performer by our model for this match given the circumstances.",
+    "The player has proven talent and tremendous potential, but they haven't been selected by our model as a standout performer for this match due to specific conditions.",
+    "Even though the player has demonstrated great ability and potential, they haven't been picked as a key performer by our model for this match at this time.",
+    "Although the player is skilled and has shown remarkable experience, our model hasn't considered them a star performer for this match based on the current analysis.",
+    "The player is certainly capable and has great potential, but under these match conditions, our model hasn't selected them as a star performer.",
+    "The player has notable skills and experience, but wasn't picked as a star performer by our model for the current match conditions.",
+    "Despite showing impressive promise, the player hasn't been selected as a standout performer by our model for this match.",
+    "Although the player demonstrates excellent talent and experience, our model didn't pick them as a star performer for this particular match.",
+    "The player is undoubtedly skilled and experienced, but under the current conditions, our model did not deem them a fit as a star performer for this match.",
+    "While the player has great potential, they weren't selected as a key performer by our model for this match due to the specific conditions.",
+    "The player has the skills and experience, but based on our model's analysis, they haven't been selected as a standout performer for this match.",
+    "Although the player has proven abilities and potential, they weren't picked as a star performer by our model for this match under the current conditions.",
+    "Despite their abilities and experience, the player wasn't selected as a key performer for this match by our model due to the current analysis.",
+    "The player shows tremendous talent, but wasn't selected as a standout performer by our model for this match under the present conditions.",
   ];
 
   const randomMessage = noDescriptionMessages[Math.floor(Math.random() * noDescriptionMessages.length)];
@@ -57,7 +57,7 @@ export default function PlayerPopOut({
           match_id: matchId,
           player_id: playerId,
         };
-        const response = await fetch(`${BASE_URL}/player/player_all_stats/`, {
+        const response = await fetch(`${BASE_URL}/player/player_all_stats2/`, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
@@ -187,23 +187,23 @@ export default function PlayerPopOut({
                     </div>
                     <div className={styles.playerdesc}>
                       <div className={styles.audio}>
-                      <h3>Model Insights:</h3>
-                      <Tooltip title="Listen" placement="top">
-                        <button className={styles.iconButton} onClick={handleVoiceClick}>
-                          {audioLoading ? (
-                            <ClipLoader
-                              color={"white"}
-                              className={styles.loader}
-                              loading={audioLoading}
-                              aria-label="Loading Spinner"
-                              data-testid="loader"
-                            />
-                          ) : (
-                            <BsFillVolumeUpFill />
-                          )}
-                        </button>
-                      </Tooltip>
-                      <audio ref={audioRef} hidden />
+                        <h3>Model Insights:</h3>
+                        <Tooltip title="Listen" placement="top">
+                          <button className={styles.iconButton} onClick={handleVoiceClick}>
+                            {audioLoading ? (
+                              <ClipLoader
+                                color={"white"}
+                                className={styles.loader}
+                                loading={audioLoading}
+                                aria-label="Loading Spinner"
+                                data-testid="loader"
+                              />
+                            ) : (
+                              <BsFillVolumeUpFill />
+                            )}
+                          </button>
+                        </Tooltip>
+                        <audio ref={audioRef} hidden />
                       </div>
                       {description ? (
                         <p id="infoSectionText" className={styles.typing}>
