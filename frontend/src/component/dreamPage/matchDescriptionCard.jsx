@@ -1,4 +1,5 @@
-import React, { useState, useRef, useEffect, CSSProperties } from "react";
+/* eslint-disable react/prop-types */
+import { useState, useRef, useEffect, CSSProperties } from "react";
 import { Tooltip } from "@mui/material";
 import {
   BsFillVolumeUpFill,
@@ -34,11 +35,10 @@ export default function DescriptionCard({
     }
   }, [audioUrl]);
 
-  // const [expanded, setExpanded] = useState(false); // Controls the expanded state for ShowMoreText
   const [isOverflowing, setIsOverflowing] = useState(false);
   const infoRef = useRef(null);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate(); // Initialize useNavigate
   const handleMatchDetailsroute = () => {
     navigate(`/matchdetails/${match_id}`);
   };

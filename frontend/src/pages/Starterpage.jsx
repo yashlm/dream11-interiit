@@ -18,14 +18,14 @@ const App = () => {
 
   return (
     <div>
-      <Navbar />
+      {/* <Navbar /> */}
       <div className="main-container">
         <div className="content-container">
           <h1 className="welcome-text">
-            <div  className='welcome'><span>Welcome to </span><img src={logo} className="dream11" alt="Dream11 Logo" /></div>
-            <span className="lets">Let’s Get Started</span>
+            <div className='welcome'><span>Welcome to </span><img src={logo} className="dream11" alt="Dream11 Logo" /></div>
+            <span className="lets">Build <span className='red'>AI-Generated</span> Teams through our Robust Tool</span>
           </h1>
-          <div className="form-container">
+          {/* <div className="form-container">
             <TextField
               className="outlined-name"
               id="outlined-username"
@@ -48,17 +48,17 @@ const App = () => {
                   },
                 },
               }}
-            />
-            <button className="next-btn" onClick={handleNextClick}>
-              Next
-            </button>
-          </div>
+            /> */}
+          {/* </div> */}
+          <button className="next-btn" onClick={handleNextClick}>
+            Let's Get Started
+          </button>
         </div>
       </div>
       <AboutUs />
       <Testinomial />
       <FAQ />
-   
+
       <Footer />
     </div>
   );

@@ -48,9 +48,9 @@ const Navbar = () => {
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
 
   const links = [
-    { path: "/teamSelect", label: "Select Team" },
-    { path: `/custommatch`, label: "Custom Match" },
-    { path: "/dreamTeam/1426757", label: "Dream Team" },
+    { path: "/teamSelect", label: "Select Match" },
+    { path: `/custommatch`, label: "Create Match" },
+    { path: "/home", label: "Home" },
   ];
 
   return (
@@ -65,10 +65,10 @@ const Navbar = () => {
           alignItems: "center",
           padding: "10px 20px",
           background: navColor,
-          boxShadow: "0 8px 32px 0 rgba(31, 38, 135, 0.37)",
+          boxShadow: "0 4px 8px 0 rgba(31, 38, 135, 0.37)",
           backdropFilter: "blur(11px)",
           WebkitBackdropFilter: "blur(11px)",
-          borderRadius: "10px",
+          borderRadius: "0 0 15px 15px", // Apply radius only to the bottom corners
           border: "1px solid rgba(255, 255, 255, 0.18)",
           transition: "background-color 0.3s ease-in-out",
         }}
@@ -78,7 +78,7 @@ const Navbar = () => {
             <img
               alt="logo"
               src={logo}
-              style={{ width: "160px", height: "40px" }}
+              style={{ width: "140px", height: "35px" }}
             />
           </Link>
         </div>
@@ -90,22 +90,68 @@ const Navbar = () => {
                 value={language}
                 onChange={handleLanguageChange}
                 style={{
+                  color: "red", // Text color of the Select
                   minWidth: "120px",
-                  backgroundColor: "white",
-                  borderRadius: "8px",
+                  backgroundColor: "black", // Background color of the Select
+                  fontSize: "14px", // Font size for the Select
+                  borderRadius: "6px", // Border radius
+                  border: "1px solid red", // Red border color
+                  paddingRight: "20px", // Ensure there's enough space for the icon
+                  outline: "none", // Remove the blue outline when focused
                 }}
+                MenuProps={{
+                  PaperProps: {
+                    style: {
+                      backgroundColor: "black", // Set background of the dropdown menu to black
+                      color: "red", // Set text color inside the menu to red
+                    },
+                  },
+                }}
+                IconComponent={() => (
+                  <span
+                    style={{
+                      color: "red", // Red icon color
+                      fontSize: "12px", // Optional: adjust the size of the icon
+                      marginRight: "0px", // Adjust margin on the right of the icon
+                    }}
+                  >
+                    ▼
+                  </span>
+                )}
               >
-                <MenuItem value="en">English</MenuItem>
-                <MenuItem value="hi-IN">हिन्दी</MenuItem>
-                <MenuItem value="bn-IN">বাংলা</MenuItem>
-                <MenuItem value="kn-IN">ಕನ್ನಡ</MenuItem>
-                <MenuItem value="ml-IN">മലയാളം</MenuItem>
-                <MenuItem value="mr-IN">मराठी</MenuItem>
-                <MenuItem value="od-IN">ଓଡ଼ିଆ</MenuItem>
-                <MenuItem value="pa-IN">ਪੰਜਾਬੀ</MenuItem>
-                <MenuItem value="ta-IN">தமிழ்</MenuItem>
-                <MenuItem value="te-IN">తెలుగు</MenuItem>
-                <MenuItem value="gu-IN">ગુજરાતી</MenuItem>
+                <MenuItem value="en" style={{ color: "red", backgroundColor: "black" }}>
+                  English
+                </MenuItem>
+                <MenuItem value="hi-IN" style={{ color: "red", backgroundColor: "black" }}>
+                  हिन्दी
+                </MenuItem>
+                <MenuItem value="bn-IN" style={{ color: "red", backgroundColor: "black" }}>
+                  বাংলা
+                </MenuItem>
+                <MenuItem value="kn-IN" style={{ color: "red", backgroundColor: "black" }}>
+                  ಕನ್ನಡ
+                </MenuItem>
+                <MenuItem value="ml-IN" style={{ color: "red", backgroundColor: "black" }}>
+                  മലയാളം
+                </MenuItem>
+                <MenuItem value="mr-IN" style={{ color: "red", backgroundColor: "black" }}>
+                  मराठी
+                </MenuItem>
+                <MenuItem value="od-IN" style={{ color: "red", backgroundColor: "black" }}>
+                  ଓଡ଼ିଆ
+                </MenuItem>
+                <MenuItem value="pa-IN" style={{ color: "red", backgroundColor: "black" }}>
+                  ਪੰਜਾਬੀ
+                </MenuItem>
+                <MenuItem value="ta-IN" style={{ color: "red", backgroundColor: "black" }}>
+                  தமிழ்
+                </MenuItem>
+                <MenuItem value="te-IN" style={{ color: "red", backgroundColor: "black" }}>
+                  తెలుగు
+                </MenuItem>
+                <MenuItem value="gu-IN" style={{ color: "red", backgroundColor: "black" }}>
+                  ગુજરાતી
+                </MenuItem>
               </Select>
             </FormControl>
 
@@ -120,18 +166,19 @@ const Navbar = () => {
                   variant="contained"
                   style={{
                     backgroundColor:
-                      location.pathname === link.path
-                        ? "var(--dark-red)"
-                        : "var(--red)",
-                    color: "var(--bg)",
+                      location.pathname === link.path ? "var(--red)" : "var(--dark-red)", // Reverse the background color
+                    color: location.pathname === link.path ? "black" : "white", // Reverse text color
                     textTransform: "none",
-                    fontWeight:
-                      location.pathname === link.path ? "bold" : "normal",
+                    // fontWeight: "bold", 
                     boxShadow:
                       location.pathname === link.path
                         ? "0px 4px 10px rgba(0,0,0,0.3)"
                         : "none",
                     transition: "all 0.3s ease",
+                    fontSize: "14px", // Reduce font size
+                    padding: "6px 12px", // Reduce padding to make the button smaller
+                    borderRadius: "6px", // Optional: reduce border radius to make the button sharper
+                    fontFamily: "Poppins, sans-serif", // Set font to Poppins
                   }}
                 >
                   {link.label}
@@ -144,7 +191,7 @@ const Navbar = () => {
             <MenuIcon style={{ color: "white", fontSize: "32px" }} />
           </div>
         )}
-      </nav>
+      </nav >
 
       {isMobile && isSidebarOpen && (
         <div
@@ -204,7 +251,8 @@ const Navbar = () => {
             </Link>
           ))}
         </div>
-      )}
+      )
+      }
     </>
   );
 };
