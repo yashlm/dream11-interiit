@@ -8,6 +8,7 @@ import logo from '../assets/landing_page/dream11logo.svg';
 import FAQ from '../component/StarterPage/faqs';
 import AboutUs from '../component/StarterPage/AboutUs';
 import Footer from '../component/StarterPage/footer'
+
 const App = () => {
   const [username, setUsername] = useState('');
   const navigate = useNavigate();
@@ -22,8 +23,13 @@ const App = () => {
       <div className="main-container">
         <div className="content-container">
           <h1 className="welcome-text">
-            <div className='welcome'><span>Welcome to </span><img src={logo} className="dream11" alt="Dream11 Logo" /></div>
-            <span className="lets">Build <span className='red'>AI-Generated</span> Teams through our Robust Tool</span>
+            <div className='welcome'>
+              <span>Welcome to </span>
+              <img src={logo} className="dream11" alt="Dream11 Logo" />
+            </div>
+            <span className="lets">
+              Build <span className='red'>AI-Generated</span> Teams through our <span className='red'>D.R.E.A.M.</span> Tool
+            </span>
           </h1>
           {/* <div className="form-container">
             <TextField
@@ -48,8 +54,8 @@ const App = () => {
                   },
                 },
               }}
-            /> */}
-          {/* </div> */}
+            />
+          </div> */}
           <button className="next-btn" onClick={handleNextClick}>
             Let's Get Started
           </button>
@@ -58,7 +64,6 @@ const App = () => {
       <AboutUs />
       <Testinomial />
       <FAQ />
-
       <Footer />
     </div>
   );

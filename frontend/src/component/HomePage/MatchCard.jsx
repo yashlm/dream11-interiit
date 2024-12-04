@@ -41,8 +41,8 @@ const MatchCard = ({ match }) => {
         </h2>
         
         <div className={styles["match-date"]}>
-          <CalendarToday className={styles.icon} />
-          {formattedDate}
+          {/* <CalendarToday className={styles.icon} /> */}
+          {match?.match_type || {formattedDate}} Match
         </div>
         <div className={styles.separator}></div> {/* Separator line */}
         <div className={styles.logos}>
