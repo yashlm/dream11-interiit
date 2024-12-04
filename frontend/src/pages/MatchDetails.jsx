@@ -50,45 +50,17 @@ const MatchDetails = () => {
             setError("Team data is missing or undefined.");
             return;
           }
-          if (isStateTypehome) {
-            setCardData({
-              venue: match.venue,
-              teamAicon: state.team1Logo,
-              teamBicon: state.team2Logo,
-              match_type: match.match_type,
-              event_name: match.event_name,
-              umpires: match.umpires,
-              referees: match.match_referees,
-              teams: match.teams,
-              dates: state.matchDate,
-            });
-          } else {
-            // Function to find icon URL by matching team name
-            const findTeamIcon = (teamName) => {
-              const teamData = state.team_info.find(
-                (info) => info.name === teamName
-              );
-              return teamData ? teamData.url : ""; // Return the URL if found, otherwise return an empty string
-            };
-
-            // Match team names to find icons
-            const teamAIcon = findTeamIcon(match.teams[0]);
-            const teamBIcon = findTeamIcon(match.teams[1]);
-            // console.log("state b");
-            // console.log("teamA",match.teams[0] );
-            // console.log("teamA",findTeamIcon(match.teams[0]) );
-            setCardData({
-              venue: match.venue,
-              teamAicon: teamAIcon,
-              teamBicon: teamBIcon,
-              match_type: match.match_type,
-              event_name: match.event_name,
-              umpires: match.umpires,
-              referees: match.match_referees,
-              teams: match.teams,
-              dates: state.matchDate,
-            });
-          }
+          setCardData({
+            venue: match.venue,
+            teamAicon: data?.team_info?.teamA?.url || "",
+            teamBicon: data?.team_info?.teamB?.url || "",
+            match_type: match.match_type,
+            event_name: match.event_name,
+            umpires: match.umpires,
+            referees: match.match_referees,
+            teams: match.teams,
+            dates: match.dates,
+          });
         } else {
           setError(data.message || "Something went wrong");
         }
@@ -120,12 +92,12 @@ const MatchDetails = () => {
           <div className={styles.teamHeader}>
             <div className={styles.team}>
               <img
-                src={carddata.teamAicon}
+                src={carddata?.teamAicon}
                 alt="Team A Logo"
                 className={styles.teamLogo}
                 style={{ backgroundColor: "white" }}
               />
-              <span className={styles.teamName}>{carddata.teams[0]}</span>
+              <span className={styles.teamName}>{carddata?.teams[0]}</span>
             </div>
           </div>
           <Playerlist playerdata={teamAPlayers} />
@@ -163,12 +135,12 @@ const MatchDetails = () => {
           <div className={styles.teamHeader}>
             <div className={styles.team}>
               <img
-                src={carddata.teamBicon}
+                src={carddata?.teamBicon}
                 alt="Team B Logo"
                 className={styles.teamLogo}
                 style={{ backgroundColor: "white" }}
               />
-              <span className={styles.teamName}>{carddata.teams[1]}</span>
+              <span className={styles.teamName}>{carddata?.teams[1]}</span>
             </div>
           </div>
           <Playerlist playerdata={teamBPlayers} />
