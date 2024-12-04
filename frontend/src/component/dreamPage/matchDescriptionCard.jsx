@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom"; // Import useNavigate here
 import styles from "../../css/DescriptionCard.module.css";
 import { BASE_URL } from "../../constants";
 import ClipLoader from "react-spinners/ClipLoader";
+import { useNavigate } from "react-router-dom";
 
 export default function DescriptionCard({
   match_id,
