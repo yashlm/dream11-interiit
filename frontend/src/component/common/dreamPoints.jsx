@@ -13,7 +13,7 @@ const DreamPointsCard = ({ points }) => (
         />
         <p className="text-white text-lg font-bold">Dream Score</p>
       </div>
-      <p className="text-4xl font-bold text-orange-500">{points.toFixed(1)}</p>
+      <p className="text-4xl font-bold text-orange-500">{points.toFixed(0)}</p>
     </div>
   </div>
 );

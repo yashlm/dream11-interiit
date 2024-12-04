@@ -210,7 +210,7 @@ export default function PlayerCard({
                       marginLeft: "5px",
                     }}
                   >
-                    {dreamPoints.toFixed(2)}
+                    {dreamPoints.toFixed(0)}
                   </span>
                 </Typography>
               )}
