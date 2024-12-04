@@ -56,16 +56,17 @@ export default function CustomMatch() {
   const [run, setRun] = useState(false);
   const [stepIndex, setStepIndex] = useState(0);
   const stepstour = [
-    {
-      target: '[data-tour-id="match-type"]',
-      content: "In the custom match option , you can select the type of match you want to play.",
-      disableBeacon: true,
-    }
-    ,
+    // {
+    //   target: '[data-tour-id="match-type"]',
+    //   content: "In the custom match option , you can select the type of match you want to play.",
+    //   disableBeacon: true,
+    // }
+    //,
     {
       target: '[data-tour-id="player-search"]',
       content:
-        "To select the 22 players for Team A and Team B , search players name here, or you can directly import them from a CSV file",
+        "To select the 22 players for Team A and Team B you can directly import them from a CSV file",
+        disableBeacon: true,
     },
     {
       target: '[data-tour-id="view-players"]',
@@ -409,7 +410,7 @@ console.log("state", state.continueTour)
                   </Select>
                 </div>
 
-                <div data-tour-id="player-search" style={{ width: "100%" }}>
+                <div  style={{ width: "100%" }}>
                   <PlayerSearch
                     teamA={"India"}
                     teamB={"Australia"}
@@ -424,7 +425,7 @@ console.log("state", state.continueTour)
             )}
 
             {/* Import CSV */}
-            <div
+            <div data-tour-id="player-search"
               style={{
                 boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.2)",
                 borderRadius: "10px",
