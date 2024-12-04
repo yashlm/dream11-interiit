@@ -20,8 +20,8 @@ const MatchDetails = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const state = location.state || {};
-const isStateTypehome = state.hasOwnProperty("matchDate") && state.hasOwnProperty("team1Logo");
-
+  const isStateTypehome =
+    state.hasOwnProperty("matchDate") && state.hasOwnProperty("team1Logo");
 
   useEffect(() => {
     const fetchMatchDetails = async () => {
@@ -34,62 +34,61 @@ const isStateTypehome = state.hasOwnProperty("matchDate") && state.hasOwnPropert
         );
 
         const data = await response.json();
-        console.log("data", data)
+        console.log("data", data);
 
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         if (data.status === "ok") {
           const match = data.matchdetails;
-      
+
           if (data.teamA && data.teamB) {
             setTeamAPlayers(data.teamA);
             setTeamBPlayers(data.teamB);
-          //  console.log("list",data.teamA);
+            //  console.log("list",data.teamA);
           } else {
             setError("Team data is missing or undefined.");
             return;
           }
-          if(isStateTypehome)
-          {
-          setCardData({
-            venue: match.venue,
-            teamAicon: state.team1Logo,
-            teamBicon: state.team2Logo,
-            match_type: match.match_type,
-          event_name:match.event_name,
-          umpires:match.umpires,
-          referees:match.match_referees,
-            teams: match.teams,
-            dates: state.matchDate,
-          });
-        }
-        else{
-           // Function to find icon URL by matching team name
-          const findTeamIcon = (teamName) => {
-          const teamData = state.team_info.find((info) => info.name === teamName);
-          return  teamData ? teamData.url : ""; // Return the URL if found, otherwise return an empty string
-        };
+          if (isStateTypehome) {
+            setCardData({
+              venue: match.venue,
+              teamAicon: state.team1Logo,
+              teamBicon: state.team2Logo,
+              match_type: match.match_type,
+              event_name: match.event_name,
+              umpires: match.umpires,
+              referees: match.match_referees,
+              teams: match.teams,
+              dates: state.matchDate,
+            });
+          } else {
+            // Function to find icon URL by matching team name
+            const findTeamIcon = (teamName) => {
+              const teamData = state.team_info.find(
+                (info) => info.name === teamName
+              );
+              return teamData ? teamData.url : ""; // Return the URL if found, otherwise return an empty string
+            };
 
-  // Match team names to find icons
-  const teamAIcon = findTeamIcon(match.teams[0]);
-  const teamBIcon = findTeamIcon(match.teams[1]);
- // console.log("state b");
- // console.log("teamA",match.teams[0] );
- // console.log("teamA",findTeamIcon(match.teams[0]) );
-          setCardData({
-            venue: match.venue,
-            teamAicon: teamAIcon ,
-            teamBicon:teamBIcon ,
-            match_type: match.match_type,
-          event_name:match.event_name,
-          umpires:match.umpires,
-          referees:match.match_referees,
-            teams: match.teams,
-            dates: state.matchDate,
-          });
-        }
-       
+            // Match team names to find icons
+            const teamAIcon = findTeamIcon(match.teams[0]);
+            const teamBIcon = findTeamIcon(match.teams[1]);
+            // console.log("state b");
+            // console.log("teamA",match.teams[0] );
+            // console.log("teamA",findTeamIcon(match.teams[0]) );
+            setCardData({
+              venue: match.venue,
+              teamAicon: teamAIcon,
+              teamBicon: teamBIcon,
+              match_type: match.match_type,
+              event_name: match.event_name,
+              umpires: match.umpires,
+              referees: match.match_referees,
+              teams: match.teams,
+              dates: state.matchDate,
+            });
+          }
         } else {
           setError(data.message || "Something went wrong");
         }
@@ -117,14 +116,14 @@ const isStateTypehome = state.hasOwnProperty("matchDate") && state.hasOwnPropert
     <div>
       <Navbar />
       <div className={styles.matchDetailsContainer}>
-        <div className={styles.teamCard} >
+        <div className={styles.teamCard}>
           <div className={styles.teamHeader}>
             <div className={styles.team}>
               <img
                 src={carddata.teamAicon}
                 alt="Team A Logo"
                 className={styles.teamLogo}
-                style={{backgroundColor:"white"}}
+                style={{ backgroundColor: "white" }}
               />
               <span className={styles.teamName}>{carddata.teams[0]}</span>
             </div>
@@ -132,16 +131,16 @@ const isStateTypehome = state.hasOwnProperty("matchDate") && state.hasOwnPropert
           <Playerlist playerdata={teamAPlayers} />
         </div>
         <div className={styles.weathercard}>
-          <WeatherCard  matchId={match_id} setEffect={setInfo}/>
-          </div>
+          <WeatherCard matchId={match_id} setEffect={setInfo} />
+        </div>
         <div className={styles.matchDetailsCardwithimg}>
           <MatchDetailsCard
             match={carddata}
             className={styles.matchDetailsCard}
           />
-          
+
           <img src={batsman_img} alt="Batsman" className={styles.batsmanImg} />
-         
+
           <Button
             variant="contained"
             color="error"
@@ -167,7 +166,7 @@ const isStateTypehome = state.hasOwnProperty("matchDate") && state.hasOwnPropert
                 src={carddata.teamBicon}
                 alt="Team B Logo"
                 className={styles.teamLogo}
-                style={{backgroundColor:"white"}}
+                style={{ backgroundColor: "white" }}
               />
               <span className={styles.teamName}>{carddata.teams[1]}</span>
             </div>

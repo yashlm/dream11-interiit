@@ -92,7 +92,6 @@
   /* width: 400px; */
 }
 
-
 .removeBtn {
   position: absolute;
   top: 2rem;
@@ -174,7 +173,7 @@
   color: #757575; /* Color for unselected state */
 }
 
-.statspng{
+.statspng {
   margin-right: 3rem;
 }
 
@@ -224,22 +223,25 @@
 
 .playerdesc {
   margin-top: 2%;
-  background: rgba(0, 0, 0, 0.85); /* Darker background for a sleek, futuristic look */
+  background: rgba(
+    0,
+    0,
+    0,
+    0.85
+  ); /* Darker background for a sleek, futuristic look */
   border-radius: 12px;
-  min-width: 350px; /* Wider minimum width for better text display */
-  max-height: 200px; /* Slightly taller for better content accommodation */
-  overflow-y: hidden;
+  min-width: 400px; /* Wider minimum width for better text display */
+  /* max-height: 300px; */
   margin-left: 5%;
+  overflow-y: scroll;
   padding: 15px;
-  font-family: 'Courier New', Courier, monospace; /* Monospace font for a more robotic feel */
+  font-family: "Courier New", Courier, monospace; /* Monospace font for a more robotic feel */
   color: #fff; /* White text for contrast */
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
 }
-
 .playerdesc::-webkit-scrollbar {
-  width: 8px; /* Visible scrollbar */
+  width: 0px; /* Visible scrollbar */
 }
-
 .playerdesc::-webkit-scrollbar-thumb {
   background-color: #666; /* Scrollbar thumb color */
   border-radius: 4px;
@@ -250,7 +252,7 @@
   text-align: left;
   padding-left: 10px;
   margin-bottom: 12px;
-  color: #00FF7F;
+  color: #00ff7f;
   /* color:white; */
   font-size: 20px;
   font-weight: 600;
@@ -290,7 +292,6 @@
     border-right-color: transparent;
   }
 }
-
 
 /* Cricketer Role */
 .profileRole {
@@ -362,7 +363,7 @@
   color: #333;
 }
 
-.bottomTop{
+.bottomTop {
   display: "flex";
   /* flex-direction: row;
   justify-content: space-between;
@@ -370,13 +371,12 @@
   gap: "5%"; */
 }
 
-.imgplusdesc{
+.imgplusdesc {
   display: flex;
   flex-direction: row;
   width: 60%;
   justify-content: space-between;
 }
-
 
 /* Responsive Styling */
 @media (max-width: 600px) {
