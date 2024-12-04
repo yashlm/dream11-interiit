@@ -12,13 +12,17 @@ import WeatherCard from "../component/common/weatherCard";
 const MatchDetails = () => {
   const { match_id } = useParams();
   const location = useLocation();
-  const { matchDate, team1Logo, team2Logo } = location.state || {};
   const [teamAPlayers, setTeamAPlayers] = useState([]);
+  const [info, setInfo] = useState("");
   const [teamBPlayers, setTeamBPlayers] = useState([]);
   const [carddata, setCardData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const state = location.state || {};
+const isStateTypehome = state.hasOwnProperty("matchDate") && state.hasOwnProperty("team1Logo");
+
+
   useEffect(() => {
     const fetchMatchDetails = async () => {
       try {
@@ -41,22 +45,51 @@ const MatchDetails = () => {
           if (data.teamA && data.teamB) {
             setTeamAPlayers(data.teamA);
             setTeamBPlayers(data.teamB);
-            console.log("list",data.teamA);
+          //  console.log("list",data.teamA);
           } else {
             setError("Team data is missing or undefined.");
             return;
           }
+          if(isStateTypehome)
+          {
           setCardData({
             venue: match.venue,
-            teamAicon: team1Logo,
-            teamBicon: team2Logo,
+            teamAicon: state.team1Logo,
+            teamBicon: state.team2Logo,
             match_type: match.match_type,
           event_name:match.event_name,
           umpires:match.umpires,
           referees:match.match_referees,
             teams: match.teams,
-            dates: matchDate,
+            dates: state.matchDate,
           });
+        }
+        else{
+           // Function to find icon URL by matching team name
+          const findTeamIcon = (teamName) => {
+          const teamData = state.team_info.find((info) => info.name === teamName);
+          return  teamData ? teamData.url : ""; // Return the URL if found, otherwise return an empty string
+        };
+
+  // Match team names to find icons
+  const teamAIcon = findTeamIcon(match.teams[0]);
+  const teamBIcon = findTeamIcon(match.teams[1]);
+ // console.log("state b");
+ // console.log("teamA",match.teams[0] );
+ // console.log("teamA",findTeamIcon(match.teams[0]) );
+          setCardData({
+            venue: match.venue,
+            teamAicon: teamAIcon ,
+            teamBicon:teamBIcon ,
+            match_type: match.match_type,
+          event_name:match.event_name,
+          umpires:match.umpires,
+          referees:match.match_referees,
+            teams: match.teams,
+            dates: state.matchDate,
+          });
+        }
+       
         } else {
           setError(data.message || "Something went wrong");
         }
@@ -91,20 +124,24 @@ const MatchDetails = () => {
                 src={carddata.teamAicon}
                 alt="Team A Logo"
                 className={styles.teamLogo}
+                style={{backgroundColor:"white"}}
               />
               <span className={styles.teamName}>{carddata.teams[0]}</span>
             </div>
           </div>
           <Playerlist playerdata={teamAPlayers} />
         </div>
-
+        <div className={styles.weathercard}>
+          <WeatherCard  matchId={match_id} setEffect={setInfo}/>
+          </div>
         <div className={styles.matchDetailsCardwithimg}>
           <MatchDetailsCard
             match={carddata}
             className={styles.matchDetailsCard}
           />
+          
           <img src={batsman_img} alt="Batsman" className={styles.batsmanImg} />
-
+         
           <Button
             variant="contained"
             color="error"
@@ -130,6 +167,7 @@ const MatchDetails = () => {
                 src={carddata.teamBicon}
                 alt="Team B Logo"
                 className={styles.teamLogo}
+                style={{backgroundColor:"white"}}
               />
               <span className={styles.teamName}>{carddata.teams[1]}</span>
             </div>

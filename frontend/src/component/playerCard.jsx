@@ -12,19 +12,30 @@ import SportsCricketIcon from "@mui/icons-material/SportsCricket";
 import Tooltip from "@mui/material/Tooltip";
 import PlayerPopOut from "./playerStats/popUp";
 
-// Define a function to assign a consistent color to each word
 const getWordColor = (word) => {
+  // Hardcoded colors for specific words
+  const specialColors = {
+    "Middle order Batter": "#FF6347", // Tomato Red
+    "Top order Batter": "#FFB07C", // Peach
+  };
+
+  // Return the hardcoded color if the word matches
+  if (specialColors[word]) {
+    return specialColors[word];
+  }
+
+  // Default color logic for other words
   const colors = [
-    "#FF9AA2", // Medium Pink
-    "#FFB07C", // Peach
-    "#FFD97D", // Warm Yellow
-    "#85E3B8", // Light Teal Green
-    "#8EC6FF", // Light Sky Blue
-    "#C4A3FF", // Soft Purple
-    "#FFA3C1", // Rose Pink
-    "#79D3FF", // Aqua Blue
-    "#A0B9FF", // Light Cornflower Blue
-    "#FFE29A", // Soft Gold
+    "#F05D5E", // Darker Medium Pink
+    "#FFB347", // Darker Warm Yellow
+    "#4CB0A6", // Darker Teal Green
+    "#F2740A", // Darker Vibrant Orange
+    "#8A64D1", // Darker Soft Purple
+    "#FF618F", // Darker Rose Pink
+    "#4AA8C1", // Darker Aqua Blue
+    "#6F92D9", // Darker Cornflower Blue
+    "#F2D04A", // Darker Soft Gold
+    "#B39EB5", // Darker Thistle (Lavender)
   ];
   const hash = word
     .split("")
@@ -190,15 +201,32 @@ export default function PlayerCard({
                 }}
               >
                 {type &&
-                  type
-                    .split(" ")
-                    .filter((word) => word.toLowerCase() !== "order") // Exclude "order"
-                    .map((word, index) => (
+                  // Check if it's a special type
+                  ([
+                    "Middle order Batter",
+                    "Top order Batter",
+                    "Opening Batter",
+                  ].includes(type) ? (
+                    <Typography
+                      variant="p"
+                      sx={{
+                        backgroundColor: getWordColor(type), // Consistent color for the whole string
+                        display: "inline-block",
+                        padding: 0.5,
+                        border: `1px solid ${getWordColor(type)}`,
+                        borderRadius: "5px",
+                      }}
+                    >
+                      {type}
+                    </Typography>
+                  ) : (
+                    // For other types, split into words and color individually
+                    type.split(" ").map((word, index) => (
                       <Typography
                         key={index}
                         variant="p"
                         sx={{
-                          backgroundColor: getWordColor(word), // Dynamically set the color for each word
+                          backgroundColor: getWordColor(word), // Color for each word
                           display: "inline", // Ensure words are inline
                           marginRight: 1, // Add spacing between words
                           padding: 0.3,
@@ -208,7 +236,8 @@ export default function PlayerCard({
                       >
                         {word}
                       </Typography>
-                    ))}
+                    ))
+                  ))}
               </Box>
             </Box>
             <Tooltip title={"Add player to your squad"}>

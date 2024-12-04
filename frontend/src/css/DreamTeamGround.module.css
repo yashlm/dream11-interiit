@@ -22,6 +22,7 @@
   bottom: 35px;
   height: 25vh;
 }
+
 .dockList {
   display: flex;
   flex-direction: row;
@@ -33,6 +34,9 @@
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
   gap: 1em;
+}
+.dockList::-webkit-scrollbar {
+  width: 0;
 }
 
 .bottomDock h2 {
@@ -168,23 +172,23 @@
 
 /* The container that will display the screenshot */
 .screenshotContainer {
-  position: fixed; 
-  top: 0%; 
-  left: 0%; 
-  width: 100vw; 
-  height: 100vh; 
-  background-color: rgba(255, 255, 255, 0.8); 
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(255, 255, 255, 0.8);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 9999; 
-  overflow: hidden; 
+  z-index: 9999;
+  overflow: hidden;
 }
 
 .screenshotContainer img {
-  max-width: 100%; 
-  max-height: 100%; 
-  object-fit: contain; 
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
   z-index: 4;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
   border-radius: 8px;

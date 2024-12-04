@@ -80,7 +80,13 @@ const WhichWeather = (temp, humid) => {
       };
     }
   }
-  return null;
+  return {
+    effect: "Ideal conditions for all players; balanced play",
+    name: "Clear/Mild",
+    url: "/weather/sun.png",
+  };
 };
 
 export default WhichWeather;
+
+console.log(WhichWeather(21.640499114990234, 7.954833030700684));

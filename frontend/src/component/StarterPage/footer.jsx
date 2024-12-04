@@ -4,16 +4,49 @@ import logo from "../../assets/landing_page/dream11logowhite.png";
 const Footer = () => {
   return (
     <footer className={styles.dream11Footer}>
-      <div className={styles.dream11LogoSection}>
-        <div className={styles.dream11Logo}>
-          <img src={logo} alt="Dream 11" />
-        </div>
-        <div className={styles.dream11SocialMedia}>
-          <i className={`fab fa-youtube ${styles.dream11Icon}`}></i>
-          <i className={`fab fa-facebook-f ${styles.dream11Icon}`}></i>
-          <i className={`fab fa-linkedin-in ${styles.dream11Icon}`}></i>
-          <i className={`fab fa-x-twitter ${styles.dream11Icon}`}></i>
-          <i className={`fab fa-instagram ${styles.dream11Icon}`}></i>
+      <div className={styles.dream11TopSection}>
+        {/* Left Section: Logo and Social Media */}
+        <div className={styles.dream11LogoSection}>
+          <div className={styles.dream11Logo}>
+            <img src={logo} alt="Dream 11" />
+          </div>
+          <div className={styles.dream11SocialMedia}>
+            <a
+              href="https://www.youtube.com/dream11"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className={`fab fa-youtube ${styles.dream11Icon}`}></i>
+            </a>
+            <a
+              href="https://www.facebook.com/Dream11/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className={`fab fa-facebook-f ${styles.dream11Icon}`}></i>
+            </a>
+            <a
+              href="https://www.linkedin.com/company/dream11/mycompany/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className={`fab fa-linkedin-in ${styles.dream11Icon}`}></i>
+            </a>
+            <a
+              href="https://x.com/Dream11"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className={`fab fa-x-twitter ${styles.dream11Icon}`}></i>
+            </a>
+            <a
+              href="https://www.instagram.com/dream11/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              <i className={`fab fa-instagram ${styles.dream11Icon}`}></i>
+            </a>
+          </div>
         </div>
       </div>
       <div className={styles.dream11SeparatorVertical}></div>
