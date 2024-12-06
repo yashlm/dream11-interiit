@@ -1,8 +1,8 @@
 # DreamAI Web App Developer Documentation
 
+##  Overview
 The DreamAI web app merges machine learning, natural language processing, and user-centric design to deliver a seamless predictive fantasy cricket experience. Key features include LLM-based Dream Team summarization, an AI Assistant Bot, and multilingual generative AI support.
 
----
 ## Overall Project structure
 
 ```plaintext
@@ -166,6 +166,7 @@ User Input → React Components → Context API → Data Processing → UI Updat
   - Featured Matches: Top 20 matches with key information.
   - All Matches: List of all matches with initial 5 matches displayed.
   - Navigation: Access to other sections such as match details, team selection, and custom match features.
+    ![Alt text](public\picsinteriit\home.jpg)
 
 ### 3. **Select Match (/teamSelect)**
 - **Purpose**: Allows users to select two teams for comparison or simulation.
@@ -173,6 +174,7 @@ User Input → React Components → Context API → Data Processing → UI Updat
   - Team Selection: Choose two teams.
   - Schedule Options: Pick an existing match or create a custom match.
   - Custom Match Page: Create unique team compositions and simulate matches.
+    ![Alt text](public\picsinteriit\select-team.jpg)
 
 ### 4. **Match Details (/custommatch/:id)**
 - **Purpose**: Provides detailed information about a specific match.
@@ -180,6 +182,7 @@ User Input → React Components → Context API → Data Processing → UI Updat
   - Full Player Rosters: Displays all players with their statistics.
   - Custom Squad Creation: Combine players from different teams and analyze match performance.
   - Match Simulation: Simulate matches with different scenarios and strategies.
+    ![Alt text](public/picsinteriit/custom-match.png)
 
 ### 5. **Custom Match Input (/custommatch)**
 - **Purpose**: Dedicated page for creating matches from scratch.
@@ -187,6 +190,7 @@ User Input → React Components → Context API → Data Processing → UI Updat
   - CSV Upload: Upload a CSV file with player and team data.
   - Match Customization: Set match details like date, format, and team composition.
   - Simulate and Explore: Simulate matches and explore different outcomes.
+    ![Alt text](public\picsinteriit\custom-csv.jpg)
 
 ### 6. **Playground (/dreamTeam)**
 - **Purpose**: Central interactive feature for exploring curated teams, analyzing players, and experimenting with strategies.
@@ -195,6 +199,7 @@ User Input → React Components → Context API → Data Processing → UI Updat
   - GenAI Description: Explains team composition and predicts player performance.
   - Match Insights: Additional match details like pitch conditions and weather forecasts.
   - Player Profiles: Interactive player cards with career stats and achievements.
+    ![Alt text](public\picsinteriit\playground.jpg)
 
 ---
 
@@ -227,34 +232,10 @@ User Input → React Components → Context API → Data Processing → UI Updat
   - **GenAI Description**: Explains team composition and projected performance.
   - **Match Insights**: Includes pitch conditions, weather forecasts, and more.
   - **Player Profiles**: Interactive cards with player career stats and achievements.
-
----
-## 5. Features
-
-### **SelectMatch**
-This feature allows users to select two teams from a list to compare or compete against each other. Users can choose a match from the existing schedules or create their own custom match.
-- **Team Selection**: Choose two teams from a comprehensive list.
-- **Schedule Options**: Pick an existing match or create a custom match.
-- **Custom Match Creation**: Build and simulate unique matches by selecting teams and analyzing player data.
-
-### **Custom Match**
-- **View Player Rosters**: Displays full rosters of selected teams.
-- **Create Custom Squads**: Users can create and combine teams using player data.
-- **Simulate Fantasy Matches**: Experiment with different strategies by simulating matches with custom teams.
-
-### **Custom Input**
-Allows users to upload CSV files to create custom teams and players from scratch. The file format should include player names, squad details, match dates, and format information.
-
-### **Playground (Dream Team)**
-The Playground serves as the heart of the product, offering an immersive, interactive environment for users to explore their teams and strategies:
-- **Dream Team**: AI-generated teams with Dream Scores to visualize player potential.
-- **GenAI Description**: Provides explanations of the team composition and predictions for player performances.
-- **Match Insights**: Provides additional match details such as pitch conditions and weather forecasts.
-- **Player Profiles**: Interactive player cards with career stats, skills, and achievements.
-
+    ![Alt text](public\picsinteriit\player-profile.jpg)
 ---
 
-##6.  API Documentation
+## 5. API Documentation
 
 ### **Teams**
 
@@ -336,7 +317,7 @@ The Playground serves as the heart of the product, offering an immersive, intera
 
 ---
 
-##  7. GenAI Features
+## 6. GenAI Features
 
 ### **LLM-Based Dream Team Summarization**
 
